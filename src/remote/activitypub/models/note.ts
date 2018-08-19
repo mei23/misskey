@@ -78,12 +78,16 @@ export async function createNote(value: any, resolver?: Resolver, silent = false
 	}
 	//#endergion
 
+	// Noteがsensitiveなら添付もsensitiveにする for Mastodon
+	// ただし既にいずれかの添付がsensitiveならしない for Misskey
+	if (note.sensitive && note.attachment.filter(attach => attach.sensitive).length > 0) {
+		note.attachment = note.attachment.map(attach => attach.sensitive = note.sensitive);
+	}
+
 	// 添付メディア
 	// TODO: attachmentは必ずしもImageではない
 	// TODO: attachmentは必ずしも配列ではない
-	// Noteがsensitiveなら添付もsensitiveにする
 	const media = note.attachment
-		.map(attach => attach.sensitive = note.sensitive)
 		? await Promise.all(note.attachment.map(x => resolveImage(actor, x)))
 		: [];
 
