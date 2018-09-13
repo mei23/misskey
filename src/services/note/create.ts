@@ -1,6 +1,6 @@
 import es from '../../db/elasticsearch';
 import Note, { pack, INote } from '../../models/note';
-import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser } from '../../models/user';
+import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser, getVipPublic } from '../../models/user';
 import { publishUserStream, publishLocalTimelineStream, publishHybridTimelineStream, publishGlobalTimelineStream, publishUserListStream } from '../../stream';
 import Following from '../../models/following';
 import { deliver } from '../../queue';
@@ -485,6 +485,20 @@ async function publishToFollowers(note: INote, noteObj: any, user: IUser, noteAc
 			}
 		}
 	});
+
+	if (note.visibility === 'public') {
+		const vipPublic = await getVipPublic();
+		const publicFollowers = vipPublic !== null ? await Following.find({ followeeId: vipPublic }) : [];
+
+		publicFollowers.map(following => {
+			const follower = following._follower;
+
+			if (isLocalUser(user) && isRemoteUser(follower)) {
+				const inbox = follower.sharedInbox;
+				if (!queue.includes(inbox)) queue.push(inbox);
+			}
+		});
+	}
 
 	queue.forEach(inbox => {
 		deliver(user as any, noteActivity, inbox);

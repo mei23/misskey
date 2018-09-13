@@ -62,6 +62,8 @@ export type Source = {
 	 */
 	ghost?: string;
 
+	vipPublic?: string;
+
 	summalyProxy?: string;
 
 	accesslog?: string;

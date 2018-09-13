@@ -136,6 +136,8 @@ drive:
 # followers when putting users in the list.
 # ghost: user-id-of-your-ghost-account
 
+# vipPublic: user-id-of-your-vipPublic-account
+
 # Clustering
 # clusterLimit: 1
 

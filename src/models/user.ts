@@ -506,3 +506,8 @@ function img(url) {
 export function getGhost(): Promise<ILocalUser> {
 	return User.findOne({ _id: new mongo.ObjectId(config.ghost) });
 }
+
+export function getVipPublic(): Promise<ILocalUser> {
+	if (!config.vipPublic) return null;
+	return User.findOne({ _id: new mongo.ObjectId(config.vipPublic) });
+}
