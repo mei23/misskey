@@ -184,7 +184,7 @@
 		"redis-lock": "0.1.4",
 		"rename": "1.0.4",
 		"request": "2.88.0",
-		"request-promise-native": "1.0.7",
+		"request-promise-native": "1.0.8",
 		"request-stats": "3.0.0",
 		"rimraf": "2.6.3",
 		"rndstr": "1.0.0",
