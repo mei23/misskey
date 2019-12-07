@@ -113,7 +113,7 @@
 		"double-ended-queue": "2.1.0-0",
 		"elasticsearch": "16.3.0",
 		"escape-regexp": "0.0.1",
-		"eslint": "6.6.0",
+		"eslint": "6.7.2",
 		"eslint-plugin-vue": "6.0.0",
 		"eventemitter3": "4.0.0",
 		"file-type": "12.2.0",
