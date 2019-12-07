@@ -607,10 +607,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/systeminformation@3.23.1":
-  version "3.23.1"
-  resolved "https://registry.yarnpkg.com/@types/systeminformation/-/systeminformation-3.23.1.tgz#e3bd825691a4e7af35e5aa0e4df77b5c3677ad19"
-  integrity sha512-0/y5m3PQLhQL7UM8MEvwFuLoTT6k5bamcZyjap12S0iHb33ngKfDDqCSnIaCaKWvRE41R/9BsZov1aE6hvcpEg==
+"@types/systeminformation@3.54.1":
+  version "3.54.1"
+  resolved "https://registry.yarnpkg.com/@types/systeminformation/-/systeminformation-3.54.1.tgz#bbc1b9e4ae2e60d45f75906029c6fb5436e1c5cb"
+  integrity sha512-vvisj2mdWygyc0jk/5XtSVq9gtxCmF3nrGwv8wVway8pwNRhtPji/MU9dc1L0F6rl0F/NFIHa4ScRU7wmNaHmg==
+  dependencies:
+    systeminformation "*"
 
 "@types/tapable@*":
   version "1.0.4"
@@ -9024,6 +9026,11 @@ symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
   integrity sha1-rifbOPZgp64uHDt9G8KQgZuFGeY=
+
+systeminformation@*:
+  version "4.16.0"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.16.0.tgz#d92ce821efdab720496c60656bf65cc68fb03f8c"
+  integrity sha512-1FjxPJSw7ad0zug+1YIQATj6Cn+wM5OBASEpjohEeOD2EGPIf0Cnhthd1L2O1YX+wKgOMuPldGfxYdo8yNHEIg==
 
 systeminformation@4.14.8:
   version "4.14.8"

@@ -81,7 +81,7 @@
 		"@types/sharp": "0.22.2",
 		"@types/showdown": "1.9.3",
 		"@types/speakeasy": "2.0.5",
-		"@types/systeminformation": "3.23.1",
+		"@types/systeminformation": "3.54.1",
 		"@types/tinycolor2": "1.4.2",
 		"@types/tmp": "0.1.0",
 		"@types/uuid": "3.4.5",
