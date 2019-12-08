@@ -101,7 +101,7 @@
 		"bootstrap-vue": "2.1.0",
 		"bull": "3.10.0",
 		"cafy": "15.1.1",
-		"chalk": "2.4.2",
+		"chalk": "3.0.0",
 		"commander": "4.0.1",
 		"content-disposition": "0.5.3",
 		"crc-32": "1.2.0",
