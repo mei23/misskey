@@ -100,7 +100,7 @@
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.1.0",
 		"bull": "3.10.0",
-		"cafy": "15.1.1",
+		"cafy": "15.2.0",
 		"chalk": "3.0.0",
 		"commander": "4.0.1",
 		"content-disposition": "0.5.3",

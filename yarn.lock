@@ -1893,10 +1893,10 @@ cache-content-type@^1.0.0:
     mime-types "^2.1.18"
     ylru "^1.2.0"
 
-cafy@15.1.1:
-  version "15.1.1"
-  resolved "https://registry.yarnpkg.com/cafy/-/cafy-15.1.1.tgz#565c7e4331c0335f9de67946fc9e1fa366a310e1"
-  integrity sha512-iq/+Xte81FJyW9zMiv8aSQ9oYP3jdSJlBT4B0aEuIRKOuO38RB6us0qPdGQnZJ0ZDx6vfhk38VAeHCG4fQOyag==
+cafy@15.2.0:
+  version "15.2.0"
+  resolved "https://registry.yarnpkg.com/cafy/-/cafy-15.2.0.tgz#1b3c95a350a7d4cc70de4851e9f3420a8e5a0a02"
+  integrity sha512-StA3bDFFpZH9ZRgHSdyKXqhq1xq/tCH+eLw+3jbGbhwD6zQbrPpC8UuP+xUPYYrLxQmMWkIoHCn+QWIEP0jbRw==
 
 caller-callsite@^2.0.0:
   version "2.0.0"
