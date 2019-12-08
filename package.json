@@ -166,7 +166,7 @@
 		"nodemailer": "6.3.0",
 		"nprogress": "0.2.0",
 		"os-utils": "0.0.14",
-		"parse5": "5.1.0",
+		"parse5": "5.1.1",
 		"parsimmon": "1.13.0",
 		"postcss-loader": "3.0.0",
 		"prismjs": "1.17.1",
