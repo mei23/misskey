@@ -140,7 +140,7 @@
 		"jsdom": "15.1.1",
 		"json5": "2.1.0",
 		"json5-loader": "3.0.0",
-		"katex": "0.11.0",
+		"katex": "0.11.1",
 		"koa": "2.8.1",
 		"koa-bodyparser": "4.2.1",
 		"koa-compress": "3.0.0",
