@@ -39,7 +39,7 @@
 		"@types/bull": "3.10.6",
 		"@types/dateformat": "3.0.1",
 		"@types/double-ended-queue": "2.1.1",
-		"@types/elasticsearch": "5.0.34",
+		"@types/elasticsearch": "5.0.36",
 		"@types/fluent-ffmpeg": "2.1.11",
 		"@types/gulp": "4.0.6",
 		"@types/gulp-mocha": "0.0.32",
