@@ -90,7 +90,7 @@
 		"@types/websocket": "0.0.40",
 		"@types/ws": "6.0.2",
 		"@typescript-eslint/parser": "1.13.0",
-		"agentkeepalive": "4.0.2",
+		"agentkeepalive": "4.1.0",
 		"animejs": "3.1.0",
 		"apexcharts": "3.8.5",
 		"autobind-decorator": "2.4.0",
