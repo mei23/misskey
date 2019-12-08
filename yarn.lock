@@ -7752,10 +7752,10 @@ rangestr@0.0.1:
   resolved "https://registry.yarnpkg.com/rangestr/-/rangestr-0.0.1.tgz#f72ff9246f10f2a7d7c16e14616f617be2c2635a"
   integrity sha1-9y/5JG8Q8qfXwW4UYW9he+LCY1o=
 
-ratelimiter@3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/ratelimiter/-/ratelimiter-3.3.1.tgz#51fa8f580ffd6c0316d2a19e4faf57ecc53bf22a"
-  integrity sha512-hCXx0iKNtAFvJ5EFc1dbXMARFrK8qy3Rm+sY/2j4CJcUnfuFfXWZ1qhk2Cohvh8dgdxfhV7HZUAochXAyDhprg==
+ratelimiter@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/ratelimiter/-/ratelimiter-3.4.0.tgz#05cd43f64ea1e0d73da85ee0dddbc9426313e762"
+  integrity sha512-/RglHsGcEtKuMRklGuu8mYVqtRfqYhsUMHkYrPERBlJK6NpUHsSub1cgLUALhaLQRN2A3XgC4NZKCR+MX0ETmg==
 
 raw-body@^2.2.0, raw-body@^2.3.3:
   version "2.4.0"
