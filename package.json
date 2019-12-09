@@ -175,7 +175,7 @@
 		"promise-sequential": "1.1.1",
 		"pug": "2.0.4",
 		"punycode": "2.1.1",
-		"qrcode": "1.4.1",
+		"qrcode": "1.4.4",
 		"randomcolor": "0.5.4",
 		"ratelimiter": "3.4.0",
 		"recaptcha-promise": "0.1.3",
