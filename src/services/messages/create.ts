@@ -10,14 +10,15 @@ import renderCreate from '../../remote/activitypub/renderer/create';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import { deliver } from '../../queue';
 
-export async function createMessage(user: IUser, recipient: IUser, text: string, file: IDriveFile) {
+export async function createMessage(user: IUser, recipient: IUser, text: string, file: IDriveFile, uri?: string) {
 	const message = await MessagingMessage.insert({
 		createdAt: new Date(),
 		fileId: file ? file._id : undefined,
 		recipientId: recipient._id,
 		text: text ? text.trim() : undefined,
 		userId: user._id,
-		isRead: false
+		isRead: false,
+		uri,
 	});
 
 	const messageObj = await packMessage(message);

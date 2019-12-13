@@ -19,6 +19,7 @@ export interface IMessagingMessage {
 	recipientId: mongo.ObjectID;
 	isRead: boolean;
 	fileId: mongo.ObjectID;
+	uri?: string;
 }
 
 export function isValidText(text: string): boolean {

@@ -19,8 +19,8 @@ export const performReadActivity = async (actor: IRemoteUser, activity: IRead): 
 		return `skip: message not found`;
 	}
 
-	if (actor._id != message.userId) {
-		return `skip: actor is not a message owner`;
+	if (`${actor._id}` !== `${message.recipientId}`) {
+		return `skip: actor is not a message recipient ${actor._id} ${message.recipientId}`;
 	}
 
 	await readMessagingMessage(message.recipientId, message.userId, message._id);

@@ -1,6 +1,6 @@
 import * as mongo from 'mongodb';
 import isObjectId from '../../../misc/is-objectid';
-import Message from '../../../models/messaging-message';
+import Message, { IMessagingMessage } from '../../../models/messaging-message';
 import { IMessagingMessage as IMessage } from '../../../models/messaging-message';
 import { publishMainStream } from '../../../services/stream';
 import { publishMessagingStream } from '../../../services/stream';
@@ -14,12 +14,11 @@ import { toArray } from '../../../prelude/array';
 /**
  * Mark messages as read
  */
-export default (
+export default async (
 	user: string | mongo.ObjectID,
 	otherparty: string | mongo.ObjectID,
 	message: string | string[] | IMessage | IMessage[] | mongo.ObjectID | mongo.ObjectID[]
-) => new Promise<any>(async (resolve, reject) => {
-
+) => {
 	const userId = isObjectId(user)
 		? user
 		: new mongo.ObjectID(user);
@@ -78,11 +77,12 @@ export default (
 		// 全ての(いままで未読だった)自分宛てのメッセージを(これで)読みましたよというイベントを発行
 		publishMainStream(userId, 'readAllMessagingMessages');
 	}
-});
+};
 
-export async function deliverReadActivity(user: ILocalUser, recipient: IRemoteUser, messageIds: mongo.ObjectID | mongo.ObjectID[]) {
-	for (const messageId of toArray(messageIds)) {
-		const content = renderActivity(renderReadActivity(user, messageId));
+export async function deliverReadActivity(user: ILocalUser, recipient: IRemoteUser, messages: IMessagingMessage | IMessagingMessage[]) {
+	for (const message of toArray(messages)) {
+		if (!message.uri) continue;
+		const content = renderActivity(renderReadActivity(user, message));
 		deliver(user, content, recipient.inbox);
 	}
 }
