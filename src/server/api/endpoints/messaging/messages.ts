@@ -1,11 +1,12 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
 import Message from '../../../../models/messaging-message';
-import { pack } from '../../../../models/messaging-message';
-import read from '../../common/read-messaging-message';
+import MessagingMessage, { pack } from '../../../../models/messaging-message';
+import read, { deliverReadActivity } from '../../common/read-messaging-message';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
+import { isLocalUser, isRemoteUser } from '../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -107,6 +108,11 @@ export default define(meta, async (ps, user) => {
 	// Mark all as read
 	if (ps.markAsRead) {
 		read(user._id, recipient._id, messages);
+
+		// リモートユーザーとのメッセージだったら既読配信
+		if (isLocalUser(user) && isRemoteUser(recipient)) {
+			deliverReadActivity(user, recipient, messages.map(x => x._id));
+		}
 	}
 
 	return await Promise.all(messages.map(message => pack(message, user, {

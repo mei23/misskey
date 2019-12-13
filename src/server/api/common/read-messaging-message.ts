@@ -5,7 +5,11 @@ import { IMessagingMessage as IMessage } from '../../../models/messaging-message
 import { publishMainStream } from '../../../services/stream';
 import { publishMessagingStream } from '../../../services/stream';
 import { publishMessagingIndexStream } from '../../../services/stream';
-import User from '../../../models/user';
+import User, { ILocalUser, IRemoteUser } from '../../../models/user';
+import { renderActivity } from '../../../remote/activitypub/renderer';
+import { renderReadActivity } from '../../../remote/activitypub/renderer/read';
+import { deliver } from '../../../queue';
+import { toArray } from '../../../prelude/array';
 
 /**
  * Mark messages as read
@@ -75,3 +79,10 @@ export default (
 		publishMainStream(userId, 'readAllMessagingMessages');
 	}
 });
+
+export async function deliverReadActivity(user: ILocalUser, recipient: IRemoteUser, messageIds: mongo.ObjectID | mongo.ObjectID[]) {
+	for (const messageId of toArray(messageIds)) {
+		const content = renderActivity(renderReadActivity(user, messageId));
+		deliver(user, content, recipient.inbox);
+	}
+}
