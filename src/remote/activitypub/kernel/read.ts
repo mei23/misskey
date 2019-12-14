@@ -1,12 +1,12 @@
 import * as mongo from 'mongodb';
 import { IRemoteUser } from '../../../models/user';
-import { IRead } from '../type';
+import { IRead, getApId } from '../type';
 import { isSelfHost, extractApHost } from '../../../misc/convert-host';
 import MessagingMessage from '../../../models/messaging-message';
 import readMessagingMessage from '../../../server/api/common/read-messaging-message';
 
 export const performReadActivity = async (actor: IRemoteUser, activity: IRead): Promise<string> => {
-	const id = typeof activity.object == 'string' ? activity.object : activity.object.id;
+	const id = getApId(activity.object);
 
 	if (!isSelfHost(extractApHost(id))) {
 		return `skip: Read to foreign host (${id})`;
