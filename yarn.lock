@@ -10328,10 +10328,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
   integrity sha512-KmvZVtmM26BQOMK1rwUZsrqxEGeKiYSZGA7SNWE6uExx8UX/cj9hq2MRV/wWC3Cq6AoeDGk57rL9YMFRel/q+g==
 
-vue-i18n@8.15.1:
-  version "8.15.1"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.15.1.tgz#90097a08a1e932f645c6b9c404c780d24f6d6224"
-  integrity sha512-GBbz8qYCu0U2LNu4IcuFLZiuyninG4k26knvhL7GZG5Ncp4RR2VKDEH6g8gQ6I+UUBCvH2MBQVPSdxWe4DBkPw==
+vue-i18n@8.15.2:
+  version "8.15.2"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.15.2.tgz#43a16469722a9fe3315d8e07c8d4efba6fcca71e"
+  integrity sha512-L/KJOjJoy4Hi7lz5UUTW3cdzq9KjdLfEviOFa3U/SBeGumngvlZkxXQyK1UngQlmkjsdAN1ZB24KD7r8qnET6A==
 
 vue-js-modal@1.3.31:
   version "1.3.31"
