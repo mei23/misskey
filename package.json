@@ -113,7 +113,7 @@
 		"elasticsearch": "16.5.0",
 		"escape-regexp": "0.0.1",
 		"eslint": "6.8.0",
-		"eslint-plugin-vue": "6.0.1",
+		"eslint-plugin-vue": "6.0.2",
 		"eventemitter3": "4.0.0",
 		"file-type": "12.4.2",
 		"fluent-ffmpeg": "2.1.2",
