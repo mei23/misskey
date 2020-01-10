@@ -1,5 +1,5 @@
 import $ from 'cafy';
-import ID from '../../../../misc/cafy-id';
+import ID, { transform } from '../../../../misc/cafy-id';
 import define from '../../define';
 import PageLike, { packPageLikeMany } from '../../../../models/page-like';
 
@@ -23,10 +23,12 @@ export const meta = {
 
 		sinceId: {
 			validator: $.optional.type(ID),
+			transform: transform,
 		},
 
 		untilId: {
 			validator: $.optional.type(ID),
+			transform: transform,
 		},
 	}
 };
