@@ -7,7 +7,7 @@
 	<transition name="zoom-in-top">
 		<div class="menu" v-if="isOpen">
 			<ul>
-				<li>
+				<li @click="closeMenu">>
 					<router-link :to="`/@${ $store.state.i.username }`">
 						<i><fa icon="user" fixed-width/></i>
 						<span>{{ $t('profile') }}</span>
@@ -21,7 +21,7 @@
 						<i><fa icon="angle-right"/></i>
 					</p>
 				</li>
-				<li>
+				<li @click="closeMenu">
 					<router-link to="/i/favorites">
 						<i><fa icon="star" fixed-width/></i>
 						<span>{{ $t('@.favorites') }}</span>
@@ -35,7 +35,7 @@
 						<i><fa icon="angle-right"/></i>
 					</p>
 				</li>
-				<li @click="page">
+				<li @click="closeMenu">
 					<router-link to="/i/pages">
 						<i><fa :icon="faStickyNote" fixed-width/></i>
 						<span>{{ $t('@.pages') }}</span>
@@ -155,6 +155,9 @@ export default Vue.extend({
 			e.preventDefault();
 			if (!contains(this.$el, e.target) && this.$el != e.target) this.close();
 			return false;
+		},
+		closeMenu() {
+			this.close();
 		},
 		drive() {
 			this.close();
