@@ -166,7 +166,7 @@ init((launch, os) => {
 				{ path: 'followers', component: () => import('../common/views/pages/followers.vue').then(m => m.default) },
 			]},
 			{ path: '/@:acct/room', props: true, component: () => import('../common/views/pages/room/room.vue').then(m => m.default) },
-			{ path: '/i/pages/edit/:pageId', component: () => import('../common/views/pages/page-editor/page-editor.vue').then(m => m.default), props: route => ({ initPageId: route.params.pageId }) },
+			{ path: '/@:user/pages/:page', component: () => import('../common/views/pages/page.vue').then(m => m.default), props: route => ({ pageName: route.params.page, username: route.params.user }) },
 			{ path: '/@:user/pages/:pageName/view-source', component: () => import('../common/views/pages/page-editor/page-editor.vue').then(m => m.default), props: route => ({ initUser: route.params.user, initPageName: route.params.pageName }) },
 			{ path: '/notes/:note', component: MkNote },
 			{ path: '/authorize-follow', component: MkFollow },
