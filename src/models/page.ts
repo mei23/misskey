@@ -46,14 +46,12 @@ export async function packPage(src: string | mongo.ObjectID | IPage, meId?: mong
 		return null;
 	}
 
-	const attachedFiles: Promise<IDriveFile | undefined>[] = [];
+	const attachedFileIds: mongo.ObjectID[] = [];
+
 	const collectFile = (xs: any[]) => {
 		for (const x of xs) {
 			if (x.type === 'image') {
-				attachedFiles.push(DriveFile.findOne({
-					id: x.fileId,
-					userId: populated.userId
-				}));
+				attachedFileIds.push(x.fileId);
 			}
 			if (x.children) {
 				collectFile(x.children);
@@ -78,7 +76,7 @@ export async function packPage(src: string | mongo.ObjectID | IPage, meId?: mong
 		font: populated.font,
 		eyeCatchingImageId: populated.eyeCatchingImageId,
 		eyeCatchingImage: populated.eyeCatchingImageId ? await packDriveFile(populated.eyeCatchingImageId) : null,
-		attachedFiles: packDriveFileMany(await Promise.all(attachedFiles)),
+		attachedFiles: packDriveFileMany(attachedFileIds),
 		likedCount: populated.likedCount,
 		isLiked: meId && (await PageLike.findOne({ pageId: populated._id, userId: meId })) != null,
 	};
