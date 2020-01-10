@@ -268,7 +268,9 @@ router.get('/@:user/pages/:page', async ctx => {
 	if (page) {
 		const _page = await packPage(page);
 		const meta = await fetchMeta();
+		const builded = await buildMeta(meta, false);
 		await ctx.render('page', {
+			initialMeta: htmlescape(builded),
 			page: _page,
 			instanceName: meta.name || 'Misskey'
 		});
