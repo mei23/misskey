@@ -1,9 +1,9 @@
 import * as mongo from 'mongodb';
-const deepcopy = require('deepcopy');
+import * as deepcopy from 'deepcopy';
 import db from '../db/mongodb';
-import isObjectId from '../misc/is-objectid';
 import { dbLogger } from '../db/logger';
 import { packPage } from './page';
+import { transform } from '../misc/cafy-id';
 
 const PageLike = db.get<IPageLike>('pageLikes');
 PageLike.createIndex(['userId', 'pageId'], { unique: true });
@@ -23,20 +23,7 @@ export async function packPageLikeMany(likes: IPageLike[], meId?: mongo.ObjectID
 }
 
 export async function packPageLike(src: string | mongo.ObjectID | IPageLike, meId?: mongo.ObjectID) {
-	let populated: IPageLike;
-
-	// Populate
-	if (isObjectId(src)) {
-		populated = await PageLike.findOne({
-			_id: src
-		});
-	} else if (typeof src === 'string') {
-		populated = await PageLike.findOne({
-			_id: new mongo.ObjectID(src)
-		});
-	} else {
-		populated = deepcopy(src);
-	}
+	const populated = typeof src === 'object' ? deepcopy(src) as IPageLike : await PageLike.findOne({ _id: transform(src) });
 
 	// (データベースの欠損などで)投稿がデータベース上に見つからなかったとき
 	if (populated == null) {

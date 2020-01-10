@@ -1,12 +1,12 @@
 import * as mongo from 'mongodb';
-const deepcopy = require('deepcopy');
+import * as deepcopy from 'deepcopy';
 import rap from '@prezzemolo/rap';
 import db from '../db/mongodb';
-import isObjectId from '../misc/is-objectid';
 import { pack as packUser } from './user';
 import DriveFile, { pack as packDriveFile, packMany as packDriveFileMany, IDriveFile } from './drive-file';
 import { dbLogger } from '../db/logger';
 import PageLike from './page-like';
+import { transform } from '../misc/cafy-id';
 
 const Page = db.get<IPage>('pages');
 Page.createIndex(['userId', 'name'], { unique: true });
@@ -38,20 +38,7 @@ export async function packPageMany(pages: IPage[], meId?: mongo.ObjectID) {
 }
 
 export async function packPage(src: string | mongo.ObjectID | IPage, meId?: mongo.ObjectID) {
-	let populated: IPage;
-
-	// Populate the page if 'page' is ID
-	if (isObjectId(src)) {
-		populated = await Page.findOne({
-			_id: src
-		});
-	} else if (typeof src === 'string') {
-		populated = await Page.findOne({
-			_id: new mongo.ObjectID(src)
-		});
-	} else {
-		populated = deepcopy(src);
-	}
+	const populated = typeof src === 'object' ? deepcopy(src) as IPage : await Page.findOne({ _id: transform(src) });
 
 	// (データベースの欠損などで)投稿がデータベース上に見つからなかったとき
 	if (populated == null) {
