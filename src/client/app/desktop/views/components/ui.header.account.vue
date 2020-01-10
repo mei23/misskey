@@ -7,7 +7,7 @@
 	<transition name="zoom-in-top">
 		<div class="menu" v-if="isOpen">
 			<ul>
-				<li @click="closeMenu">>
+				<li @click="closeMenu">
 					<router-link :to="`/@${ $store.state.i.username }`">
 						<i><fa icon="user" fixed-width/></i>
 						<span>{{ $t('profile') }}</span>
