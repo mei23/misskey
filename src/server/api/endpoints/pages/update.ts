@@ -1,7 +1,7 @@
 import $ from 'cafy';
 import define from '../../define';
 import { ApiError } from '../../error';
-import ID from '../../../../misc/cafy-id';
+import ID, { transform } from '../../../../misc/cafy-id';
 import Page from '../../../../models/page';
 import DriveFile from '../../../../models/drive-file';
 import { oidEquals } from '../../../../prelude/oid';
