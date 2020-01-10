@@ -4,7 +4,7 @@ import rap from '@prezzemolo/rap';
 import db from '../db/mongodb';
 import isObjectId from '../misc/is-objectid';
 import { pack as packUser } from './user';
-import DriveFile, { pack as packDriveFile, packMany as packDriveFileMany, IDriveFile } from './drive-file';
+import { pack as packDriveFile, packMany as packDriveFileMany } from './drive-file';
 import { dbLogger } from '../db/logger';
 import PageLike from './page-like';
 
