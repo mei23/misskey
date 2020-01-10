@@ -89,7 +89,7 @@ export default define(meta, async (ps, user) => {
 	if (ps.eyeCatchingImageId != null) {
 		eyeCatchingImage = await DriveFile.findOne({
 			_id: ps.eyeCatchingImageId,
-			userId: user._id
+			'metadata.userId': user._id
 		});
 
 		if (eyeCatchingImage == null) {
