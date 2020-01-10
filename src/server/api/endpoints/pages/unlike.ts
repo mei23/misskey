@@ -59,8 +59,8 @@ export default define(meta, async (ps, user) => {
 	// Delete like
 	await PageLike.remove(exist._id);
 
-	await Page.update(page._id, {
-		Sinc: {
+	await Page.update({ _id: page._id }, {
+		$inc: {
 			'likedCount': -1
 		},
 	});

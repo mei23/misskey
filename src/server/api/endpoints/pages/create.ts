@@ -88,7 +88,7 @@ export default define(meta, async (ps, user) => {
 	let eyeCatchingImage = null;
 	if (ps.eyeCatchingImageId != null) {
 		eyeCatchingImage = await DriveFile.findOne({
-			id: ps.eyeCatchingImageId,
+			_id: ps.eyeCatchingImageId,
 			userId: user._id
 		});
 
@@ -126,5 +126,5 @@ export default define(meta, async (ps, user) => {
 		likedCount: 0,
 	});
 
-	return await packPage(page);
+	return await packPage(page, user._id);
 });

@@ -4,6 +4,7 @@ import { ApiError } from '../../error';
 import ID from '../../../../misc/cafy-id';
 import Page from '../../../../models/page';
 import DriveFile from '../../../../models/drive-file';
+import { oidEquals } from '../../../../prelude/oid';
 
 export const meta = {
 	desc: {
@@ -93,14 +94,14 @@ export default define(meta, async (ps, user) => {
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}
-	if (page.userId !== user._id) {
+	if (!oidEquals(page.userId, user._id)) {
 		throw new ApiError(meta.errors.accessDenied);
 	}
 
 	let eyeCatchingImage = null;
 	if (ps.eyeCatchingImageId != null) {
 		eyeCatchingImage = await DriveFile.findOne({
-			id: ps.eyeCatchingImageId,
+			_id: ps.eyeCatchingImageId,
 			userId: user._id
 		});
 
@@ -110,7 +111,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	await Page.find({
-		id: { $ne: ps.pageId },
+		_id: { $ne: ps.pageId },
 		userId: user._id,
 		name: ps.name
 	}).then(result => {
@@ -119,8 +120,8 @@ export default define(meta, async (ps, user) => {
 		}
 	});
 
-	await Page.update(page._id, {
-		Sset: {
+	await Page.update({ _id: page._id }, {
+		$set: {
 			updatedAt: new Date(),
 			title: ps.title,
 			name: ps.name === undefined ? page.name : ps.name,

@@ -266,7 +266,7 @@ router.get('/@:user/pages/:page', async ctx => {
 	});
 
 	if (page) {
-		const _page = await packPage(page);
+		const _page = await packPage(page, user._id);
 		const meta = await fetchMeta();
 		const builded = await buildMeta(meta, false);
 		await ctx.render('page', {

@@ -58,12 +58,13 @@ export default define(meta, async (ps, user) => {
 	}
 
 	// Create like
-	await PageLike.update(page._id, {
-		$set: {
-			createdAt: new Date(),
-			pageId: page._id,
-			userId: user._id
-		},
+	await PageLike.insert({
+		createdAt: new Date(),
+		pageId: page._id,
+		userId: user._id
+	});
+
+	await Page.update({ _id: page._id }, {
 		$inc: {
 			likedCount: 1
 		}

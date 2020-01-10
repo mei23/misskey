@@ -3,6 +3,7 @@ import define from '../../define';
 import { ApiError } from '../../error';
 import ID from '../../../../misc/cafy-id';
 import Page from '../../../../models/page';
+import { oidEquals } from '../../../../prelude/oid';
 
 export const meta = {
 	desc: {
@@ -45,9 +46,9 @@ export default define(meta, async (ps, user) => {
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}
-	if (page.userId !== user._id) {
+	if (!oidEquals(page.userId, user._id)) {
 		throw new ApiError(meta.errors.accessDenied);
 	}
 
-	await Page.remove(page._id);
+	await Page.remove({ _id: page._id });
 });
