@@ -14,7 +14,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'write:page-likes',
+	kind: 'favorite-write',
 
 	params: {
 		pageId: {

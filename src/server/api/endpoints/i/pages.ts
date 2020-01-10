@@ -13,7 +13,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'read:pages',
+	kind: 'account-read',
 
 	params: {
 		limit: {

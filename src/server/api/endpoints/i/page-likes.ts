@@ -13,7 +13,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'read:page-likes',
+	kind: 'favorites-read',
 
 	params: {
 		limit: {
