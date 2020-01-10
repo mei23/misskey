@@ -35,8 +35,6 @@
 					<option value="sans-serif">{{ $t('fontSansSerif') }}</option>
 				</ui-select>
 
-				<ui-switch v-model="hideTitleWhenPinned">{{ $t('hide-title-when-pinned') }}</ui-switch>
-
 				<div class="eyeCatch">
 					<ui-button v-if="eyeCatchingImageId == null && !readonly" @click="setEyeCatchingImage()"><fa :icon="faPlus"/> {{ $t('set-eye-catching-image') }}</ui-button>
 					<div v-else-if="eyeCatchingImage">
