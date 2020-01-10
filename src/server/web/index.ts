@@ -24,6 +24,7 @@ import { getAtomFeed } from './feed/atom';
 import { getRSSFeed } from './feed/rss';
 import { getJSONFeed } from './feed/json';
 import { buildMeta } from '../../misc/build-meta';
+import Page, { packPage } from '../../models/page';
 const htmlescape = require('htmlescape');
 
 const env = process.env.NODE_ENV;
@@ -248,6 +249,41 @@ router.get('/notes/:note', async ctx => {
 	ctx.status = 404;
 });
 //#endregion
+
+// Page
+router.get('/@:user/pages/:page', async ctx => {
+	const { username, host } = parseAcct(ctx.params.user);
+	const user = await User.findOne({
+		usernameLower: username.toLowerCase(),
+		host
+	});
+
+	if (user == null) return;
+
+	const page = await Page.findOne({
+		name: ctx.params.page,
+		userId: user._id
+	});
+
+	if (page) {
+		const _page = await packPage(page);
+		const meta = await fetchMeta();
+		await ctx.render('page', {
+			page: _page,
+			instanceName: meta.name || 'Misskey'
+		});
+
+		if (['public'].includes(page.visibility)) {
+			ctx.set('Cache-Control', 'public, max-age=180');
+		} else {
+			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
+		}
+
+		return;
+	}
+
+	ctx.status = 404;
+});
 
 router.get('/info', async ctx => {
 	const meta = await fetchMeta();

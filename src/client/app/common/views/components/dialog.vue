@@ -12,7 +12,14 @@
 			<ui-input v-if="input" v-model="inputValue" autofocus :type="input.type || 'text'" :placeholder="input.placeholder" @keydown="onInputKeydown"></ui-input>
 			<ui-input v-if="user" v-model="userInputValue" autofocus @keydown="onInputKeydown"><template #prefix>@</template></ui-input>
 			<ui-select v-if="select" v-model="selectedValue" autofocus>
-				<option v-for="item in select.items" :value="item.value">{{ item.text }}</option>
+				<template v-if="select.items">
+					<option v-for="(item, i) in select.items" :value="item.value" :key="i">{{ item.text }}</option>
+				</template>
+				<template v-else>
+					<optgroup v-for="(groupedItem, i) in select.groupedItems" :label="groupedItem.label" :key="i">
+						<option v-for="(item, i) in groupedItem.items" :value="item.value" :key="i">{{ item.text }}</option>
+					</optgroup>
+				</template>
 			</ui-select>
 			<ui-horizon-group no-grow class="buttons fit-bottom" v-if="!splash">
 				<ui-button @click="ok" primary :autofocus="!input && !select && !user">{{ (showCancelButton || input || select || user) ? $t('@.ok') : $t('@.got-it') }}</ui-button>
