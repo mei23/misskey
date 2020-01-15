@@ -58,7 +58,7 @@
 		"@types/koa-router": "7.4.0",
 		"@types/koa-send": "4.1.2",
 		"@types/koa-views": "2.0.3",
-		"@types/koa__cors": "3.0.0",
+		"@types/koa__cors": "3.0.1",
 		"@types/mkdirp": "0.5.2",
 		"@types/mocha": "5.2.7",
 		"@types/mongodb": "3.3.14",
