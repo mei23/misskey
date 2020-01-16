@@ -6597,10 +6597,10 @@ neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-nested-property@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/nested-property/-/nested-property-1.0.2.tgz#684bf909d37c7e124a2f0f6522a027112d228612"
-  integrity sha512-V6XFAVKbvXDp96tH5Dvr/xPVyYEo3wSN1yX5An2q8jg3AdG6SnsPNHybh04kffOF3YeCtsxosYmMwSmT3Sf5Iw==
+nested-property@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/nested-property/-/nested-property-1.0.3.tgz#f899796c29e4354f3dd40a0c938e3e06e306074d"
+  integrity sha512-mgeEdoD5AJa/ifX1lxky1nkyX/u5WFQvTqbffJbJvZEshmXTc/bTUkB1b75eKcJEemUL65lkPMV/xykRyKYG9g==
 
 next-line@^1.1.0:
   version "1.1.0"
