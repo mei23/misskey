@@ -62,7 +62,7 @@
 		"@types/lodash": "4.14.149",
 		"@types/mocha": "5.2.7",
 		"@types/mongodb": "3.3.14",
-		"@types/node": "12.12.21",
+		"@types/node": "13.5.0",
 		"@types/nodemailer": "6.4.0",
 		"@types/nprogress": "0.2.0",
 		"@types/oauth": "0.9.1",
