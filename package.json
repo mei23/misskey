@@ -103,7 +103,7 @@
 		"bull": "3.12.1",
 		"cafy": "15.1.1",
 		"chalk": "3.0.0",
-		"commander": "4.1.0",
+		"commander": "4.1.1",
 		"content-disposition": "0.5.3",
 		"crc-32": "1.2.0",
 		"css-loader": "3.4.2",
