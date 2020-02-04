@@ -40,7 +40,7 @@
 		"@types/dateformat": "3.0.1",
 		"@types/double-ended-queue": "2.1.1",
 		"@types/elasticsearch": "5.0.36",
-		"@types/fluent-ffmpeg": "2.1.13",
+		"@types/fluent-ffmpeg": "2.1.14",
 		"@types/gulp": "4.0.6",
 		"@types/gulp-mocha": "0.0.32",
 		"@types/gulp-rename": "0.0.33",
