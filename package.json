@@ -61,7 +61,7 @@
 		"@types/koa__cors": "3.0.1",
 		"@types/lodash": "4.14.149",
 		"@types/mocha": "7.0.1",
-		"@types/mongodb": "3.3.15",
+		"@types/mongodb": "3.3.16",
 		"@types/node": "13.7.0",
 		"@types/nodemailer": "6.4.0",
 		"@types/nprogress": "0.2.0",
