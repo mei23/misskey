@@ -234,7 +234,7 @@
 		"vuex-persistedstate": "2.7.1",
 		"web-push": "3.4.3",
 		"webpack": "4.41.5",
-		"webpack-cli": "3.3.10",
+		"webpack-cli": "3.3.11",
 		"websocket": "1.0.31",
 		"ws": "7.2.1",
 		"xev": "2.0.1",
