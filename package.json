@@ -19,7 +19,7 @@
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
 		"lint": "gulp lint",
-		"test": "TS_NODE_FILES=true gulp test",
+		"test": "cross-env TS_NODE_FILES=true gulp test",
 		"format": "gulp format"
 	},
 	"resolutions": {
@@ -239,5 +239,8 @@
 		"ws": "7.2.1",
 		"xev": "2.0.1",
 		"xmlbuilder": "13.0.2"
+	},
+	"devDependencies": {
+		"cross-env": "7.0.0"
 	}
 }
