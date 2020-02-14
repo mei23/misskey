@@ -99,7 +99,7 @@
 		"aws-sdk": "2.617.0",
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.4.1",
-		"bull": "3.12.1",
+		"bull": "3.13.0",
 		"cafy": "15.1.1",
 		"chalk": "3.0.0",
 		"commander": "4.1.1",
