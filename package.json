@@ -238,7 +238,7 @@
 		"websocket": "1.0.31",
 		"ws": "7.2.1",
 		"xev": "2.0.1",
-		"xmlbuilder": "13.0.2"
+		"xmlbuilder": "14.0.0"
 	},
 	"devDependencies": {
 		"cross-env": "7.0.0"
