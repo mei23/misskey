@@ -9479,10 +9479,10 @@ symbol-tree@^3.2.2:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
   integrity sha1-rifbOPZgp64uHDt9G8KQgZuFGeY=
 
-systeminformation@*, systeminformation@4.21.2:
-  version "4.21.2"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.21.2.tgz#0ee92c0565687a5301ba141444643b43d0370ae2"
-  integrity sha512-7O6laxHTstfj9MSrX77lKLfWz0zqqutWL0+uoJkR7sOOr4XCTwD0QG4shUVCiOWlVX+a8/gHJUio420FrSk8/w==
+systeminformation@*, systeminformation@4.21.3:
+  version "4.21.3"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.21.3.tgz#c0009a6c3da7dbb8d376ba6b93ff81f2a0bf20b3"
+  integrity sha512-isy6XG5gNeupIBb4XPPgAjWAPbySOY3P5nCkhO/MtSM7ohNkDNRf/IvzbfW41VDKPSyQXqIlN/5zF0JOqnWvbw==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
