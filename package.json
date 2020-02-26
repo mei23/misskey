@@ -156,7 +156,7 @@
 		"lookup-dns-cache": "2.1.0",
 		"mocha": "7.0.1",
 		"moment": "2.24.0",
-		"mongodb": "3.5.3",
+		"mongodb": "3.5.4",
 		"monk": "7.1.2",
 		"ms": "2.1.2",
 		"nan": "2.14.0",
