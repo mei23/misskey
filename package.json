@@ -240,6 +240,6 @@
 		"xmlbuilder": "14.0.0"
 	},
 	"devDependencies": {
-		"cross-env": "7.0.0"
+		"cross-env": "7.0.1"
 	}
 }
