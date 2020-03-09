@@ -99,7 +99,7 @@
 		"autwh": "0.1.0",
 		"aws-sdk": "2.634.0",
 		"bcryptjs": "2.4.3",
-		"bootstrap-vue": "2.6.0",
+		"bootstrap-vue": "2.6.1",
 		"bull": "3.13.0",
 		"cafy": "15.1.1",
 		"chalk": "3.0.0",
