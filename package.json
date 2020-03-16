@@ -119,7 +119,7 @@
 		"file-type": "14.1.4",
 		"fluent-ffmpeg": "2.1.2",
 		"gulp": "4.0.2",
-		"gulp-clean-css": "4.2.0",
+		"gulp-clean-css": "4.3.0",
 		"gulp-mocha": "7.0.2",
 		"gulp-rename": "1.4.0",
 		"gulp-replace": "1.0.0",
