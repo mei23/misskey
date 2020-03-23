@@ -76,7 +76,7 @@
 		"@types/request": "2.48.4",
 		"@types/request-promise-native": "1.0.17",
 		"@types/request-stats": "3.0.0",
-		"@types/rimraf": "2.0.3",
+		"@types/rimraf": "3.0.0",
 		"@types/seedrandom": "2.4.28",
 		"@types/sharp": "0.24.0",
 		"@types/showdown": "1.9.3",
