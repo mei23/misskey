@@ -205,7 +205,7 @@
 		"tinycolor2": "1.4.1",
 		"tmp": "0.1.0",
 		"ts-loader": "6.2.2",
-		"ts-node": "8.7.0",
+		"ts-node": "8.8.1",
 		"tslint": "5.20.1",
 		"tslint-sonarts": "1.9.0",
 		"typescript": "3.8.3",
