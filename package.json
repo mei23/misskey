@@ -142,7 +142,7 @@
 		"json5-loader": "3.0.0",
 		"katex": "0.11.1",
 		"koa": "2.8.1",
-		"koa-bodyparser": "4.2.1",
+		"koa-bodyparser": "4.3.0",
 		"koa-compress": "3.0.0",
 		"koa-favicon": "2.1.0",
 		"koa-json-body": "5.3.0",
