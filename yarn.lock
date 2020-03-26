@@ -3280,10 +3280,10 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-elasticsearch@16.6.0:
-  version "16.6.0"
-  resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-16.6.0.tgz#ba6b6096269f205f6fcde4171424dcd67229febe"
-  integrity sha512-MhsdE2JaBJoV1EGzSkCqqhNGxafXJuhPr+eD3vbXmsk/QWhaiU12oyXF0VhjcL8+UlwTHv0CAUbyjtE1wqoIdw==
+elasticsearch@16.7.0:
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-16.7.0.tgz#9055e3f586934d8de5fd407b04050e9d54173333"
+  integrity sha512-du+//TbjCFEkaG0jNcAC95Fp4B6/X5shnCRIXALFL+M4U5iT3YL5ZVUPNf1NgR7dy/sc8Dvw2Ob6IUJKB7FrCw==
   dependencies:
     agentkeepalive "^3.4.1"
     chalk "^1.0.0"
