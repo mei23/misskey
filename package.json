@@ -211,7 +211,7 @@
 		"tslint-sonarts": "1.9.0",
 		"typescript": "3.8.3",
 		"url-loader": "4.0.0",
-		"uuid": "7.0.2",
+		"uuid": "7.0.3",
 		"v-animate-css": "0.0.3",
 		"v-debounce": "0.1.2",
 		"vue": "2.6.11",
