@@ -102,7 +102,7 @@
 		"browser-image-resizer": "2.1.0",
 		"bull": "3.13.0",
 		"cafy": "15.1.1",
-		"chalk": "3.0.0",
+		"chalk": "4.0.0",
 		"commander": "4.1.1",
 		"content-disposition": "0.5.3",
 		"crc-32": "1.2.0",
