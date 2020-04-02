@@ -4766,10 +4766,10 @@ http-headers@^3.0.1:
   dependencies:
     next-line "^1.1.0"
 
-http-signature@1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.3.2.tgz#ae5ebf18631967a2ba660283606e336c0207c950"
-  integrity sha512-sjgXeFLIVJ54n1+HWOvazGkIQpaawFGIQ1PYPORaFNWpPHJ28ZuDgWljvMIhAIcOelTtrh9e5wVB3IorxjiZDA==
+http-signature@1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.3.4.tgz#a65b41193110b222364e776fd1ac848655a0e2f0"
+  integrity sha512-CbG3io8gUSIxNNSgq+XMjgpTMzAeVRipxVXjuGrDhH5M1a2kZ03w20s8FCLR1NjnnJj10KbvabvckmtQcYNb9g==
   dependencies:
     assert-plus "^1.0.0"
     jsprim "^1.2.2"
