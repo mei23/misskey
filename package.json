@@ -89,7 +89,7 @@
 		"@types/websocket": "1.0.0",
 		"@types/ws": "7.2.3",
 		"@typescript-eslint/parser": "2.27.0",
-		"animejs": "3.1.0",
+		"animejs": "3.2.0",
 		"apexcharts": "3.15.0",
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
