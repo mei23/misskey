@@ -63,7 +63,7 @@
 		"@types/mocha": "7.0.2",
 		"@types/mongodb": "3.5.5",
 		"@types/node": "13.11.1",
-		"@types/node-fetch": "2.5.5",
+		"@types/node-fetch": "2.5.6",
 		"@types/nodemailer": "6.4.0",
 		"@types/nprogress": "0.2.0",
 		"@types/oauth": "0.9.1",
