@@ -33,7 +33,7 @@
 		"@fortawesome/vue-fontawesome": "0.1.9",
 		"@koa/cors": "3.0.0",
 		"@koa/multer": "2.0.2",
-		"@koa/router": "8.0.8",
+		"@koa/router": "9.0.0",
 		"@prezzemolo/rap": "0.1.2",
 		"@prezzemolo/zip": "0.0.3",
 		"@types/bcryptjs": "2.4.2",
