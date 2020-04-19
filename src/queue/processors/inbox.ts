@@ -77,7 +77,6 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 		// でもLD-Signatureがありそうならそっちも見る
 		if (activity.signature) {
-			logger.info(`http-signatureが一致しない user.uri(${user.uri}) !== activity.actor${activity.actor}、LD-Signatureがあるので見る`);
 			if (activity.signature.type !== 'RsaSignature2017') {
 				return `skip: unsupported LD-signature type ${activity.signature.type}`;
 			}
@@ -86,8 +85,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			// みたいになっててUserを引っ張れば公開キーも入ることを期待する
 			if (activity.signature.creator) {
 				const candicate = activity.signature.creator.replace(/#.*/, '');
-				const u = await resolvePerson(candicate).catch(() => null);
-				logger.info(`candicate=${candicate}, u=${u?._id}`);
+				await resolvePerson(candicate).catch(() => null);
 			}
 
 			// LD-Signatureのユーザー
@@ -102,8 +100,6 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			if (!verified) {
 				return `skip: LD-Signatureの検証に失敗しました`;
 			}
-
-			logger.info(`LD-Signatureでユーザーか確定しました ${user.uri}`);
 		}
 	}
 
