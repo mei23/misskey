@@ -77,7 +77,7 @@ export interface IActivity extends IObject {
 		created: Date;
 		creator: string;
 		domain?: string;
-		nince?: string;
+		nonce?: string;
 		signatureValue: string;
 	};
 }
