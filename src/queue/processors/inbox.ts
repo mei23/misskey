@@ -10,12 +10,13 @@ import Logger from '../../services/logger';
 import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
-import { getApId } from '../../remote/activitypub/type';
+import { getApId, IActivity } from '../../remote/activitypub/type';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../misc/instance-info';
 import { InboxJobData } from '..';
 import ApResolver from '../../remote/activitypub/ap-resolver';
 import { inspect } from 'util';
+import { extractApHost } from '../../misc/convert-host';
 
 const logger = new Logger('inbox');
 
@@ -39,12 +40,13 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 		return `skip: Blocked instance: ${host}`;
 	}
 
+	//#region resolve http-signature signer
 	let user: IRemoteUser | null;
 
 	// keyIdを元にDBから取得
 	user = await apResolver.getRemoteUserFromKeyId(signature.keyId);
 
-	// uriを元にDBから取得、なければリモートから取得
+	// || activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
 	if (user == null) {
 		try {
 			user = await resolvePerson(getApId(activity.actor)) as IRemoteUser;
@@ -57,20 +59,30 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 		}
 	}
 
+	// http-signature signer がわからなければ終了
 	if (user == null) {
-		throw new Error('failed to resolve user');
+		throw new Error('failed to resolve http-signature signer');
 	}
+	//#endregion
 
-	// keyId
+	// http-signature signerのpublicKeyを元にhttp-signatureを検証
 	if (!httpSignature.verifySignature(signature, user.publicKey.publicKeyPem)) {
-		return `skip: signature verification failed`;
+		return `skip: http-signature verification failed`;
 	}
 
-	// アクティビティ内のホストの検証
-	try {
-		ValidateActivity(activity, host);
-	} catch (e) {
-		return `skip: host validation failed ${e.message}`;
+	// http-signatureのsignerは、activity.actorと一致する必要がある
+	if (user.uri !== activity.actor) {
+		const diag = activity.signature ? '. Has LD-Signature. Forwarded?' : '';
+		return `skip: httpSigner.uri(${user.uri}) !== activity.actor(${activity.actor}) ${diag}\n${inspect(activity)}}`;
+	}
+
+	// activity.idがあればホストが署名者のホストであることを確認する
+	if (typeof activity.id === 'string') {
+		const signerHost = extractApHost(user.uri);
+		const activityIdHost = extractApHost(activity.id);
+		if (signerHost !== activityIdHost) {
+			return `skip: signerHost(${signerHost}) !== activity.id host(${activityIdHost}`;
+		}
 	}
 
 	//#region Log/stats
@@ -102,40 +114,3 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	// アクティビティを処理
 	return (await perform(user, activity)) || 'ok';
 };
-
-/**
- * Validate host in activity
- * @param activity Activity
- * @param host Expect host
- */
-function ValidateActivity(activity: any, host: string) {
-	// id (if exists)
-	if (typeof activity.id === 'string') {
-		const uriHost = toUnicode(new URL(activity.id).hostname.toLowerCase());
-		if (host !== uriHost) {
-			const diag = activity.signature ? '. Has LD-Signature. Forwarded?' : '';
-			throw new Error(`activity.id(${activity.id}) has different host(${host})${diag}\n${inspect(activity)}}`);
-		}
-	}
-
-	// actor (if exists)
-	if (typeof activity.actor === 'string') {
-		const uriHost = toUnicode(new URL(activity.actor).hostname.toLowerCase());
-		if (host !== uriHost) throw new Error('activity.actor has different host');
-	}
-
-	// For Create activity
-	if (activity.type === 'Create' && activity.object) {
-		// object.id (if exists)
-		if (typeof activity.object.id === 'string') {
-			const uriHost = toUnicode(new URL(activity.object.id).hostname.toLowerCase());
-			if (host !== uriHost) throw new Error('activity.object.id has different host');
-		}
-
-		// object.attributedTo (if exists)
-		if (typeof activity.object.attributedTo === 'string') {
-			const uriHost = toUnicode(new URL(activity.object.attributedTo).hostname.toLowerCase());
-			if (host !== uriHost) throw new Error('activity.object.attributedTo has different host');
-		}
-	}
-}
