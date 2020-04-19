@@ -99,7 +99,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 			logger.info(`Activity: ${inspect(activity)}`);
 
-			const verified = await verifyRsaSignature2017(activity.object, user?.publicKey.publicKeyPem);
+			const verified = await verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem);
 
 			if (!verified) {
 				return `skip: LD-Signatureの検証に失敗しました`;
