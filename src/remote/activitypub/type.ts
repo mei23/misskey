@@ -72,7 +72,14 @@ export interface IActivity extends IObject {
 	actor: IObject | string;
 	object: IObject | string;
 	target?: IObject | string;
-	signature?: {};
+	signature?: {
+		type: string;
+		created: Date;
+		creator: string;
+		domain?: string;
+		nince?: string;
+		signatureValue: string;
+	};
 }
 
 export interface ICollection extends IObject {

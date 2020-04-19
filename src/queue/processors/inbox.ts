@@ -10,13 +10,14 @@ import Logger from '../../services/logger';
 import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
-import { getApId, IActivity } from '../../remote/activitypub/type';
+import { getApId } from '../../remote/activitypub/type';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../misc/instance-info';
 import { InboxJobData } from '..';
 import ApResolver from '../../remote/activitypub/ap-resolver';
 import { inspect } from 'util';
 import { extractApHost } from '../../misc/convert-host';
+import { verifyRsaSignature2017 } from '../../remote/activitypub/misc/ld-signature';
 
 const logger = new Logger('inbox');
 
@@ -72,8 +73,34 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// http-signatureのsignerは、activity.actorと一致する必要がある
 	if (user.uri !== activity.actor) {
-		const diag = activity.signature ? '. Has LD-Signature. Forwarded?' : '';
-		return `skip: httpSigner.uri(${user.uri}) !== activity.actor(${activity.actor}) ${diag}\n${inspect(activity)}}`;
+		// え、一致しない？
+
+		// でもLD-Signatureがありそうならそっちも見る
+		if (activity.signature) {
+			if (activity.signature.type !== 'RsaSignature2017') {
+				return `skip: unsupported LD-signature type ${activity.signature.type}`;
+			}
+
+			// activity.signature.creator: https://example.oom/users/user#main-key
+			// みたいになっててUserを引っ張れば公開キーも入ることを期待する
+			if (activity.signature.creator) {
+				const candicate = activity.signature.creator.replace(/#.*/, '');
+				await resolvePerson(candicate).catch(() => null);
+			}
+
+			// LD-Signatureのユーザー
+			user = await apResolver.getRemoteUserFromKeyId(activity.signature.creator);
+
+			if (user == null) {
+				return `skip: LD-Signatureのユーザーが取得できませんでした`;
+			}
+
+			const verified = await verifyRsaSignature2017(activity.object, user?.publicKey.publicKeyPem);
+
+			if (!verified) {
+				return `skip: LD-Signatureの検証に失敗しました`;
+			}
+		}
 	}
 
 	// activity.idがあればホストが署名者のホストであることを確認する
