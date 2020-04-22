@@ -64,7 +64,7 @@
 		"@types/lodash": "4.14.150",
 		"@types/mocha": "7.0.2",
 		"@types/mongodb": "3.5.8",
-		"@types/node": "13.13.1",
+		"@types/node": "13.13.2",
 		"@types/node-fetch": "2.5.6",
 		"@types/nodemailer": "6.4.0",
 		"@types/nprogress": "0.2.0",
