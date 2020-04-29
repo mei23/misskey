@@ -437,7 +437,7 @@ async function renderNoteOrRenoteActivity(data: Option, note: INote, user: IUser
 		? renderAnnounce(data.renote.uri ? data.renote.uri : `${config.url}/notes/${data.renote._id}`, note)
 		: renderCreate(await renderNote(note, false), note);
 
-	return renderActivity(content);
+	return await renderActivity(content, user as ILocalUser);
 }
 
 function incRenoteCount(renote: INote) {

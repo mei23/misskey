@@ -41,7 +41,7 @@ export default async (ctx: Router.RouterContext) => {
 		renderedNotes.length, null, null, renderedNotes
 	);
 
-	ctx.body = renderActivity(rendered);
+	ctx.body = await renderActivity(rendered);
 	ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 	setResponseType(ctx);
 };

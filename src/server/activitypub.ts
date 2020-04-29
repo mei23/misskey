@@ -104,7 +104,7 @@ router.get('/notes/:note', async (ctx, next) => {
 		return;
 	}
 
-	ctx.body = renderActivity(await renderNote(note, false));
+	ctx.body = await renderActivity(await renderNote(note, false));
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });
@@ -130,7 +130,7 @@ router.get('/notes/:note/activity', async ctx => {
 		return;
 	}
 
-	ctx.body = renderActivity(await packActivity(note));
+	ctx.body = await renderActivity(await packActivity(note));
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });
@@ -170,7 +170,7 @@ router.get('/users/:user/publickey', async ctx => {
 	}
 
 	if (isLocalUser(user)) {
-		ctx.body = renderActivity(renderKey(user));
+		ctx.body = await renderActivity(renderKey(user));
 		ctx.set('Cache-Control', 'public, max-age=180');
 		setResponseType(ctx);
 	} else {
@@ -185,7 +185,7 @@ async function userInfo(ctx: Router.RouterContext, user?: IUser | null) {
 		return;
 	}
 
-	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
+	ctx.body = await renderActivity(await renderPerson(user as ILocalUser));
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 }
@@ -238,7 +238,7 @@ router.get('/emojis/:emoji', async ctx => {
 		return;
 	}
 
-	ctx.body = renderActivity(await renderEmoji(emoji));
+	ctx.body = await renderActivity(await renderEmoji(emoji));
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });
@@ -268,7 +268,7 @@ router.get('/likes/:like', async ctx => {
 		return;
 	}
 
-	ctx.body = renderActivity(await renderLike(reaction, note));
+	ctx.body = await renderActivity(await renderLike(reaction, note));
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });

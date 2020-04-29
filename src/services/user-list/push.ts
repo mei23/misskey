@@ -25,7 +25,7 @@ export async function pushUserToUserList(target: IUser, list: IUserList) {
 
 		if (count < 1) {
 			const proxy = await fetchProxyAccount();
-			const content = renderActivity(renderFollow(proxy, target));
+			const content = await renderActivity(renderFollow(proxy, target));
 			deliver(proxy, content, target.inbox);
 
 			fetchOutbox(target);

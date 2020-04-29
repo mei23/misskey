@@ -9,7 +9,7 @@ import { IdentifiableError } from '../../../misc/identifiable-error';
 
 export default async function(followee: IUser, follower: IUser) {
 	if (isRemoteUser(followee)) {
-		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
+		const content = await renderActivity(renderUndo(renderFollow(follower, followee), follower));
 		deliver(follower as ILocalUser, content, followee.inbox);
 	}
 

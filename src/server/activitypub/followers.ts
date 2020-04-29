@@ -87,12 +87,12 @@ export default async (ctx: Router.RouterContext) => {
 			})}` : null
 		);
 
-		ctx.body = renderActivity(rendered);
+		ctx.body = await renderActivity(rendered);
 		setResponseType(ctx);
 	} else {
 		// index page
 		const rendered = renderOrderedCollection(partOf, user.followersCount, user.hideFollows ? null : `${partOf}?page=true`, null);
-		ctx.body = renderActivity(rendered);
+		ctx.body = await renderActivity(rendered);
 		ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 		setResponseType(ctx);
 	}

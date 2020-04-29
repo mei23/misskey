@@ -25,7 +25,7 @@ export default async function(blocker: IUser, blockee: IUser) {
 
 	// deliver if remote bloking
 	if (isLocalUser(blocker) && isRemoteUser(blockee)) {
-		const content = renderActivity(renderUndo(renderBlock(blocker, blockee), blocker));
+		const content = await renderActivity(renderUndo(renderBlock(blocker, blockee), blocker));
 		deliver(blocker, content, blockee.inbox);
 	}
 }

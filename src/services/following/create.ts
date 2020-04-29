@@ -122,7 +122,7 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 	// badoogirls
 	if (isRemoteUser(follower) && isLocalUser(followee)) {
 		if (follower.description && follower.description.match(/badoogirls/)) {
-			const content = renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
+			const content = await renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
 			deliver(followee , content, follower.inbox);
 			return;
 		}
@@ -156,7 +156,7 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 
 	if (isRemoteUser(follower) && isLocalUser(followee) && (blocked || userRefused)) {
 		// リモートフォローを受けてブロックしていた場合は、エラーにするのではなくRejectを送り返しておしまい。
-		const content = renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
+		const content = await renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
 		deliver(followee , content, follower.inbox);
 		return;
 	} else if (isRemoteUser(follower) && isLocalUser(followee) && blocking) {
@@ -210,7 +210,7 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 	await insertFollowingDoc(followee, follower);
 
 	if (isRemoteUser(follower) && isLocalUser(followee)) {
-		const content = renderActivity(renderAccept(renderFollow(follower, followee, requestId), followee));
+		const content = await renderActivity(renderAccept(renderFollow(follower, followee, requestId), followee));
 		deliver(followee, content, follower.inbox);
 	}
 }

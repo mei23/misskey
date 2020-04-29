@@ -74,7 +74,7 @@ export async function createMessage(user: IUser, recipient: IUser, text: string,
 			} ],
 		} as INote;
 
-		const activity = renderActivity(renderCreate(await renderNote(note, false, true), note));
+		const activity = await renderActivity(renderCreate(await renderNote(note, false, true), note));
 
 		deliver(user, activity, recipient.inbox);
 	}

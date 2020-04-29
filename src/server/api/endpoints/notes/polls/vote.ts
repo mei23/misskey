@@ -170,7 +170,7 @@ export default define(meta, async (ps, user) => {
 			_id: note.userId
 		});
 
-		deliver(user, renderActivity(await renderVote(user, vote, note, pollOwner)), pollOwner.inbox);
+		deliver(user, await renderActivity(await renderVote(user, vote, note, pollOwner)), pollOwner.inbox);
 	}
 
 	// リモートフォロワーにUpdate配信

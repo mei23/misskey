@@ -34,7 +34,7 @@ export async function deliverQuestionUpdate(noteId: mongo.ObjectID) {
 	});
 
 	if (isLocalUser(user)) {
-		const content = renderActivity(renderUpdate(await renderNote(note, false), user));
+		const content = await renderActivity(renderUpdate(await renderNote(note, false), user));
 		deliverToFollowers(user, content, true);
 	}
 }
