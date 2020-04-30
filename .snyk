@@ -1,0 +1,44 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - bull > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - elasticsearch > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - eslint > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - hard-source-webpack-plugin > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - lookup-dns-cache > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - '@typescript-eslint/parser > @typescript-eslint/typescript-estree > lodash':
+        patched: '2020-04-30T12:55:52.709Z'
+    - eslint > inquirer > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - eslint > table > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - eslint-plugin-vue > vue-eslint-parser > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - lookup-dns-cache > async > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - mocha > yargs-unparser > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - '@typescript-eslint/parser > @typescript-eslint/experimental-utils > @typescript-eslint/typescript-estree > lodash':
+        patched: '2020-04-30T12:55:52.709Z'
+    - jsdom > request-promise-native > request-promise-core > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - summaly > cheerio-httpcli > async > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - summaly > request-promise-native > request-promise-core > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - pug > pug-code-gen > constantinople > babel-types > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - pug > pug-filters > constantinople > babel-types > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
+    - pug > pug-code-gen > pug-attrs > constantinople > babel-types > lodash:
+        patched: '2020-04-30T12:55:52.709Z'
