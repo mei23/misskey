@@ -17,7 +17,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: ['write:account', 'account-write', account/write],
+	kind: ['write:account', 'account-write', 'account/write'],
 
 	params: {
 		noteId: {
