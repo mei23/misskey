@@ -5,6 +5,7 @@ import { IApp } from '../../models/app';
 import endpoints from './endpoints';
 import { ApiError } from './error';
 import { apiLogger } from './logger';
+import { toArray } from '../../prelude/array';
 
 const accessDenied = {
 	message: 'Access denied.',
@@ -51,7 +52,7 @@ export default async (endpoint: string, user: IUser, app: IApp, data: any, file?
 		throw new ApiError(accessDenied, { reason: 'You are not a moderator.' });
 	}
 
-	if (app && ep.meta.kind && !app.permission.some(p => p === ep.meta.kind)) {
+	if (app && ep.meta.kind && !app.permission.some(p => toArray(ep.meta.kind).includes(p))) {
 		throw new ApiError({
 			message: 'Your app does not have the necessary permissions to use this endpoint.',
 			code: 'PERMISSION_DENIED',

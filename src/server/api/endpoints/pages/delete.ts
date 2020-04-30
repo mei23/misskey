@@ -14,7 +14,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'note-write',
+	kind: ['write:notes', 'note-write'],
 
 	params: {
 		pageId: {

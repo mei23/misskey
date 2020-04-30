@@ -13,7 +13,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'favorites-read',
+	kind: ['read:favorites', 'favorite-read', 'favorites-read'],
 
 	params: {
 		limit: {

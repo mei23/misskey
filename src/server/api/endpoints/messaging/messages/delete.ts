@@ -18,7 +18,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'messaging-write',
+	kind: ['write:messaging', 'messaging-write'],
 
 	limit: {
 		duration: ms('1hour'),

@@ -17,7 +17,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'reaction-write',
+	kind: ['write:reactions', 'reaction-write'],
 
 	params: {
 		noteId: {
