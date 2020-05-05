@@ -6,7 +6,6 @@ import * as fs from 'fs';
 import * as webpack from 'webpack';
 import rndstr from 'rndstr';
 const { VueLoaderPlugin } = require('vue-loader');
-const TerserPlugin = require('terser-webpack-plugin');
 
 class WebpackOnBuildPlugin {
 	constructor(readonly callback: (stats: any) => void) {
@@ -161,7 +160,7 @@ module.exports = {
 		modules: ['node_modules']
 	},
 	optimization: {
-		minimizer: [new TerserPlugin()]
+		minimize: false
 	},
 	cache: {
 		type: 'filesystem',

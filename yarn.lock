@@ -4134,16 +4134,6 @@ gulp-stylus@2.7.0:
     through2 "^2.0.0"
     vinyl-sourcemaps-apply "^0.2.0"
 
-gulp-terser@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.2.0.tgz#41df2a1d0257d011ba8b05efb2568432ecd0495b"
-  integrity sha512-lf+jE2DALg2w32p0HRiYMlFYRYelKZPNunHp2pZccCYrrdCLOs0ItbZcN63yr2pbz116IyhUG9mD/QbtRO1FKA==
-  dependencies:
-    plugin-error "^1.0.1"
-    terser "^4.0.0"
-    through2 "^3.0.1"
-    vinyl-sourcemaps-apply "^0.2.1"
-
 gulp-tslint@8.1.4:
   version "8.1.4"
   resolved "https://registry.yarnpkg.com/gulp-tslint/-/gulp-tslint-8.1.4.tgz#8519ee25ff97aa749e691d4af0fdaccce5f01f7a"
@@ -8882,7 +8872,7 @@ tar@^6.0.1:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
-terser-webpack-plugin@2.3.6, terser-webpack-plugin@^2.3.1:
+terser-webpack-plugin@^2.3.1:
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.6.tgz#a4014b311a61f87c6a1b217ef4f5a75bd0665a69"
   integrity sha512-I8IDsQwZrqjdmOicNeE8L/MhwatAap3mUrtcAKJuilsemUNcX+Hier/eAzwStVqhlCxq0aG3ni9bK/0BESXkTg==
@@ -8897,7 +8887,7 @@ terser-webpack-plugin@2.3.6, terser-webpack-plugin@^2.3.1:
     terser "^4.6.12"
     webpack-sources "^1.4.3"
 
-terser@^4.0.0, terser@^4.6.12:
+terser@^4.6.12:
   version "4.6.12"
   resolved "https://registry.yarnpkg.com/terser/-/terser-4.6.12.tgz#44b98aef8703fdb09a3491bf79b43faffc5b4fee"
   integrity sha512-fnIwuaKjFPANG6MAixC/k1TDtnl1YlPLUlLVIxxGZUn1gfUx2+l3/zGNB72wya+lgsb50QBi2tUV75RiODwnww==
@@ -8956,7 +8946,7 @@ through2@2.X, through2@^2.0.0, through2@^2.0.3, through2@~2.0.0:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
-through2@3.0.1, through2@^3.0.0, through2@^3.0.1:
+through2@3.0.1, through2@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/through2/-/through2-3.0.1.tgz#39276e713c3302edf9e388dd9c812dd3b825bd5a"
   integrity sha512-M96dvTalPT3YbYLaKaCuwu+j06D/8Jfib0o/PxbVt6Amhv3dUAtW6rTV1jPgJSBG83I/e04Y6xkVdVhSRhi0ww==
@@ -9556,7 +9546,7 @@ vinyl-sourcemap@^1.1.0:
     remove-bom-buffer "^3.0.0"
     vinyl "^2.0.0"
 
-vinyl-sourcemaps-apply@0.2.1, vinyl-sourcemaps-apply@^0.2.0, vinyl-sourcemaps-apply@^0.2.1:
+vinyl-sourcemaps-apply@0.2.1, vinyl-sourcemaps-apply@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.2.1.tgz#ab6549d61d172c2b1b87be5c508d239c8ef87705"
   integrity sha1-q2VJ1h0XLCsbh75cUI0jnI74dwU=
