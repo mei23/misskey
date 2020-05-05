@@ -231,7 +231,7 @@
 		"vuex": "3.3.0",
 		"vuex-persistedstate": "3.0.1",
 		"web-push": "3.4.3",
-		"webpack": "4.43.0",
+		"webpack": "5.0.0-beta.15",
 		"webpack-cli": "3.3.11",
 		"websocket": "1.0.31",
 		"ws": "7.2.5",

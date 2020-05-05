@@ -159,6 +159,7 @@ module.exports = {
 			'.js', '.ts', '.json'
 		],
 		alias: {
+			'crypto': false,
 			'const.styl': __dirname + '/src/client/const.styl'
 		}
 	},
