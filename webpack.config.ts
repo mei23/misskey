@@ -163,7 +163,12 @@ module.exports = {
 	optimization: {
 		minimizer: [new TerserPlugin()]
 	},
-	cache: true,
+	cache: {
+		type: 'filesystem',
+		buildDependencies: {
+			config: [__filename]
+		}
+	},
 	devtool: false, //'source-map',
 	mode: isProduction ? 'production' : 'development'
 };
