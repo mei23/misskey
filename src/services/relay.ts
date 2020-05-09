@@ -55,6 +55,11 @@ export async function removeRelay(inbox: string) {
 	});
 }
 
+export async function listRelay() {
+	const relays = await Relay.find();
+	return relays;
+}
+
 export async function relayAccepted(id: string) {
 	const result = await Relay.update(new mongo.ObjectID(id), {
 		$set: {
