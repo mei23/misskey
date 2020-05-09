@@ -84,13 +84,7 @@ export async function deliverToRelays(user: ILocalUser, activity: any) {
 	const relayActor = await getRelayActor();
 
 	const copy = JSON.parse(JSON.stringify(activity));
-
-	/*
-	copy.to = 'https://www.w3.org/ns/activitystreams#Public';
-	if (copy.cc) delete copy.cc;
-	if (copy.object?.to) copy.object.to = 'https://www.w3.org/ns/activitystreams#Public';
-	if (copy.object?.cc) delete copy.object.cc;
-	*/
+	if (!copy.to) copy.to = ['https://www.w3.org/ns/activitystreams#Public'];
 
 	const x = await attachLdSignature(copy, user);
 
