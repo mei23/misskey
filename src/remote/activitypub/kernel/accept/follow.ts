@@ -19,7 +19,7 @@ export default async (actor: IRemoteUser, activity: IFollow): Promise<string> =>
 	}
 
 	// relay
-	const match = activity.id?.match('/activities/follow-relay/(\w+)');
+	const match = activity.id?.match(/follow-relay\/(\w+)/);
 	if (match) {
 		return await relayAccepted(match[1]);
 	}
