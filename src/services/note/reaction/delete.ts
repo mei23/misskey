@@ -8,6 +8,7 @@ import { renderActivity } from '../../../remote/activitypub/renderer';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 import { decodeReaction } from '../../../misc/reaction-lib';
+import { deliverToRelays } from '../../relay';
 
 export default async (user: IUser, note: INote) => {
 	// if already unreacted
@@ -48,6 +49,7 @@ export default async (user: IUser, note: INote) => {
 		const content = renderActivity(renderUndo(await renderLike(exist, note), user), user);
 		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
 		deliverToFollowers(user, content, true);
+		deliverToRelays(content);
 	}
 	//#endregion
 

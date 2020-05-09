@@ -17,6 +17,7 @@ import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Favorite from '../../models/favorite';
 import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
+import { deliverToRelays } from '../relay';
 
 /**
  * 投稿を削除します。
@@ -106,6 +107,7 @@ export default async function(user: IUser, note: INote, quiet = false) {
 				: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user, `${config.url}/notes/${note._id}/delete`));
 
 			deliverToFollowers(user, content);
+			deliverToRelays(content);
 		}
 		//#endregion
 

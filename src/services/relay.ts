@@ -3,7 +3,7 @@ import User, { ILocalUser } from '../models/user';
 import Relay, { IRelay } from '../models/relay';
 import { createSystemUser } from './create-system-user';
 import { renderFollowRelay } from '../remote/activitypub/renderer/follow-relay';
-import { renderActivity } from '../remote/activitypub/renderer';
+import { renderActivity, attachLdSignature } from '../remote/activitypub/renderer';
 import renderUndo from '../remote/activitypub/renderer/undo';
 import { deliver } from '../queue';
 
@@ -29,7 +29,7 @@ export async function addRelay(inbox: string) {
 
 	const relayActor = await getRelayActor();
 	const follow = await renderFollowRelay(relay, relayActor);
-	const activity = await renderActivity(follow);
+	const activity = renderActivity(follow);
 	deliver(relayActor, activity, relay.inbox);
 
 	return relay;
@@ -47,7 +47,7 @@ export async function removeRelay(inbox: string) {
 	const relayActor = await getRelayActor();
 	const follow = renderFollowRelay(relay, relayActor);
 	const undo = renderUndo(follow, relayActor);
-	const activity = await renderActivity(undo);
+	const activity = renderActivity(undo);
 	deliver(relayActor, activity, relay.inbox);
 
 	await Relay.remove({
@@ -73,4 +73,30 @@ export async function relayRejected(id: string) {
 	});
 
 	return JSON.stringify(result);
+}
+
+export async function deliverToRelays(activity: any) {
+	const relays = await Relay.find({
+		status: 'accepted'
+	});
+	//if (relays.length === 0) return;
+
+	const relayActor = await getRelayActor();
+
+	const copy = JSON.parse(JSON.stringify(activity));
+
+	/*
+	copy.to = 'https://www.w3.org/ns/activitystreams#Public';
+	if (copy.cc) delete copy.cc;
+	if (copy.object?.to) copy.object.to = 'https://www.w3.org/ns/activitystreams#Public';
+	if (copy.object?.cc) delete copy.object.cc;
+	*/
+
+	const x = await attachLdSignature(copy, relayActor);
+
+	console.log(JSON.stringify(x, null, 2));
+
+	for (const relay of relays) {
+		deliver(relayActor, copy, relay.inbox);
+	}
 }

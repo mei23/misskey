@@ -8,6 +8,7 @@ import renderUpdate from '../../../remote/activitypub/renderer/update';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import renderNote from '../../../remote/activitypub/renderer/note';
 import { deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
+import { deliverToRelays } from '../../relay';
 
 const logger = new Logger('pollsUpdate');
 
@@ -36,5 +37,6 @@ export async function deliverQuestionUpdate(noteId: mongo.ObjectID) {
 	if (isLocalUser(user)) {
 		const content = renderActivity(renderUpdate(await renderNote(note, false), user));
 		deliverToFollowers(user, content, true);
+		deliverToRelays(content);
 	}
 }

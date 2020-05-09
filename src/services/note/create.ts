@@ -6,7 +6,7 @@ import { createDeleteNoteJob } from '../../queue';
 import renderNote from '../../remote/activitypub/renderer/note';
 import renderCreate from '../../remote/activitypub/renderer/create';
 import renderAnnounce from '../../remote/activitypub/renderer/announce';
-import { renderActivity } from '../../remote/activitypub/renderer';
+import { renderActivity, attachLdSignature } from '../../remote/activitypub/renderer';
 import DriveFile, { IDriveFile } from '../../models/drive-file';
 import notify from '../../services/create-notification';
 import NoteWatching from '../../models/note-watching';
@@ -33,6 +33,7 @@ import extractEmojis from '../../misc/extract-emojis';
 import extractHashtags from '../../misc/extract-hashtags';
 import { genId } from '../../misc/gen-id';
 import DeliverManager from '../../remote/activitypub/deliver-manager';
+import { deliverToRelays } from '../relay';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -399,6 +400,10 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 				// フォロワーへ配送
 				if (['public', 'home', 'followers'].includes(note.visibility)) {
 					dm.addFollowersRecipe();
+				}
+
+				if (['public', 'home'].includes(note.visibility)) {
+					deliverToRelays(noteActivity);
 				}
 
 				// リモートのみ配送

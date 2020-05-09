@@ -7,6 +7,7 @@ import renderRemove from '../../remote/activitypub/renderer/remove';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import { IdentifiableError } from '../../misc/identifiable-error';
 import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
+import { deliverToRelays } from '../relay';
 
 /**
  * 指定した投稿をピン留めします
@@ -104,4 +105,5 @@ export async function deliverPinnedChange(userId: mongo.ObjectID, noteId: mongo.
 	const content = renderActivity(isAddition ? renderAdd(user, target, item) : renderRemove(user, target, item));
 
 	deliverToFollowers(user, content);
+	deliverToRelays(content);
 }
