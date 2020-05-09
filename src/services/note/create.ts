@@ -403,7 +403,7 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 				}
 
 				if (['public', 'home'].includes(note.visibility)) {
-					deliverToRelays(noteActivity);
+					deliverToRelays(user, noteActivity);
 				}
 
 				// リモートのみ配送

@@ -49,7 +49,7 @@ export default async (user: IUser, note: INote) => {
 		const content = renderActivity(renderUndo(await renderLike(exist, note), user), user);
 		if (isRemoteUser(note._user)) deliverToUser(user, content, note._user);
 		deliverToFollowers(user, content, true);
-		deliverToRelays(content);
+		//deliverToRelays(user, content);
 	}
 	//#endregion
 

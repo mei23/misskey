@@ -75,7 +75,7 @@ export async function relayRejected(id: string) {
 	return JSON.stringify(result);
 }
 
-export async function deliverToRelays(activity: any) {
+export async function deliverToRelays(user: ILocalUser, activity: any) {
 	const relays = await Relay.find({
 		status: 'accepted'
 	});
@@ -92,7 +92,7 @@ export async function deliverToRelays(activity: any) {
 	if (copy.object?.cc) delete copy.object.cc;
 	*/
 
-	const x = await attachLdSignature(copy, relayActor);
+	const x = await attachLdSignature(copy, user);
 
 	for (const relay of relays) {
 		deliver(relayActor, x, relay.inbox);

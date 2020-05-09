@@ -107,7 +107,7 @@ export default async function(user: IUser, note: INote, quiet = false) {
 				: renderDelete(renderTombstone(`${config.url}/notes/${note._id}`), user, `${config.url}/notes/${note._id}/delete`));
 
 			deliverToFollowers(user, content);
-			deliverToRelays(content);
+			deliverToRelays(user, content);
 		}
 		//#endregion
 

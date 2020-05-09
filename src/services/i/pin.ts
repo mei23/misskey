@@ -105,5 +105,5 @@ export async function deliverPinnedChange(userId: mongo.ObjectID, noteId: mongo.
 	const content = renderActivity(isAddition ? renderAdd(user, target, item) : renderRemove(user, target, item));
 
 	deliverToFollowers(user, content);
-	deliverToRelays(content);
+	deliverToRelays(user, content);
 }

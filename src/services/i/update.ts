@@ -14,6 +14,6 @@ export async function publishToFollowers(userId: mongo.ObjectID) {
 	if (isLocalUser(user) && !user.noFederation) {
 		const content = renderActivity(renderUpdate(await renderPerson(user), user));
 		deliverToFollowers(user, content);
-		deliverToRelays(content);
+		deliverToRelays(user, content);
 	}
 }
