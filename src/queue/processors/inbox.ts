@@ -67,14 +67,10 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	//#endregion
 
 	// http-signature signerのpublicKeyを元にhttp-signatureを検証
-	if (!httpSignature.verifySignature(signature, user.publicKey.publicKeyPem)) {
-		return `skip: http-signature verification failed`;
-	}
+	const httpSignatureValidated = httpSignature.verifySignature(signature, user.publicKey.publicKeyPem);
 
-	// http-signatureのsignerは、activity.actorと一致する必要がある
-	if (user.uri !== activity.actor) {
-		// え、一致しない？
-
+	// また、http-signatureのsignerは、activity.actorと一致する必要がある
+	if (!httpSignatureValidated || user.uri !== activity.actor) {
 		// でもLD-Signatureがありそうならそっちも見る
 		if (activity.signature) {
 			if (activity.signature.type !== 'RsaSignature2017') {
@@ -105,6 +101,8 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			if (user.uri !== activity.actor) {
 				return `skip: LD-Signature user(${user.uri}) !== activity.actor(${activity.actor})`;
 			}
+		} else {
+			throw `skip: http-signature verification failed.`;
 		}
 	}
 
