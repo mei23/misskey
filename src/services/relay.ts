@@ -79,7 +79,7 @@ export async function deliverToRelays(activity: any) {
 	const relays = await Relay.find({
 		status: 'accepted'
 	});
-	//if (relays.length === 0) return;
+	if (relays.length === 0) return;
 
 	const relayActor = await getRelayActor();
 
@@ -94,9 +94,7 @@ export async function deliverToRelays(activity: any) {
 
 	const x = await attachLdSignature(copy, relayActor);
 
-	console.log(JSON.stringify(x, null, 2));
-
 	for (const relay of relays) {
-		deliver(relayActor, copy, relay.inbox);
+		deliver(relayActor, x, relay.inbox);
 	}
 }
