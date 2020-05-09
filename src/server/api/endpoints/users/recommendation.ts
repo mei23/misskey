@@ -16,7 +16,7 @@ export const meta = {
 
 	requireCredential: false,
 
-	kind: 'account-read',
+	kind: ['read:account', 'account-read', 'account/read'],
 
 	params: {
 		limit: {

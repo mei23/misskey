@@ -105,7 +105,7 @@ export interface IEndpointMeta {
 	 * エンドポイントの種類
 	 * パーミッションの実現に利用されます。
 	 */
-	kind?: string;
+	kind?: string | string[];
 }
 
 export interface IEndpoint {

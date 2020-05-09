@@ -36,6 +36,7 @@ export default define(meta, async (ps, user) => {
 
 	let p = ps.permission;
 
+	/*
 	p = p.map(x => x
 		// v11 => v10
 		.replace('read:account', 'account-read')
@@ -55,14 +56,17 @@ export default define(meta, async (ps, user) => {
 		.replace('write:reactions', 'reaction-write')
 		.replace('write:votes', 'vote-write')
 	);
+	*/
 
 	// v10 typos
+	/*
 	if (p.includes('favorites-read')) p.push('favorite-read');
 	if (p.includes('favorite-read')) p.push('favorites-read');
 	if (p.includes('account/read')) p.push('account-read');
 	if (p.includes('account-read')) p.push('account/read');
 	if (p.includes('account/write')) p.push('account-write');
 	if (p.includes('account-write')) p.push('account/write');
+	*/
 
 	// 今のv10にはなし
 	// 'note-read', 'vote-read',

@@ -19,7 +19,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'drive-write',
+	kind: ['write:drive', 'drive-write'],
 
 	params: {
 		url: {

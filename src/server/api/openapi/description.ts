@@ -1,7 +1,6 @@
-import config from '../../../config';
 import endpoints from '../endpoints';
 import * as locale from '../../../../locales/';
-import { fromEntries } from '../../../prelude/array';
+import { fromEntries, toArray } from '../../../prelude/array';
 import { kinds as kindsList } from '../kinds';
 
 export interface IKindInfo {
@@ -31,7 +30,7 @@ export function kinds() {
 		} else if (endpoint.meta.requireModerator) {
 			//kinds['_moderator_'].endpoints.push(endpoint.name);
 		} else if (endpoint.meta.kind) {
-			const kind = endpoint.meta.kind;
+			const kind = toArray(endpoint.meta.kind)[0];
 			if (kind in kinds) kinds[kind].endpoints.push(endpoint.name);
 			else errors.push([kind, endpoint.name]);
 		} else {

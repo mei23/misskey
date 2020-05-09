@@ -18,7 +18,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'note-write',
+	kind: ['write:notes', 'note-write'],
 
 	limit: {
 		minInterval: 500

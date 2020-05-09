@@ -1,6 +1,5 @@
 <template>
 <div class="header" :style="{'box-shadow': '0 0px 8px rgba(0, 0, 0, 0.2)'}">
-	<p class="warn" v-if="env != 'production'">{{ $t('@.do-not-use-in-production') }} <a href="/assets/flush.html?force">Flush</a></p>
 	<div class="main" ref="main">
 		<div class="backdrop"></div>
 		<div class="main">

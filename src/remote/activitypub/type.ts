@@ -212,7 +212,7 @@ export const isHashtag = (object: IObject): object is IApHashtag =>
 	typeof object.name === 'string';
 
 export interface IApPerson extends IObject {
-	type: 'Person' | 'Service' | 'Organization' | 'Group';
+	type: 'Person' | 'Service' | 'Organization' | 'Group' | 'Application';
 	name: string;
 	preferredUsername: string;
 	manuallyApprovesFollowers: boolean;

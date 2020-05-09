@@ -13,7 +13,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'drive-read',
+	kind: ['read:drive', 'drive-read'],
 
 	params: {
 		limit: {

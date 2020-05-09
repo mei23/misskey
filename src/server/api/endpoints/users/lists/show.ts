@@ -14,7 +14,7 @@ export const meta = {
 
 	requireCredential: true,
 
-	kind: 'account-read',
+	kind: ['read:account', 'account-read', 'account/read'],
 
 	params: {
 		listId: {
