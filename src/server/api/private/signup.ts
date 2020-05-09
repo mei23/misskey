@@ -1,6 +1,5 @@
 import * as Router from '@koa/router';
 import * as bcrypt from 'bcryptjs';
-import { generateKeyPair } from 'crypto';
 import User, { IUser, validateUsername, validatePassword, pack } from '../../../models/user';
 import generateUserToken from '../common/generate-native-user-token';
 import config from '../../../config';
@@ -9,6 +8,7 @@ import RegistrationTicket from '../../../models/registration-tickets';
 import usersChart from '../../../services/chart/users';
 import fetchMeta from '../../../misc/fetch-meta';
 import * as recaptcha from 'recaptcha-promise';
+import { genRsaKeyPair } from '../../../misc/gen-key-pair';
 
 export default async (ctx: Router.RouterContext) => {
 	const body = ctx.request.body;
@@ -90,22 +90,7 @@ export default async (ctx: Router.RouterContext) => {
 	// Generate secret
 	const secret = generateUserToken();
 
-	const keyPair = await new Promise<string[]>((res, rej) =>
-		generateKeyPair('rsa', {
-			modulusLength: 2048,
-			publicKeyEncoding: {
-				type: 'spki',
-				format: 'pem'
-			},
-			privateKeyEncoding: {
-				type: 'pkcs8',
-				format: 'pem',
-				cipher: undefined,
-				passphrase: undefined
-			}
-		} as any, (err, publicKey, privateKey) =>
-			err ? rej(err) : res([publicKey, privateKey])
-		));
+	const keyPair = await genRsaKeyPair();
 
 	// Create account
 	const account: IUser = await User.insert({
@@ -120,7 +105,7 @@ export default async (ctx: Router.RouterContext) => {
 		username: username,
 		usernameLower: username.toLowerCase(),
 		host: null,
-		keypair: keyPair[1],
+		keypair: keyPair.privateKey,
 		token: secret,
 		password: hash,
 		isAdmin: config.autoAdmin && usersCount === 0,
