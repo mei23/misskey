@@ -15,7 +15,7 @@ export default async function(followee: IUser, follower: IUser) {
 			followerId: follower._id
 		});
 
-		const content = await renderActivity(renderReject(renderFollow(follower, followee, request.requestId), followee as ILocalUser));
+		const content = renderActivity(renderReject(renderFollow(follower, followee, request.requestId), followee as ILocalUser));
 		deliver(followee as ILocalUser, content, follower.inbox);
 	}
 

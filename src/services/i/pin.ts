@@ -101,7 +101,7 @@ export async function deliverPinnedChange(userId: mongo.ObjectID, noteId: mongo.
 	const target = `${config.url}/users/${user._id}/collections/featured`;
 
 	const item = `${config.url}/notes/${noteId}`;
-	const content = await renderActivity(isAddition ? renderAdd(user, target, item) : renderRemove(user, target, item));
+	const content = renderActivity(isAddition ? renderAdd(user, target, item) : renderRemove(user, target, item));
 
 	deliverToFollowers(user, content);
 }

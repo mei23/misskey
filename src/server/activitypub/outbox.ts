@@ -108,7 +108,7 @@ export default async (ctx: Router.RouterContext) => {
 			})}` : null
 		);
 
-		ctx.body = await renderActivity(rendered);
+		ctx.body = renderActivity(rendered);
 		ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 		setResponseType(ctx);
 	} else {
@@ -117,7 +117,7 @@ export default async (ctx: Router.RouterContext) => {
 			`${partOf}?page=true`,
 			`${partOf}?page=true&since_id=000000000000000000000000`
 		);
-		ctx.body = await renderActivity(rendered);
+		ctx.body = renderActivity(rendered);
 		ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 		setResponseType(ctx);
 	}

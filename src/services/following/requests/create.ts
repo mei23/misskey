@@ -13,7 +13,7 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 	// badoogirls
 	if (isRemoteUser(follower) && isLocalUser(followee)) {
 		if (follower.description && follower.description.match(/badoogirls/)) {
-			const content = await renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
+			const content = renderActivity(renderReject(renderFollow(follower, followee, requestId), followee));
 			deliver(followee , content, follower.inbox);
 			return;
 		}
@@ -86,7 +86,7 @@ export default async function(follower: IUser, followee: IUser, requestId?: stri
 	}
 
 	if (isLocalUser(follower) && isRemoteUser(followee)) {
-		const content = await renderActivity(renderFollow(follower, followee));
+		const content = renderActivity(renderFollow(follower, followee));
 		deliver(follower, content, followee.inbox);
 	}
 }

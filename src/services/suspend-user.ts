@@ -14,7 +14,7 @@ export async function doPostSuspend(user: IUser) {
 export async function sendDeleteActivity(user: IUser) {
 	if (isLocalUser(user)) {
 		// 知り得る全SharedInboxにDelete配信
-		const content = await renderActivity(renderDelete(`${config.url}/users/${user._id}`, user));
+		const content = renderActivity(renderDelete(`${config.url}/users/${user._id}`, user));
 
 		const queue: string[] = [];
 

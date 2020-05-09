@@ -9,7 +9,7 @@ import Following from '../models/following';
 export async function doPostUnsuspend(user: IUser) {
 	if (isLocalUser(user)) {
 		// 知り得る全SharedInboxにUndo Delete配信
-		const content = await renderActivity(renderUndo(renderDelete(`${config.url}/users/${user._id}`, user), user));
+		const content = renderActivity(renderUndo(renderDelete(`${config.url}/users/${user._id}`, user), user));
 
 		const queue: string[] = [];
 
