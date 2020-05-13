@@ -116,7 +116,7 @@
 		"escape-regexp": "0.0.1",
 		"eslint": "6.8.0",
 		"eslint-plugin-vue": "6.2.2",
-		"eventemitter3": "4.0.1",
+		"eventemitter3": "4.0.4",
 		"file-type": "14.3.0",
 		"fluent-ffmpeg": "2.1.2",
 		"gulp": "4.0.2",
