@@ -46,7 +46,7 @@
 		"@types/gulp-rename": "0.0.33",
 		"@types/gulp-replace": "0.0.31",
 		"@types/js-yaml": "3.12.3",
-		"@types/jsdom": "16.2.1",
+		"@types/jsdom": "16.2.2",
 		"@types/jsonld": "1.5.1",
 		"@types/katex": "0.11.0",
 		"@types/koa": "2.0.49",
