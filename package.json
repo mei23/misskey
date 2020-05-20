@@ -206,7 +206,7 @@
 		"ts-node": "8.10.1",
 		"tslint": "5.20.1",
 		"tslint-sonarts": "1.9.0",
-		"typescript": "3.9.2",
+		"typescript": "3.9.3",
 		"url-loader": "4.1.0",
 		"uuid": "8.0.0",
 		"v-animate-css": "0.0.3",
