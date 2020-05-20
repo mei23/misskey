@@ -9319,15 +9319,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@*:
-  version "4.26.0"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.26.0.tgz#02ebf1fcb6e0bcb2f1e1a3f6a1ad64f4ce37b999"
-  integrity sha512-1VtMfcmEda62IlkHIOH22am3IT9MFcBkBisNQh2+CzX3gDie1REZB1U5705ZCKekqRueYBQvsCV9bGpP/3unfw==
-
-systeminformation@4.26.1:
-  version "4.26.1"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.26.1.tgz#040aa4f5d024e7e52daea3cbb977c08ff8b06d3d"
-  integrity sha512-1C4qjucOXYbVNOTnGaujL1bcKyVoEnNv9BTAwDyYaGhNe9mnJrxV1erBKvRxnlp1JBn+jPICeTAQ/TzlEJ5lsg==
+systeminformation@*, systeminformation@4.26.3:
+  version "4.26.3"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.26.3.tgz#6b2e349af820bbfdd979263e63eb2d408d280a8d"
+  integrity sha512-ewTNx1YOLvq9qDHyVxTjTajJlRtC8tiUn+Bn33ORZOsuzCn5n5zDiE+M2xiuKhXXaqEh+cOTAM3HeegUNb998A==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
