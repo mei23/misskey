@@ -48,8 +48,8 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		logger.error(err);
 
 		return {
-			webpublic: undefined as IImage,
-			thumbnail: undefined as IImage
+			webpublic: null,
+			thumbnail: null
 		};
 	});
 
@@ -62,17 +62,17 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		const ext = info.type.ext ? `.${info.type.ext}` : '';
 
 		const baseUrl = drive.baseUrl
-			|| `${ drive.config.useSSL ? 'https' : 'http' }://${ drive.config.endPoint }${ drive.config.port ? `:${drive.config.port}` : '' }/${ drive.bucket }`;
+			|| `${ drive.config!.useSSL ? 'https' : 'http' }://${ drive.config!.endPoint }${ drive.config!.port ? `:${drive.config!.port}` : '' }/${ drive.bucket }`;
 
 		// for original
 		const key = `${drive.prefix}/${genFid()}${ext}`;
 		const url = `${ baseUrl }/${ key }`;
 
 		// for alts
-		let webpublicKey = null as string;
-		let webpublicUrl = null as string;
-		let thumbnailKey = null as string;
-		let thumbnailUrl = null as string;
+		let webpublicKey: string | null = null;
+		let webpublicUrl: string | null = null;
+		let thumbnailKey: string | null = null;
+		let thumbnailUrl: string | null = null;
 		//#endregion
 
 		//#region Uploads
@@ -169,7 +169,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	const img = sharp(path);
 
 	// #region webpublic
-	let webpublic: IImage;
+	let webpublic: IImage | null = null;
 
 	if (generateWeb && !prsOpts?.isWebpublic) {
 		logger.debug(`creating web image`);
@@ -190,7 +190,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #endregion webpublic
 
 	// #region thumbnail
-	let thumbnail: IImage;
+	let thumbnail: IImage | null = null;
 
 	if (['image/jpeg', 'image/webp'].includes(type)
 		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
@@ -215,7 +215,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 /**
  * Upload to ObjectStorage
  */
-async function upload(key: string, stream: fs.ReadStream | Buffer, type: string, filename: string, drive: DriveConfig) {
+async function upload(key: string, stream: fs.ReadStream | Buffer, type: string, filename: string | null, drive: DriveConfig) {
 	const params = {
 		Bucket: drive.bucket,
 		Key: key,
@@ -305,13 +305,13 @@ async function deleteOldFile(user: IRemoteUser) {
 export async function addFile(
 	user: IUser,
 	path: string,
-	name: string = null,
-	comment: string = null,
-	folderId: mongodb.ObjectID = null,
+	name: string | null = null,
+	comment: string | null = null,
+	folderId: mongodb.ObjectID | null = null,
 	force: boolean = false,
 	isLink: boolean = false,
-	url: string = null,
-	uri: string = null,
+	url: string | null = null,
+	uri: string | null = null,
 	sensitive: boolean = false,
 	prsOpts?: ProcessOptions,
 ): Promise<IDriveFile> {
@@ -426,7 +426,7 @@ export async function addFile(
 		metadata.uri = uri;
 	}
 
-	let driveFile: IDriveFile;
+	let driveFile: IDriveFile | undefined;
 
 	if (isLink) {
 		try {
@@ -456,6 +456,8 @@ export async function addFile(
 		const drive = getDriveConfig(uri != null);
 		driveFile = await (save(path, detectedName, info, metadata, drive, prsOpts));
 	}
+
+	if (!driveFile) throw 'Failed to create drivefile ${e}';
 
 	logger.succ(`drive file has been created ${driveFile._id}`);
 
