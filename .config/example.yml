@@ -17,8 +17,15 @@ redis:
   port: 6379
   #pass: example-pass
 
+
+### drive ###
 drive:
-  storage: 'db'
+  storage: 'fs'
+
+# OR
+
+#drive:
+#  storage: 'db'
 
 # OR
 

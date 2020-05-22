@@ -26,6 +26,7 @@ import * as S3 from 'aws-sdk/clients/s3';
 import { getS3 } from './s3';
 import * as sharp from 'sharp';
 import { genFid } from '../../misc/id/fid';
+import { InternalStorage } from './internal-storage';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
@@ -86,7 +87,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			webpublicUrl = `${ baseUrl }/${ webpublicKey }`;
 
 			logger.info(`uploading webpublic: ${webpublicKey}`);
-			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, prsOpts?.useJpegForWeb ? null : name, drive));
+			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, null, drive));
 		}
 
 		if (alts.thumbnail) {
@@ -113,6 +114,51 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			webpublicUrl,
 			thumbnailUrl,
 		} as IMetadata);
+
+		const file = await DriveFile.insert({
+			length: info.size,
+			uploadDate: new Date(),
+			md5: info.md5,
+			filename: name,
+			metadata: metadata,
+			contentType: info.type.mime,
+			animation
+		});
+		//#endregion
+
+		return file;
+	} else if (drive.storage == 'fs') {
+
+		const key = `${genFid()}`;
+		InternalStorage.saveFromPath(key, path);
+
+		let webpublicKey: string | null = null;
+		let thumbnailKey: string | null = null;
+
+		if (alts.webpublic) {
+			webpublicKey = `${genFid()}`;
+			InternalStorage.saveFromBuffer(webpublicKey, alts.webpublic.data);
+		}
+
+		if (alts.thumbnail) {
+			thumbnailKey = `${genFid()}`;
+			InternalStorage.saveFromBuffer(thumbnailKey, alts.thumbnail.data);
+		}
+
+		//#region DB
+		Object.assign(metadata, {
+			withoutChunks: false,
+			storage: 'fs',
+			storageProps: {
+				key,
+				webpublicKey,
+				thumbnailKey,
+			},
+			fileSystem: true
+		} as IMetadata);
+
+		// web用(Exif削除済み)がある場合はオリジナルにアクセス制限
+		if (alts.webpublic) metadata.accessKey = genFid();
 
 		const file = await DriveFile.insert({
 			length: info.size,

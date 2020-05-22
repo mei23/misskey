@@ -61,11 +61,12 @@ export type IMetadata = {
 	deletedAt?: Date;
 
 	/**
-	 * このファイルの中身データがMongoDB内に保存されていないか否か
+	 * このファイルの中身データがMongoDBまたはファイルシステム内に保存されていないか否か
 	 * オブジェクトストレージを利用している or リモートサーバーへの直リンクである
 	 * な場合は true になります
 	 */
 	withoutChunks?: boolean;
+	fileSystem?: boolean;
 
 	storage?: string;
 
@@ -112,7 +113,7 @@ export type IDriveFile = {
 	filename: string;
 	contentType: string;
 	animation?: 'yes' | 'no';
-	metadata: IMetadata;
+	metadata?: IMetadata;
 
 	/**
 	 * ファイルサイズ

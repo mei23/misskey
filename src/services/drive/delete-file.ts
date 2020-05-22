@@ -8,6 +8,7 @@ import Instance from '../../models/instance';
 import { isRemoteUser } from '../../models/user';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import { getS3 } from './s3';
+import { InternalStorage } from './internal-storage';
 
 export default async function(file: IDriveFile, isExpired = false) {
 	const drive = getDriveConfig(file.metadata && file.metadata.uri != null);
@@ -46,6 +47,13 @@ export default async function(file: IDriveFile, isExpired = false) {
 	await DriveFileChunk.remove({
 		files_id: file._id
 	});
+
+	// fs削除
+	if (file.metadata?.fileSystem) {
+		if (file.metadata?.storageProps?.key) InternalStorage.del(file.metadata?.storageProps?.key);
+		if (file.metadata?.storageProps?.thumbnailKey) InternalStorage.del(file.metadata?.storageProps?.thumbnailKey);
+		if (file.metadata?.storageProps?.webpublicKey) InternalStorage.del(file.metadata?.storageProps?.webpublicKey);
+	}
 
 	const set = {
 		metadata: {
