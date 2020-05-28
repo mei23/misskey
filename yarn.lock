@@ -6585,10 +6585,10 @@ node-releases@^1.1.53:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.53.tgz#2d821bfa499ed7c5dffc5e2f28c88e78a08ee3f4"
   integrity sha512-wp8zyQVwef2hpZ/dJH7SfSrIPD6YoJz6BDQDpGEkcA0s3LpAQoxBIYmfIq6QAhC1DhwsyCgTaTTcONwX8qzCuQ==
 
-nodemailer@6.4.6:
-  version "6.4.6"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.6.tgz#d37f504f6560b36616f646a606894fe18819107f"
-  integrity sha512-/kJ+FYVEm2HuUlw87hjSqTss+GU35D4giOpdSfGp7DO+5h6RlJj7R94YaYHOkoxu1CSaM0d3WRBtCzwXrY6MKA==
+nodemailer@6.4.7:
+  version "6.4.7"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.7.tgz#b905f45d5b755d4f8b45ce017d7227d843cba081"
+  integrity sha512-lreSSov6kugFFmFWrs2fcNHqUe705wy3VTuHKNevTHWTrnQNZCzWEFHXf2j+Y65dbB5cpPenX0n3ZCUaPlTTGQ==
 
 noop-logger@^0.1.1:
   version "0.1.1"
