@@ -224,6 +224,7 @@ export interface IApPerson extends IObject {
 	featured?: any;
 	outbox: any;
 	endpoints: any;
+	'vcard:bday'?: string;
 }
 
 export const valiedActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];

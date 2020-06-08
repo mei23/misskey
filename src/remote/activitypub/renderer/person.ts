@@ -88,7 +88,7 @@ export default async (user: ILocalUser) => {
 		...hashtagTags,
 	];
 
-	return {
+	const person = {
 		type: isSystem ? 'Application' : user.isBot ? 'Service' : 'Person',
 		id,
 		inbox: `${id}/inbox`,
@@ -108,6 +108,12 @@ export default async (user: ILocalUser) => {
 		manuallyApprovesFollowers: user.isLocked || user.carefulRemote,
 		publicKey: renderKey(user, `#main-key`),
 		isCat: user.isCat,
-		attachment: attachment.length ? attachment : undefined
-	};
+		attachment: attachment.length ? attachment : undefined,
+	} as any;
+
+	if (user.profile?.birthday) {
+		person['vcard:bday'] = user.profile.birthday;
+	}
+
+	return person;
 };

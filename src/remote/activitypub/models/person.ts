@@ -130,6 +130,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 	// const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
 	const alsoKnownAsUserIds: mongo.ObjectID[] = [];
 
+	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
+
 	// Create user
 	let user: IRemoteUser;
 	try {
@@ -163,6 +165,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			fields,
 			...services,
 			tags,
+			birthday: bday ? bday[0] : undefined,
 			isBot: object.type == 'Service',
 			isGroup: object.type == 'Group',
 			isOrganization: object.type == 'Organization',
@@ -333,6 +336,8 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
 	const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
 
+	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
+
 	const updates = {
 		lastFetchedAt: new Date(),
 		inbox: person.inbox,
@@ -352,6 +357,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 		fields,
 		...services,
 		tags,
+		birthday: bday ? bday[0] : undefined,
 		isBot: object.type == 'Service',
 		isGroup: object.type == 'Group',
 		isOrganization: object.type == 'Organization',
