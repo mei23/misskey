@@ -39,10 +39,10 @@
 					</dl>
 				</div>
 				<div class="info">
-					<p class="location" v-if="user.host === null && user.profile.location">
+					<p class="location" v-if="user.profile && user.profile.location">
 						<fa icon="map-marker"/>{{ user.profile.location }}
 					</p>
-					<p class="birthday" v-if="user.host === null && user.profile.birthday">
+					<p class="birthday" v-if="user.profile && user.profile.birthday">
 						<fa icon="birthday-cake"/>{{ user.profile.birthday.replace('-', '年').replace('-', '月') + '日' }} ({{ $t('years-old', { age }) }})
 					</p>
 				</div>

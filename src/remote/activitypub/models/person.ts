@@ -165,7 +165,9 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			fields,
 			...services,
 			tags,
-			birthday: bday ? bday[0] : undefined,
+			profile: {
+				birthday: bday ? bday[0] : undefined,
+			},
 			isBot: object.type == 'Service',
 			isGroup: object.type == 'Group',
 			isOrganization: object.type == 'Organization',
@@ -357,7 +359,9 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 		fields,
 		...services,
 		tags,
-		birthday: bday ? bday[0] : undefined,
+		profile: {
+			birthday: bday ? bday[0] : undefined,
+		},
 		isBot: object.type == 'Service',
 		isGroup: object.type == 'Group',
 		isOrganization: object.type == 'Organization',
