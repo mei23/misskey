@@ -115,5 +115,9 @@ export default async (user: ILocalUser) => {
 		person['vcard:bday'] = user.profile.birthday;
 	}
 
+	if (user.profile?.location) {
+		person['vcard:Address'] = user.profile.location;
+	}
+
 	return person;
 };

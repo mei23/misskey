@@ -167,6 +167,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			tags,
 			profile: {
 				birthday: bday ? bday[0] : undefined,
+				location: person['vcard:Address'] || undefined,
 			},
 			isBot: object.type == 'Service',
 			isGroup: object.type == 'Group',
@@ -361,6 +362,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 		tags,
 		profile: {
 			birthday: bday ? bday[0] : undefined,
+			location: person['vcard:Address'] || undefined,
 		},
 		isBot: object.type == 'Service',
 		isGroup: object.type == 'Group',
