@@ -1,7 +1,7 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import User from '../../../../models/user';
-import Following from '../../../../models/following';
+import User, { IUser } from '../../../../models/user';
+import Following, { IFollowing } from '../../../../models/following';
 import { pack } from '../../../../models/user';
 import { getFriendIds } from '../../common/get-friends';
 import define from '../../define';
@@ -95,15 +95,15 @@ export default define(meta, async (ps, me) => {
 
 	const user = await User.findOne(q);
 
+	if (user == null) {
+		throw new ApiError(meta.errors.noSuchUser);
+	}
+
 	if (!await canShowFollows(me, user)) {
 		return {
 			users: [],
 			next: null,
 		};
-	}
-
-	if (user === null) {
-		throw new ApiError(meta.errors.noSuchUser);
 	}
 
 	const query = {
@@ -135,12 +135,25 @@ export default define(meta, async (ps, me) => {
 		};
 	}
 
-	// Get followers
-	const following = await Following
-		.find(query, {
-			limit: ps.limit + 1,
-			sort: { _id: -1 }
-		});
+	const following = await Following.aggregate([{
+		$match: query
+	}, {
+		$sort: {
+			_id: -1
+		}
+	}, {
+		// join User
+		$lookup: {
+			from: 'users',
+			localField: 'followeeId',
+			foreignField: '_id',
+			as: '_user',
+		}
+	}, {
+		$unwind: '$_user'
+	}, {
+		$limit: ps.limit + 1,
+	}]) as (IFollowing & { _user: IUser })[];
 
 	// 「次のページ」があるかどうか
 	const inStock = following.length === ps.limit + 1;
@@ -148,7 +161,7 @@ export default define(meta, async (ps, me) => {
 		following.pop();
 	}
 
-	const users = await Promise.all(following.map(f => pack(f.followeeId, me, { detail: true })));
+	const users = await Promise.all(following.map(f => pack(f._user, me, { detail: true })));
 
 	return {
 		users: users,
