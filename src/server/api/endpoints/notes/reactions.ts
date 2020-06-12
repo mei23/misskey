@@ -91,7 +91,7 @@ export default define(meta, async (ps, user) => {
 		limit: ps.limit,
 		skip: ps.offset,
 		sort: sort
-	});
+	});	// TODO: JOIN
 
 	return await Promise.all(reactions.map(reaction => pack(reaction, user)));
 });

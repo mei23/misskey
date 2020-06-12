@@ -343,7 +343,7 @@ export default define(meta, async (ps, user) => {
 		maxTimeMS: 20000,
 		limit: ps.limit,
 		sort: sort
-	});
+	});	// TODO: JOIN
 
 	activeUsersChart.update(user);
 

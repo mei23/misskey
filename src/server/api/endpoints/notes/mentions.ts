@@ -1,11 +1,11 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Note from '../../../../models/note';
 import { getFriendIds, getFriends } from '../../common/get-friends';
 import { packMany } from '../../../../models/note';
 import define from '../../define';
 import read from '../../../../services/note/read';
 import { getHideUserIds } from '../../common/get-hide-users';
+import { findJoinedNotes } from '../../common/find-joinedn-notes';
 
 export const meta = {
 	desc: {
@@ -135,10 +135,7 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
-	const mentions = await Note.find(query, {
-		limit: ps.limit,
-		sort: sort
-	});
+	const mentions = await findJoinedNotes(query, sort, ps.limit!);
 
 	for (const note of mentions) {
 		read(user._id, note._id);

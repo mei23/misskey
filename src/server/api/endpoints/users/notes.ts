@@ -1,11 +1,11 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Note, { packMany, INote } from '../../../../models/note';
+import { packMany } from '../../../../models/note';
 import define from '../../define';
 import Following from '../../../../models/following';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
-import { IUser } from '../../../../models/user';
+import { findJoinedNotes } from '../../common/find-joinedn-notes';
 
 export const meta = {
 	desc: {
@@ -249,49 +249,6 @@ export default define(meta, async (ps, me) => {
 	}
 	//#endregion
 
-	const notes = await Note.aggregate([{
-		$match: query
-	}, {
-		$sort: sort
-	}, {
-		$limit: ps.limit,
-	}, {
-		// join User
-		$lookup: {
-			from: 'users',
-			let: { userId: '$userId' },
-			pipeline: [
-				{
-					$match: {
-						$expr: {
-							$eq: [ '$_id', '$$userId' ]
-						}
-					}
-				}, {
-					$project: {
-						name: true,
-						username: true,
-						host: true,
-						avatarColor: true,
-						avatarId: true,
-						bannerId: true,
-						emojis: true,
-						avoidSearchIndex: true,
-						hideFollows: true,
-						isCat: true,
-						isBot: true,
-						isOrganization: true,
-						isGroup: true,
-						isAdmin: true,
-						isVerified: true
-					}
-				}
-			],
-			as: 'user',
-		}
-	}, {
-		$unwind: '$user'
-	}]) as (INote & { user: IUser })[];
-
+	const notes = await findJoinedNotes(query, sort, ps.limit!);
 	return await packMany(notes, me);
 });

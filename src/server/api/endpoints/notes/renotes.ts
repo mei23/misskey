@@ -1,9 +1,10 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Note, { packMany } from '../../../../models/note';
+import { packMany } from '../../../../models/note';
 import define from '../../define';
 import { getNote } from '../../common/getters';
 import { ApiError } from '../../error';
+import { findJoinedNotes } from '../../common/find-joinedn-notes';
 
 export const meta = {
 	desc: {
@@ -82,10 +83,7 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
-	const renotes = await Note.find(query, {
-		limit: ps.limit,
-		sort: sort
-	});
+	const renotes = await findJoinedNotes(query, sort, ps.limit!);
 
 	return await packMany(renotes, user);
 });

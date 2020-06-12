@@ -92,7 +92,7 @@ export default define(meta, async (ps, user) => {
 	const notes = await Note.find(q, {
 		limit: ps.limit,
 		skip: ps.offset
-	});
+	});	// TODO: JOIN
 
 	return await packMany(notes, user);
 });

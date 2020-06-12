@@ -368,7 +368,7 @@ export default define(meta, async (ps, me) => {
 		},
 		limit: ps.limit,
 		skip: ps.offset
-	});
+	});	// TODO: JOIN
 
 	return await packMany(notes, me);
 });

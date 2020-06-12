@@ -1,8 +1,8 @@
 import $ from 'cafy';
-import Note from '../../../../models/note';
 import { packMany } from '../../../../models/note';
 import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
+import { findJoinedNotes } from '../../common/find-joinedn-notes';
 
 export const meta = {
 	desc: {
@@ -111,15 +111,7 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
-	const notes = await Note.find(query, {
-		limit: ps.limit,
-		sort: {
-			score: -1
-		},
-		hint: {
-			score: -1
-		}
-	});
+	const notes = await findJoinedNotes(query, { score: -1 }, ps.limit!);
 
 	return await packMany(notes, user);
 });

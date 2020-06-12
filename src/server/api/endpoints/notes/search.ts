@@ -415,7 +415,7 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		limit,
 		skip: offset,
 		sort,
-	});
+	});	// TODO: JOIN
 
 	return await packMany(notes, me);
 }
