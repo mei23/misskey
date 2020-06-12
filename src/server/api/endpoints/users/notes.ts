@@ -1,10 +1,11 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Note, { packMany } from '../../../../models/note';
+import Note, { packMany, INote } from '../../../../models/note';
 import define from '../../define';
 import Following from '../../../../models/following';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
+import { IUser } from '../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -248,10 +249,49 @@ export default define(meta, async (ps, me) => {
 	}
 	//#endregion
 
-	const notes = await Note.find(query, {
-		limit: ps.limit,
-		sort: sort
-	});
+	const notes = await Note.aggregate([{
+		$match: query
+	}, {
+		$sort: sort
+	}, {
+		// join User
+		$lookup: {
+			from: 'users',
+			let: { userId: '$userId' },
+			pipeline: [
+				{
+					$match: {
+						$expr: {
+							$eq: [ '$_id', '$$userId' ]
+						}
+					}
+				}, {
+					$project: {
+						name: true,
+						username: true,
+						host: true,
+						avatarColor: true,
+						avatarId: true,
+						bannerId: true,
+						emojis: true,
+						avoidSearchIndex: true,
+						hideFollows: true,
+						isCat: true,
+						isBot: true,
+						isOrganization: true,
+						isGroup: true,
+						isAdmin: true,
+						isVerified: true
+					}
+				}
+			],
+			as: 'user',
+		}
+	}, {
+		$unwind: '$user'
+	}, {
+		$limit: ps.limit,
+	}]) as (INote & { user: IUser })[];
 
 	return await packMany(notes, me);
 });

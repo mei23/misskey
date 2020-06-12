@@ -315,7 +315,7 @@ export const pack = async (
 	if (_note.geo) delete _note.geo.type;
 
 	// Populate user
-	_note.user = packUser(_note.userId, meId);
+	_note.user = packUser(_note.user || _note.userId, meId);
 
 	// Populate app
 	if (_note.appId) {
