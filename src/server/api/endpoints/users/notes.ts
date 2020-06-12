@@ -254,6 +254,8 @@ export default define(meta, async (ps, me) => {
 	}, {
 		$sort: sort
 	}, {
+		$limit: ps.limit,
+	}, {
 		// join User
 		$lookup: {
 			from: 'users',
@@ -289,8 +291,6 @@ export default define(meta, async (ps, me) => {
 		}
 	}, {
 		$unwind: '$user'
-	}, {
-		$limit: ps.limit,
 	}]) as (INote & { user: IUser })[];
 
 	return await packMany(notes, me);

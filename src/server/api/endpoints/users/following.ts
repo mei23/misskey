@@ -138,9 +138,9 @@ export default define(meta, async (ps, me) => {
 	const following = await Following.aggregate([{
 		$match: query
 	}, {
-		$sort: {
-			_id: -1
-		}
+		$sort: { _id: -1 }
+	}, {
+		$limit: ps.limit + 1,
 	}, {
 		// join User
 		$lookup: {
@@ -151,8 +151,6 @@ export default define(meta, async (ps, me) => {
 		}
 	}, {
 		$unwind: '$_user'
-	}, {
-		$limit: ps.limit + 1,
 	}]) as (IFollowing & { _user: IUser })[];
 
 	// 「次のページ」があるかどうか
