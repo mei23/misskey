@@ -2,7 +2,7 @@ import $ from 'cafy';
 import { packMany } from '../../../../models/note';
 import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
-import { findJoinedNotes } from '../../common/find-joinedn-notes';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {

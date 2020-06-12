@@ -5,7 +5,7 @@ import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
-import { findJoinedNotes } from '../../common/find-joinedn-notes';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {

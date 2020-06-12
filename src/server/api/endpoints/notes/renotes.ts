@@ -4,7 +4,7 @@ import { packMany } from '../../../../models/note';
 import define from '../../define';
 import { getNote } from '../../common/getters';
 import { ApiError } from '../../error';
-import { findJoinedNotes } from '../../common/find-joinedn-notes';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {

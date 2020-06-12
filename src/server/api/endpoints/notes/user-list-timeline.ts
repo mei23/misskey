@@ -10,7 +10,7 @@ import { isSelfHost } from '../../../../misc/convert-host';
 import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
 import _ = require('lodash');
 import { concat } from '../../../../prelude/array';
-import { findJoinedNotes } from '../../common/find-joinedn-notes';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {

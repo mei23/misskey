@@ -11,7 +11,7 @@ import UserList from '../../../../models/user-list';
 import { concat } from '../../../../prelude/array';
 import { isSelfHost } from '../../../../misc/convert-host';
 import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
-import { findJoinedNotes } from '../../common/find-joinedn-notes';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {

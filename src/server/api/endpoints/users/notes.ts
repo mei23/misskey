@@ -5,7 +5,7 @@ import define from '../../define';
 import Following from '../../../../models/following';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
-import { findJoinedNotes } from '../../common/find-joinedn-notes';
+import { findJoinedNotes } from '../../common/find-joined-notes';
 
 export const meta = {
 	desc: {
