@@ -1,11 +1,12 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import Notification from '../../../../models/notification';
+import Notification, { INotification } from '../../../../models/notification';
 import { packMany } from '../../../../models/notification';
 import { getFriendIds } from '../../common/get-friends';
 import read from '../../common/read-notification';
 import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
+import { IUser } from '../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -112,12 +113,51 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
-	const notifications = await Notification
-		.find(query, {
-			maxTimeMS: 20000,
-			limit: ps.limit,
-			sort: sort
-		});
+	const notifications = await Notification.aggregate([{
+		$match: query
+	}, {
+		$sort: sort
+	}, {
+		$limit: ps.limit,
+	}, {
+		// join User
+		$lookup: {
+			from: 'users',
+			let: { userId: '$userId' },
+			pipeline: [
+				{
+					$match: {
+						$expr: {
+							$eq: [ '$_id', '$$userId' ]
+						}
+					}
+				}, {
+					$project: {
+						name: true,
+						username: true,
+						host: true,
+						avatarColor: true,
+						avatarId: true,
+						bannerId: true,
+						emojis: true,
+						avoidSearchIndex: true,
+						hideFollows: true,
+						isCat: true,
+						isBot: true,
+						isOrganization: true,
+						isGroup: true,
+						isAdmin: true,
+						isVerified: true
+					}
+				}
+			],
+			as: 'user',
+		}
+	}, {
+		$unwind: '$user'
+	}], {
+		maxTimeMS: 20000
+	}) as (INotification & { user: IUser })[];
 
 	// Mark all as read
 	if (notifications.length > 0 && ps.markAsRead) {

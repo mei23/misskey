@@ -90,7 +90,7 @@ export const pack = (notification: any) => new Promise<any>(async (resolve, reje
 	delete _notification.notifieeId;
 
 	// Populate notifier
-	_notification.user = await packUser(_notification.userId, me);
+	_notification.user = await packUser(_notification.user || _notification.userId, me);
 
 	switch (_notification.type) {
 		case 'follow':
