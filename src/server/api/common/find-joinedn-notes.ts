@@ -1,7 +1,7 @@
 import Note, { INote } from '../../../models/note';
 import { IUser } from '../../../models/user';
 
-export async function findJoinedNotes(query: any, sort: any, limit: number) {
+export async function findJoinedNotes(query: any, sort: any, limit: number, maxTimeMS = 60000) {
 	const notes = await Note.aggregate([{
 		$match: query
 	}, {
@@ -44,7 +44,9 @@ export async function findJoinedNotes(query: any, sort: any, limit: number) {
 		}
 	}, {
 		$unwind: '$user'
-	}]) as (INote & { user: IUser })[];
+	}], {
+		maxTimeMS
+	}) as (INote & { user: IUser })[];
 
 	return notes;
 }
