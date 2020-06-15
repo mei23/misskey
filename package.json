@@ -204,7 +204,7 @@
 		"tmp": "0.2.1",
 		"ts-loader": "7.0.5",
 		"ts-node": "8.10.2",
-		"tslint": "5.20.1",
+		"tslint": "6.1.2",
 		"tslint-sonarts": "1.9.0",
 		"typescript": "3.9.5",
 		"url-loader": "4.1.0",
