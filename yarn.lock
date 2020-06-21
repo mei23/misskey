@@ -518,10 +518,10 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-7.0.2.tgz#b17f16cf933597e10d6d78eae3251e692ce8b0ce"
   integrity sha512-ZvO2tAcjmMi8V/5Z3JsyofMe3hasRcaw88cto5etSVMwVQfeivGAlEYmaQgceUSVYFofVjT+ioHsATjdWcFt1w==
 
-"@types/mongodb@3.5.22":
-  version "3.5.22"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.5.22.tgz#860d97e92933f790b65842db06340672a06cecb1"
-  integrity sha512-5rfIExCN1hfyey8OEgpeRSwQyjLcMegtmO54Ag3KQLbRT41ydob3BYhb6uEIsTm7NbZqYPb2k+21Nw9sjON18w==
+"@types/mongodb@3.5.23":
+  version "3.5.23"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.5.23.tgz#e360ca025348bcc11328ce9a22099734401a2330"
+  integrity sha512-v4Ay/0av+oDUsj3P6TT6UIGDlLKnpnokO5e3TFR53FSOngc7QX+BBZ0KgnIk4Vtna6ODoL6Jcy/uQobvmCnn8g==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
@@ -9511,7 +9511,7 @@ thenify-all@^1.0.0:
   dependencies:
     thenify ">= 3.1.0 < 4"
 
-"thenify@>= 3.1.0 < 4", thenify@^3.3.1:
+"thenify@>= 3.1.0 < 4":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/thenify/-/thenify-3.3.1.tgz#8932e686a4066038a016dd9e2ca46add9838a95f"
   integrity sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==
