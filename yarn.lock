@@ -10326,10 +10326,10 @@ vue-js-modal@1.3.35:
   resolved "https://registry.yarnpkg.com/vue-js-modal/-/vue-js-modal-1.3.35.tgz#5f54de1a30a5f977121bfe6b2a1a5498bce2752a"
   integrity sha512-DKtxUCW/oprM/ndn9h/cnVgsmqjQ/ARy5rH4q/11Pas04og2td+sltl91H/rlwXTwJIqWyt+lJizK5o4ErjWIQ==
 
-vue-json-pretty@1.6.3:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/vue-json-pretty/-/vue-json-pretty-1.6.3.tgz#c7f378f3c9f68977047de28197735bc2cf81b15b"
-  integrity sha512-dgb04fT9PMndfCI4RiQcqaV5P0hSg97LObm15Mkzjl2hL+qWJd833tOd2RhK/yk8AieZt8eJUac5NTZb31O6Mg==
+vue-json-pretty@1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/vue-json-pretty/-/vue-json-pretty-1.6.4.tgz#da5b148674f18f7130a918d4a8dcb4373d4952e6"
+  integrity sha512-TCehrJGvTjmYUYJQojyexyT31yj67kcAxt3ELNPoJeGPeeQ+sIufyK/lKAzhJW82NDY2duuCw73fRxZv8NaeMg==
 
 vue-loader@15.9.3:
   version "15.9.3"
