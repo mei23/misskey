@@ -607,10 +607,10 @@
   dependencies:
     "@types/redis" "*"
 
-"@types/redis@*", "@types/redis@2.8.23":
-  version "2.8.23"
-  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.23.tgz#9a82ae862d14cb21090e7075590a1007a145be3d"
-  integrity sha512-VbwR9By89j9r3z2cYLdKJlm5hZpmTENVhOEyl/4uEQ+TIkgCI0f4YqokfNpKoo1bVyfWuvqFvDUf7E/MRe07Cg==
+"@types/redis@*", "@types/redis@2.8.24":
+  version "2.8.24"
+  resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.24.tgz#164d1d1b9f628d089e63874b072100c30d9d1c1a"
+  integrity sha512-I5LivNsNdEvBDJnBthjL4YAqD888eSf/k8kM5ROzgRHy7UE7n+ijwFVKqCSM4Ekujfb+3SDz/GbEhXWjnuI04w==
   dependencies:
     "@types/node" "*"
 
