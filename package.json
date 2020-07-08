@@ -87,7 +87,7 @@
 		"@types/uuid": "8.0.0",
 		"@types/web-push": "3.3.0",
 		"@types/webpack": "4.41.20",
-		"@types/websocket": "1.0.0",
+		"@types/websocket": "1.0.1",
 		"@types/ws": "7.2.6",
 		"@typescript-eslint/parser": "2.34.0",
 		"abort-controller": "3.0.0",
