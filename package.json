@@ -150,7 +150,7 @@
 		"koa-send": "5.0.0",
 		"koa-slow": "2.1.0",
 		"koa-views": "6.3.0",
-		"lodash": "4.17.15",
+		"lodash": "4.17.19",
 		"lookup-dns-cache": "2.1.0",
 		"mocha": "8.0.1",
 		"moment": "2.27.0",
