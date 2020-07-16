@@ -17,6 +17,7 @@ import DriveFile from './drive-file';
 import getDriveFileUrl from '../misc/get-drive-file-url';
 import UserFilter from './user-filter';
 import { transform } from '../misc/cafy-id';
+import { registerOrFetchInstanceDoc } from '../services/register-or-fetch-instance-doc';
 
 const User = db.get<IUser>('users');
 
@@ -467,6 +468,24 @@ export const pack = (
 		delete _user.hasUnreadSpecifiedNotes;
 		delete _user.hasUnreadMentions;
 	}
+
+	const fetchInstance = async () => {
+		const info = {
+			name: null as unknown,
+			softwareName: null as unknown,
+			softwareVersion: null as unknown,
+		};
+
+		if (_user.host == null) return info;
+
+		const instance = await registerOrFetchInstanceDoc(_user.host);
+		info.name = instance?.name || null;
+		info.softwareName = instance?.softwareName || null;
+		info.softwareVersion = instance?.softwareVersion || null;
+		return info;
+	};
+
+	_user.instance = fetchInstance();
 
 	// カスタム絵文字添付
 	if (_user.emojis) {
