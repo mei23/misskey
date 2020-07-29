@@ -37,6 +37,7 @@
 		<mk-avatar class="avatar" :user="appearNote.user"/>
 		<div class="main">
 			<mk-note-header class="header" :note="appearNote" :mini="narrow" :no-info="detail"/>
+			<x-instance-info v-if="appearNote.user.instance" :instance="appearNote.user.instance" />
 			<div class="body" v-if="appearNote.deletedAt == null">
 				<p v-if="appearNote.cw != null" class="cw">
 					<mfm v-if="appearNote.cw != ''" class="text" :text="appearNote.cw" :author="appearNote.user" :i="$store.state.i" :custom-emojis="appearNote.emojis" />
@@ -113,6 +114,7 @@ import XSub from './note.sub.vue';
 import noteMixin from '../../../common/scripts/note-mixin';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+import XInstanceInfo from '../../../common/views/components/instance-info.vue';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 
 export default Vue.extend({
@@ -120,7 +122,8 @@ export default Vue.extend({
 
 	components: {
 		XSub,
-		XVisibilityIcon
+		XVisibilityIcon,
+		XInstanceInfo,
 	},
 
 	mixins: [
