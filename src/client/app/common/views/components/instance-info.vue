@@ -11,6 +11,14 @@
 import Vue from 'vue';
 import { query as urlQuery } from '../../../../../prelude/url';
 
+type II = {
+	host?: string;
+	name?: string;
+	softwareName?: string;
+	softwareVersion?: string;
+	iconUrl?: string;
+};
+
 export default Vue.extend({ 
 	props: ['instance'],
 	data() {
@@ -18,23 +26,19 @@ export default Vue.extend({
 			urlQuery
 		}
 	},
-	computed: {
-		style(): any {
-		},
-	},
-	mounted() {
-	},
-	beforeDestroy() {
-	},
 	methods: {
-		getName(instance: any): string {
+		getName(instance: II): string {
 			if (!instance) return 'Unknown';
-			return instance.name ? `${instance.name} (${instance.host})` : `${instance.host})`;
+			return instance.name ? `${instance.name} (${instance.host})` : `${instance.host}`;
 		},
-		getDetail(instance: any): string {
-			if (!instance) return 'Unknown';
-			if (!instance.softwareName) return 'Unknown';
-			return instance.softwareVersion ? `${instance.softwareName} (${instance.softwareVersion})` : `${instance.softwareName})`;
+		getDetail(instance: II): string {
+			let s = this.getName(instance);
+
+			if (instance.softwareName) {
+				s += '\n' + (instance.softwareVersion ? `${instance.softwareName} (${instance.softwareVersion})` : `${instance.softwareName})`);
+			}
+
+			return s;
 		},
 	}
 });
