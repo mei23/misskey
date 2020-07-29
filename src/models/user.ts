@@ -484,6 +484,7 @@ export const pack = (
 			name: null as unknown,
 			softwareName: null as unknown,
 			softwareVersion: null as unknown,
+			iconUrl: null as unknown,
 		};
 
 		if (_user.host == null) return info;
@@ -492,6 +493,7 @@ export const pack = (
 		info.name = instance?.name || null;
 		info.softwareName = instance?.softwareName || null;
 		info.softwareVersion = instance?.softwareVersion || null;
+		info.iconUrl = instance?.iconUrl || null;
 		return info;
 	};
 
