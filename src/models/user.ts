@@ -19,6 +19,7 @@ import UserFilter from './user-filter';
 import { transform } from '../misc/cafy-id';
 import Usertag from './usertag';
 import { registerOrFetchInstanceDoc } from '../services/register-or-fetch-instance-doc';
+import { toApHost } from '../misc/convert-host';
 
 const User = db.get<IUser>('users');
 
@@ -480,16 +481,18 @@ export const pack = (
 	}
 
 	const fetchInstance = async () => {
+		if (_user.host == null) return null;
+
 		const info = {
+			host: null as unknown,
 			name: null as unknown,
 			softwareName: null as unknown,
 			softwareVersion: null as unknown,
 			iconUrl: null as unknown,
 		};
 
-		if (_user.host == null) return info;
-
 		const instance = await registerOrFetchInstanceDoc(_user.host);
+		info.host = toApHost(_user.host);
 		info.name = instance?.name || null;
 		info.softwareName = instance?.softwareName || null;
 		info.softwareVersion = instance?.softwareVersion || null;
