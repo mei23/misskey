@@ -21,7 +21,7 @@ export default async (user: ILocalUser, url: string, object: any) => {
 
 	await new Promise((resolve, reject) => {
 		const req = https.request({
-			agent: httpsAgent,
+			agent: httpsAgent as https.Agent,
 			protocol,
 			hostname,
 			port,

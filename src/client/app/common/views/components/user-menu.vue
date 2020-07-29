@@ -9,6 +9,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { faExclamationCircle, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
 import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
+import { faUserTag } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/user-menu.vue'),
@@ -28,6 +29,11 @@ export default Vue.extend({
 		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
 			menu = menu.concat([
 				null,
+				{
+					icon: faUserTag,
+					text: this.$t('@.addUsertag'),
+					action: this.addUsertag
+				},
 				{
 					icon: this.user.isHideRenoting ? ['fas', 'eye'] : ['far', 'eye-slash'],
 					text: this.user.isHideRenoting ? this.$t('unhide-renote') : this.$t('hide-renote'),
@@ -52,6 +58,7 @@ export default Vue.extend({
 			]);
 		}
 
+		// Admin or Moderator
 		if (this.$store.getters.isSignedIn && (this.$store.state.i.isAdmin || this.$store.state.i.isModerator)) {
 			menu = menu.concat([null, {
 				icon: faMicrophoneSlash,
@@ -73,6 +80,31 @@ export default Vue.extend({
 		closed() {
 			this.$nextTick(() => {
 				this.destroyDom();
+			});
+		},
+
+		async addUsertag() {
+			const { canceled, result: tag } = await this.$root.dialog({
+				title: this.$t('@.addUsertag'),
+				text: this.$t('@.addUsertagDetail'),
+				input: true
+			});
+
+			if (canceled) return;
+
+			this.$root.api('usertags/add', {
+				targetId: this.user.id,
+				tag
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					splash: true
+				});
+			}, e => {
+				this.$root.dialog({
+					type: 'error',
+					text: e
+				});
 			});
 		},
 

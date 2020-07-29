@@ -5,6 +5,7 @@ import define from '../../define';
 import { toDbHost, isSelfHost } from '../../../../misc/convert-host';
 import Instance from '../../../../models/instance';
 import { concat } from '../../../../prelude/array';
+import Usertag from '../../../../models/usertag';
 
 export const meta = {
 	desc: {
@@ -94,20 +95,35 @@ export default define(meta, async (ps, me) => {
 	const hideHosts = hideInstances.map(x => toDbHost(x.host));
 	const hideHostsForRemote = concat([hideHosts, [null]]);
 
-	// 表示名
+	// 表示名/ユーザータグ
 	if (isName) {
 		const name = ps.query.replace(/^-/, '');
 
-		// local
-		users = await User
-			.find({
-				host: null,
-				name: new RegExp('^' + escapeRegexp(name), 'i'),
-				isSuspended: { $ne: true }
-			}, {
-				limit: ps.limit,
-				skip: ps.offset
+		if (me) {
+			console.log(`me: ${me}`);
+			const usertags = await Usertag.find({
+				ownerId: me._id,
+				tags: name
 			});
+
+			users = await User.find({
+				_id: { $in: usertags.map(x => x.targetId ) }
+			});
+		}
+
+		if (users.length < ps.limit) {
+			// local
+			const otherUsers = await User
+				.find({
+					host: null,
+					name: new RegExp('^' + escapeRegexp(name), 'i'),
+					isSuspended: { $ne: true }
+				}, {
+					limit: ps.limit,
+					skip: ps.offset
+				});
+			users = users.concat(otherUsers);
+		}
 
 		if (users.length < ps.limit && !ps.localOnly) {
 			// try remote

@@ -55,7 +55,7 @@ export const meta = {
 
 		text: {
 			validator: $.optional.nullable.str.pipe(text =>
-				length(text.trim()) <= maxNoteTextLength && text.trim() != ''
+				length(text.trim()) <= maxNoteTextLength
 			),
 			default: null as any,
 			desc: {
@@ -243,6 +243,8 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user, app) => {
+	if (ps.text?.trim() === '') ps.text = null;
+
 	if (ps.visibility == null) {
 		ps.visibility = ps.renoteId ? 'home' : 'public';
 	}

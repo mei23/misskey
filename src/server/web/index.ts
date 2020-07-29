@@ -171,7 +171,9 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			me,
 			sub: ctx.params.sub,
 			instanceName: meta.name,
-			icon: meta.iconUrl
+			icon: config.icons?.favicon?.url,
+			iconType: config.icons?.favicon?.type,
+			appleTouchIcon: config.icons?.appleTouchIcon?.url,
 		});
 		ctx.set('Cache-Control', 'public, max-age=60');
 	} else {
@@ -233,7 +235,9 @@ router.get('/notes/:note', async ctx => {
 				summary: getNoteSummary(_note),
 				imageUrl,
 				instanceName: meta.name,
-				icon: meta.iconUrl
+				icon: config.icons?.favicon?.url,
+				iconType: config.icons?.favicon?.type,
+				appleTouchIcon: config.icons?.appleTouchIcon?.url,
 			});
 
 			if (['public', 'home'].includes(note.visibility)) {
@@ -273,8 +277,10 @@ router.get('/@:user/pages/:page', async ctx => {
 			initialMeta: htmlescape(builded),
 			page: _page,
 			instanceName: meta.name || 'Misskey',
-			icon: meta.iconUrl
-		});
+			icon: config.icons?.favicon?.url,
+			iconType: config.icons?.favicon?.type,
+			appleTouchIcon: config.icons?.appleTouchIcon?.url,
+});
 
 		if (['public'].includes(page.visibility)) {
 			ctx.set('Cache-Control', 'public, max-age=180');
@@ -324,8 +330,10 @@ router.get('*', async ctx => {
 		title: meta.name || 'Misskey',
 		instanceName: meta.name || 'Misskey',
 		desc,
-		icon: meta.iconUrl
-	});
+		icon: config.icons?.favicon?.url,
+		iconType: config.icons?.favicon?.type,
+		appleTouchIcon: config.icons?.appleTouchIcon?.url,
+});
 	ctx.set('Cache-Control', 'public, max-age=300');
 });
 

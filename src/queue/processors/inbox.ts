@@ -141,7 +141,8 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 		const set = {
 			latestRequestReceivedAt: new Date(),
 			lastCommunicatedAt: new Date(),
-			isNotResponding: false
+			isNotResponding: false,
+			isMarkedAsClosed: false,
 		} as any;
 
 		Instance.update({ _id: i._id }, {

@@ -35,7 +35,7 @@ export async function proxyMedia(ctx: Router.RouterContext) {
 
 		ctx.body = image.data;
 		ctx.set('Content-Type', image.type);
-		ctx.set('Cache-Control', 'max-age=31536000, immutable');
+		ctx.set('Cache-Control', 'max-age=604800, immutable');
 	} catch (e) {
 		serverLogger.error(e);
 

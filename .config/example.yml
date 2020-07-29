@@ -71,15 +71,30 @@ drive:
 # 未保存のリモートファイルをローカルでプロキシする (default: false)
 #proxyRemoteFiles: true
 
-# If enabled:
-#  The first account created is automatically marked as Admin.
-autoAdmin: true
-
+# Disable Federation: (default: false)
 #disableFederation: true
 
-#
-# Below settings are optional
-#
+# Disable URL Preview (default: false)
+#disableUrlPreview: true
+
+# Disable Posts (default: false)
+#disablePosts: true
+
+# 最初に作成したユーザーを管理者にする (default: true)
+autoAdmin: true
+
+# アイコン等の設定
+# favicon.urlをpngにする場合は、favicon.typeを'image/png'にする
+icons:
+  favicon:
+    url: '/favicon.ico'
+    type: 'image/x-icon'
+  appleTouchIcon:
+    url: '/apple-touch-icon.png'
+  manifest192:
+    url: '/assets/icons/192.png'
+  manifest512:
+    url: '/assets/icons/512.png'
 
 # Mecab検索インデックス
 #mecabSearch:

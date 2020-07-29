@@ -5,9 +5,14 @@
 </div>
 <div v-else-if="tweetId && tweetExpanded" class="twitter" ref="twitter">
 	<iframe ref="tweet" scrolling="no" frameborder="no" :style="{ 'margin-top': '8px', left: `${tweetLeft}px`, width: `${tweetLeft < 0 ? 'auto' : '100%'}`, height: `${tweetHeight}px` }" :src="`https://platform.twitter.com/embed/index.html?embedId=${embedId}&amp;hideCard=false&amp;hideThread=false&amp;lang=en&amp;theme=${$store.state.device.darkmode ? 'dark' : 'light'}&amp;id=${tweetId}`"></iframe>
+	<div class="expandTweet">
+		<a @click="tweetExpanded = false">
+			<fa :icon="faTwitter"/> {{ $t('collapseTweet') }}
+		</a>
+	</div>
 </div>
 <div v-else class="mk-url-preview">
-	<a :class="{ mini: narrow, compact }" :href="url" rel="nofollow noopener" target="_blank" :title="url" v-if="!fetching">
+	<a :class="{ mini: narrow, compact }" :href="landingUrl" rel="nofollow noopener" target="_blank" :title="landingUrl" v-if="!fetching">
 		<div class="thumbnail" v-if="thumbnail && (!sensitive || $store.state.device.alwaysShowNsfw)" :style="`background-image: url('${thumbnail}')`">
 			<button v-if="!playerEnabled && player.url" @click.prevent="playerEnabled = true" :title="$t('enable-player')"><fa :icon="['far', 'play-circle']"/></button>
 		</div>
@@ -41,7 +46,7 @@ export default Vue.extend({
 	props: {
 		url: {
 			type: String,
-			require: true
+			required: true
 		},
 
 		detail: {
@@ -66,6 +71,7 @@ export default Vue.extend({
 	data() {
 		return {
 			fetching: true,
+			landingUrl: this.url,
 			title: null,
 			description: null,
 			thumbnail: null,
@@ -111,6 +117,7 @@ export default Vue.extend({
 		fetch(`/url?url=${encodeURIComponent(requestUrl.href)}&lang=${requestLang}`).then(res => {
 			res.json().then(info => {
 				if (info.url == null) return;
+				this.landingUrl = info.url;
 				this.title = info.title;
 				this.description = info.description;
 				this.thumbnail = info.thumbnail;
@@ -119,6 +126,7 @@ export default Vue.extend({
 				this.sensitive = !!info.sensitive;
 				this.fetching = false;
 				this.player = info.player;
+				if (this.tweetId && this.player) this.player.url = null;
 			})
 		});
 
@@ -356,10 +364,10 @@ export default Vue.extend({
 					white-space nowrap
 					text-overflow ellipsis
 
-	> .expandTweet
-		display flex
+.expandTweet
+	display flex
 
-		> a
-			font-size small
-			color var(--text)
+	> a
+		font-size small
+		color var(--text)
 </style>

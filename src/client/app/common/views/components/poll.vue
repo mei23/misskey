@@ -46,9 +46,9 @@ export default Vue.extend({
 		},
 		timer(): string {
 			return this.$t(
-				this.remaining > 86400 ? 'remaining-days' :
-				this.remaining > 3600 ? 'remaining-hours' :
-				this.remaining > 60 ? 'remaining-minutes' : 'remaining-seconds')
+				this.remaining >= 86400 ? 'remaining-days' :
+				this.remaining >= 3600 ? 'remaining-hours' :
+				this.remaining >= 60 ? 'remaining-minutes' : 'remaining-seconds')
 				.replace('{s}', Math.floor(this.remaining % 60))
 				.replace('{m}', Math.floor(this.remaining / 60) % 60)
 				.replace('{h}', Math.floor(this.remaining / 3600) % 24)

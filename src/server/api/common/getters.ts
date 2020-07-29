@@ -44,7 +44,7 @@ export async function getUser(userId: mongo.ObjectID) {
 		}
 	});
 
-	if (user === null) {
+	if (user == null) {
 		throw new IdentifiableError('15348ddd-432d-49c2-8a5a-8069753becff', 'No such user.');
 	}
 

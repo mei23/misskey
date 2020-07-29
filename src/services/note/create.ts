@@ -35,6 +35,7 @@ import { genId } from '../../misc/gen-id';
 import DeliverManager from '../../remote/activitypub/deliver-manager';
 import { deliverToRelays } from '../relay';
 import { getIndexer, getWordIndexer } from '../../misc/mecab';
+import Following from '../../models/following';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -116,6 +117,8 @@ type Option = {
 };
 
 export default async (user: IUser, data: Option, silent = false) => new Promise<INote>(async (res, rej) => {
+	if (config.disablePosts) return rej({ status: 451 });
+
 	const isFirstNote = user.notesCount === 0;
 	const isPureRenote = data.text == null && data.poll == null && (data.files == null || data.files.length == 0);
 
@@ -329,8 +332,8 @@ export default async (user: IUser, data: Option, silent = false) => new Promise<
 	const nmRelatedPromises = [];
 
 	// Extended notification
-	if (note.visibility === 'public' || note.visibility === 'home') {
-		nmRelatedPromises.push(notifyExtended(note.text, nm));
+	if (note.visibility === 'public' || note.visibility === 'home' || note.visibility === 'followers') {
+		nmRelatedPromises.push(notifyExtended(note, nm));
 	}
 
 	// If has in reply to note
@@ -607,7 +610,8 @@ async function notifyToWatchersOfReplyee(reply: INote, user: IUser, nm: Notifica
 	}
 }
 
-async function notifyExtended(text: string, nm: NotificationManager) {
+async function notifyExtended(note: INote, nm: NotificationManager) {
+	const text = note.text;
 	if (!text) return;
 
 	const us = await User.find({
@@ -617,6 +621,15 @@ async function notifyExtended(text: string, nm: NotificationManager) {
 
 	for (const u of us) {
 		if (!isLocalUser(u)) continue;
+
+		if (note.visibility === 'followers') {
+			const followings = await Following.findOne({
+				followerId: u._id,
+				followeeId: note.userId
+			});
+
+			if (followings == null) return;
+		}
 
 		try {
 			const words: string[] = u.clientSettings.highlightedWords.filter((q: string) => q != null && q.length > 0);

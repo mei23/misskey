@@ -1,9 +1,10 @@
-import { getJson } from '../misc/fetch';
+import { getJson, getHtml } from '../misc/fetch';
 import Instance, { IInstance } from '../models/instance';
 import { toApHost } from '../misc/convert-host';
 import Logger from './logger';
 import { InboxRequestData } from '../queue';
 import { geoIpLookup } from './geoip';
+import { JSDOM } from 'jsdom';
 
 export const logger = new Logger('instanceinfo', 'cyan');
 
@@ -94,6 +95,19 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 			}
 		});
 	}
+
+	const iconUrl = await(fetchIconUrl(instance)).catch(e => {
+		logger.warn(`iconUrl failed for ${toApHost(instance.host!)} ${e}`);
+		return null;
+	});
+	if (iconUrl) {
+		logger.info(`iconUrl: ${toApHost(instance.host!)} => ${iconUrl}`);
+		await Instance.update({ _id: instance._id }, {
+			$set: {
+				iconUrl
+			}
+		});
+	}
 }
 
 export async function fetchInstanceinfo(host: string) {
@@ -157,4 +171,29 @@ async function fetchMastodonInstance(host: string) {
 	};
 
 	return json;
+}
+
+async function fetchIconUrl(instance: IInstance): Promise<string | null> {
+	const host = toApHost(instance.host);
+
+	logger.info(`Fetching icon URL of ${host} ...`);
+
+	const url = 'https://' + host;
+
+	const html = await getHtml(url);
+
+	const { window } = new JSDOM(html);
+	const doc = window.document;
+
+	const hrefAppleTouchIconPrecomposed = doc.querySelector('link[rel="apple-touch-icon-precomposed"]')?.getAttribute('href');
+	const hrefAppleTouchIcon = doc.querySelector('link[rel="apple-touch-icon"]')?.getAttribute('href');
+	const hrefIcon = doc.querySelector('link[rel="icon"]')?.getAttribute('href');
+
+	const href = hrefIcon || hrefAppleTouchIconPrecomposed || hrefAppleTouchIcon;
+
+	if (href) {
+		return (new URL(href, url)).href;
+	}
+
+	return null;
 }

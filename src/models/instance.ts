@@ -100,4 +100,5 @@ export interface IInstance {
 	isp?: string;
 	org?: string;
 	as?: string;
+	iconUrl?: string;
 }

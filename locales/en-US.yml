@@ -362,6 +362,10 @@ common:
   dev: "Failed to create the application. Please try again."
   ai-chan-kawaii: "Ai-chan kawaii!"
   you: "You"
+  addUsertag: "Add usertag"
+  addUsertagDetail: "The usertag cannot be seen by other users, you can suggest it with the @tag"
+  removeUsertagConfirm: "Are you sure you want to delete this user tag?"
+
 auth/views/form.vue:
   share-access: "Would you allow the following app to access your account?"
   permission-ask: "This application requires the following permissions:"
@@ -402,6 +406,7 @@ common/views/components/url-preview.vue:
   enable-player: "Enable playback"
   disable-player: "Close the player"
   expandTweet: "Expand tweet"
+  collapseTweet: "Collapse tweet"
 
 common/views/components/user-list.vue:
   no-users: "There are no users."

@@ -5,7 +5,7 @@
 import * as fs from 'fs';
 import { URL } from 'url';
 import * as yaml from 'js-yaml';
-import { Source, Mixin } from './types';
+import { Source, Mixin, Icons } from './types';
 import * as meta from '../meta.json';
 
 /**
@@ -30,6 +30,28 @@ export default function load() {
 	config.url = normalizeUrl(config.url);
 
 	config.port = config.port || parseInt(process.env.PORT || '', 10);
+
+	const icons = {
+		favicon: {
+			url: '/favicon.ico',
+			type: 'image/x-icon'
+		},
+		appleTouchIcon: {
+			url: '/apple-touch-icon.png'
+		},
+		manifest192: {
+			url: '/assets/icons/192.png'
+		},
+		manifest512: {
+			url: '/assets/icons/512.png'
+		}
+	} as Icons;
+
+	if (config.icons) {
+		Object.assign(icons, config.icons);
+	}
+
+	config.icons = icons;
 
 	mixin.version = meta.version;
 	mixin.host = url.host;

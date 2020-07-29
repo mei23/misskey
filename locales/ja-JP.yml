@@ -387,6 +387,9 @@ common:
   dev: "アプリの作成に失敗しました。再度お試しください。"
   ai-chan-kawaii: "藍ちゃかわいい"
   you: "あなた"
+  addUsertag: "ユーザータグを追加"
+  addUsertagDetail: "ユーザータグは他のユーザーは見れません, @タグでサジェストすることが出来ます"
+  removeUsertagConfirm: "このユーザータグを削除しますか？"
 
 auth/views/form.vue:
   share-access: "以下のアプリがあなたのアカウントにアクセスすることを許可しますか？"
@@ -431,6 +434,7 @@ common/views/components/url-preview.vue:
   enable-player: "プレイヤーを開く"
   disable-player: "プレイヤーを閉じる"
   expandTweet: "ツイートを展開する"
+  collapseTweet: "ツイートを閉じる"
 
 common/views/components/user-list.vue:
   no-users: "ユーザーがいません"

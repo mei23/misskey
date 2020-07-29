@@ -60,6 +60,9 @@
 						<i>{{ $t('followers') }}</i>
 					</router-link>
 				</div>
+				<div class="usertags">
+					<a class="usertag" v-for="usertag in user.usertags" :key="usertag" @click="removeUsertag(usertag)"><fa :icon="faUserTag"/>{{ usertag }}</a>
+				</div>
 			</div>
 		</header>
 		<nav v-if="$route.name == 'user'">
@@ -92,6 +95,7 @@ import XListMenu from '../../../../common/views/components/list-menu.vue';
 import XHome from './home.vue';
 import { getStaticImageUrl } from '../../../../common/scripts/get-static-image-url';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
+import { faUserTag } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/user.vue'),
@@ -103,7 +107,8 @@ export default Vue.extend({
 		return {
 			fetching: true,
 			user: null,
-			page: this.$route.name == 'user' ? 'home' : null
+			page: this.$route.name == 'user' ? 'home' : null,
+			faUserTag
 		};
 	},
 	computed: {
@@ -153,6 +158,31 @@ export default Vue.extend({
 			this.$root.new(XListMenu, {
 				source: this.$refs.listMenu,
 				user: this.user
+			});
+		},
+
+		async removeUsertag(usertag: string) {
+			const { canceled } = await this.$root.dialog({
+				type: 'warning',
+				title: this.$t('@.removeUsertagConfirm'),
+				showCancelButton: true,
+			});
+
+			if (canceled) return;
+
+			this.$root.api('usertags/remove', {
+				targetId: this.user.id,
+				tag: usertag
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					splash: true
+				});
+			}, (e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e
+				});
 			});
 		},
 	}
@@ -331,6 +361,13 @@ export default Vue.extend({
 						font-size 14px
 
 				> button
+					color var(--text)
+
+			> .usertags
+				margin-left -0.5em
+
+				> .usertag
+					margin-left 0.5em
 					color var(--text)
 
 	> nav

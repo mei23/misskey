@@ -12,7 +12,8 @@ html
 		meta(name='referrer' content='origin')
 		meta(name='theme-color' content='#5A0608')
 		meta(property='og:site_name' content= instanceName || 'Misskey')
-		link(rel='icon' href= icon || '/favicon.ico')
+		link(rel='icon' href= icon || '/favicon.ico' type= iconType || 'image/x-icon')
+		link(rel='apple-touch-icon' href= appleTouchIcon || '/apple-touch-icon.png')
 		link(rel='manifest' href='/manifest.json')
 
 		title

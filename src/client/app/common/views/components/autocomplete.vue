@@ -182,7 +182,7 @@ export default Vue.extend({
 					localOnly: !!this.localOnly,
 					limit: 20,
 					detail: false
-				}, false, true).then(users => {
+				}, false, false).then(users => {
 					this.users = users;
 					this.fetching = false;
 				});

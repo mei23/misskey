@@ -63,6 +63,9 @@
 					</router-link>
 				</div>
 			</div>
+			<div class="usertags">
+				<a class="usertag" v-for="usertag in user.usertags" :key="usertag" @click="removeUsertag(usertag)"><fa :icon="faUserTag"/>{{ usertag }}</a>
+			</div>
 		</div>
 		<router-view :user="user"></router-view>
 	</div>
@@ -78,6 +81,7 @@ import XUserMenu from '../../../common/views/components/user-menu.vue';
 import XListMenu from '../../../common/views/components/list-menu.vue';
 import XIntegrations from '../../../common/views/components/integrations.vue';
 import ImageViewer from '../../../common/views/components/image-viewer.vue';
+import { faUserTag } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('deck/deck.user-column.vue'),
@@ -89,6 +93,7 @@ export default Vue.extend({
 		return {
 			user: null,
 			fetching: true,
+			faUserTag
 		};
 	},
 
@@ -149,6 +154,32 @@ export default Vue.extend({
 			});
 			this.$once('hook:beforeDestroy', () => {
 				w.destroyDom();
+			});
+		},
+
+
+		async removeUsertag(usertag: string) {
+			const { canceled } = await this.$root.dialog({
+				type: 'warning',
+				title: this.$t('@.removeUsertagConfirm'),
+				showCancelButton: true,
+			});
+
+			if (canceled) return;
+
+			this.$root.api('usertags/remove', {
+				targetId: this.user.id,
+				tag: usertag
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					splash: true
+				});
+			}, (e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e
+				});
 			});
 		},
 	}
@@ -301,4 +332,10 @@ export default Vue.extend({
 						font-size 80%
 						opacity 0.7
 
+		> .usertags
+			margin-left -0.5em
+
+			> .usertag
+				margin-left 0.5em
+				color var(--text)
 </style>
