@@ -159,7 +159,7 @@
 		"mecab-async": "0.1.2",
 		"mocha": "8.1.0",
 		"moment": "2.27.0",
-		"mongodb": "3.5.9",
+		"mongodb": "3.6.0",
 		"monk": "7.3.1",
 		"ms": "2.1.2",
 		"multer": "1.4.2",
