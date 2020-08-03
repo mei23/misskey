@@ -7,7 +7,7 @@ WORKDIR /misskey
 FROM base AS builder
 
 RUN apt-get update
-RUN apt-get install -y build-essential ffmpeg
+RUN apt-get install -y build-essential ffmpeg mecab mecab-ipadic-utf8
 
 COPY package.json yarn.lock ./
 RUN yarn install
