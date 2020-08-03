@@ -29,6 +29,7 @@
 		"no-constant-condition": ["error", { "checkLoops": false }],
 		"no-irregular-whitespace": ["error", { "skipComments": true, "skipRegExps": true, "skipTemplates": true }],
 		"no-prototype-builtins": "off",
+		"no-trailing-spaces": "error",
 		"no-empty": "off"
 	},
 	"globals": {
