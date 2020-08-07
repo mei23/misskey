@@ -1546,10 +1546,10 @@ autwh@0.1.0:
   dependencies:
     oauth "0.9.15"
 
-aws-sdk@2.726.0:
-  version "2.726.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.726.0.tgz#075aae1922e67e21285abae1bb081252cff4fec3"
-  integrity sha512-QRQ7MaW5dprdr/T3vCTC+J8TeUfpM45yWsBuATPcCV/oO8afFHVySwygvGLY4oJuo5Mf4mJn3+JYTquo6CqiaA==
+aws-sdk@2.728.0:
+  version "2.728.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.728.0.tgz#381805dcac7835b5686694e9468d104595bfce42"
+  integrity sha512-pUVSxb+04urr6BMHg32Op+kT1IWGmwbelrQKMdLnvgcgysmBu1P4XbGBg8/SmAXWfuqqWjz8YnmFNY46VJE43A==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -10014,7 +10014,7 @@ uuid@3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
-uuid@8.3.0:
+uuid@8.3.0, uuid@^8.2.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
   integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
@@ -10023,11 +10023,6 @@ uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
-
-uuid@^8.2.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.2.0.tgz#cb10dd6b118e2dada7d0cd9730ba7417c93d920e"
-  integrity sha512-CYpGiFTUrmI6OBMkAdjSDM0k5h8SkkiTP4WAjQgDgNB1S3Ou9VBEvr6q0Kv2H1mMk7IWfxYGpMH5sd5AvcIV2Q==
 
 v-animate-css@0.0.3:
   version "0.0.3"
