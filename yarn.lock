@@ -1838,10 +1838,10 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
 
-bull@3.17.0:
-  version "3.17.0"
-  resolved "https://registry.yarnpkg.com/bull/-/bull-3.17.0.tgz#fc9da5d1cf1c7f4b37591b70bd88209f52bc521c"
-  integrity sha512-7wzJoN0LjzgIwcv9SDiq+AT9R49xJAziSsrRkbEedunkgPklaug/PUOzo/qyytMlKNnHx6E597uxUuV0QgiPbw==
+bull@3.18.0:
+  version "3.18.0"
+  resolved "https://registry.yarnpkg.com/bull/-/bull-3.18.0.tgz#7d7730c8ab0975ea9ee4e74f6f85bd731c3526cb"
+  integrity sha512-nE/BKlg1dnJ/AcOy5D1nzthcmpAKqpUVXzQ43mJfnVC8ZM7mi4ZzP3spN7745UuikzmGGsbTe9px2TbEKhR+DQ==
   dependencies:
     cron-parser "^2.13.0"
     debuglog "^1.0.0"
