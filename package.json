@@ -151,7 +151,7 @@
 		"koa-send": "5.0.1",
 		"koa-slow": "2.1.0",
 		"koa-views": "6.3.0",
-		"lodash": "4.17.19",
+		"lodash": "4.17.20",
 		"lookup-dns-cache": "2.1.0",
 		"mecab-async": "0.1.2",
 		"mocha": "8.1.1",
