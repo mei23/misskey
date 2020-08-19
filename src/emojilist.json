@@ -279,7 +279,6 @@
 	{ "category": "people", "char": "\uD83E\uDDD1\u200D\uD83C\uDF7C", "name": "person_feeding_baby", "st": 1, "keywords": [] },
 	{ "category": "people", "char": "👸", "name": "princess", "st": 1, "keywords": ["girl", "woman", "female", "blond", "crown", "royal", "queen"] },
 	{ "category": "people", "char": "🤴", "name": "prince", "st": 1, "keywords": ["boy", "man", "male", "crown", "royal", "king"] },
-	{ "category": "people", "char": "🤴", "name": "prince", "st": 1, "keywords": ["boy", "man", "male", "crown", "royal", "king"] },
 	{ "category": "people", "char": "👰", "name": "person_with_veil", "st": 1, "keywords": ["couple", "marriage", "wedding", "woman", "bride"] },
 	{ "category": "people", "char": "👰", "name": "bride_with_veil", "st": 1, "keywords": ["couple", "marriage", "wedding", "woman", "bride"] },
 	{ "category": "people", "char": "🤵", "name": "person_in_tuxedo", "st": 1, "keywords": ["couple", "marriage", "wedding", "groom"] },
