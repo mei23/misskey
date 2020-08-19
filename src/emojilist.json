@@ -116,7 +116,7 @@
 	{ "category": "people", "char": "👏", "name": "clap", "st": 1, "keywords": ["hands", "praise", "applause", "congrats", "yay"] },
 	{ "category": "people", "char": "👋", "name": "wave", "st": 1, "keywords": ["hands", "gesture", "goodbye", "solong", "farewell", "hello", "hi", "palm"] },
 	{ "category": "people", "char": "🤙", "name": "call_me_hand", "st": 1, "keywords": ["hands", "gesture"] },
-	{ "category": "people", "char": "👍", "name": "+1", "keywords": ["thumbsup", "yes", "awesome", "good", "agree", "accept", "cool", "hand", "like"] },
+	{ "category": "people", "char": "👍", "name": "+1", "st": 1, "keywords": ["thumbsup", "yes", "awesome", "good", "agree", "accept", "cool", "hand", "like"] },
 	{ "category": "people", "char": "👎", "name": "-1", "st": 1, "keywords": ["thumbsdown", "no", "dislike", "hand"] },
 	{ "category": "people", "char": "👊", "name": "facepunch", "st": 1, "keywords": ["angry", "violence", "fist", "hit", "attack", "hand"] },
 	{ "category": "people", "char": "✊", "name": "fist", "st": 1, "keywords": ["fingers", "hand", "grasp"] },
