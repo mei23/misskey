@@ -219,8 +219,16 @@ export default Vue.extend({
 
 		getSkinToneModifiedChar(char: string, skinTone: string | null | undefined): string {
 			if (!skinTone) return char;
-			let sgs = Array.from(char);
-			sgs.splice(1, 0, skinTone);
+
+			let sgs = Array.from(char);	// split by surrogate pair
+
+			// 2文字目に挿入するが、そこが絵文字セレクタなら置き換える
+			if (sgs[1] === '\u{FE0F}') {
+				sgs.splice(1, 1, skinTone);
+			} else {
+				sgs.splice(1, 0, skinTone);
+			}
+
 			return sgs.join('');
 		},
 
