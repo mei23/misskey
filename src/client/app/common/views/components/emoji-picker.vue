@@ -28,15 +28,23 @@
 			</div>
 		</template>
 
-		<header class="category"><fa :icon="categories.find(x => x.isActive).icon" fixed-width/> {{ categories.find(x => x.isActive).text }}</header>
+		<header class="category">
+			<fa :icon="categories.find(x => x.isActive).icon" fixed-width/>
+			{{ categories.find(x => x.isActive).text }}
+			<div class="skinTones">
+				<button class="skinTone" v-for="st in SKIN_TONES" :key="st" @click="skinTone = st">
+					<mk-emoji :emoji="getSkinToneModifiedChar(SKIN_TONES_SAMPLE, st)"/>
+				</button>
+			</div>
+		</header>
 		<template v-if="categories.find(x => x.isActive).name">
 			<div class="list">
 				<button v-for="emoji in emojilist.filter(e => e.category === categories.find(x => x.isActive).name)"
 					:title="emoji.name"
 					@click="chosen(emoji)"
-					:key="emoji.name"
+					:key="`${emoji.name}-${skinTone}`"
 				>
-					<mk-emoji :emoji="emoji.char"/>
+					<mk-emoji :emoji="emojiToSkinToneModifiedChar(emoji, skinTone)"/>
 				</button>
 			</div>
 		</template>
@@ -83,6 +91,9 @@ import { faAsterisk, faUser, faLeaf, faUtensils, faFutbol, faCity, faDice, faGlo
 import { faHeart, faFlag } from '@fortawesome/free-regular-svg-icons';
 import { groupBy } from '../../../../../prelude/array';
 
+const SKIN_TONES_SAMPLE = '\u{1F44D}';	// thumbs up
+const SKIN_TONES = [ null, '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}' ];
+
 export default Vue.extend({
 	i18n: i18n('common/views/components/emoji-picker.vue'),
 
@@ -101,11 +112,13 @@ export default Vue.extend({
 
 	data() {
 		return {
+			SKIN_TONES_SAMPLE, SKIN_TONES,
 			pinned: false,
 			emojilist,
 			getStaticImageUrl,
 			customEmojis: {},
 			remoteEmojis: null,
+			skinTone: null,
 			faGlobe, faHistory,
 			categories: [{
 				text: this.$t('custom-emoji'),
@@ -194,6 +207,21 @@ export default Vue.extend({
 			if (!matched) {
 				this.categories[0].isActive = true;
 			}
+		},
+
+		emojiToSkinToneModifiedChar(emoji: any, skinTone: string | null | undefined): string {
+			if (emoji.st === 1) {
+				return this.getSkinToneModifiedChar(emoji.char, skinTone);
+			} else {
+				return emoji.char;
+			}
+		},
+
+		getSkinToneModifiedChar(char: string, skinTone: string | null | undefined): string {
+			if (!skinTone) return char;
+			let sgs = Array.from(char);
+			sgs.splice(1, 0, skinTone);
+			return sgs.join('');
 		},
 
 		chosen(emoji: any) {
