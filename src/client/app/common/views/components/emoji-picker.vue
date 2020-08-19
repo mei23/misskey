@@ -31,7 +31,7 @@
 		<header class="category">
 			<fa :icon="categories.find(x => x.isActive).icon" fixed-width/>
 			{{ categories.find(x => x.isActive).text }}
-			<div class="skinTones">
+			<div class="skinTones" v-if="categories.find(x => x.isActive).name === 'people'">
 				<button class="skinTone" v-for="st in SKIN_TONES" :key="st" @click="skinTone = st">
 					<mk-emoji :emoji="getSkinToneModifiedChar(SKIN_TONES_SAMPLE, st)"/>
 				</button>
