@@ -41,7 +41,7 @@
 			<div class="list">
 				<button v-for="emoji in emojilist.filter(e => e.category === categories.find(x => x.isActive).name)"
 					:title="emoji.name"
-					@click="chosen(emoji)"
+					@click="chosen(emoji, skinTone)"
 					:key="`${emoji.name}-${skinTone}`"
 				>
 					<mk-emoji :emoji="emojiToSkinToneModifiedChar(emoji, skinTone)"/>
@@ -224,8 +224,8 @@ export default Vue.extend({
 			return sgs.join('');
 		},
 
-		chosen(emoji: any) {
-			const getKey = (emoji: any) => emoji.char || `:${emoji.name}:`;
+		chosen(emoji: any, skinTone?: string) {
+			const getKey = (emoji: any) => emoji.char ? this.getSkinToneModifiedChar(emoji.char, skinTone) : `:${emoji.name}:`;
 
 			let recents = this.$store.state.device.recentEmojis || [];
 			recents = recents.filter((e: any) => getKey(e) !== getKey(emoji));
@@ -281,6 +281,14 @@ export default Vue.extend({
 			background var(--popupBg)
 			color var(--text)
 			font-size 12px
+
+			> .skinTones
+				display inline-flex
+				position absolute
+				right 8px
+
+				> .skinTone
+					padding: 0 3px
 
 		>>> header.sub
 			padding 4px 8px
