@@ -32,7 +32,7 @@
 			<fa :icon="categories.find(x => x.isActive).icon" fixed-width/>
 			{{ categories.find(x => x.isActive).text }}
 			<div class="skinTones" v-if="categories.find(x => x.isActive).name === 'people'">
-				<button class="skinTone" v-for="st in SKIN_TONES" :key="st" @click="skinTone = st">
+				<button class="skinTone" v-for="st in SKIN_TONES" :key="st" @click="changeSkinTone(st)">
 					<mk-emoji :emoji="getSkinToneModifiedChar(SKIN_TONES_SAMPLE, st)"/>
 				</button>
 			</div>
@@ -112,7 +112,8 @@ export default Vue.extend({
 
 	data() {
 		return {
-			SKIN_TONES_SAMPLE, SKIN_TONES,
+			SKIN_TONES_SAMPLE,
+			SKIN_TONES,
 			pinned: false,
 			emojilist,
 			getStaticImageUrl,
@@ -181,6 +182,10 @@ export default Vue.extend({
 		if (this.$store.state.device.activeEmojiCategoryName) {
 			this.goCategory(this.$store.state.device.activeEmojiCategoryName);
 		}
+
+		if (SKIN_TONES.includes(this.$store.state.device.emojiSkinTone)) {
+			this.skinTone = this.$store.state.device.emojiSkinTone;
+		}
 	},
 
 	methods: {
@@ -207,6 +212,11 @@ export default Vue.extend({
 			if (!matched) {
 				this.categories[0].isActive = true;
 			}
+		},
+
+		changeSkinTone(skinTone: string) {
+			this.skinTone = skinTone;
+			this.$store.commit('device/set', { key: 'emojiSkinTone', value: skinTone });
 		},
 
 		emojiToSkinToneModifiedChar(emoji: any, skinTone: string | null | undefined): string {
