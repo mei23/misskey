@@ -223,7 +223,7 @@
 		"vue-style-loader": "4.1.2",
 		"vue-svg-inline-loader": "1.5.0",
 		"vue-template-compiler": "2.6.11",
-		"vuedraggable": "2.24.0",
+		"vuedraggable": "2.24.1",
 		"vuewordcloud": "18.7.11",
 		"vuex": "3.5.1",
 		"vuex-persistedstate": "3.1.0",
