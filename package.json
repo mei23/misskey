@@ -116,7 +116,7 @@
 		"double-ended-queue": "2.1.0-0",
 		"elasticsearch": "16.6.0",
 		"escape-regexp": "0.0.1",
-		"eventemitter3": "4.0.4",
+		"eventemitter3": "4.0.5",
 		"file-type": "14.7.1",
 		"fluent-ffmpeg": "2.1.2",
 		"gulp": "4.0.2",
