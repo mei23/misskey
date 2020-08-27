@@ -203,7 +203,7 @@
 		"tinycolor2": "1.4.1",
 		"tmp": "0.2.1",
 		"ts-loader": "8.0.3",
-		"ts-node": "8.10.2",
+		"ts-node": "9.0.0",
 		"typescript": "3.9.7",
 		"url-loader": "4.1.0",
 		"uuid": "8.3.0",
