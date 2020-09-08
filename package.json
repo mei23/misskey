@@ -230,7 +230,7 @@
 		"web-push": "3.4.4",
 		"webpack": "4.44.1",
 		"webpack-cli": "3.3.12",
-		"websocket": "1.0.31",
+		"websocket": "1.0.32",
 		"ws": "7.3.1",
 		"xev": "2.0.1",
 		"xmlbuilder": "15.1.1"
