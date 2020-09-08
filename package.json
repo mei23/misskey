@@ -154,7 +154,7 @@
 		"lodash": "^4.17.20",
 		"lookup-dns-cache": "2.1.0",
 		"mecab-async": "0.1.2",
-		"mocha": "8.1.2",
+		"mocha": "8.1.3",
 		"moment": "2.27.0",
 		"mongodb": "3.6.0",
 		"monk": "7.3.0",
