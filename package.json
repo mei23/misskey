@@ -117,7 +117,7 @@
 		"elasticsearch": "16.6.0",
 		"escape-regexp": "0.0.1",
 		"eventemitter3": "4.0.7",
-		"file-type": "15.0.0",
+		"file-type": "15.0.1",
 		"fluent-ffmpeg": "2.1.2",
 		"gulp": "4.0.2",
 		"gulp-clean-css": "4.3.0",
