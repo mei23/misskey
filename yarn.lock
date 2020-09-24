@@ -553,10 +553,10 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
   integrity sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==
 
-"@types/parsimmon@1.10.2":
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/@types/parsimmon/-/parsimmon-1.10.2.tgz#2ac8480e1230c1c212cb6a2fed001bc87201aed8"
-  integrity sha512-WVugAiBoLsmay9IPrLJoMnmLTP0cWPbc4w5c5suTevyhaJW9TWGyPbkFraNUk5YULf8vQ5C/3NBEQcIs6XfTcg==
+"@types/parsimmon@1.10.3":
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@types/parsimmon/-/parsimmon-1.10.3.tgz#a8fbbf75a622628f555a10c47bd5c75c1eaf3ab7"
+  integrity sha512-BbCYdfYC/XFsVkjWJCeCaUaeYlMHNJ2HmZYaCbsZ14k6qO/mX6n3u2sgtJxSeJLiDPaxb1LESgGA/qGP+AHSCQ==
 
 "@types/pug@2.0.4":
   version "2.0.4"
