@@ -39,7 +39,7 @@
 		"@prezzemolo/rap": "0.1.2",
 		"@prezzemolo/zip": "0.0.3",
 		"@types/bcryptjs": "2.4.2",
-		"@types/bull": "3.14.2",
+		"@types/bull": "3.14.3",
 		"@types/dateformat": "3.0.1",
 		"@types/double-ended-queue": "2.1.1",
 		"@types/elasticsearch": "5.0.36",
