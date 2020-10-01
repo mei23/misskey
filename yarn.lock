@@ -2519,6 +2519,11 @@ core-js@^2.4.0, core-js@^2.6.11, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
+core-js@^3.6.5:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -9922,11 +9927,12 @@ vue-loader@15.9.3:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-marquee-text-component@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/vue-marquee-text-component/-/vue-marquee-text-component-1.1.1.tgz#c5ce3eea76d340afdae37424b555ef6840a8c4cd"
-  integrity sha512-ei3OrX6uKPtm+H9GbAlJL3NqTJxXoQsbAMcmuao56Z8rH2mlFkYSGrJGDsX8wyQ/IQtYgMSuf50kaH2mQx8DSQ==
+vue-marquee-text-component@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vue-marquee-text-component/-/vue-marquee-text-component-1.2.0.tgz#5c93a8b3d3d0b625d88524d854a3bcf6e6b116d3"
+  integrity sha512-wMqr7AnyCF1VjXFAnAXavAD2yCeiBULy6AbLet/YIGaI2KzuaUmi+Q3UyFYJOM2gWt994jl2PWilnkh9heLqAA==
   dependencies:
+    core-js "^3.6.5"
     vue "^2.5.17"
 
 vue-prism-component@1.2.0:
