@@ -31,7 +31,7 @@
 		"@fortawesome/fontawesome-svg-core": "1.2.31",
 		"@fortawesome/free-brands-svg-icons": "5.15.0",
 		"@fortawesome/free-regular-svg-icons": "5.15.0",
-		"@fortawesome/free-solid-svg-icons": "5.15.0",
+		"@fortawesome/free-solid-svg-icons": "5.15.1",
 		"@fortawesome/vue-fontawesome": "2.0.0",
 		"@koa/cors": "3.1.0",
 		"@koa/multer": "3.0.0",
