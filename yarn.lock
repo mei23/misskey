@@ -5227,14 +5227,14 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json5-loader@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/json5-loader/-/json5-loader-4.0.0.tgz#4b6ea337c76fdf4107158491fae2408500fb6cb0"
-  integrity sha512-v+wc6+u/k0qxOLhmfsk3aE0q7Kl8YwppfRuaUYASJ3zInbWZr50sI4b5WGLzNjerN3OVDSIMPxGClJ0GfUh9lg==
+json5-loader@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/json5-loader/-/json5-loader-4.0.1.tgz#6d17a1181e8f3c3d9204dca2a4ce4627306c8498"
+  integrity sha512-c9viNZlZTz0MTIcf/4qvek5Dz1/PU3DNCB4PwUhlEZIV3qb1bSD6vQQymlV17/Wm6ncra1aCvmIPsuRj+KfEEg==
   dependencies:
     json5 "^2.1.3"
     loader-utils "^2.0.0"
-    schema-utils "^2.6.5"
+    schema-utils "^3.0.0"
 
 json5@2.1.3, json5@^2.1.2, json5@^2.1.3:
   version "2.1.3"
@@ -8319,7 +8319,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.6.5, schema-utils@^2.7.0:
+schema-utils@^2.7.0:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.7.1.tgz#1ca4f32d1b24c590c203b8e7a50bf0ea4cd394d7"
   integrity sha512-SHiNtMOUGWBQJwzISiVYKu82GiV4QYGePp3odlY1tuKO7gPtphAT5R/py0fA6xtbgLL/RvtJZnU9b8s0F1q0Xg==
