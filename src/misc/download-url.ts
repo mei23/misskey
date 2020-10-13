@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as stream from 'stream';
 import * as util from 'util';
-import got from 'got';
-import * as Got from 'got';
 import * as http from 'http';
 import * as https from 'https';
+import got from 'got';
+import * as Got from 'got';
 import { getAgentByUrl } from './fetch';
 
 import config from '../config';
@@ -57,13 +57,13 @@ export async function downloadUrl(url: string, path: string) {
 		if (contentLength != null) {
 			const size = Number(contentLength);
 			if (size > maxSize) {
-				console.log(`maxSize exceeded (${size} > ${maxSize}) on response`);
+				logger.warn(`maxSize exceeded (${size} > ${maxSize}) on response`);
 				req.destroy();
 			}
 		}
 	}).on('downloadProgress', (progress: Got.Progress) => {
 		if (progress.transferred > maxSize) {
-			console.log(`maxSize exceeded (${progress.transferred} > ${maxSize}) on downloadProgress`);
+			logger.warn(`maxSize exceeded (${progress.transferred} > ${maxSize}) on downloadProgress`);
 			req.destroy();
 		}
 	}).on('error', e => {

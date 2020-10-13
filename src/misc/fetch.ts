@@ -1,12 +1,11 @@
 import * as http from 'http';
 import * as https from 'https';
 import * as cache from 'lookup-dns-cache';
+import got from 'got';
+import * as Got from 'got';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
-
-import got from 'got';
-import * as Got from 'got';
 
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
 	const maxSize = 10 * 1024 * 1024;
