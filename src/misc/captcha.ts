@@ -30,7 +30,7 @@ type CaptchaResponse = {
 };
 
 async function getCaptchaResponse(url: string, secret: string, response: string): Promise<CaptchaResponse> {
-	const req = got.post(url, {
+	const req = got.post<any>(url, {
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
 		}),

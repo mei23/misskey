@@ -11,7 +11,7 @@ import * as Got from 'got';
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
 	const maxSize = 10 * 1024 * 1024;
 
-	const req = got.get(url, {
+	const req = got.get<any>(url, {
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
 			Accept: accept
@@ -31,7 +31,7 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>) {
 	const maxSize = 10 * 1024 * 1024;
 
-	const req = got.get(url, {
+	const req = got.get<string>(url, {
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
 			Accept: accept
