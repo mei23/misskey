@@ -23,15 +23,12 @@ export const uploadFromUrl = async (
 	const [path, cleanup] = await createTemp();
 
 	// write content at URL to temp file
+	await downloadUrl(url, path);
 	const info = await downloadUrl(url, path);
 
 	let name: string | null = null;
 
-	if (info.filename) {
-		name = info.filename;
-	} else if (info.url) {
-		name = new URL(info.url).pathname.split('/').pop() || null;
-	}
+	name = new URL(info.url).pathname.split('/').pop() || null;
 
 	if (name && !validateFileName(name)) {
 		name = null;
