@@ -34,7 +34,7 @@ export default async (user: ILocalUser, url: string, object: any) => {
 						// Select custom agent by URL
 						opt.agent = getAgentByUrl(url, false);
 
-						// Wrap original https?.agent
+						// Wrap original https?.request
 						const requestFunc = url.protocol === 'http:' ? http.request : https.request;
 						const clientRequest = requestFunc(url, opt, callback) as http.ClientRequest;
 
