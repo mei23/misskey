@@ -3,8 +3,6 @@ import toText from '../mfm/toText';
 import toWord from '../mfm/toWord';
 import config from '../config';
 import { unique } from '../prelude/array';
-import fetch from 'node-fetch';
-import { getAgentByUrl } from './fetch';
 import { spawn } from 'child_process';
 import * as util from 'util';
 import * as stream from 'stream';
@@ -32,50 +30,11 @@ export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>
 }
 
 async function me(text: string): Promise<string[][]> {
-	if (config.mecabSearch?.mecabServer) {
-		const s = await req(config.mecabSearch.mecabServer, text);
-		return s.result;
-	}
-
 	if (config.mecabSearch?.mecabBin) {
 		return await mecab(text, config.mecabSearch.mecabBin, config.mecabSearch.mecabDic)
 	}
 
 	return [];
-}
-
-export async function req(url: string, text: string) {
-	const res = await fetch(url, {
-		method: 'post',
-		body: JSON.stringify({
-			text
-		}),
-		headers: {
-			'User-Agent': config.userAgent,
-			'Content-Type': 'application/json'
-		},
-		timeout: 10000,
-		size: 10 * 1024 * 1024,
-		agent: getAgentByUrl,
-	});
-
-	if (!res.ok) {
-		throw {
-			name: `StatusError`,
-			statusCode: res.status,
-			message: `${res.status} ${res.statusText}`,
-		};
-	}
-
-	try {
-		return await res.json();
-	} catch (e) {
-		throw {
-			name: `JsonParseError`,
-			statusCode: 481,
-			message: `JSON parse error ${e.message || e}`
-		};
-	}
 }
 
 /**
