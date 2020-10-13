@@ -1,3 +1,4 @@
+import * as http from 'http';
 import * as https from 'https';
 import { sign } from 'http-signature';
 import { URL } from 'url';
@@ -6,12 +7,11 @@ import * as crypto from 'crypto';
 import config from '../../config';
 import { ILocalUser } from '../../models/user';
 import { publishApLogStream } from '../../services/stream';
-import { httpsAgent } from '../../misc/fetch';
+import { getAgentByUrl, receiveResponce } from '../../misc/fetch';
+import got from 'got';
 
 export default async (user: ILocalUser, url: string, object: any) => {
 	const timeout = 20 * 1000;
-
-	const { protocol, hostname, port, pathname, search } = new URL(url);
 
 	const data = JSON.stringify(object);
 
@@ -19,44 +19,42 @@ export default async (user: ILocalUser, url: string, object: any) => {
 	sha256.update(data);
 	const hash = sha256.digest('base64');
 
-	await new Promise((resolve, reject) => {
-		const req = https.request({
-			agent: httpsAgent as https.Agent,
-			protocol,
-			hostname,
-			port,
-			method: 'POST',
-			path: pathname + search,
-			timeout,
-			headers: {
-				'User-Agent': config.userAgent,
-				'Content-Type': 'application/activity+json',
-				'Digest': `SHA-256=${hash}`
-			}
-		}, res => {
-			if (res.statusCode >= 400) {
-				reject(res);
-			} else {
-				resolve();
-			}
-		});
+	const req = got.post(url, {
+		body: data,
+		headers: {
+			'User-Agent': config.userAgent,
+			'Content-Type': 'application/activity+json',
+			'Digest': `SHA-256=${hash}`
+		},
+		timeout,
+		hooks: {
+			beforeRequest: [
+				options => {
+					options.request = (url: URL, opt: http.RequestOptions, callback?: (response: any) => void) => {
+						// Select custom agent by URL
+						opt.agent = getAgentByUrl(url, false);
 
-		sign(req, {
-			authorizationHeaderName: 'Signature',
-			key: user.keypair,
-			keyId: `${config.url}/users/${user._id}#main-key`,
-			headers: ['(request-target)', 'date', 'host', 'digest']
-		});
+						// Wrap original https?.agent
+						const requestFunc = url.protocol === 'http:' ? http.request : https.request;
+						const clientRequest = requestFunc(url, opt, callback) as http.ClientRequest;
 
-		req.on('timeout', () => req.abort());
+						// HTTP-Signature
+						sign(clientRequest, {
+							authorizationHeaderName: 'Signature',
+							key: user.keypair,
+							keyId: `${config.url}/users/${user._id}#main-key`,
+							headers: ['(request-target)', 'date', 'host', 'digest']
+						});
 
-		req.on('error', e => {
-			if (req.aborted) reject('timeout');
-			reject(e);
-		});
-
-		req.end(data);
+						return clientRequest;
+					};
+				},
+			],
+		},
+		retry: 0,
 	});
+
+	await receiveResponce(req, 10 * 1024 * 1024);
 
 	//#region Log
 	publishApLogStream({
