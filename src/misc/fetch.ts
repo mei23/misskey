@@ -58,7 +58,6 @@ export async function receiveResponce<T>(req: Got.CancelableRequest<Got.Response
 		if (contentLength != null) {
 			const size = Number(contentLength);
 			if (size > maxSize) {
-				console.log(`maxSize exceeded (${size} > ${maxSize}) on response`);
 				req.cancel();
 			}
 		}
@@ -67,7 +66,6 @@ export async function receiveResponce<T>(req: Got.CancelableRequest<Got.Response
 	// 受信中のデータでサイズチェック
 	req.on('downloadProgress', (progress: Got.Progress) => {
 		if (progress.transferred > maxSize) {
-			console.log(`maxSize exceeded (${progress.transferred} > ${maxSize}) on downloadProgress`);
 			req.cancel();
 		}
 	});
