@@ -1,5 +1,5 @@
 import got from 'got';
-import { beforeRequestHook, receiveResponce } from './fetch';
+import { receiveResponce, httpAgent, httpsAgent, useHttp2 } from './fetch';
 import config from '../config';
 
 export async function verifyRecaptcha(secret: string, response: string) {
@@ -40,8 +40,10 @@ async function getCaptchaResponse(url: string, secret: string, response: string)
 		},
 		timeout: 10 * 1000,
 		responseType: 'json',
-		hooks: {
-			beforeRequest: [ beforeRequestHook ],
+		http2: useHttp2,
+		agent: {
+			http: httpAgent,
+			https: httpsAgent,
 		},
 		retry: 0,
 	});

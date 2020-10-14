@@ -45,6 +45,8 @@ export type Source = {
 
 	proxyProxy?: string;
 
+	useClientHttp2?: string;
+
 	accesslog?: string;
 
 	workerStrategies?: {

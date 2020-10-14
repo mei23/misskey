@@ -7,6 +7,8 @@ import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
 
+export const useHttp2 = !!config.useClientHttp2 && !config.proxy;
+
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
 	const maxSize = 10 * 1024 * 1024;
 
@@ -17,8 +19,10 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		}, headers || {}),
 		responseType: 'json',
 		timeout,
-		hooks: {
-			beforeRequest: [ beforeRequestHook ],
+		http2: useHttp2,
+		agent: {
+			http: httpAgent,
+			https: httpsAgent,
 		},
 		retry: 0,
 	});
@@ -36,8 +40,10 @@ export async function getHtml(url: string, accept = 'text/html, */*', timeout = 
 			Accept: accept
 		}, headers || {}),
 		timeout,
-		hooks: {
-			beforeRequest: [ beforeRequestHook ],
+		http2: useHttp2,
+		agent: {
+			http: httpAgent,
+			https: httpsAgent,
 		},
 		retry: 0,
 	});

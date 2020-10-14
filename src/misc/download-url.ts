@@ -1,11 +1,9 @@
 import * as fs from 'fs';
 import * as stream from 'stream';
 import * as util from 'util';
-import * as http from 'http';
-import * as https from 'https';
 import got from 'got';
 import * as Got from 'got';
-import { getAgentByUrl } from './fetch';
+import { httpAgent, httpsAgent, useHttp2 } from './fetch';
 
 import config from '../config';
 import * as chalk from 'chalk';
@@ -37,17 +35,10 @@ export async function downloadUrl(url: string, path: string) {
 			send: timeout,
 			request: operationTimeout,	// whole operation timeout
 		},
-		hooks: {
-			beforeRequest: [
-				options => {
-					options.request = (url: URL, opt: http.RequestOptions, callback?: (response: any) => void) => {
-						const requestFunc = url.protocol === 'http:' ? http.request : https.request;
-						opt.agent = getAgentByUrl(url, false);
-						const clientRequest = requestFunc(url, opt, callback) as http.ClientRequest;
-						return clientRequest;
-					};
-				},
-			],
+		http2: useHttp2,
+		agent: {
+			http: httpAgent,
+			https: httpsAgent,
 		},
 		retry: 0,
 	}).on('response', (res: Got.Response) => {
