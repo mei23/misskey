@@ -5356,10 +5356,10 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-jsonld@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/jsonld/-/jsonld-3.1.1.tgz#ec9cf9f8aaacc17642a73715dfd788d2c1a51a74"
-  integrity sha512-GrqERUMZtMcdP8WgTt7drF3Ixf0dERA2Q4X3hTLyKt7CJTTQ5cM1vAHuX797piAejuh/KwNdKklKVB1kfYcJbw==
+jsonld@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/jsonld/-/jsonld-3.2.0.tgz#be31b2ee9d5ed490d1e912263e31ca327f5a157f"
+  integrity sha512-re7FofG1iklGDlAthC4u5AMMt4l3qRNQbSI0nZTJu9vJG2R0QO6/yIhh8ZIh/M9Gg+EjXsULgQV/HEsltoVZBg==
   dependencies:
     canonicalize "^1.0.1"
     lru-cache "^5.1.1"
