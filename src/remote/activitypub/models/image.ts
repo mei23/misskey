@@ -35,8 +35,14 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
 		file = await uploadFromUrl(image.url, actor, null, image.url, !!image.sensitive, false, !cache);
 	} catch (e) {
 		// 4xxの場合は添付されてなかったことにする
-		if (e.statusCode >= 400 && e.statusCode < 500) {
+		if (e >= 400 && e < 500) {
 			logger.warn(`Ignored image: ${image.url} - ${e}`);
+			return null;
+		}
+
+		// misc
+		if (e.code === 'HPE_HEADER_OVERFLOW') {
+			logger.warn(`Ignored image: ${image.url} - ${e.code}`);
 			return null;
 		}
 

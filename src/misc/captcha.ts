@@ -1,5 +1,6 @@
-import got from 'got';
-import { receiveResponce, httpAgent, httpsAgent, useHttp2 } from './fetch';
+import fetch from 'node-fetch';
+import { URLSearchParams } from 'url';
+import { getAgentByUrl } from './fetch';
 import config from '../config';
 
 export async function verifyRecaptcha(secret: string, response: string) {
@@ -30,25 +31,26 @@ type CaptchaResponse = {
 };
 
 async function getCaptchaResponse(url: string, secret: string, response: string): Promise<CaptchaResponse> {
-	const req = got.post<any>(url, {
-		headers: Object.assign({
-			'User-Agent': config.userAgent,
-		}),
-		form: {
-			secret,
-			response
-		},
-		timeout: 10 * 1000,
-		responseType: 'json',
-		http2: useHttp2,
-		agent: {
-			http: httpAgent,
-			https: httpsAgent,
-		},
-		retry: 0,
+	const params = new URLSearchParams({
+		secret,
+		response
 	});
 
-	const res = await receiveResponce(req, 10 * 1024 * 1024);
+	const res = await fetch(url, {
+		method: 'POST',
+		body: params,
+		headers: {
+			'User-Agent': config.userAgent
+		},
+		timeout: 10 * 1000,
+		agent: getAgentByUrl
+	}).catch(e => {
+		throw `${e.message || e}`;
+	});
 
-	return res.body as CaptchaResponse;
+	if (!res.ok) {
+		throw `${res.status}`;
+	}
+
+	return await res.json() as CaptchaResponse;
 }

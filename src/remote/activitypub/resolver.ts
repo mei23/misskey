@@ -1,13 +1,9 @@
 import { getJson } from '../../misc/fetch';
 import { IObject, isCollection, isOrderedCollection, isCollectionPage, isOrderedCollectionPage } from './type';
-import { ILocalUser } from '../../models/user';
-import { getInstanceActor } from '../../services/instance-actor';
-import { signedGet } from './request';
-import config from '../../config';
 
 export default class Resolver {
 	private history: Set<string>;
-	private user?: ILocalUser;
+	private timeout = 10 * 1000;
 
 	constructor() {
 		this.history = new Set();
@@ -46,13 +42,7 @@ export default class Resolver {
 
 		console.log(`ResolveRequest: ${value}`);
 
-		if (config.signToActivityPubGet && !this.user) {
-			this.user = await getInstanceActor();
-		}
-
-		const object = this.user
-			? await signedGet(value, this.user)
-			: await getJson(value, 'application/activity+json, application/ld+json');
+		const object = await getJson(value, 'application/activity+json, application/ld+json');
 
 		if (object === null || (
 			Array.isArray(object['@context']) ?

@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as stream from 'stream';
 import * as util from 'util';
-import got from 'got';
-import * as Got from 'got';
-import { httpAgent, httpsAgent, useHttp2 } from './fetch';
-
+import fetch from 'node-fetch';
+import { httpAgent, httpsAgent } from './fetch';
+import { AbortController } from 'abort-controller';
+import * as ContentDisposition from 'content-disposition';
 import config from '../config';
 import * as chalk from 'chalk';
 import Logger from '../services/logger';
@@ -16,71 +16,52 @@ export async function downloadUrl(url: string, path: string) {
 
 	logger.info(`Downloading ${chalk.cyan(url)} ...`);
 
-	const timeout = 10 * 1000;
-	const operationTimeout = 5 * 60 * 1000;
-	const maxSize = config.maxFileSize || 262144000;
+	const controller = new AbortController();
+	setTimeout(() => {
+		controller.abort();
+	}, 60 * 1000);
 
-	let responseUrl = url;
-
-	const req = got.stream(url, {
+	const response = await fetch(new URL(url).href, {
 		headers: {
 			'User-Agent': config.userAgent
 		},
-		timeout: {
-			lookup: timeout,
-			connect: timeout,
-			secureConnect: timeout,
-			socket: timeout,	// read timeout
-			response: timeout,
-			send: timeout,
-			request: operationTimeout,	// whole operation timeout
-		},
-		http2: useHttp2,
-		agent: {
-			http: httpAgent,
-			https: httpsAgent,
-		},
-		retry: 0,
-	}).on('response', (res: Got.Response) => {
-		responseUrl = res.url;
-
-		const contentLength = res.headers['content-length'];
-		if (contentLength != null) {
-			const size = Number(contentLength);
-			if (size > maxSize) {
-				logger.warn(`maxSize exceeded (${size} > ${maxSize}) on response`);
-				req.destroy();
-			}
-		}
-	}).on('downloadProgress', (progress: Got.Progress) => {
-		if (progress.transferred > maxSize) {
-			logger.warn(`maxSize exceeded (${progress.transferred} > ${maxSize}) on downloadProgress`);
-			req.destroy();
-		}
-	}).on('error', (e: any) => {
-		if (e.name === 'HTTPError') {
-			const statusCode = e.response?.statusCode;
-			const statusMessage = e.response?.statusMessage;
-			e.name = `StatusError`;
-			e.statusCode = statusCode;
-			e.message = `${statusCode} ${statusMessage}`;
-		}
+		timeout: 10 * 1000,
+		size: config.maxFileSize || 262144000,
+		signal: controller.signal,
+		agent: u => u.protocol == 'http:' ? httpAgent : httpsAgent,
 	});
 
-	logger.info(`setTimeout: ${url}`);
-	const timer = setTimeout(() => {
-		logger.warn(`TIMEOUT_X1: ${util.inspect(req)}`);
-		req.destroy();
-	}, operationTimeout + 10000);
+	if (!response.ok) {
+		logger.error(`Got ${response.status} (${url})`);
+		throw response.status;
+	}
 
-	await pipeline(req, fs.createWriteStream(path));
+	// Content-Lengthがあればとっておく
+	const contentLength = response.headers.get('content-length');
+	const expectedLength = contentLength != null ? Number(contentLength) : null;
 
-	logger.info(`clearTimeout: ${url}`);
-	clearTimeout(timer);
+	await pipeline(response.body, fs.createWriteStream(path));
+
+	// 可能ならばサイズ比較
+	const actualLength = (await util.promisify(fs.stat)(path)).size;
+
+	if (response.headers.get('content-encoding') == null && expectedLength != null && expectedLength !== actualLength) {
+		throw `size error: expected: ${expectedLength}, but got ${actualLength}`;
+	}
 
 	logger.succ(`Download finished: ${chalk.cyan(url)}`);
 
+	let filename: string | null = null;
+	try {
+		const contentDisposition = response.headers.get('content-disposition');
+		if (contentDisposition) {
+			const cd = ContentDisposition.parse(contentDisposition);
+			if (cd.parameters?.filename) filename = cd.parameters.filename;
+		}
+	} catch { }
+
 	return {
-		url: responseUrl
+		filename,
+		url: response.url
 	};
 }
