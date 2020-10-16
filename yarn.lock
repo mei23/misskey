@@ -9243,10 +9243,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@*, systeminformation@4.27.9:
-  version "4.27.9"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.27.9.tgz#9f09a79d96f262e62a26eaf4a1c44e5ed13ce327"
-  integrity sha512-vgyFkDaskUAtheTchR65G08rWZFSHos3Hr15JOGEpHvx+GOmUDy7Xurrq3sWhWuPFjq6mBmzlE1kvkKkDytWOQ==
+systeminformation@*, systeminformation@4.27.10:
+  version "4.27.10"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.27.10.tgz#d15181c2872c46de21607d302bd161659a78b148"
+  integrity sha512-qXuJaa+3A1bLkFNr/rn3H9Uw8UGodSbq+1QjxDbXua9iexfw4UIdAZZTyu9kE5OkXG1Lt6u0z4aZfxYRVL68EA==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
