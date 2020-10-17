@@ -23,18 +23,18 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@babel/polyfill@^7.8.7":
-  version "7.8.7"
-  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.8.7.tgz#151ec24c7135481336168c3bd8b8bf0cf91c032f"
-  integrity sha512-LeSfP9bNZH2UOZgcGcZ0PIHUt1ZuHub1L3CVmEyqLxCeDLm4C5Gi8jRH8ZX2PNpDhQCo0z6y/+DIs2JlliXW8w==
+"@babel/polyfill@^7.12.1":
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.12.1.tgz#1f2d6371d1261bbd961f3c5d5909150e12d0bd96"
+  integrity sha512-X0pi0V6gxLi6lFZpGmeNa4zxtwEmCs42isWLNjZZDE0Y8yVfgu0T2OAHlzBbdYlqbW/YXVvoBHpATEM+goCj8g==
   dependencies:
     core-js "^2.6.5"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.8.7":
-  version "7.9.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.2.tgz#d90df0583a3a252f09aaa619665367bae518db06"
-  integrity sha512-NE2DtOdufG7R5vnfQUTehdTfNycfUANEtCa9PssN9O/xmTzP4E08UI797ixaei6hBEVL9BI/PsdJS5x7mWoB9Q==
+"@babel/runtime@^7.12.1":
+  version "7.12.1"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.1.tgz#b4116a6b6711d010b2dad3b7b6e43bf1b9954740"
+  integrity sha512-J5AIf3vPj3UwXaAzb5j1xM4WAQDX3EMgemF8rjCP3SoW09LfRKAXQKt6CoVYl230P6iWdRcBbnLDDdnqWxZSCA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -10052,15 +10052,16 @@ vue-style-loader@4.1.2, vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-svg-inline-loader@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/vue-svg-inline-loader/-/vue-svg-inline-loader-1.5.0.tgz#036d6804055c2ec71c16bad4bb7e63677b24f974"
-  integrity sha512-dkhmv3nT9CNLbRiPVjMrBsoc4bNxEsKUepeNH8S/4Gg0BxIc7Kh78ghMK/GvL7x/Bqw/VX0hAtD1o2scbhlTgg==
+vue-svg-inline-loader@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/vue-svg-inline-loader/-/vue-svg-inline-loader-1.5.1.tgz#a9af69662a77d77329d673fa3211245c87013662"
+  integrity sha512-f3ZkySpr4w6wo1vnlTKhaG5zhWV6UoioEwu/rKPLA4p/JwVofyioYSvCy4nkXPYChq3q6Gwy2PBt2FgXrBjJmw==
   dependencies:
-    "@babel/polyfill" "^7.8.7"
-    "@babel/runtime" "^7.8.7"
+    "@babel/polyfill" "^7.12.1"
+    "@babel/runtime" "^7.12.1"
     core-js "^2.6.11"
-    loader-utils "^1.4.0"
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
     svgo "^1.3.2"
 
 vue-template-compiler@2.6.12:
