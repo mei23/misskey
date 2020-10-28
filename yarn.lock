@@ -4568,10 +4568,10 @@ ip-address@^6.3.0:
     lodash.repeat "4.1.0"
     sprintf-js "1.1.2"
 
-ip-cidr@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-2.1.0.tgz#de2216507c87aa35f3001cfc6b1f21d34f84e49e"
-  integrity sha512-4V1XYTeWFCgasjfY8/lECaosVcsvqDACsrxP0j3bKFFmD33eEQc2mmJefDWCT9ORSRMbnKfXBmfyuUgt81wxwQ==
+ip-cidr@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-2.1.1.tgz#e54e4317dd812a84fe361d89610e2e4166ccd19a"
+  integrity sha512-aeQXlWwFzEIJ5Iq+KmgVh4rafGXzwbiwVUXgXsZjoFFqApxCSuQu3rwNaQ9S+NNatWTJ78KBZBqZjmDKKjxUVw==
   dependencies:
     ip-address "^6.3.0"
     jsbn "^0.1.0"
