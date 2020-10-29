@@ -1,4 +1,4 @@
-FROM node:12.18.4 AS base
+FROM node:14.15.0-alpine3.12 AS base
 
 ENV NODE_ENV=production
 
@@ -6,8 +6,21 @@ WORKDIR /misskey
 
 FROM base AS builder
 
-RUN apt-get update
-RUN apt-get install -y build-essential
+RUN apk add --no-cache \
+  autoconf \
+  automake \
+  file \
+  g++ \
+  gcc \
+  libc-dev \
+  libtool \
+  make \
+  nasm \
+  pkgconfig \
+  python3 \
+  zlib-dev \
+  vips-dev \
+  vips
 
 COPY package.json yarn.lock ./
 RUN yarn install
@@ -16,8 +29,12 @@ RUN yarn build
 
 FROM base AS runner
 
-RUN apt-get update
-RUN apt-get install -y ffmpeg mecab mecab-ipadic-utf8
+RUN apk add --no-cache \
+    ffmpeg \
+    tini \
+    vips
+
+ENTRYPOINT ["/sbin/tini", "--"]
 
 COPY --from=builder /misskey/node_modules ./node_modules
 COPY --from=builder /misskey/built ./built
