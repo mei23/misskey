@@ -2,9 +2,9 @@ import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
 import Message from '../../../../../models/messaging-message';
 import define from '../../../define';
-import { publishMessagingStream } from '../../../../../services/stream';
 import * as ms from 'ms';
 import { ApiError } from '../../../error';
+import { deleteMessage } from '../../../../../services/messages/delete';
 
 export const meta = {
 	stability: 'stable',
@@ -52,14 +52,11 @@ export default define(meta, async (ps, user) => {
 		userId: user._id
 	});
 
-	if (message === null) {
+	if (message == null) {
 		throw new ApiError(meta.errors.noSuchMessage);
 	}
 
-	await Message.remove({ _id: message._id });
-
-	publishMessagingStream(message.userId, message.recipientId, 'deleted', message._id);
-	publishMessagingStream(message.recipientId, message.userId, 'deleted', message._id);
+	await deleteMessage(message);
 
 	return;
 });

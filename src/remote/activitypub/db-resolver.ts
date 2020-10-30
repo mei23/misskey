@@ -4,6 +4,7 @@ import User, { IUser, IRemoteUser } from '../../models/user';
 import Note, { INote } from '../../models/note';
 import { IObject, getApId } from './type';
 import * as escapeRegexp from 'escape-regexp';
+import MessagingMessage, { IMessagingMessage } from '../../models/messaging-message';
 
 export default class DbResolver {
 	constructor() {
@@ -24,6 +25,26 @@ export default class DbResolver {
 
 		if (parsed.uri) {
 			return (await Note.findOne({
+				uri: parsed.uri,
+				deletedAt: { $exists: false }
+			})) || null;
+		}
+
+		return null;
+	}
+
+	public async getMessageFromApId(value: string | IObject): Promise<IMessagingMessage | null> {
+		const parsed = this.parseUri(value);
+
+		if (parsed.id) {
+			return (await MessagingMessage.findOne({
+				_id: new mongo.ObjectID(parsed.id),
+				deletedAt: { $exists: false }
+			})) || null;
+		}
+
+		if (parsed.uri) {
+			return (await MessagingMessage.findOne({
 				uri: parsed.uri,
 				deletedAt: { $exists: false }
 			})) || null;
