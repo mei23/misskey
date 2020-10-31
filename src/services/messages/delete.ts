@@ -1,15 +1,18 @@
+import config from '../../config';
 import User, { isLocalUser, isRemoteUser } from '../../models/user';
-import { publishMessagingStream } from '../stream';
 import MessagingMessage, { IMessagingMessage } from '../../models/messaging-message';
+import { publishMessagingStream } from '../stream';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import renderDelete from '../../remote/activitypub/renderer/delete';
 import renderTombstone from '../../remote/activitypub/renderer/tombstone';
 import { deliver } from '../../queue';
-import config from '../../config';
 
 export async function deleteMessage(message: IMessagingMessage) {
 	await MessagingMessage.remove({ _id: message._id });
+	postDeleteMessage(message);
+}
 
+async function postDeleteMessage(message: IMessagingMessage) {
 	const user = await User.findOne({ _id: message.userId});
 	const recipient = await User.findOne({ _id: message.recipientId});
 	if (user == null || recipient == null) return;
