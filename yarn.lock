@@ -4073,10 +4073,10 @@ gulp-stylus@2.7.0:
     through2 "^2.0.0"
     vinyl-sourcemaps-apply "^0.2.0"
 
-gulp-terser@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.4.0.tgz#0ac4dfdbed4ab46906007c5b358810c1642b9764"
-  integrity sha512-7df9leJna3WOmj76tYHxjpn7BSU+vmKVjVSd6bz3uLEyrzCfZI97KPhRcIabrSNzs0UY/UXTt+JwkxPw3sF85w==
+gulp-terser@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.4.1.tgz#06b30023889b149bdbbdd49fada31b233fe737df"
+  integrity sha512-VUoKrk24G0ojr7fXqlZ7vA8qDFHRloYAM6doNRyKdJ/LFkj+X3P04f+7LlOp7j05WtdOCEg65oG6nGjSf//78A==
   dependencies:
     is-promise "^4.0.0"
     plugin-error "^1.0.1"
@@ -8264,7 +8264,7 @@ source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.5.17, source-map-support@~0.5.12:
+source-map-support@^0.5.17:
   version "0.5.17"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.17.tgz#29fe1b3c98b9dbd5064ada89052ee8ff070cb46c"
   integrity sha512-bwdKOBZ5L0gFRh4KOxNap/J/MpvX9Yxsq9lFDx65s3o7F/NiHy7JRaGIS8MwW6tZPAq9UXE207Il0cfcb5yu/Q==
@@ -8834,25 +8834,7 @@ terser-webpack-plugin@^5.0.3:
     source-map "^0.6.1"
     terser "^5.3.8"
 
-terser@>=4:
-  version "5.3.2"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.3.2.tgz#f4bea90eb92945b2a028ceef79181b9bb586e7af"
-  integrity sha512-H67sydwBz5jCUA32ZRL319ULu+Su1cAoZnnc+lXnenGRYWyLE3Scgkt8mNoAsMx0h5kdo758zdoS0LG9rYZXDQ==
-  dependencies:
-    commander "^2.20.0"
-    source-map "~0.6.1"
-    source-map-support "~0.5.12"
-
-terser@^5.3.4:
-  version "5.3.4"
-  resolved "https://registry.yarnpkg.com/terser/-/terser-5.3.4.tgz#e510e05f86e0bd87f01835c3238839193f77a60c"
-  integrity sha512-dxuB8KQo8Gt6OVOeLg/rxfcxdNZI/V1G6ze1czFUzPeCFWZRtvZMgSzlZZ5OYBZ4HoG607F6pFPNLekJyV+yVw==
-  dependencies:
-    commander "^2.20.0"
-    source-map "~0.7.2"
-    source-map-support "~0.5.19"
-
-terser@^5.3.8:
+terser@>=4, terser@^5.3.4, terser@^5.3.8:
   version "5.3.8"
   resolved "https://registry.yarnpkg.com/terser/-/terser-5.3.8.tgz#991ae8ba21a3d990579b54aa9af11586197a75dd"
   integrity sha512-zVotuHoIfnYjtlurOouTazciEfL7V38QMAOhGqpXDEg6yT13cF4+fEP9b0rrCEQTn+tT46uxgFsTZzhygk+CzQ==
