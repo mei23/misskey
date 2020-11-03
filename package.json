@@ -93,7 +93,7 @@
 		"@types/ws": "7.2.9",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
-		"apexcharts": "3.15.0",
+		"apexcharts": "3.22.1",
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
 		"autwh": "0.1.0",
