@@ -9,7 +9,7 @@ import { resolveImage } from './image';
 import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, getOneApHrefNullable, isOrderedCollectionPage, isCreate, isPost } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
-import { fromHtml } from '../../../mfm/fromHtml';
+import { fromHtml } from '../../../mfm/from-html';
 import { htmlToMfm } from '../misc/html-to-mfm';
 import usersChart from '../../../services/chart/users';
 import instanceChart from '../../../services/chart/instance';

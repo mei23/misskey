@@ -11,7 +11,6 @@
 import * as assert from 'assert';
 
 import { parse, parsePlain } from '../src/mfm/parse';
-import { toHtml } from '../src/mfm/toHtml';
 import { createTree as tree, createLeaf as leaf, MfmTree } from '../src/mfm/prelude';
 import { removeOrphanedBrackets } from '../src/mfm/language';
 
@@ -1290,20 +1289,6 @@ describe('MFM', () => {
 			assert.deepStrictEqual(tokens, [
 				text('foo **bar** baz'),
 			]);
-		});
-	});
-
-	describe('toHtml', () => {
-		it('br', () => {
-			const input = 'foo\nbar\nbaz';
-			const output = '<p><span>foo<br>bar<br>baz</span></p>';
-			assert.equal(toHtml(parse(input)!), output);
-		});
-
-		it('br alt', () => {
-			const input = 'foo\r\nbar\rbaz';
-			const output = '<p><span>foo<br>bar<br>baz</span></p>';
-			assert.equal(toHtml(parse(input)!), output);
 		});
 	});
 

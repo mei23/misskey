@@ -5,7 +5,7 @@ import User from '../models/user';
 //import Note from '../models/note';
 import { repositoryUrl } from '../const.json';
 import Relay from '../models/relay';
-import { fromHtml } from '../mfm/fromHtml';
+import { fromHtml } from '../mfm/from-html';
 
 const router = new Router();
 

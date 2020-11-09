@@ -24,7 +24,7 @@ import { getRSSFeed } from './feed/rss';
 import { getJSONFeed } from './feed/json';
 import { buildMeta } from '../../misc/build-meta';
 import Page, { packPage } from '../../models/page';
-import { fromHtml } from '../../mfm/fromHtml';
+import { fromHtml } from '../../mfm/from-html';
 const htmlescape = require('htmlescape');
 
 const env = process.env.NODE_ENV;

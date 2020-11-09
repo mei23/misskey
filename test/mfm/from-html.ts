@@ -8,7 +8,7 @@
  * > mocha test/fromHtml.ts --require ts-node/register -g 'test name'
  */
 import * as assert from 'assert';
-import { fromHtml } from '../src/mfm/fromHtml';
+import { fromHtml } from '../../src/mfm/from-html';
 
 describe('fromHtml', () => {
 	it('br', () => {
