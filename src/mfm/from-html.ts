@@ -17,12 +17,21 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 
 	function getText(node: any): string {
 		if (node.nodeName == '#text') return node.value;
+		if (node.nodeName == 'br') return '\n';
 
 		if (node.childNodes) {
 			return node.childNodes.map((n: any) => getText(n)).join('');
 		}
 
 		return '';
+	}
+
+	function appendChildren(childNodes: any,): void {
+		if (childNodes) {
+			for (const n of childNodes) {
+				analyze(n);
+			}
+		}
 	}
 
 	function analyze(node: any) {
@@ -66,12 +75,75 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 			}
 
+			case 'div':
+				appendChildren(node.childNodes);
+				break;
+
 			case 'p':
 				text += '\n\n';
-				if (node.childNodes) {
-					for (const n of node.childNodes) {
-						analyze(n);
-					}
+				appendChildren(node.childNodes);
+				break;
+
+			case 'h1':
+				text += '【';
+				appendChildren(node.childNodes);
+				text += '】\n';
+				break;
+
+			case 'b':
+				text += '**';
+				appendChildren(node.childNodes);
+				text += '**';
+				break;
+
+			case 'strong':
+				text += '***';
+				appendChildren(node.childNodes);
+				text += '***';
+				break;
+
+			case 'small':
+				text += '<small>';
+				appendChildren(node.childNodes);
+				text += '</small>';
+				break;
+
+			case 'del':
+				text += '~~';
+				appendChildren(node.childNodes);
+				text += '~~';
+				break;
+
+			case 'i':
+				text += '<i>';
+				appendChildren(node.childNodes);
+				text += '</i>';
+				break;
+
+			// block code (<pre><code>)
+			case 'pre':
+				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === 'code') {
+					text += '```\n';
+					text += getText(node.childNodes[0]);
+					text += '\n```\n';
+				} else {
+					appendChildren(node.childNodes);
+				}
+				break;
+
+			// inline code (<code>)
+			case 'code':
+				text += '`';
+				appendChildren(node.childNodes);
+				text += '`';
+				break;
+
+			case 'blockquote':
+				const t = getText(node);
+				if (t) {
+					text += '> ';
+					console.log(`T ${t}`);
+					text += t.split('\n').join(`\n> `);
 				}
 				break;
 
