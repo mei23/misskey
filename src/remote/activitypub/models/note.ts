@@ -195,7 +195,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	const cw = note.summary === '' ? null : note.summary;
 
 	// テキストのパース
-	const text = note._misskey_content || htmlToMfm(note.content, note.tag);
+	const text = htmlToMfm(note.content, note.tag);
 
 	// vote
 	if (reply && reply.poll) {
