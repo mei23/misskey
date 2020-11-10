@@ -106,6 +106,7 @@ export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 
 		center(token) {
 			const el = doc.createElement('div');
+			el.setAttribute('align', 'center');
 			appendChildren(token.children, el);
 			return el;
 		},
