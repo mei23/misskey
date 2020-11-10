@@ -99,6 +99,7 @@ export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 		blockCode(token) {
 			const pre = doc.createElement('pre');
 			const inner = doc.createElement('code');
+			if (token.node.props.lang) inner.setAttribute('data-mfm-lang', token.node.props.lang);
 			inner.textContent = token.node.props.code;
 			pre.appendChild(inner);
 			return pre;
@@ -137,12 +138,14 @@ export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 
 		mathInline(token) {
 			const el = doc.createElement('code');
+			el.setAttribute('data-mfm-math', '1');
 			el.textContent = token.node.props.formula;
 			return el;
 		},
 
 		mathBlock(token) {
 			const el = doc.createElement('code');
+			el.setAttribute('data-mfm-math', '1');
 			el.textContent = token.node.props.formula;
 			return el;
 		},
