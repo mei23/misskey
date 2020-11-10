@@ -80,7 +80,7 @@
 		"@types/request-stats": "3.0.0",
 		"@types/rimraf": "3.0.0",
 		"@types/seedrandom": "2.4.28",
-		"@types/sharp": "0.26.0",
+		"@types/sharp": "0.26.1",
 		"@types/showdown": "1.9.3",
 		"@types/speakeasy": "2.0.5",
 		"@types/systeminformation": "3.54.1",
