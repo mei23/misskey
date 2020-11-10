@@ -76,7 +76,11 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 			}
 
 			case 'div':
+				const align = node.attrs.find((x: any) => x.name === 'align');
+				const center = align?.value === 'center';
+				if (center) text += '<center>';
 				appendChildren(node.childNodes);
+				if (center) text += '</center>';
 				break;
 
 			case 'p':
