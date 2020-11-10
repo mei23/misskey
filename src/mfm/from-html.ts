@@ -155,7 +155,6 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				const t = getText(node);
 				if (t) {
 					text += '> ';
-					console.log(`T ${t}`);
 					text += t.split('\n').join(`\n> `);
 				}
 				break;
