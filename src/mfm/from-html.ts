@@ -35,6 +35,10 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 		}
 	}
 
+	function hasAttribute(node: any, name: string) {
+		return !!node.attrs.find((x: any) => x.name == name);
+	}
+
 	function analyze(node: any) {
 		switch (node.nodeName) {
 			case '#text':
@@ -123,6 +127,36 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				text += '<i>';
 				appendChildren(node.childNodes);
 				text += '</i>';
+				break;
+
+			case 'span':
+				if (hasAttribute(node, 'data-mfm-jelly')) {
+					text += '<motion>';
+					appendChildren(node.childNodes);
+					text += '</motion>';
+				} else if (hasAttribute(node, 'data-mfm-spin')) {
+					const tag = hasAttribute(node, 'data-mfm-x') ? 'xspin' : hasAttribute(node, 'data-mfm-y') ? 'yspin' : 'spin';
+					const attr = hasAttribute(node, 'data-mfm-left') ? ' left' : hasAttribute(node, 'data-mfm-alternate') ? ' alternate' : '';
+					text += `<${tag}${attr}>`;
+					appendChildren(node.childNodes);
+					text += `</${tag}>`;
+				} else if (hasAttribute(node, 'data-mfm-jump')) {
+					text += '<jump>';
+					appendChildren(node.childNodes);
+					text += '</jump>';
+				} else if (hasAttribute(node, 'data-mfm-flip')) {
+					const tag = hasAttribute(node, 'data-mfm-v') ? 'vflip' : 'flip';
+					text += `<${tag}>`;
+					appendChildren(node.childNodes);
+					text += `</${tag}>`;
+				} else if (hasAttribute(node, 'data-mfm-rotate')) {
+					const deg = node.attrs.find((x: any) => x.name == 'data-mfm-deg');
+					text += `<rotate ${deg.value}>`;
+					appendChildren(node.childNodes);
+					text += `</rotate>`;
+				} else {
+					appendChildren(node.childNodes);
+				}
 				break;
 
 			// block code (<pre><code>)
