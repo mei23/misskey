@@ -1,6 +1,7 @@
 import { parseFragment, DefaultTreeDocumentFragment } from 'parse5';
 import { URL } from 'url';
 import { urlRegexFull } from './prelude';
+import { inspect } from 'util';
 
 export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 	if (html == null) return null;
@@ -127,7 +128,8 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 			// block code (<pre><code>)
 			case 'pre':
 				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === 'code') {
-					text += '```\n';
+					const lang = node.childNodes[0].attrs.find((x: any) => x.name == 'data-mfm-lang');
+					text += '```' + (lang?.value || '') + '\n';
 					text += getText(node.childNodes[0]);
 					text += '\n```\n';
 				} else {
@@ -137,9 +139,16 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 
 			// inline code (<code>)
 			case 'code':
-				text += '`';
-				appendChildren(node.childNodes);
-				text += '`';
+				const math = node.attrs.find((x: any) => x.name == 'data-mfm-math');
+				if (math) {
+					text += '\\\(';
+					text += getText(node);
+					text += '\\\)';
+				} else {
+					text += '`';
+					appendChildren(node.childNodes);
+					text += '`';
+				}
 				break;
 
 			case 'blockquote':
