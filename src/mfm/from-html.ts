@@ -23,7 +23,6 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 		}
 	}
 
-
 	function analyze(node: any) {
 		switch (node.nodeName) {
 			case '#text':
