@@ -15,17 +15,6 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 
 	return text.trim();
 
-	function getText(node: any): string {
-		if (node.nodeName == '#text') return node.value;
-		if (node.nodeName == 'br') return '\n';
-
-		if (node.childNodes) {
-			return node.childNodes.map((n: any) => getText(n)).join('');
-		}
-
-		return '';
-	}
-
 	function appendChildren(childNodes: any,): void {
 		if (childNodes) {
 			for (const n of childNodes) {
@@ -34,13 +23,6 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 		}
 	}
 
-	function getValue(node: any, name: string): string | undefined {
-		return node.attrs.find((x: any) => x.name == name)?.value || undefined;
-	}
-
-	function hasAttribute(node: any, name: string) {
-		return !!node.attrs.find((x: any) => x.name == name);
-	}
 
 	function analyze(node: any) {
 		switch (node.nodeName) {
@@ -211,4 +193,23 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 		}
 	}
+}
+
+function getText(node: any): string {
+	if (node.nodeName == '#text') return node.value;
+	if (node.nodeName == 'br') return '\n';
+
+	if (node.childNodes) {
+		return node.childNodes.map((n: any) => getText(n)).join('');
+	}
+
+	return '';
+}
+
+function getValue(node: any, name: string): string | undefined {
+	return node.attrs.find((x: any) => x.name == name)?.value || undefined;
+}
+
+function hasAttribute(node: any, name: string) {
+	return !!node.attrs.find((x: any) => x.name == name);
 }
