@@ -34,6 +34,10 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 		}
 	}
 
+	function getValue(node: any, name: string): string | undefined {
+		return node.attrs.find((x: any) => x.name == name)?.value || undefined;
+	}
+
 	function hasAttribute(node: any, name: string) {
 		return !!node.attrs.find((x: any) => x.name == name);
 	}
@@ -128,27 +132,28 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				text += '</i>';
 				break;
 
-			case 'span':
-				if (hasAttribute(node, 'data-mfm-jelly')) {
+			case 'span': {
+				const name = getValue(node, 'data-mfm');
+				if (name === 'jelly') {
 					text += '<motion>';
 					appendChildren(node.childNodes);
 					text += '</motion>';
-				} else if (hasAttribute(node, 'data-mfm-spin')) {
+				} else if (name === 'spin') {
 					const tag = hasAttribute(node, 'data-mfm-x') ? 'xspin' : hasAttribute(node, 'data-mfm-y') ? 'yspin' : 'spin';
 					const attr = hasAttribute(node, 'data-mfm-left') ? ' left' : hasAttribute(node, 'data-mfm-alternate') ? ' alternate' : '';
 					text += `<${tag}${attr}>`;
 					appendChildren(node.childNodes);
 					text += `</${tag}>`;
-				} else if (hasAttribute(node, 'data-mfm-jump')) {
+				} else if (name === 'jump') {
 					text += '<jump>';
 					appendChildren(node.childNodes);
 					text += '</jump>';
-				} else if (hasAttribute(node, 'data-mfm-flip')) {
+				} else if (name === 'flip') {
 					const tag = hasAttribute(node, 'data-mfm-v') ? 'vflip' : 'flip';
 					text += `<${tag}>`;
 					appendChildren(node.childNodes);
 					text += `</${tag}>`;
-				} else if (hasAttribute(node, 'data-mfm-rotate')) {
+				} else if (name === 'rotate') {
 					const deg = node.attrs.find((x: any) => x.name == 'data-mfm-deg');
 					text += `<rotate ${deg.value}>`;
 					appendChildren(node.childNodes);
@@ -157,6 +162,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 					appendChildren(node.childNodes);
 				}
 				break;
+			}
 
 			// block code (<pre><code>)
 			case 'pre':
@@ -171,9 +177,9 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 
 			// inline code (<code>)
-			case 'code':
-				const math = node.attrs.find((x: any) => x.name == 'data-mfm-math');
-				if (math) {
+			case 'code': {
+				const name = getValue(node, 'data-mfm');
+				if (name === 'math') {
 					text += '\\\(';
 					text += getText(node);
 					text += '\\\)';
@@ -183,6 +189,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 					text += '`';
 				}
 				break;
+			}
 
 			case 'blockquote':
 				const t = getText(node);
