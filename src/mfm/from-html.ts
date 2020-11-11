@@ -83,13 +83,14 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 			}
 
-			case 'div':
+			case 'div': {
 				const align = node.attrs.find((x: any) => x.name === 'align');
 				const center = align?.value === 'center';
 				if (center) text += '<center>';
 				appendChildren(node.childNodes);
 				if (center) text += '</center>';
 				break;
+			}
 
 			case 'p':
 				text += '\n\n';
@@ -165,7 +166,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 			}
 
 			// block code (<pre><code>)
-			case 'pre':
+			case 'pre': {
 				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === 'code') {
 					const lang = node.childNodes[0].attrs.find((x: any) => x.name == 'data-mfm-lang');
 					text += '```' + (lang?.value || '') + '\n';
@@ -175,6 +176,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 					appendChildren(node.childNodes);
 				}
 				break;
+			}
 
 			// inline code (<code>)
 			case 'code': {
@@ -191,13 +193,14 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 			}
 
-			case 'blockquote':
+			case 'blockquote': {
 				const t = getText(node);
 				if (t) {
 					text += '> ';
 					text += t.split('\n').join(`\n> `);
 				}
 				break;
+			}
 
 			default:
 				if (node.childNodes) {
