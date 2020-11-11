@@ -146,6 +146,22 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 			}
 
+			case 'marquee': {
+				const direction = getValue(node, 'direction');
+				const behavior = getValue(node, 'behavior');
+
+				const attr
+					= behavior === 'alternate' ? ' alternate'
+					: behavior === 'slide'
+						? direction === 'right' ? ' reverse-slide' : ' slide'
+						: direction === 'right' ? ' reverse' : ''
+
+						text += `<marquee${attr}>`;
+					appendChildren(node.childNodes);
+					text += `</marquee>`;
+				break;
+			}
+
 			// block code (<pre><code>)
 			case 'pre': {
 				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === 'code') {

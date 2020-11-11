@@ -3,6 +3,8 @@ import config from '../config';
 import { INote } from '../models/note';
 import { concat } from '../prelude/array';
 import { MfmForest, MfmTree } from './prelude';
+import { inspect } from 'util';
+import note from '../remote/activitypub/kernel/create/note';
 
 export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteUsers'] = []) {
 	if (tokens == null) {
@@ -127,7 +129,17 @@ export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentioned
 		},
 
 		marquee(token) {
-			const el = doc.createElement('div');
+			const el = doc.createElement('marquee');
+			if (token.node.props.attr === 'reverse') {
+				el.setAttribute('direction', 'right');
+			} else if (token.node.props.attr === 'alternate') {
+				el.setAttribute('behavior', 'alternate');
+			} else if (token.node.props.attr === 'slide') {
+				el.setAttribute('behavior', 'slide');
+			} else if (token.node.props.attr === 'reverse-slide') {
+				el.setAttribute('direction', 'right');
+				el.setAttribute('behavior', 'slide');
+			}
 			appendChildren(token.children, el);
 			return el;
 		},
