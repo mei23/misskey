@@ -124,7 +124,7 @@
 		"gulp-clean-css": "4.3.0",
 		"gulp-rename": "1.4.0",
 		"gulp-replace": "1.0.0",
-		"gulp-sourcemaps": "2.6.5",
+		"gulp-sourcemaps": "3.0.0",
 		"gulp-stylus": "2.7.0",
 		"gulp-terser": "1.4.1",
 		"gulp-tslint": "8.1.4",
