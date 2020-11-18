@@ -38,6 +38,10 @@ export default Vue.extend({
 			type: Boolean,
 			default: false
 		},
+		local: {
+			type: Boolean,
+			default: false
+		},
 	},
 
 	data() {
@@ -95,7 +99,8 @@ export default Vue.extend({
 			if (!codes.includes('200d')) codes = codes.filter(x => x != 'fe0f');
 			codes = codes.filter(x => x && x.length);
 
-			this.url = `${twemojiSvgBase}/${codes.join('-')}.svg`;
+			// TODO: 拡張子
+			this.url = this.local ? `/assets/emojis/${codes.join('-')}.gif` : `${twemojiSvgBase}/${codes.join('-')}.svg`;
 		}
 	},
 });

@@ -3,7 +3,7 @@ import { createLeaf, createTree, urlRegex } from './prelude';
 import { Predicate } from '../prelude/relation';
 import parseAcct from '../misc/acct/parse';
 import { toUnicode } from 'punycode';
-import { emojiRegex, vendorEmojiRegex } from '../misc/emoji-regex';
+import { emojiRegex, vendorEmojiRegex, localEmojiRegex } from '../misc/emoji-regex';
 
 export function removeOrphanedBrackets(s: string): string {
 	const openBrackets = ['(', '「', '['];
@@ -260,8 +260,9 @@ export const mfmLanguage = P.createLanguage({
 	emoji: () => {
 		const name = P.regexp(/:(@?[\w-]+(?:@[\w.-]+)?):/i, 1).map(x => createLeaf('emoji', { name: x }));
 		const vcode = P.regexp(vendorEmojiRegex).map(x => createLeaf('emoji', { emoji: x, vendor: true }));
+		const lcode = P.regexp(localEmojiRegex).map(x => createLeaf('emoji', { emoji: x, local: true }));
 		const code = P.regexp(emojiRegex).map(x => createLeaf('emoji', { emoji: x }));
-		return P.alt(name, vcode, code);
+		return P.alt(name, lcode, vcode, code);
 	},
 	fn: r => {
 		return P.seqObj(
