@@ -412,6 +412,7 @@ common/views/pages/explore.vue:
   explore: "Explore {host}"
   explore-fediverse: "Explore fediverse"
   users-info: "Currently, {users} users are registered here"
+  searchUser: "Search user"
 common/views/components/url-preview.vue:
   enable-player: "Enable playback"
   disable-player: "Close the player"

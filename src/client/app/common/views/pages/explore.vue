@@ -1,5 +1,12 @@
 <template>
 <div>
+	<ui-input v-model="query" style="margin: 16px 0 24px 0;">
+		<span>{{ $t('searchUser') }}</span>
+	</ui-input>
+	<mk-user-list v-if="query && query !== ''" :make-promise="foundUsers" :key="`${query}`">
+		<fa :icon="faHashtag" fixed-width/>{{ query }}
+	</mk-user-list>
+
 	<div class="localfedi7" v-if="meta && stats && tag == null" :style="{ backgroundImage: meta.bannerUrl ? `url(${meta.bannerUrl})` : null }">
 		<header>{{ $t('explore', { host: meta.name }) }}</header>
 		<div>{{ $t('users-info', { users: num(stats.originalUsersCount) }) }}</div>
@@ -54,7 +61,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { faChartLine, faPlus, faHashtag } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faPlus, faHashtag, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faBookmark, faCommentAlt } from '@fortawesome/free-regular-svg-icons';
 
 const limit = 10;
@@ -202,9 +209,10 @@ export default Vue.extend({
 			tagsLocal: [],
 			tagsRemote: [],
 			stats: null,
+			query: null,
 			meta: null,
 			num: Vue.filter('number'),
-			faBookmark, faChartLine, faCommentAlt, faPlus, faHashtag
+			faBookmark, faChartLine, faCommentAlt, faPlus, faHashtag, faSearch
 		};
 	},
 
@@ -216,6 +224,12 @@ export default Vue.extend({
 				sort: '+follower',
 				limit: 30
 			});
+		},
+		foundUsers(): () => Promise<any> {
+			return () => (this.query && this.query !== '') ? this.$root.api('users/search', {
+				query: this.query,
+				limit: 30
+			}) : null;
 		},
 	},
 

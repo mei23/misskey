@@ -73,7 +73,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, me) => {
-	const isName = ps.query.replace('@', '').match(/^[\W-]/) != null;
+	const isName = !ps.query.startsWith('@') || ps.query.replace('@', '').match(/^[\W-]/) != null;
 	const isUsername = ps.query.replace('@', '').match(/^\w([\w-]*\w)?$/);
 	const isHostname = ps.query.replace('@', '').match(/\./) != null;
 
