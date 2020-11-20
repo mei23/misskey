@@ -112,14 +112,14 @@ export default Vue.extend({
 					const cc = [
 						String.fromCharCode(this.char.codePointAt(0) - 127397),
 						String.fromCharCode(this.char.codePointAt(2) - 127397)
-					]
-					this.url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/tree/master/third_party/region-flags/svg/${cc.join('')}.svg`
+					];
+					this.url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/tree/master/third_party/region-flags/svg/${cc.join('')}.svg`;	// TODO: 遅いし, max-age=300 なので
 					return
 				}
 
 				codes = codes.filter(x => x != 'fe0f');
-				codes = codes.map(x => x.length < 4 ? ('000' + x).slice(-4) : x)
-				this.url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u${codes.join('_')}.svg`
+				codes = codes.map(x => x.length < 4 ? ('000' + x).slice(-4) : x);
+				this.url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u${codes.join('_')}.svg`;	// TODO: 遅いし, max-age=300 なので
 				return;
 			}
 
