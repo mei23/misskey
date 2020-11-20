@@ -459,7 +459,7 @@
 	{ "category": "animals_and_nature", "char": "🐛", "name": "bug", "keywords": ["animal", "insect", "nature", "worm"] },
 	{ "category": "animals_and_nature", "char": "🦋", "name": "butterfly", "keywords": ["animal", "insect", "nature", "caterpillar"] },
 	{ "category": "animals_and_nature", "char": "🐌", "name": "snail", "keywords": ["slow", "animal", "shell"] },
-	{ "category": "animals_and_nature", "char": "🐞", "name": "lady beetle", "keywords": ["animal", "insect", "nature", "ladybug"] },
+	{ "category": "animals_and_nature", "char": "🐞", "name": "lady_beetle", "keywords": ["animal", "insect", "nature", "ladybug"] },
 	{ "category": "animals_and_nature", "char": "🐜", "name": "ant", "keywords": ["animal", "insect", "nature", "bug"] },
 	{ "category": "animals_and_nature", "char": "🦗", "name": "grasshopper", "keywords": ["animal", "cricket", "chirp"] },
 	{ "category": "animals_and_nature", "char": "🕷", "name": "spider", "keywords": ["animal", "arachnid"] },
