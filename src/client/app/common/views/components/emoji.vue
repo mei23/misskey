@@ -1,8 +1,14 @@
 <template>
+<!-- カスタム絵文字 -->
 <img v-if="customEmoji" class="fvgwvorwhxigeolkkrcderjzcawqrscl custom" :class="{ normal: normal }" :src="url" :alt="alt" :title="title"/>
+<!-- 絵文字 Vendor (OS, Browser) -->
 <span v-else-if="char && vendor">{{ char }}</span>
+<!-- 絵文字 General -->
+<img v-else-if="char && this.fallbackUrl" class="fvgwvorwhxigeolkkrcderjzcawqrscl" :src="url" :alt="alt" :title="alt" :onerror="`this.src='${fallbackUrl}'`"/>
 <img v-else-if="char" class="fvgwvorwhxigeolkkrcderjzcawqrscl" :src="url" :alt="alt" :title="alt"/>
+<!-- エラー - リアクション -->
 <span v-else-if="isReaction"></span>
+<!-- エラー - リアクション以外 -->
 <span v-else>:{{ name }}:</span>
 </template>
 
@@ -269,6 +275,7 @@ export default Vue.extend({
 	data() {
 		return {
 			url: null,
+			fallbackUrl: undefined,
 			char: null,
 			customEmoji: null
 		}
@@ -282,6 +289,13 @@ export default Vue.extend({
 		title(): string {
 			return this.customEmoji ? `:${this.customEmoji.name}:` : this.char;
 		},
+
+		twemojiUrl(): string {
+			let codes: string[] = Array.from(this.char).map(x => x.codePointAt(0).toString(16));
+			codes = codes.filter(x => x && x.length);
+			if (!codes.includes('200d')) codes = codes.filter(x => x != 'fe0f');
+			return `${twemojiSvgBase}/${codes.join('-')}.svg`;
+		}
 	},
 
 	watch: {
@@ -322,6 +336,7 @@ export default Vue.extend({
 			let codes: string[] = Array.from(this.char).map(x => x.codePointAt(0).toString(16));
 			codes = codes.filter(x => x && x.length);
 
+			// Vendor (OS, Browser) 
 			if (this.local) {
 				if (!codes.includes('200d')) codes = codes.filter(x => x != 'fe0f');
 				this.url = `/assets/emojis/${codes.join('-')}.svg`;
@@ -329,36 +344,17 @@ export default Vue.extend({
 			}
 
 			if (flavor === 'google' || flavor === 'apple' || flavor === 'facebook') {
-				// TODO: shibuya109, GB sub division, number sign (facebook)
-
+				const emojiDataVersion = '6.0.0';
 				if (!codes.includes('200d')) codes = codes.filter(x => x != 'fe0f');
 				codes = codes.map(x => x.length < 4 ? ('000' + x).slice(-4) : x);
 				let b = `${codes.join('-')}`;
 				if (tw2full[b]) b = tw2full[b];
-				this.url = `https://cdnjs.cloudflare.com/ajax/libs/emoji-datasource-${flavor}/6.0.0/img/${flavor}/64/${b}.png`;	// TODO: 大きい
+				this.url = `https://cdnjs.cloudflare.com/ajax/libs/emoji-datasource-${flavor}/${emojiDataVersion}/img/${flavor}/64/${b}.png`;
+				this.fallbackUrl = this.twemojiUrl;
 				return;
 			}
 
-			if (flavor === 'noto') {
-				// TODO: shibuya109, GB sub division
-				if (this.char.match(/^(?:\uD83C[\uDDE6-\uDDFF]){2}$/)) {
-					const cc = [
-						String.fromCharCode(this.char.codePointAt(0) - 127397),
-						String.fromCharCode(this.char.codePointAt(2) - 127397)
-					];
-					// TODO: 最適化されてない, 遅い, max-age=300 なので
-					this.url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/tree/master/third_party/region-flags/svg/${cc.join('')}.svg`;
-					return
-				}
-
-				codes = codes.filter(x => x != 'fe0f');
-				codes = codes.map(x => x.length < 4 ? ('000' + x).slice(-4) : x);
-				this.url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/master/svg/emoji_u${codes.join('_')}.svg`;
-				return;
-			}
-
-			if (!codes.includes('200d')) codes = codes.filter(x => x != 'fe0f');
-			this.url = `${twemojiSvgBase}/${codes.join('-')}.svg`;
+			this.url = this.twemojiUrl;
 		}
 	},
 });
