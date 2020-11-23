@@ -1,10 +1,10 @@
 <template>
 <div>
-	<ui-input v-model="query" style="margin: 16px 0 24px 0;">
+	<ui-input v-model="query" style="margin: 1.2em 0.5em 1.5em;">
 		<span>{{ $t('searchUser') }}</span>
 	</ui-input>
 	<mk-user-list v-if="query && query !== ''" :make-promise="foundUsers" :key="`${query}`">
-		<fa :icon="faHashtag" fixed-width/>{{ query }}
+		<fa :icon="faSearch" fixed-width/>{{ query }}
 	</mk-user-list>
 
 	<div class="localfedi7" v-if="meta && stats && tag == null" :style="{ backgroundImage: meta.bannerUrl ? `url(${meta.bannerUrl})` : null }">

@@ -160,8 +160,9 @@ export default Vue.extend({
 				}
 			}
 
-			if (!this.text.match(emojiRegex)) return;
-			this.reactText();
+			const m = this.text.match(emojiRegex);
+			if (!m) return;
+			this.react(m[1]);
 		},
 
 		reactRandom() {
@@ -184,7 +185,8 @@ export default Vue.extend({
 				y: rect.top + window.pageYOffset
 			});
 			vm.$once('chosen', emoji => {
-				this.react(emoji);
+				const m = emoji.match(emojiRegex);
+				this.react(m ? m[1] : emoji);
 			});
 			this.$once('hook:beforeDestroy', () => {
 				vm.close();

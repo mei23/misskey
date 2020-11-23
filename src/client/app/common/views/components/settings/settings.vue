@@ -173,6 +173,15 @@
 			</section>
 
 			<section>
+				<header>{{ $t('@._settings.hasDisconnectedAction') }}</header>
+				<ui-select v-model="hasDisconnectedAction">
+					<option value="reload">{{ $t('@._settings._hasDisconnectedAction.reload') }}</option>
+					<option value="notify">{{ $t('@._settings._hasDisconnectedAction.notify') }}</option>
+					<option value="nothing">{{ $t('@._settings._hasDisconnectedAction.nothing') }}</option>
+				</ui-select>
+			</section>
+
+			<section>
 				<header>{{ $t('@._settings.room') }}</header>
 				<ui-select v-model="roomGraphicsQuality">
 					<template #label>{{ $t('@._settings._room.graphicsQuality') }}</template>
@@ -555,6 +564,11 @@ export default Vue.extend({
 		iLikeSushi: {
 			get() { return this.$store.state.settings.iLikeSushi; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'iLikeSushi', value }); }
+		},
+
+		hasDisconnectedAction: {
+			get() { return this.$store.state.device.hasDisconnectedAction; },
+			set(value) { this.$store.commit('device/set', { key: 'hasDisconnectedAction', value }); }
 		},
 
 		roomUseOrthographicCamera: {

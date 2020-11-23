@@ -175,6 +175,7 @@ init((launch, os) => {
 			{ path: '/@:acct/room', props: true, component: () => import('../common/views/pages/room/room.vue').then(m => m.default) },
 			{ path: '/notes/:note', component: MkNote },
 			{ path: '/authorize-follow', component: MkFollow },
+			{ path: '/mfm-cheat-sheet', component: () => import('../common/views/pages/mfm-cheat-sheet.vue').then(m => m.default) },
 			{ path: '*', component: MkNotFound }
 		]
 	});

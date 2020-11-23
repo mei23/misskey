@@ -77,6 +77,7 @@ const defaultDeviceSettings = Object.assign({
 	showPostPreview: true,
 	enableMobileQuickNotificationView: false,
 	roomGraphicsQuality: 'medium',
+	hasDisconnectedAction: 'notify',
 	roomUseOrthographicCamera: true,
 	activeEmojiCategoryName: undefined,
 	recentEmojis: [],

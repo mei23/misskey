@@ -21,7 +21,7 @@
 						<li><router-link to="/i/messaging" :data-active="$route.name == 'messaging'"><i><fa :icon="['far', 'comments']" fixed-width/></i>{{ $t('@.messaging') }}<i v-if="hasUnreadMessagingMessage" class="circle"><fa icon="circle"/></i><i><fa icon="angle-right"/></i></router-link></li>
 						<li v-if="$store.getters.isSignedIn"><router-link to="/i/received-follow-requests" :data-active="$route.name == 'received-follow-requests'"><i><fa :icon="['far', 'envelope']" fixed-width/></i>{{ $t('follow-requests') }}<i v-if="$store.getters.isSignedIn && $store.state.i.pendingReceivedFollowRequestsCount" class="circle"><fa icon="circle"/></i><i><fa icon="angle-right"/></i></router-link></li>
 						<li><router-link to="/featured" :data-active="$route.name == 'featured'"><i><fa :icon="faNewspaper" fixed-width/></i>{{ $t('@.featured-notes') }}<i><fa icon="angle-right"/></i></router-link></li>
-						<li><router-link to="/explore" :data-active="$route.name == 'explore' || $route.name == 'explore-tag'"><i><fa :icon="faHashtag" fixed-width/></i>{{ $t('@.explore') }}<i><fa icon="angle-right"/></i></router-link></li>
+						<li><router-link to="/explore" :data-active="$route.name == 'explore' || $route.name == 'explore-tag'"><i><fa :icon="faUsers" fixed-width/></i>{{ $t('@.explore') }}<i><fa icon="angle-right"/></i></router-link></li>
 						<li><router-link to="/games/reversi" :data-active="$route.name == 'reversi'"><i><fa icon="gamepad" fixed-width/></i>{{ $t('game') }}<i v-if="hasGameInvitation" class="circle"><fa icon="circle"/></i><i><fa icon="angle-right"/></i></router-link></li>
 					</ul>
 					<ul>
@@ -73,7 +73,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { faNewspaper, faHashtag, faHome, faColumns, faSync, faDesktop, faMobileAlt, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faUsers, faHome, faColumns, faSync, faDesktop, faMobileAlt, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faMoon, faSun, faStickyNote } from '@fortawesome/free-regular-svg-icons';
 
 export default Vue.extend({
@@ -93,7 +93,7 @@ export default Vue.extend({
 			announcements: [],
 			searching: false,
 			showNotifications: false,
-			faNewspaper, faHashtag, faMoon, faSun, faHome, faColumns, faSync, faDesktop, faMobileAlt, faStickyNote, faThumbsUp
+			faNewspaper, faUsers, faMoon, faSun, faHome, faColumns, faSync, faDesktop, faMobileAlt, faStickyNote, faThumbsUp
 		};
 	},
 

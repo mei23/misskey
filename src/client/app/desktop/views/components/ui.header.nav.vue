@@ -8,7 +8,7 @@
 			<router-link to="/featured"><fa :icon="faNewspaper"/><p>{{ $t('@.featured-notes') }}</p></router-link>
 		</li>
 		<li class="explore" :class="{ active: $route.name == 'explore' || $route.name == 'explore-tag' }">
-			<router-link to="/explore"><fa :icon="faHashtag"/><p>{{ $t('@.explore') }}</p></router-link>
+			<router-link to="/explore"><fa :icon="faUsers"/><p>{{ $t('@.explore') }}</p></router-link>
 		</li>
 		<li class="game">
 			<a @click="game">
@@ -25,7 +25,7 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import MkGameWindow from './game-window.vue';
-import { faNewspaper, faHashtag } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/ui.header.nav.vue'),
@@ -33,7 +33,7 @@ export default Vue.extend({
 		return {
 			hasGameInvitations: false,
 			connection: null,
-			faNewspaper, faHashtag
+			faNewspaper, faUsers
 		};
 	},
 	computed: {

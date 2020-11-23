@@ -175,7 +175,7 @@ export default Vue.extend({
 
 			if (this.type == 'user') {
 				this.$root.api('users/search', {
-					query: this.q,
+					query: `@${this.q}`,
 					localOnly: !!this.localOnly,
 					limit: 20,
 					detail: false

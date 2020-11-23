@@ -1,16 +1,18 @@
 <template>
 <div>
-	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected" @click="resetDisconnected">
+	<!-- (今は繋がってるけど) 切断履歴があったときに出るやつ -->
+	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected
+		&& ($store.state.device.hasDisconnectedAction !== 'nothing' || newVersion != null)" @click="resetDisconnected">
 		<div><fa icon="exclamation-triangle"/> {{ $t('has-disconnected') }} ({{ disconnectedTime }})</div>
 		<div v-if="newVersion != null">
 			{{ $t('update-available') }} ({{ newVersion }})<br />
-			<span v-if="this.reloadTimer != null">5秒後にリロードするわよ</span>
 		</div>
 		<div class="command">
 			<button @click="reload">{{ $t('reload') }}</button>
 			<button>{{ $t('ignore') }}</button>
 		</div>
 	</div>
+	<!-- 接続中, 再接続中, 接続完了 -->
 	<div class="mk-stream-indicator" ref="indicator">
 		<p v-if="stream.state == 'initializing'">
 			<fa icon="spinner" pulse/>
@@ -77,13 +79,14 @@ export default Vue.extend({
 		onConnected() {
 			if (this.hasDisconnected) {
 				this.tSum += Date.now() - this.t0;
+
+				if (this.$store.state.device.hasDisconnectedAction === 'reload') {
+					this.reloadTimer = setTimeout(() => {
+						this.reload();
+					}, 5000);
+				}
 				checkForUpdate(this.$root, true, true).then(newer => {
 					this.newVersion = newer;
-					if (this.newVersion != null && env !== 'production') {
-						this.reloadTimer = setTimeout(() => {
-							this.reload();
-						}, 5000);
-					}
 				});
 			}
 			setTimeout(() => {

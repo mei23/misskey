@@ -300,6 +300,11 @@ common:
     showDislikeInPicker: "Show Dislike"
     enableRandomReactionPicker: "Randomly set for each picker display"
     room: "Room"
+    hasDisconnectedAction: "When past disconnected from the server"
+    _hasDisconnectedAction:
+      reload: "Reload automatically"
+      notify: "Notification only"
+      nothing: "Do nothing"
     _room:
       graphicsQuality: "Graphics Quality"
       _graphicsQuality:

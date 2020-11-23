@@ -12,7 +12,7 @@
 				<router-link to="/featured"><fa :icon="faNewspaper"/></router-link>
 			</div>
 			<div :title="$t('@.explore')" class="explore" :class="{ active: $route.name == 'explore' || $route.name == 'explore-tag' }">
-				<router-link to="/explore"><fa :icon="faHashtag"/></router-link>
+				<router-link to="/explore"><fa :icon="faUsers"/></router-link>
 			</div>
 			<div :title="$t('@.game')" class="game">
 				<a @click="game"><fa icon="gamepad"/><template v-if="hasGameInvitations"><fa icon="circle"/></template></a>
@@ -81,7 +81,7 @@ import MkDriveWindow from './drive-window.vue';
 import MkMessagingWindow from './messaging-window.vue';
 import MkGameWindow from './game-window.vue';
 import contains from '../../../common/scripts/contains';
-import { faNewspaper, faHashtag, faStickyNote, faDoorOpen, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faUsers, faStickyNote, faDoorOpen, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/ui.sidebar.vue'),
@@ -91,7 +91,7 @@ export default Vue.extend({
 			connection: null,
 			showNotifications: false,
 			searching: false,
-			faNewspaper, faHashtag, faStickyNote, faDoorOpen, faThumbsUp
+			faNewspaper, faUsers, faStickyNote, faDoorOpen, faThumbsUp
 		};
 	},
 

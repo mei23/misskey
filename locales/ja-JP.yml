@@ -329,6 +329,11 @@ common:
     recentReactionsCount: "履歴の数"
     showDislikeInPicker: "Dislikeを表示する"
     enableRandomReactionPicker: "ピッカー表示ごとにランダムに設定する"
+    hasDisconnectedAction: "サーバーから切断されていたとき"
+    _hasDisconnectedAction:
+      reload: "自動でリロードする"
+      notify: "通知のみ"
+      nothing: "なにもしない"
     room: "ルーム"
     _room:
       graphicsQuality: "グラフィックの品質"

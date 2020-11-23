@@ -4,8 +4,10 @@
 	:class="{ reacted: note.myReaction == reaction, canToggle }"
 	@click="toggleReaction(reaction)"
 	v-if="count > 0"
+	@touchstart="onMouseover"
 	@mouseover="onMouseover"
 	@mouseleave="onMouseleave"
+	@touchend="onMouseleave"
 	ref="reaction"
 >
 	<mk-reaction-icon :reaction="reaction" :customEmojis="note.emojis" ref="icon"/>
@@ -77,7 +79,6 @@ export default Vue.extend({
 			this.closeDetails();
 		},
 		openDetails() {
-			if (this.$root.isMobile) return;
 			this.$root.api('notes/reactions', {
 				noteId: this.note.id,
 				type: this.reaction,
