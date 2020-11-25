@@ -331,7 +331,7 @@ export default Vue.extend({
 		}
 
 		if (this.char) {
-			const flavor = 'google' as string;
+			const flavor = this.$store.state.device.emojiFlavor;
 
 			let codes: string[] = Array.from(this.char).map(x => x.codePointAt(0).toString(16));
 			codes = codes.filter(x => x && x.length);
