@@ -100,7 +100,6 @@ export default define(meta, async (ps, me) => {
 		const name = ps.query.replace(/^-/, '');
 
 		if (me) {
-			console.log(`me: ${me}`);
 			const usertags = await Usertag.find({
 				ownerId: me._id,
 				tags: name
