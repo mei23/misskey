@@ -187,6 +187,7 @@ export const meta = {
 				quote: $.optional.bool,
 				reaction: $.optional.bool,
 				poll_vote: $.optional.bool,
+				poll_finished: $.optional.bool,
 				highlight: $.optional.bool
 			}),
 			desc: {

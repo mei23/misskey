@@ -22,6 +22,8 @@ export default function(notification: any): string {
 			return `${getReactionEmoji(notification.reaction)} ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
 		case 'poll_vote':
 			return `Vote ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
+		case 'poll_finished':
+			return `poll_finished ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
 		case 'highlight':
 			return `Highlight ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
 		default:

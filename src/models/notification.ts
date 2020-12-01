@@ -46,7 +46,7 @@ export interface INotification {
 	 * reaction - (自分または自分がWatchしている)投稿にリアクションされた
 	 * poll_vote - (自分または自分がWatchしている)投稿の投票に投票された
 	 */
-	type: 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'poll_vote' | 'highlight';
+	type: 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'poll_vote' | 'poll_finished' | 'highlight';
 
 	/**
 	 * 通知が読まれたかどうか
@@ -113,6 +113,7 @@ export const pack = async (notification: any) => {
 		case 'reaction':
 		case 'poll_vote':
 		case 'highlight':
+		case 'poll_finished':
 			// Populate note
 			_notification.note = await packNote(_notification.noteId, me);
 

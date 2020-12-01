@@ -80,6 +80,22 @@
 		</div>
 	</div>
 
+	<div class="notification pollVote" v-if="notification.type == 'poll_finished'">
+		<mk-avatar class="avatar" :user="notification.user"/>
+		<div>
+			<header>
+				<fa icon="chart-pie" class="icon"/>
+				<span>{{ $t('poll_finished') }}</span>
+				<mk-time :time="notification.createdAt"/>
+			</header>
+			<router-link class="note-ref" :to="notification.note | notePage" :title="getNoteSummary(notification.note)">
+				<fa icon="quote-left"/>
+					<mfm :text="getNoteSummary(notification.note)" :plain="true" :extra="true" :nowrap="true" :custom-emojis="notification.note.emojis"/>
+				<fa icon="quote-right"/>
+			</router-link>
+		</div>
+	</div>
+
 	<div class="notification highlight" v-if="notification.type == 'highlight'">
 		<mk-avatar class="avatar" :user="notification.user"/>
 		<div>
@@ -205,4 +221,9 @@ export default Vue.extend({
 		&.reply, &.mention, &.highlight
 			> div > header [data-icon]
 				color #555
+
+		&.pollVote
+			> div > header
+				color var(--faceText)
+				align-items center
 </style>

@@ -12,8 +12,12 @@ export const createNotification = (
 	type: string,
 	content?: any
 ) => new Promise<any>(async (resolve, reject) => {
-	if (notifiee.equals(notifier)) {
-		return resolve();
+	try {
+		if (notifiee.equals(notifier)) {
+			return resolve();
+		}
+	} catch (e) {
+		return reject(e);
 	}
 
 	// Create notification

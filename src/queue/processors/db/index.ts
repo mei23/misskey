@@ -11,6 +11,7 @@ import { importFollowing } from './import-following';
 import { importBlocking } from './import-blocking';
 import { importMute } from './import-mute';
 import { importUserLists } from './import-user-lists';
+import { notifyPollFinished } from './notify-poll-finished';
 
 const jobs = {
 	deleteNotes,
@@ -24,7 +25,8 @@ const jobs = {
 	importFollowing,
 	importBlocking,
 	importMute,
-	importUserLists
+	importUserLists,
+	notifyPollFinished,
 } as any;
 
 export default function(dbQueue: Bull.Queue) {

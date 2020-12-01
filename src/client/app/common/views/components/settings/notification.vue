@@ -10,6 +10,7 @@
 		<ui-switch v-model="quote" @change="onChangePushNotifications">{{ $t('quote') }}</ui-switch>
 		<ui-switch v-model="reaction" @change="onChangePushNotifications">{{ $t('reaction') }}</ui-switch>
 		<ui-switch v-model="poll_vote" @change="onChangePushNotifications">{{ $t('poll_vote') }}</ui-switch>
+		<ui-switch v-model="poll_finished" @change="onChangePushNotifications">{{ $t('poll_finished') }}</ui-switch>
 		<ui-switch v-model="highlight" @change="onChangePushNotifications">{{ $t('highlight') }}</ui-switch>
 	</section>
 	<section>
@@ -42,6 +43,7 @@ export default Vue.extend({
 			quote: true,
 			reaction: true,
 			poll_vote: true,
+			poll_finished: true,
 			highlight: true,
 		};
 	},
@@ -54,6 +56,7 @@ export default Vue.extend({
 		this.quote = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'quote');
 		this.reaction = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'reaction');
 		this.poll_vote = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'poll_vote');
+		this.poll_finished = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'poll_finished');
 		this.highlight = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'highlight');
 	},
 
@@ -74,6 +77,7 @@ export default Vue.extend({
 					quote: this.quote,
 					reaction: this.reaction,
 					poll_vote: this.poll_vote,
+					poll_finished: this.poll_finished,
 					highlight: this.highlight,
 				}
 			});

@@ -62,7 +62,7 @@ export type InboxRequestData = {
 	ip?: string;
 };
 
-export type DbJobData = DbUserJobData | DbUserImportJobData | DeleteNoteJobData;
+export type DbJobData = DbUserJobData | DbUserImportJobData | DeleteNoteJobData | NotifyPollFinishedData;
 
 export type DbUserJobData = {
 	user: ILocalUser;
@@ -76,6 +76,11 @@ export type DbUserImportJobData = {
 export type DeleteNoteJobData = {
 	noteId: ObjectID;
 };
+
+export type NotifyPollFinishedData = {
+	userId: string;	// ObjectIDを入れてもstringでシリアライズされるだけ
+	noteId: string;
+}
 //#endregion
 
 export const deliverQueue = initializeQueue<DeliverJobData>('deliver', config.deliverJobPerSec || 128);
@@ -187,6 +192,20 @@ export function createDeleteDriveFilesJob(user: ILocalUser) {
 export function createDeleteNoteJob(note: INote, delay: number) {
 	return dbQueue.add('deleteNote', {
 		noteId: note._id
+	}, {
+		delay,
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
+export function createNotifyPollFinishedJob(note: INote, user: ILocalUser, expiresAt: Date) {
+	let delay = expiresAt.getTime() - Date.now() + 2000;
+	if (delay < 0) delay = 2000;
+
+	return dbQueue.add('notifyPollFinished', {
+		noteId: `${note._id}`,
+		userId: `${user._id}`
 	}, {
 		delay,
 		removeOnComplete: true,
