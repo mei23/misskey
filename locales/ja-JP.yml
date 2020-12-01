@@ -43,7 +43,8 @@ common:
   notification-type: "通知の種類"
   notification-types:
     all: "すべて"
-    pollVote: "投票"
+    poll_vote: "投票"
+    poll_finished: "アンケート完了"
     follow: "フォロー"
     receiveFollowRequest: "フォローリクエスト"
     reply: "返信"
