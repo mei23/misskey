@@ -145,7 +145,7 @@
 						<div class="text">
 							<header>
 								<fa icon="chart-pie" class="icon"/>
-								<span>{{ $t('poll_finished') }}</span>
+								<span>{{ $t('@.poll_finished') }}</span>
 								<mk-time :time="notification.createdAt"/>
 							</header>
 							<router-link class="note-ref" :to="notification.note | notePage" :title="getNoteSummary(notification.note)">
@@ -420,7 +420,7 @@ export default Vue.extend({
 
 				&.poll_vote, &.poll_finished
 					.text header
-						color var(--faceText)
+						color var(--text)
 						align-items center
 
 				&._missing_

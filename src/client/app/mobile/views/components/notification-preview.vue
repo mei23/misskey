@@ -153,7 +153,7 @@ export default Vue.extend({
 
 	&.pollVote
 		.text
-			color var(--faceText)
+			color var(--text)
 			align-items center
 
 </style>

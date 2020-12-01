@@ -10,7 +10,7 @@ import define from '../../../define';
 import User, { IRemoteUser } from '../../../../../models/user';
 import { ApiError } from '../../../error';
 import { getNote } from '../../../common/getters';
-import { deliver } from '../../../../../queue';
+import { deliver, createNotifyPollFinishedJob } from '../../../../../queue';
 import { renderActivity } from '../../../../../remote/activitypub/renderer';
 import renderVote from '../../../../../remote/activitypub/renderer/vote';
 import { deliverQuestionUpdate } from '../../../../../services/note/polls/update';
@@ -162,6 +162,10 @@ export default define(meta, async (ps, user) => {
 	// この投稿をWatchする
 	if (user.settings.autoWatch !== false) {
 		watch(user._id, note);
+	}
+
+	if (note.poll.expiresAt) {
+		createNotifyPollFinishedJob(note, user, note.poll.expiresAt);
 	}
 
 	// リモート投票の場合リプライ送信

@@ -91,6 +91,7 @@ common:
   edit: 'Edit'
   favorites: "Favorites"
   noteReactions: "Reacted notes"
+  poll_finished: "Poll finished"
   permissions:
     "read:account": "View your account information"
     "write:account": "Edit your account information"
@@ -731,6 +732,7 @@ common/views/components/notification-settings.vue:
   quote: "Quote"
   reaction: "Reaction"
   poll_vote: "Vote"
+  poll_finished: "Poll finished"
   highlight: "Highlight"
   mark-as-read-all-notifications: "Mark all notifications as read"
   mark-as-read-all-unread-notes: "Mark all posts as read"
