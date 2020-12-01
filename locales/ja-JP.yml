@@ -106,7 +106,7 @@ common:
 
   favorites: "お気に入り"
   noteReactions: "リアクションした投稿"
-  poll_finished: "投票完了"
+  poll_finished: "アンケート完了"
 
   permissions:
     "read:account": "アカウントの情報を見る"
@@ -797,7 +797,7 @@ common/views/components/notification-settings.vue:
   quote: "引用"
   reaction: "リアクション"
   poll_vote: "投票"
-  poll_finished: "投票完了"
+  poll_finished: "アンケート完了"
   highlight: "ハイライトワード"
   mark-as-read-all-notifications: "すべての通知を既読にする"
   mark-as-read-all-unread-notes: "すべての投稿を既読にする"
