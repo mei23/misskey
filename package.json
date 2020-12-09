@@ -206,7 +206,7 @@
 		"ts-node": "9.1.1",
 		"typescript": "3.9.7",
 		"url-loader": "4.1.1",
-		"uuid": "8.3.1",
+		"uuid": "8.3.2",
 		"v-animate-css": "0.0.3",
 		"v-debounce": "0.1.2",
 		"vue": "2.6.12",
