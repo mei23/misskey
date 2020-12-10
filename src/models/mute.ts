@@ -15,6 +15,7 @@ export interface IMute {
 	createdAt: Date;
 	muterId: mongo.ObjectID;
 	muteeId: mongo.ObjectID;
+	expiresAt?: Date;
 }
 
 export const packMany = (

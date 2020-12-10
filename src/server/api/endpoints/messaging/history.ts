@@ -32,6 +32,10 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const mute = await Mute.find({
+		$or: [
+			{ expiresAt: null },
+			{ expiresAt: { $gt: new Date() }}
+		],
 		muterId: user._id,
 		deletedAt: { $exists: false }
 	});

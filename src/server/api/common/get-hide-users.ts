@@ -26,6 +26,10 @@ export async function getHideUserIdsById(meId?: mongo.ObjectID | null, includeSi
 			}
 		})) : [],
 		meId ? Mute.find({
+			$or: [
+				{ expiresAt: null },
+				{ expiresAt: { $gt: new Date() }}
+			],
 			muterId: meId
 		}) : [],
 		meId ? Blocking.find({

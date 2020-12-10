@@ -4,7 +4,6 @@ import Mute from '../../../../models/mute';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
-import { getMute } from '../../../../models/user';
 import { publishMutingChanged } from '../../../../services/create-event';
 
 export const meta = {
@@ -65,10 +64,13 @@ export default define(meta, async (ps, user) => {
 		throw e;
 	});
 
-	// Check not muting
-	const exist = await getMute(muter._id, mutee._id);
+	// Check not muting (期限切れのがあるかもしれないので期限問わず消す)
+	const exist = await Mute.findOne({
+		muterId: transform(muter._id),
+		muteeId: transform(mutee._id)
+	});
 
-	if (exist === null) {
+	if (exist == null) {
 		throw new ApiError(meta.errors.notMuting);
 	}
 

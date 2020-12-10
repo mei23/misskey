@@ -30,6 +30,10 @@ export default (
 				: [(message as INotification)._id];
 
 	const mute = await Mute.find({
+		$or: [
+			{ expiresAt: null },
+			{ expiresAt: { $gt: new Date() }}
+		],
 		muterId: userId
 	});
 	const mutedUserIds = mute.map(m => m.muteeId);

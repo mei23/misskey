@@ -39,12 +39,15 @@ export async function exportMute(job: Bull.Job<DbUserJobData>): Promise<string> 
 	let exportedCount = 0;
 	let cursor: any = null;
 
+	// 期限付きのは常にリストに含まない
 	const total = await Mute.count({
+		expiresAt: null,
 		muterId: user._id,
 	});
 
 	while (true) {
 		const mutes = await Mute.find({
+			expiresAt: null,
 			muterId: user._id,
 			...(cursor ? { _id: { $gt: cursor } } : {})
 		}, {
