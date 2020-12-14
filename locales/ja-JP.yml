@@ -679,6 +679,17 @@ common/views/components/user-menu.vue:
   unhide-renote: "Renoteを隠すを解除"
   hide-renote-confirm: "このユーザーのRenoteを隠しますか？"
   unhide-renote-confirm: "このユーザーのRenoteを隠してるのを解除しますか？"
+  confirm: "確認"
+  timeSpans:
+    0: "無期限"
+    300: "5分"
+    1800: "30分"
+    3600: "1時間"
+    10800: "3時間"
+    21600: "6時間"
+    86400: "1日"
+    259200: "3日"
+    604800: "1週間"
 
 common/views/components/list-menu.vue:
   push-to-list: "リストに追加"

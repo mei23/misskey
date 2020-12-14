@@ -152,10 +152,10 @@ export default Vue.extend({
 				const confirm = await this.$root.dialog({
 					type: 'warning',
 					showCancelButton: true,
-					title: 'confirm',
+					title: this.$t('confirm'),
 					text: this.$t('mute-confirm'),
 					select: {
-						items: [0, 300, 1800, 3600, 3600*6, 86400, 86400*3, 86400*7].map(x => ({
+						items: [0, 300, 1800, 3600, 3600*3, 3600*6, 86400, 86400*3, 86400*7].map(x => ({
 							value: x,
 							text: this.$t(`timeSpans.${x}`)
 						})),
@@ -280,7 +280,7 @@ export default Vue.extend({
 			const confirm = await this.$root.dialog({
 				type: 'warning',
 				showCancelButton: true,
-				title: 'confirm',
+				title: this.$t('confirm'),
 				text,
 			});
 
