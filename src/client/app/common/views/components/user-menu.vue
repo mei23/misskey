@@ -165,11 +165,7 @@ export default Vue.extend({
 
 				if (confirm.canceled) return;
 
-				console.log(confirm.type > 0 ? confirm.result : 'x');
-
 				const expiresAt = confirm.result > 0 ? Date.now() + (confirm.result * 1000) : undefined;
-
-				console.log(expiresAt ? new Date(expiresAt).toString() : 'xx');
 
 				this.$root.api('mute/create', {
 					userId: this.user.id,
