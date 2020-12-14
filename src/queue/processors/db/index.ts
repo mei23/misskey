@@ -12,6 +12,7 @@ import { importBlocking } from './import-blocking';
 import { importMute } from './import-mute';
 import { importUserLists } from './import-user-lists';
 import { notifyPollFinished } from './notify-poll-finished';
+import { expireMute } from './expire-mute';
 
 const jobs = {
 	deleteNotes,
@@ -27,6 +28,7 @@ const jobs = {
 	importMute,
 	importUserLists,
 	notifyPollFinished,
+	expireMute,
 } as any;
 
 export default function(dbQueue: Bull.Queue) {

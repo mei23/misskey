@@ -14,6 +14,7 @@ import { IDriveFile } from '../models/drive-file';
 import { INote } from '../models/note';
 import { getJobInfo } from './get-job-info';
 import { IActivity } from '../remote/activitypub/type';
+import { IMute } from '../models/mute';
 
 function initializeQueue<T>(name: string, limitPerSec = -1) {
 	return new Queue<T>(name, config.redis != null ? {
@@ -62,7 +63,7 @@ export type InboxRequestData = {
 	ip?: string;
 };
 
-export type DbJobData = DbUserJobData | DbUserImportJobData | DeleteNoteJobData | NotifyPollFinishedData;
+export type DbJobData = DbUserJobData | DbUserImportJobData | DeleteNoteJobData | NotifyPollFinishedData | ExpireMuteJobData;
 
 export type DbUserJobData = {
 	user: ILocalUser;
@@ -80,6 +81,10 @@ export type DeleteNoteJobData = {
 export type NotifyPollFinishedData = {
 	userId: string;	// ObjectIDを入れてもstringでシリアライズされるだけ
 	noteId: string;
+}
+
+export type ExpireMuteJobData = {
+	muteId: string;
 }
 //#endregion
 
@@ -192,6 +197,20 @@ export function createDeleteDriveFilesJob(user: ILocalUser) {
 export function createDeleteNoteJob(note: INote, delay: number) {
 	return dbQueue.add('deleteNote', {
 		noteId: note._id
+	}, {
+		delay,
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
+export function createExpireMuteJob(mute: IMute) {
+	if (!mute.expiresAt) return;
+	let delay = mute.expiresAt.getTime() - Date.now() + 1000;
+	if (delay < 0) delay = 1000;
+
+	return dbQueue.add('expireMute', {
+		muteId: `${mute._id}`
 	}, {
 		delay,
 		removeOnComplete: true,

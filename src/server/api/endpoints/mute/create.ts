@@ -6,6 +6,7 @@ import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
 import { publishMutingChanged } from '../../../../services/create-event';
 import { inspect } from 'util';
+import { createExpireMuteJob } from '../../../../queue';
 
 export const meta = {
 	desc: {
@@ -89,7 +90,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	// Create mute
-	await Mute.insert({
+	const mute = await Mute.insert({
 		createdAt: new Date(),
 		muterId: muter._id,
 		muteeId: mutee._id,
@@ -97,6 +98,8 @@ export default define(meta, async (ps, user) => {
 	});
 
 	publishMutingChanged(muter._id);
+
+	if (ps.expiresAt) createExpireMuteJob(mute);
 
 	return;
 });
