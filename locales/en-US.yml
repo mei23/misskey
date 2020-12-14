@@ -622,6 +622,17 @@ common/views/components/user-menu.vue:
   unhide-renote: "Unhide Renote"
   hide-renote-confirm: "Hide Renote from this user?"
   unhide-renote-confirm: "Unhide Renote from this user?"
+  confirm: "Confirm"
+  timeSpans:
+    0: "Unlimited"
+    300: "5 minutes"
+    1800: "30 minutes"
+    3600: "1 hour"
+    10800: "3 hours"
+    21600: "6 hours"
+    86400: "1 day"
+    259200: "3 days"
+    604800: "1 week"
 common/views/components/list-menu.vue:
   push-to-list: "Add to list"
   pull-from-list: "Remove from {}"
