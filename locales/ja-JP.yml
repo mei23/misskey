@@ -187,6 +187,12 @@ common:
     friday: "金曜日"
     saturday: "土曜日"
 
+  remaining:
+    days: "あと{d}日{h}時間"
+    hours: "あと{h}時間{m}分"
+    minutes: "あと{m}分{s}秒"
+    seconds: "あと{s}秒"
+
   reactions:
     like: "いいね"
     love: "しゅき"

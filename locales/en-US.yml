@@ -161,6 +161,11 @@ common:
     thursday: "Thursday"
     friday: "Friday"
     saturday: "Saturday"
+  remaining:
+    days: "{d} days {h} hours remaining"
+    hours: "{h} hours {m} mins remaining"
+    minutes: "{m} mins {s} secs remaining"
+    seconds: "{s} secs remaining"
   reactions:
     like: "Like"
     love: "Love"

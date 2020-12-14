@@ -13,9 +13,9 @@
 		<header>{{ $t('mute') }}</header>
 		<ui-info v-if="!muteFetching && mute.length == 0">{{ $t('no-muted-users') }}</ui-info>
 		<div class="users" v-if="mute.length != 0">
-			<div class="user" v-for="user in mute" :key="user.id">
-				<x-user :user="user"/>
-				<span @click="unmute(user)">
+			<div class="user" v-for="m in mute" :key="m.id">
+				<x-user :user="m.mutee" :expiresAt="m.expiresAt"/>
+				<span @click="unmute(m.mutee)">
 					<fa icon="times"/>
 				</span>
 			</div>
@@ -130,7 +130,7 @@ export default Vue.extend({
 					this.muteCursor = undefined;
 				}
 
-				this.mute = past.concat(items.map(x => x.mutee));
+				this.mute = past.concat(items);
 				this.muteFetching = false;
 			});
 		},
