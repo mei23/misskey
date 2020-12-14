@@ -142,6 +142,10 @@ export default Vue.extend({
 					userId: this.user.id
 				}).then(() => {
 					this.user.isMuted = false;
+					this.$root.dialog({
+						type: 'success',
+						splash: true
+					});
 				}, () => {
 					this.$root.dialog({
 						type: 'error',
@@ -172,6 +176,10 @@ export default Vue.extend({
 					expiresAt
 				}).then(() => {
 					this.user.isMuted = true;
+					this.$root.dialog({
+						type: 'success',
+						splash: true
+					});
 				}, () => {
 					this.$root.dialog({
 						type: 'error',
@@ -189,6 +197,10 @@ export default Vue.extend({
 					userId: this.user.id
 				}).then(() => {
 					this.user.isBlocking = false;
+					this.$root.dialog({
+						type: 'success',
+						splash: true
+					});
 				}, () => {
 					this.$root.dialog({
 						type: 'error',
@@ -202,6 +214,10 @@ export default Vue.extend({
 					userId: this.user.id
 				}).then(() => {
 					this.user.isBlocking = true;
+					this.$root.dialog({
+						type: 'success',
+						splash: true
+					});
 				}, () => {
 					this.$root.dialog({
 						type: 'error',
