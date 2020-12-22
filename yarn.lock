@@ -8761,10 +8761,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@*, systeminformation@4.32.0:
-  version "4.32.0"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.32.0.tgz#37e0919ef32d25fe1bfaf2d817eb4a0f2950c358"
-  integrity sha512-8/LM0EvwhW34+n3fzmcl4swG7Ngx8h8s/5MooXlIJKyMbSiO9juCqftdQIpwa3NneKrca1uYO55JHZeYJUaSZw==
+systeminformation@*, systeminformation@4.33.0:
+  version "4.33.0"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.33.0.tgz#05bd9b430ee3a7e4dbc7013d4f3a079570dca8c8"
+  integrity sha512-Z/DTbGBiADYhsx05eF/Tpaxvl36lpU9myGfDEK3DidOHnf7aZpDodhSXsPGRaaYxxhOZctbL7gWMfuqVrMjr3Q==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
