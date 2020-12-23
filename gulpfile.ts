@@ -37,7 +37,11 @@ gulp.task('build:copy:fonts', () =>
 	gulp.src('./node_modules/three/examples/fonts/**/*').pipe(gulp.dest('./built/client/assets/fonts/'))
 );
 
-gulp.task('build:copy', gulp.parallel('build:copy:views', 'build:copy:fonts', () =>
+gulp.task('build:copy:docs', () =>
+	gulp.src('./src/docs/*.md').pipe(gulp.dest('./built/docs/'))
+);
+
+gulp.task('build:copy', gulp.parallel('build:copy:views', 'build:copy:fonts', 'build:copy:docs', () =>
 	gulp.src([
 		'./src/const.json',
 		'./src/server/web/views/**/*',
