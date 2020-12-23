@@ -94,7 +94,7 @@ router.get('/*/*', async ctx => {
 	});
 	const md = fs.readFileSync(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
-	await ctx.render('../../../../src/docs/article', Object.assign({
+	await ctx.render('docs-article', Object.assign({
 		id: doc,
 		html: conv.makeHtml(md),
 		title: md.match(/^# (.+?)\r?\n/)[1],
