@@ -152,7 +152,7 @@
 		"koa-mount": "4.0.0",
 		"koa-send": "5.0.1",
 		"koa-slow": "2.1.0",
-		"koa-views": "7.0.0",
+		"koa-views": "6.3.1",
 		"lodash": "^4.17.20",
 		"lookup-dns-cache": "2.1.0",
 		"memory-streams": "0.1.3",
