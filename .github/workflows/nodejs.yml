@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: node cli/diag-environment.js
     - run: NODE_ENV=production yarn install
     - run: cp .circleci/misskey/*.yml .config/
     - run: NODE_ENV=production yarn build
