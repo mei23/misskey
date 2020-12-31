@@ -126,7 +126,7 @@
 		"gulp-replace": "1.0.0",
 		"gulp-sourcemaps": "3.0.0",
 		"gulp-stylus": "2.7.0",
-		"gulp-terser": "1.4.1",
+		"gulp-terser": "2.0.0",
 		"gulp-tslint": "8.1.4",
 		"gulp-typescript": "5.0.1",
 		"html-entities": "1.4.0",
