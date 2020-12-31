@@ -9556,10 +9556,10 @@ vue-style-loader@4.1.2, vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-svg-inline-loader@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/vue-svg-inline-loader/-/vue-svg-inline-loader-2.0.0.tgz#1893ab3c9ae99a6a8443343cd9ebbb97129328b6"
-  integrity sha512-mLQQAiGYhLURpeVqNee+ELEPauHEFqUgtWh8UMIxIgRxUwzS8sLljPLVNfoi2ANSxKOz53DjNN6fHdcraoOBIw==
+vue-svg-inline-loader@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/vue-svg-inline-loader/-/vue-svg-inline-loader-2.1.2.tgz#3d22977bd44cee0d5788a4ffa42e7a9ed4fb034e"
+  integrity sha512-KgKJd3bf03GhaHKezOvtfcY1MZbUxle6r03iVELtWeJnwz7SBou0YlvJ/6zRhAlemRDG1NbrIZ5GobaWmO+GKg==
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
