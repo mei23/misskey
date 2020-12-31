@@ -129,7 +129,7 @@
 		"gulp-terser": "1.4.1",
 		"gulp-tslint": "8.1.4",
 		"gulp-typescript": "5.0.1",
-		"html-entities": "2.0.1",
+		"html-entities": "1.4.0",
 		"html-minifier": "4.0.0",
 		"htmlescape": "1.1.1",
 		"http-proxy-agent": "4.0.1",
