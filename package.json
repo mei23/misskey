@@ -171,7 +171,7 @@
 		"parse5": "6.0.1",
 		"parsimmon": "1.16.0",
 		"postcss-loader": "3.0.0",
-		"prismjs": "1.22.0",
+		"prismjs": "1.23.0",
 		"probe-image-size": "6.0.0",
 		"progress-bar-webpack-plugin": "2.1.0",
 		"promise-limit": "2.7.0",
