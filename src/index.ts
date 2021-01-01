@@ -142,9 +142,17 @@ async function workerMain() {
 		require('./queue').default();
 	}
 
+	// ユニットテスト時にMisskeyが子プロセスで起動された時のため
+	// それ以外のときは process.send は使えないので弾く
+	if (process.send) {
+		process.send('ok');
+	}
+
 	if (cluster.isWorker) {
 		// Send a 'ready' message to parent process
-		process.send('ready');
+		if (process.send) {
+			process.send('ready');
+		}
 	}
 }
 

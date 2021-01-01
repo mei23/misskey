@@ -11,6 +11,16 @@ jobs:
       matrix:
         node-version: [12.x, 14.x]
 
+    services:
+      mongo:
+        image: mongo:4.4-bionic
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:alpine
+        ports:
+          - 6379:6379
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
