@@ -5,8 +5,14 @@ import fetch, { HeadersInit } from 'node-fetch';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
+import { AbortController } from 'abort-controller';
 
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: HeadersInit) {
+	const controller = new AbortController();
+	setTimeout(() => {
+		controller.abort();
+	}, 60 * 1000);
+
 	const res = await fetch(url, {
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
@@ -15,6 +21,7 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		timeout,
 		size: 10 * 1024 * 1024,
 		agent: getAgentByUrl,
+		signal: controller.signal,
 	});
 
 	if (!res.ok) {
@@ -37,6 +44,11 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 }
 
 export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: HeadersInit) {
+	const controller = new AbortController();
+	setTimeout(() => {
+		controller.abort();
+	}, 60 * 1000);
+
 	const res = await fetch(url, {
 		headers: Object.assign({
 			'User-Agent': config.userAgent,
@@ -45,6 +57,7 @@ export async function getHtml(url: string, accept = 'text/html, */*', timeout = 
 		timeout,
 		size: 10 * 1024 * 1024,
 		agent: getAgentByUrl,
+		signal: controller.signal,
 	});
 
 	if (!res.ok) {
