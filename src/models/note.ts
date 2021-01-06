@@ -16,6 +16,7 @@ import { dbLogger } from '../db/logger';
 import { decodeReaction, decodeReactionCounts } from '../misc/reaction-lib';
 import { parse } from '../mfm/parse';
 import { toString } from '../mfm/to-string';
+import { toHtml } from '../mfm/to-html';
 
 const Note = db.get<INote>('notes');
 Note.createIndex('uri', { sparse: true, unique: true });
@@ -239,11 +240,13 @@ export const pack = async (
 	options?: {
 		detail?: boolean;
 		skipHide?: boolean;
+		withHtml?: boolean;
 	}
 ) => {
 	const opts = Object.assign({
 		detail: true,
-		skipHide: false
+		skipHide: false,
+		withHtml: true,
 	}, options);
 
 	// Me
@@ -449,10 +452,17 @@ export const pack = async (
 	}
 	//#endregion
 
-	if (_note.user.isCat && _note.text) {
+	if ((_note.user.isCat && _note.text) || opts.withHtml) {
 		try {
-			const tokens = _note.text ? parse(_note.text) : [];
-			_note.text = toString(tokens, { doNyaize: true });
+			const tokens = parse(_note.text) || [];
+
+			if (_note.user.isCat && _note.text) {
+				_note.text = toString(tokens, { doNyaize: true });
+			}
+
+			if (opts.withHtml) {
+				_note.html = toHtml(tokens);
+			}
 		} catch (e) {
 			console.log(e);
 		}
