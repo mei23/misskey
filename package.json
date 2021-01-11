@@ -45,7 +45,7 @@
 		"@types/double-ended-queue": "2.1.1",
 		"@types/elasticsearch": "5.0.37",
 		"@types/fluent-ffmpeg": "2.1.16",
-		"@types/gulp": "4.0.7",
+		"@types/gulp": "4.0.8",
 		"@types/gulp-rename": "2.0.0",
 		"@types/gulp-replace": "0.0.31",
 		"@types/js-yaml": "3.12.5",
