@@ -5073,15 +5073,15 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-jsonld@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/jsonld/-/jsonld-3.2.0.tgz#be31b2ee9d5ed490d1e912263e31ca327f5a157f"
-  integrity sha512-re7FofG1iklGDlAthC4u5AMMt4l3qRNQbSI0nZTJu9vJG2R0QO6/yIhh8ZIh/M9Gg+EjXsULgQV/HEsltoVZBg==
+jsonld@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/jsonld/-/jsonld-3.3.0.tgz#1b03fe1458f9ffc2918fc30e90320343c988d07b"
+  integrity sha512-0y/rctORxwlezPw/vHp+vbR2qTqHSwt9weZK3RjtDYSzmbGjtQlJZuHduCBfIoXggXPvlnI/2EjYcoyzDD/WRw==
   dependencies:
     canonicalize "^1.0.1"
     lru-cache "^5.1.1"
     object.fromentries "^2.0.2"
-    rdf-canonize "^1.0.2"
+    rdf-canonize "^2.0.1"
     request "^2.88.0"
     semver "^6.3.0"
     xmldom "0.1.19"
@@ -6201,7 +6201,7 @@ node-fetch@2.6.1, node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-forge@0.10.0, node-forge@^0.9.1:
+node-forge@0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
   integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
@@ -7546,13 +7546,13 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-rdf-canonize@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/rdf-canonize/-/rdf-canonize-1.1.0.tgz#61d1609bbdb3234b8f38c9c34ad889bf670e089d"
-  integrity sha512-DV06OnhVfl2zcZJQCt+YvU+hoZVgpyQpNFLeAmghq8RJybUxD3B4LRzlBquYS5k+LLd8/c3g5Gnhkqjw5qRMvg==
+rdf-canonize@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/rdf-canonize/-/rdf-canonize-2.0.1.tgz#12c9b8b41570cd669d9b152c9e679063478ba194"
+  integrity sha512-/GVELjrfW8G/wS4QfDZ5Kq68cS1belVNJqZlcwiErerexeBUsgOINCROnP7UumWIBNdeCwTVLE9NVXMnRYK0lA==
   dependencies:
-    node-forge "^0.9.1"
     semver "^6.3.0"
+    setimmediate "^1.0.5"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -8120,6 +8120,11 @@ set-value@^2.0.0, set-value@^2.0.1:
     is-extendable "^0.1.1"
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
+
+setimmediate@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
+  integrity sha1-KQy7Iy4waULX1+qbg3Mqt4VvgoU=
 
 setprototypeof@1.1.0:
   version "1.1.0"
