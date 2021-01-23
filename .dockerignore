@@ -13,3 +13,4 @@ mongo_db/
 redis/
 files/
 elasticsearch/
+.config/

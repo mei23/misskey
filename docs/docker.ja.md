@@ -15,11 +15,20 @@ Dockerを使ったMisskey構築方法
 
 	`cd misskey`
 
-*2.* 設定ファイルを作成する
+*2.* Dockerの設定
 ----------------------------------------------------------------
-1. `cp .config/example.yml .config/default.yml` `.config/example.yml`をコピーし名前を`default.yml`にする
-2. `cp .config/mongo_initdb_example.js .config/mongo_initdb.js` `.config/mongo_initdb_example.js`をコピーし名前を`mongo_initdb.js`にする
-3. `default.yml`と`mongo_initdb.js`を編集する
+`docker-compose.yml`を編集してください。編集する必要のあるのはポート3000くらい。
+
+*3.* Misskeyのビルド
+----------------------------------------------------------------
+次のコマンドでビルドしてください:
+
+`docker-compose build`
+
+*4.* 設定ファイルを作成する
+----------------------------------------------------------------
+1. `cp .config/example.yml .config/default.yml`
+3. `default.yml`を編集する
 
 `default.yml`内の各ホストは以下にしてください
 ```
@@ -27,16 +36,6 @@ redis.host => redis
 mongodb.host => mongo
 es.host => es
 ```
-
-*3.* Dockerの設定
-----------------------------------------------------------------
-`docker-compose.yml`を編集してください。
-
-*4.* Misskeyのビルド
-----------------------------------------------------------------
-次のコマンドでMisskeyをビルドしてください:
-
-`docker-compose build`
 
 *5.* 以上です！
 ----------------------------------------------------------------
