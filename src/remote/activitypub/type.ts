@@ -130,6 +130,8 @@ export interface IPost extends IObject {
 	_misskey_quote?: string;
 	quoteUrl?: string;
 	_misskey_talk?: boolean;
+	notifyToOwner?: boolean;
+	quoteProhibited?: boolean;
 }
 
 export const validPost = ['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video', 'Event'];

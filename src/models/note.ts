@@ -61,6 +61,7 @@ export type INote = {
 	viaMobile: boolean;
 	localOnly: boolean;
 	copyOnce?: boolean;
+	quoteProhibited?: boolean;
 	renoteCount: number;
 	repliesCount: number;
 	reactionCounts: Record<string, number>;

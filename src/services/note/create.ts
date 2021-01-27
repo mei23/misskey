@@ -113,6 +113,8 @@ type Option = {
 	viaMobile?: boolean;
 	localOnly?: boolean;
 	copyOnce?: boolean;
+	notifyToOwner?: boolean;
+	quoteProhibited?: boolean;
 	cw?: string;
 	visibility?: string;
 	visibleUsers?: IUser[];
@@ -176,6 +178,10 @@ export default async (user: IUser, data: Option, silent = false) => {
 	// PureRenoteの最大公開範囲はHomeにする
 	if (isPureRenote && data.visibility === 'public') {
 		data.visibility = 'home';
+	}
+
+	if (data.renote && !isPureRenote && data.quoteProhibited) {
+		throw 'quote prohibited';
 	}
 
 	// ローカルのみをRenoteしたらローカルのみにする
@@ -365,7 +371,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 			const type = data.text ? 'quote' : 'renote';
 
 			// Notify
-			if (isLocalUser(data.renote._user)) {
+			if (isLocalUser(data.renote._user && data.notifyToOwner)) {
 				nm.push(data.renote.userId, type);
 			}
 
@@ -414,7 +420,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 					}
 
 					// 投稿がRenoteかつ投稿者がローカルユーザーかつRenote元の投稿の投稿者がリモートユーザーなら配送
-					if (data.renote && isRemoteUser(data.renote._user)) {
+					if (data.renote && isRemoteUser(data.renote._user) && data.notifyToOwner) {
 						dm.addDirectRecipe(data.renote._user);
 					}
 
@@ -502,6 +508,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 		viaMobile: data.viaMobile,
 		localOnly: data.localOnly,
 		copyOnce: data.copyOnce,
+		quoteProhibited: data.quoteProhibited,
 		geo: data.geo || null,
 		appId: data.app ? data.app._id : null,
 		visibility: data.visibility,

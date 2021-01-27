@@ -94,6 +94,22 @@ export const meta = {
 			}
 		},
 
+		notifyToOwner: {
+			validator: $.optional.bool,
+			default: true,
+			desc: {
+				'ja-JP': 'Renote/Quoteをその投稿の所有者に通知するか'
+			}
+		},
+
+		quoteProhibited: {
+			validator: $.optional.bool,
+			default: true,
+			desc: {
+				'ja-JP': 'Quoteを拒否するか'
+			}
+		},
+
 		noExtractMentions: {
 			validator: $.optional.bool,
 			default: false,
@@ -343,6 +359,8 @@ export default define(meta, async (ps, user, app) => {
 		viaMobile: ps.viaMobile,
 		localOnly: ps.localOnly,
 		copyOnce: ps.copyOnce,
+		notifyToOwner: ps.notifyToOwner,
+		quoteProhibited: ps.quoteProhibited,
 		visibility: ps.visibility,
 		visibleUsers,
 		apMentions: ps.noExtractMentions ? [] : undefined,

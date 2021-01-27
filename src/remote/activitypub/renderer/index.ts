@@ -45,6 +45,8 @@ export const attachLdSignature = async (activity: any, user: ILocalUser): Promis
 		'_misskey_votes': 'misskey:_misskey_votes',
 		'_misskey_talk': 'misskey:_misskey_talk',
 		'isCat': 'misskey:isCat',
+		'notifyToOwner': 'misskey:notifyToOwner',
+		'quoteProhibited': 'misskey:quoteProhibited',
 		// vcard
 		vcard: 'http://www.w3.org/2006/vcard/ns#',
 	};
