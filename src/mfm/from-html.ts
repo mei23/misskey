@@ -1,11 +1,12 @@
-import { parseFragment } from 'parse5';
+import * as parse5 from 'parse5';
+import treeAdapter = require('parse5/lib/tree-adapters/default');
 import { URL } from 'url';
 import { urlRegexFull, urlRegex } from './prelude';
 
 export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 	if (html == null) return null;
 
-	const dom = parseFragment(html);
+	const dom = parse5.parseFragment(html);
 
 	let text = '';
 
@@ -15,7 +16,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 
 	return text.trim();
 
-	function appendChildren(childNodes: any,): void {
+	function appendChildren(childNodes: parse5.ChildNode[]): void {
 		if (childNodes) {
 			for (const n of childNodes) {
 				analyze(n);
@@ -23,12 +24,16 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 		}
 	}
 
-	function analyze(node: any) {
-		switch (node.nodeName) {
-			case '#text':
-				text += node.value;
-				break;
+	function analyze(node: parse5.Node) {
+		if (treeAdapter.isTextNode(node)) {
+			text += node.value;
+			return;
+		}
 
+		// Skip comment or document type node
+		if (!treeAdapter.isElementNode(node)) return;
+
+		switch (node.nodeName) {
 			case 'br':
 				text += '\n';
 				break;
@@ -42,8 +47,8 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				}
 
 				const txt = getText(node);
-				const rel = node.attrs.find((x: any) => x.name == 'rel');
-				const href = node.attrs.find((x: any) => x.name == 'href');
+				const rel = node.attrs.find(x => x.name == 'rel');
+				const href = node.attrs.find(x => x.name == 'href');
 
 				// ハッシュタグ
 				if (hashtagNames && href && hashtagNames.map(x => x.toLowerCase()).includes(txt.toLowerCase())) {
@@ -52,7 +57,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				} else if (txt.startsWith('@') && !(rel && rel.value.match(/^me /))) {
 					const part = txt.split('@');
 
-					if (part.length == 2) {
+					if (part.length == 2 && href) {
 						//#region ホスト名部分が省略されているので復元する
 						const acct = `${txt}@${(new URL(href.value)).hostname}`;
 						text += acct;
@@ -89,7 +94,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 			}
 
 			case 'div': {
-				const align = node.attrs.find((x: any) => x.name === 'align');
+				const align = node.attrs.find(x => x.name === 'align');
 				const center = align?.value === 'center';
 				if (center) text += '<center>';
 				appendChildren(node.childNodes);
@@ -173,8 +178,8 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 						text += `</flip>`;
 					}
 				} else if (name === 'rotate') {
-					const deg = node.attrs.find((x: any) => x.name == 'data-mfm-deg');
-					text += `<rotate ${deg.value}>`;
+					const deg = node.attrs.find(x => x.name == 'data-mfm-deg');
+					text += `<rotate ${deg?.value || '0'}>`;
 					appendChildren(node.childNodes);
 					text += `</rotate>`;
 				} else if (name?.match(/^[a-z]+$/)) {
@@ -214,7 +219,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 			// block code (<pre><code>)
 			case 'pre': {
 				if (node.childNodes.length === 1 && node.childNodes[0].nodeName === 'code') {
-					const lang = node.childNodes[0].attrs.find((x: any) => x.name == 'data-mfm-lang');
+					const lang = node.childNodes[0].attrs.find(x => x.name == 'data-mfm-lang');
 					text += '```' + (lang?.value || '') + '\n';
 					text += getText(node.childNodes[0]);
 					text += '\n```\n';
@@ -259,21 +264,22 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 	}
 }
 
-function getText(node: any): string {
-	if (node.nodeName == '#text') return node.value;
-	if (node.nodeName == 'br') return '\n';
+function getText(node: parse5.Node): string {
+	if (treeAdapter.isTextNode(node)) return node.value;
+	if (!treeAdapter.isElementNode(node)) return '';
+	if (node.nodeName === 'br') return '\n';
 
 	if (node.childNodes) {
-		return node.childNodes.map((n: any) => getText(n)).join('');
+		return node.childNodes.map(n => getText(n)).join('');
 	}
 
 	return '';
 }
 
-function getValue(node: any, name: string): string | undefined {
-	return node.attrs.find((x: any) => x.name == name)?.value || undefined;
+function getValue(node: parse5.Element, name: string): string | undefined {
+	return node.attrs.find(x => x.name == name)?.value || undefined;
 }
 
-function hasAttribute(node: any, name: string) {
-	return !!node.attrs.find((x: any) => x.name == name);
+function hasAttribute(node: parse5.Element, name: string) {
+	return !!node.attrs.find(x => x.name == name);
 }
