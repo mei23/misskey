@@ -39,6 +39,14 @@ describe('fromHtml', () => {
 		assert.deepStrictEqual(fromHtml('<p>a <a>c</a> d</p>'), 'a c d');
 	});
 
+	it('link without text', () => {
+		assert.deepStrictEqual(fromHtml('<p>a <a href="https://example.com/b"></a> d</p>'), 'a https://example.com/b d');
+	});
+
+	it('link without both', () => {
+		assert.deepStrictEqual(fromHtml('<p>a <a></a> d</p>'), 'a  d');
+	});
+
 	it('mention', () => {
 		assert.deepStrictEqual(fromHtml('<p>a <a href="https://example.com/@user" class="u-url mention">@user</a> d</p>'), 'a @user@example.com d');
 	});

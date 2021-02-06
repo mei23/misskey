@@ -62,13 +62,28 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 					}
 				// その他
 				} else {
-					text += !href ? txt
-						: txt === href.value
-							? txt.match(urlRegexFull) ? txt
-							: `<${txt}>`
-						: (href.value.match(urlRegex) && !href.value.match(urlRegexFull))	// URLぽいがエンコードされてない
-							? `[${txt}](<${href.value}>)`
-							: `[${txt}](${href.value})`;
+					const generateLink = () => {
+						if (!href && !txt) {
+							return '';
+						}
+						if (!href) {
+							return txt;
+						}
+						if (!txt || txt === href.value) {
+							if (href.value.match(urlRegexFull)) {
+								return href.value;
+							} else {
+								return `<${href.value}>`;
+							}
+						}
+						if (href.value.match(urlRegex) && !href.value.match(urlRegexFull)) {
+							return `[${txt}](<${href.value}>)`;
+						} else {
+							return `[${txt}](${href.value})`;
+						}
+					};
+
+					text += generateLink();
 				}
 				break;
 			}
