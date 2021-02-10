@@ -204,7 +204,7 @@
 		"tmp": "0.2.1",
 		"ts-loader": "8.0.15",
 		"ts-node": "9.1.1",
-		"typescript": "3.9.7",
+		"typescript": "3.9.8",
 		"url-loader": "4.1.1",
 		"uuid": "8.3.2",
 		"v-animate-css": "0.0.3",
