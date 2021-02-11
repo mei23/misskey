@@ -5074,10 +5074,10 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-jsonld@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/jsonld/-/jsonld-3.3.0.tgz#1b03fe1458f9ffc2918fc30e90320343c988d07b"
-  integrity sha512-0y/rctORxwlezPw/vHp+vbR2qTqHSwt9weZK3RjtDYSzmbGjtQlJZuHduCBfIoXggXPvlnI/2EjYcoyzDD/WRw==
+jsonld@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/jsonld/-/jsonld-3.3.2.tgz#f8688b349385ff5c755e83c7f60a9cf834078fc0"
+  integrity sha512-DXqG/fdiG7eJ8FzvSd58bW8DQsulQR/gjLYUz9PxBP/WTTpB2HzjjdxSAx5aBHewJ0RiFAV/QcqGCJjxHvuIzw==
   dependencies:
     canonicalize "^1.0.1"
     lru-cache "^5.1.1"
