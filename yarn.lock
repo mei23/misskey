@@ -8807,10 +8807,10 @@ systeminformation@*:
   resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.34.7.tgz#8b4a00c44781349905881c95dded8bafe7aae47f"
   integrity sha512-cS3FiSZasFgVNjO9CP3aZmTO2VHwXKG+JN6Z85nWRyOzxRMNbZe7Xzwrewp42hj+OPMC3hk7MrAFyu/qLM65Mw==
 
-systeminformation@4.34.9:
-  version "4.34.9"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.34.9.tgz#70412e71ed755881930c0a7bbd831a905a7a362d"
-  integrity sha512-jvc4DlJeXazsen2riPDR97GSaHNCmoL+mgfB8IXxmpNpNd7kv5MfkuihXEmF1/prBFtqzUA2lxnt1qp4maOMQA==
+systeminformation@4.34.10:
+  version "4.34.10"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.34.10.tgz#18ed641b7c88d4bdb6c38af2c5057879537b5cd2"
+  integrity sha512-mm8DcIEFp0o1m4fgCFIV2LKAxS3q8ESWNplOqI7+vpPtzeiXoNyPGosoWorwBF/HcTPJGl6UWtJKtu0PjgZxSg==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
