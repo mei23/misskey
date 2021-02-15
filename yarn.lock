@@ -8801,10 +8801,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@*, systeminformation@4.34.11:
-  version "4.34.11"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-4.34.11.tgz#403b8ed738ef816391f7fb1acbc985f98d4d9b42"
-  integrity sha512-YsO1aButenX+ZnkfDUYCF89ZmAQEw2CVPV3kCmtXaGLrPrJ6GQLANLZ7a/FP0h5hJDTZfrMel0LHV5RyIp3RvA==
+systeminformation@*, systeminformation@5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.3.2.tgz#ec4f5b8985bf2890565f23ad27af0e8a4b4ce4ac"
+  integrity sha512-fD4mSjY64FRm1KfO5ykLqr5tjrGsrhML+PEe66LpQYwnA4KX2CCymUJNo7hrggw2nQeeFtZ4BtB3+cdn+OBJ5Q==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
