@@ -29,8 +29,10 @@ services:
     image: mongo:4.1
     networks:
       - internal_network
+    environment:
+      MONGO_INITDB_DATABASE: "misskey"
     volumes:
-      - ./.config/default.yml:/.config/default.yml:ro
+      - ./.config/mongo_initdb.js:/docker-entrypoint-initdb.d/mongo_initdb.js:ro
       - ./mongo_db:/data/db
 
 #  es:
