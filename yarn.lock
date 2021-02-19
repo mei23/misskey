@@ -431,10 +431,10 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
   integrity sha512-3c+yGKvVP5Y9TYBEibGNR+kLtijnj7mYrXRg+WpFb2X9xm04g/DXYkfg4hmzJQosc9snFNUPkbYIhu+KAm6jJw==
 
-"@types/jsonld@1.5.2":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.2.tgz#6de5589f72a73be07f2d0a99a39337f4c4518a78"
-  integrity sha512-e6mgulD3RB3lrjGN6Vvu3ixpRSZ2Qwvsm0oSQIuHsAQUvRklrqnmvKNNyXcQTh/PbB+TrHVVmdLHeYFCH52QnA==
+"@types/jsonld@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.3.tgz#5bef463655522eef0530db0011bdc119573b759b"
+  integrity sha512-xDjKgwTBOrdevh46a6dota4Lusrn0R6lC1EKEQkBhTrOx4xzGpQKZ/JsXPx7NP2N9qVj7AYo6k5ubWtXAYJkLw==
 
 "@types/katex@0.11.0":
   version "0.11.0"

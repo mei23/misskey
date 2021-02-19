@@ -50,7 +50,7 @@
 		"@types/gulp-replace": "0.0.31",
 		"@types/js-yaml": "3.12.5",
 		"@types/jsdom": "16.2.6",
-		"@types/jsonld": "1.5.2",
+		"@types/jsonld": "1.5.3",
 		"@types/katex": "0.11.0",
 		"@types/koa": "2.0.49",
 		"@types/koa-bodyparser": "4.3.0",
