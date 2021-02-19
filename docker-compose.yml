@@ -14,7 +14,6 @@ services:
       - internal_network
       - external_network
     volumes:
-      - ./.config/default.yml:/misskey/.config/default.yml:ro
       - ./files:/misskey/files
 
   redis:
@@ -31,6 +30,7 @@ services:
     networks:
       - internal_network
     volumes:
+      - ./.config/default.yml:/.config/default.yml:ro
       - ./mongo_db:/data/db
 
 #  es:
