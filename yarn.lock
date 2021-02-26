@@ -4590,13 +4590,13 @@ ip-address@^6.3.0:
     lodash.repeat "4.1.0"
     sprintf-js "1.1.2"
 
-ip-cidr@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-2.1.1.tgz#e54e4317dd812a84fe361d89610e2e4166ccd19a"
-  integrity sha512-aeQXlWwFzEIJ5Iq+KmgVh4rafGXzwbiwVUXgXsZjoFFqApxCSuQu3rwNaQ9S+NNatWTJ78KBZBqZjmDKKjxUVw==
+ip-cidr@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-2.1.2.tgz#50b93806b75e589e68554eb45bc58f3aeaf58ed7"
+  integrity sha512-QnbDm7kzy91PPyDNCjyFbvmBmZQoPsHzUs9L2L3cyPINMdoH6u4XPG0/1Jw1UvKz/gq7Te5PWSO2ugATMwB/7Q==
   dependencies:
     ip-address "^6.3.0"
-    jsbn "^0.1.0"
+    jsbn "^1.1.0"
 
 ip-regex@^2.1.0:
   version "2.1.0"
@@ -5017,12 +5017,12 @@ js-yaml@4.0.0:
   dependencies:
     argparse "^2.0.1"
 
-jsbn@1.1.0:
+jsbn@1.1.0, jsbn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-1.1.0.tgz#b01307cb29b618a1ed26ec79e911f803c4da0040"
   integrity sha1-sBMHyym2GKHtJux56RH4A8TaAEA=
 
-jsbn@^0.1.0, jsbn@~0.1.0:
+jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
