@@ -34,17 +34,6 @@ const client = `${__dirname}/../../client/`;
 // Init app
 const app = new Koa();
 
-// Init renderer
-app.use(views(__dirname + '/views', {
-	extension: 'pug',
-	options: {
-		config
-	}
-}));
-
-// Serve favicon
-app.use(favicon(`${client}/assets/favicon.ico`));
-
 // Common request handler
 app.use(async (ctx, next) => {
 	// IFrameの中に入れられないようにする
@@ -57,24 +46,6 @@ const router = new Router();
 
 //#region static assets
 
-router.get('/assets/*', async ctx => {
-	if (env !== 'production') {
-		ctx.set('Cache-Control', 'no-store');
-	}
-
-	await send(ctx, ctx.path, {
-		root: client,
-		maxage: ms('7 days'),
-	});
-});
-
-// Apple touch icon
-router.get('/apple-touch-icon.png', async ctx => {
-	await send(ctx, '/assets/apple-touch-icon.png', {
-		root: client
-	});
-});
-
 // ServiceWorker
 router.get(/^\/sw\.(.+?)\.js$/, async ctx => {
 	await send(ctx, `/assets/sw.${ctx.params[0]}.js`, {
@@ -85,12 +56,6 @@ router.get(/^\/sw\.(.+?)\.js$/, async ctx => {
 // Manifest
 router.get('/manifest.json', require('./manifest'));
 
-router.get('/robots.txt', async ctx => {
-	await send(ctx, '/assets/robots.txt', {
-		root: client
-	});
-});
-
 //#endregion
 
 // Docs
@@ -100,9 +65,6 @@ router.get('/api-doc', async ctx => {
 		root: client
 	});
 });
-
-// URL preview endpoint
-router.get('/url', require('./url-preview'));
 
 router.get('/api.json', async ctx => {
 	ctx.body = genOpenapiSpec();

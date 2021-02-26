@@ -1,13 +1,14 @@
-import * as Router from '@koa/router';
+import * as Fastify from 'fastify';
 
 import config from '../../../config';
 import { ILocalUser } from '../../../models/user';
 
-export default function(ctx: Router.RouterContext, user: ILocalUser, redirect = false) {
+export default function(request: Fastify.FastifyRequest, reply: Fastify.FastifyReply, user: ILocalUser, redirect = false) {
 	if (redirect) {
 		//#region Cookie
 		const expires = 1000 * 60 * 60 * 24 * 365; // One Year
-		ctx.cookies.set('i', user.token, {
+
+		reply.setCookie('i', user.token, {
 			path: '/',
 			// SEE: https://github.com/koajs/koa/issues/974
 			// When using a SSL proxy it should be configured to add the "X-Forwarded-Proto: https" header
@@ -18,9 +19,8 @@ export default function(ctx: Router.RouterContext, user: ILocalUser, redirect = 
 		});
 		//#endregion
 
-		ctx.redirect(config.url);
+		reply.redirect(config.url);
 	} else {
-		ctx.body = { i: user.token };
-		ctx.status = 200;
+		reply.send({ i: user.token });
 	}
 }

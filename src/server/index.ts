@@ -23,35 +23,77 @@ import { sum } from '../prelude/array';
 import User from '../models/user';
 import Logger from '../services/logger';
 import { program } from '../argv';
+import routes from './routes';
+
+import * as Fastify from 'fastify';
+import fastifySensible from 'fastify-sensible';
+import fastifyCookie from 'fastify-cookie';
+
+import fastifyStatic from 'fastify-static';
+import pointOfView from 'point-of-view';
+import * as path from 'path';
+import * as pug from 'pug';
+import cors from 'fastify-cors';
 
 export const serverLogger = new Logger('server', 'gray', false);
 
-// Init app
-const app = new Koa();
-app.proxy = true;
+const server = Fastify.fastify({
+	logger: !['production', 'test'].includes(process.env.NODE_ENV || 'development'),
+	trustProxy: [
+		'127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16',
+		'::1', 'fc00::/7'
+	],
+	exposeHeadRoutes: true,
+});
 
-if (!['production', 'test'].includes(process.env.NODE_ENV || 'development')) {
-	// Logger
-	app.use(koaLogger(str => {
-		serverLogger.info(str);
-	}));
+server.register(fastifySensible);
 
-	// Delay
-	if (program.slow) {
-		app.use(slow({
-			delay: 3000
-		}));
-	}
-}
+// JSON inputとみなすContent-Type
+server.addContentTypeParser('application/activity+json', { parseAs: 'string' }, (server as any).getDefaultJsonParser('ignore', 'ignore'));
+server.addContentTypeParser('application/ld+json', { parseAs: 'string' }, (server as any).getDefaultJsonParser('ignore', 'ignore'));
 
 // HSTS
 // 6months (15552000sec)
 if (config.url.startsWith('https') && !config.disableHsts) {
-	app.use(async (ctx, next) => {
-		ctx.set('strict-transport-security', 'max-age=15552000; preload');
-		await next();
+	server.addHook('onRequest', async (request, reply) => {
+		reply.header('strict-transport-security', 'max-age=15552000; preload');
 	});
 }
+
+server.register(routes);
+
+export default (): Promise<void> => new Promise<void>((resolve, reject) => {
+	server.listen(config.port, '0.0.0.0', (err, address) => {
+		if (err) {
+			reject(err);
+		}
+		resolve();
+	});
+});
+
+// For testing
+/*
+export const startServer = () => {
+	const server = createServer();
+
+	// Init stream server
+	require('./api/streaming')(server);
+
+	// Listen
+	server.listen(config.port);
+
+	return server;
+};
+*/
+
+
+
+
+
+
+
+/*
+
 
 app.use(mount('/api', apiServer as any));
 app.use(mount('/files', require('./file')));
@@ -101,18 +143,7 @@ function createServer() {
 	}
 }
 
-// For testing
-export const startServer = () => {
-	const server = createServer();
 
-	// Init stream server
-	require('./api/streaming')(server);
-
-	// Listen
-	server.listen(config.port);
-
-	return server;
-};
 
 export default () => new Promise(resolve => {
 	const server = createServer();
@@ -146,3 +177,4 @@ export default () => new Promise(resolve => {
 	}, 5000);
 	//#endregion
 });
+*/

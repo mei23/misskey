@@ -1,19 +1,18 @@
-import * as Router from '@koa/router';
-
+import * as Fastify from 'fastify';
 import { IEndpoint } from './endpoints';
 import authenticate from './authenticate';
 import call from './call';
 import { ApiError } from './error';
 
-export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((res) => {
-	const body = ctx.method === 'GET' ? ctx.query : ctx.request.body;
+export default (endpoint: IEndpoint, req: Fastify.FastifyRequest, rep: Fastify.FastifyReply) => new Promise((res) => {
+	const body: any = req.method === 'GET' ? req.query : (req.body || {});
 
 	const reply = (x?: any, y?: ApiError) => {
 		if (x == null) {
-			ctx.status = 204;
+			rep.code(204);
 		} else if (typeof x === 'number') {
-			ctx.status = x;
-			ctx.body = {
+			rep.code(x);
+			rep.send({
 				error: {
 					message: y.message,
 					code: y.code,
@@ -21,9 +20,9 @@ export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((
 					kind: y.kind,
 					...(y.info ? { info: y.info } : {})
 				}
-			};
+			});
 		} else {
-			ctx.body = x;
+			rep.send(x);
 		}
 		res();
 	};
@@ -31,9 +30,9 @@ export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((
 	// Authentication
 	authenticate(body['i']).then(([user, app]) => {
 		// API invoking
-		call(endpoint.name, user, app, body, (ctx as any).file, ctx.ip).then((res: any) => {
-			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user) {
-				ctx.set('Cache-Control', `public, max-age=${endpoint.meta.cacheSec}`);
+		call(endpoint.name, user, app, body, (req as any).file, req.ip).then((res: any) => {
+			if (req.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user) {
+				rep.header('Cache-Control', `public, max-age=${endpoint.meta.cacheSec}`);
 			}
 			reply(res);
 		}).catch(e => {

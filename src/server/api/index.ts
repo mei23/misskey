@@ -2,11 +2,6 @@
  * API Server
  */
 
-import * as Koa from 'koa';
-import * as Router from '@koa/router';
-import * as multer from '@koa/multer';
-import * as bodyParser from 'koa-bodyparser';
-import * as cors from '@koa/cors';
 
 import endpoints from './endpoints';
 import handler from './api-handler';
@@ -19,10 +14,59 @@ import Instance from '../../models/instance';
 import { toApHost } from '../../misc/convert-host';
 import { unique } from '../../prelude/array';
 import config from '../../config';
+import * as Fastify from 'fastify';
+import fastifyStatic from 'fastify-static';
+import pointOfView from 'point-of-view';
+const httpSignature = require('http-signature');
+import * as path from 'path';
+import * as pug from 'pug';
+import cors from 'fastify-cors';
 
-// Init app
-const app = new Koa();
+export default async (server: Fastify.FastifyInstance, opts: Fastify.FastifyPluginOptions, done: (err?: Error) => void) => {
+	server.register(cors);	// scoped
 
+	// Misskey Webが送ってくるtext/plainはjsonとして扱わないといけない
+	server.addContentTypeParser('text/plain', { parseAs: 'string' }, (server as any).getDefaultJsonParser('ignore', 'ignore'));
+
+	// default response header
+	server.addHook('preHandler', async (request, reply) => {
+		reply
+			.header('Cache-Control', 'private, max-age=0, must-revalidate');
+	});
+
+	for (const endpoint of endpoints) {
+		if (endpoint.meta.requireFile) {
+		//	server.post(`/${endpoint.name}`, upload.single('file'), handler.bind(null, endpoint)); TODO
+		} else {
+			if (endpoint.name.includes('-')) {
+				// 後方互換性のため
+				server.post(`/${endpoint.name.replace(/\-/g, '_')}`, handler.bind(null, endpoint));
+			}
+			server.post(`/${endpoint.name}`, handler.bind(null, endpoint));
+
+			if (endpoint.meta.allowGet) {
+				server.get(`/${endpoint.name}`, handler.bind(null, endpoint));
+			} else {
+				server.get(`/${endpoint.name}`, async (request, reply) => {
+					reply
+						.header('Allow', 'POST')
+						.methodNotAllowed('Must be a POST');
+				});
+			}
+		}
+	}
+
+	server.post('/signup', signup);
+	server.post('/signin', signin);
+
+	server.get('*', async (request, reply) => {
+		reply.notFound('Unknown API');
+	});
+
+	done();
+};
+
+/*
 // Handle error
 app.use(async (ctx, next) => {
 	try {
@@ -36,21 +80,6 @@ app.use(async (ctx, next) => {
 	}
 });
 
-app.use(cors({
-	origin: '*'
-}));
-
-// No caching
-app.use(async (ctx, next) => {
-	ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
-	await next();
-});
-
-app.use(bodyParser({
-	// リクエストが multipart/form-data でない限りはJSONだと見なす
-	detectJSON: ctx => !ctx.is('multipart/form-data')
-}));
-
 // Init multer instance
 const upload = multer({
 	storage: multer.diskStorage({}),
@@ -63,29 +92,6 @@ const upload = multer({
 // Init router
 const router = new Router();
 
-/**
- * Register endpoint handlers
- */
-for (const endpoint of endpoints) {
-	if (endpoint.meta.requireFile) {
-		router.post(`/${endpoint.name}`, upload.single('file'), handler.bind(null, endpoint));
-	} else {
-		if (endpoint.name.includes('-')) {
-			// 後方互換性のため
-			router.post(`/${endpoint.name.replace(/\-/g, '_')}`, handler.bind(null, endpoint));
-		}
-		router.post(`/${endpoint.name}`, handler.bind(null, endpoint));
-
-		if (endpoint.meta.allowGet) {
-			router.get(`/${endpoint.name}`, handler.bind(null, endpoint));
-		} else {
-			router.get(`/${endpoint.name}`, async ctx => { ctx.status = 405; });
-		}
-	}
-}
-
-router.post('/signup', signup);
-router.post('/signin', signin);
 
 router.use(discord.routes());
 router.use(github.routes());
@@ -109,8 +115,4 @@ router.get('/v1/instance/peers', async ctx => {
 router.all('*', async ctx => {
 	ctx.status = 404;
 });
-
-// Register router
-app.use(router.routes());
-
-export default app;
+*/

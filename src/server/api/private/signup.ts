@@ -1,4 +1,4 @@
-import * as Router from '@koa/router';
+import * as Fastify from 'fastify';
 import * as bcrypt from 'bcryptjs';
 import User, { IUser, validateUsername, validatePassword, pack } from '../../../models/user';
 import generateUserToken from '../common/generate-native-user-token';
@@ -10,8 +10,8 @@ import fetchMeta from '../../../misc/fetch-meta';
 import { verifyRecaptcha } from '../../../misc/captcha';
 import { genRsaKeyPair } from '../../../misc/gen-key-pair';
 
-export default async (ctx: Router.RouterContext) => {
-	const body = ctx.request.body;
+export default async (request: Fastify.FastifyRequest, reply: Fastify.FastifyReply) => {
+	const body = request.body as any;	// TODO
 
 	const instance = await fetchMeta();
 
@@ -19,7 +19,7 @@ export default async (ctx: Router.RouterContext) => {
 	// ただしテスト時はこの機構は障害となるため無効にする
 	if (process.env.NODE_ENV !== 'test' && instance.enableRecaptcha && instance.recaptchaSecretKey) {
 		await verifyRecaptcha(instance.recaptchaSecretKey, body['g-recaptcha-response']).catch(e => {
-			ctx.throw(400, e);
+			reply.unauthorized(e);
 		});
 	}
 
@@ -29,7 +29,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	if (instance && instance.disableRegistration) {
 		if (invitationCode == null || typeof invitationCode != 'string') {
-			ctx.status = 400;
+			reply.badRequest();
 			return;
 		}
 
@@ -38,7 +38,7 @@ export default async (ctx: Router.RouterContext) => {
 		});
 
 		if (ticket == null) {
-			ctx.status = 400;
+			reply.badRequest();
 			return;
 		}
 
@@ -49,13 +49,13 @@ export default async (ctx: Router.RouterContext) => {
 
 	// Validate username
 	if (!validateUsername(username)) {
-		ctx.status = 400;
+		reply.badRequest();
 		return;
 	}
 
 	// Validate password
 	if (!validatePassword(password)) {
-		ctx.status = 400;
+		reply.badRequest();
 		return;
 	}
 
@@ -72,7 +72,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	// Check username already used
 	if (usernameExist !== 0) {
-		ctx.status = 400;
+		reply.badRequest();
 		return;
 	}
 
@@ -133,5 +133,5 @@ export default async (ctx: Router.RouterContext) => {
 
 	res.token = secret;
 
-	ctx.body = res;
+	reply.send(res);
 };

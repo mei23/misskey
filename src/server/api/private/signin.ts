@@ -1,4 +1,4 @@
-import * as Router from '@koa/router';
+import * as Fastify from 'fastify';
 import * as bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
 import User, { ILocalUser } from '../../../models/user';
@@ -9,9 +9,9 @@ import config from '../../../config';
 import limiter from '../limiter';
 import { IEndpoint } from '../endpoints';
 
-export default async (ctx: Router.RouterContext) => {
-	ctx.set('Access-Control-Allow-Origin', config.url);
-	ctx.set('Access-Control-Allow-Credentials', 'true');
+export default async (request: Fastify.FastifyRequest, reply: Fastify.FastifyReply) => {
+	reply.header('Access-Control-Allow-Origin', config.url);
+	reply.header('Access-Control-Allow-Credentials', 'true');
 
 	const ep = {
 		name: 'signin',
@@ -24,27 +24,27 @@ export default async (ctx: Router.RouterContext) => {
 		}
 	} as IEndpoint;
 
-	await limiter(ep, undefined, ctx.ip).catch(e => {
-		ctx.throw(429);
+	await limiter(ep, undefined, request.ip).catch(e => {
+		reply.tooManyRequests();
 	});
 
-	const body = ctx.request.body;
+	const body = request.body as any;	// TODO
 	const username = body['username'];
 	const password = body['password'];
 	const token = body['token'];
 
 	if (typeof username != 'string') {
-		ctx.status = 400;
+		reply.badRequest();
 		return;
 	}
 
 	if (typeof password != 'string') {
-		ctx.status = 400;
+		reply.badRequest();
 		return;
 	}
 
 	if (token != null && typeof token != 'string') {
-		ctx.status = 400;
+		reply.badRequest();
 		return;
 	}
 
@@ -59,10 +59,8 @@ export default async (ctx: Router.RouterContext) => {
 			}
 		}) as ILocalUser;
 
-	if (user === null) {
-		ctx.throw(404, {
-			error: 'user not found'
-		});
+	if (user == null) {
+		reply.notFound('user not found');
 		return;
 	}
 
@@ -78,27 +76,23 @@ export default async (ctx: Router.RouterContext) => {
 			});
 
 			if (verified) {
-				signin(ctx, user);
+				signin(request, reply, user);	// TODO
 			} else {
-				ctx.throw(403, {
-					error: 'invalid token'
-				});
+				reply.unauthorized('invalid token');
 			}
 		} else {
-			signin(ctx, user);
+			signin(request, reply, user);
 		}
 	} else {
-		ctx.throw(403, {
-			error: 'incorrect password'
-		});
+		reply.unauthorized('incorrect password');
 	}
 
 	// Append signin history
 	const record = await Signin.insert({
 		createdAt: new Date(),
 		userId: user._id,
-		ip: ctx.ip,
-		headers: ctx.headers,
+		ip: request.ip,
+		headers: request.headers,
 		success: same
 	});
 
