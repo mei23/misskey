@@ -255,6 +255,6 @@ export default define(meta, async (ps, me) => {
 			};
 		}
 
-		return await Promise.all(following.map(x => packFollowee));
+		return await Promise.all(following.map(x => packFollowee(x)));
 	}
 });
