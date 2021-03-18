@@ -57,7 +57,7 @@ export const meta = {
 			validator: $.optional.type(ID),
 			transform: transform,
 			desc: {
-				'ja-JP': '[v11-互換] 指定すると、このRelationIDより未来のレコードを取得します。またソート順が逆になります。'
+				'ja-JP': '指定すると、このRelationIDより未来のレコードを取得します。またソート順が逆になります。'
 			}
 		},
 
@@ -65,7 +65,7 @@ export const meta = {
 			validator: $.optional.type(ID),
 			transform: transform,
 			desc: {
-				'ja-JP': '[v11-互換] 指定すると、このRelationIDより過去のレコードを取得します。'
+				'ja-JP': '指定すると、このRelationIDより過去のレコードを取得します。'
 			}
 		},
 
@@ -73,7 +73,7 @@ export const meta = {
 			validator: $.optional.bool,
 			default: false,
 			desc: {
-				'ja-JP': '[v11-互換] 指定すると、Entiryがv11互換に変わります。'
+				'ja-JP': '指定すると、Entiryがv11互換に変わります。'
 			}
 		},
 
