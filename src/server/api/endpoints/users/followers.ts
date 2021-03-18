@@ -56,7 +56,7 @@ export const meta = {
 			validator: $.optional.type(ID),
 			transform: transform,
 			desc: {
-				'ja-JP': '[v11-互換] 指定すると、このIDより未来のレコードを取得します。またEntiryがv11互換に変わります。またソート順が逆になります。'
+				'ja-JP': '[v11-互換] 指定すると、このIDより未来のレコードを取得します。またソート順が逆になります。'
 			}
 		},
 
@@ -64,7 +64,7 @@ export const meta = {
 			validator: $.optional.type(ID),
 			transform: transform,
 			desc: {
-				'ja-JP': '[v11-互換] 指定すると、このIDより過去のレコードを取得します。またEntiryがv11互換に変わります。'
+				'ja-JP': '[v11-互換] 指定すると、このIDより過去のレコードを取得します。'
 			}
 		},
 
@@ -173,12 +173,10 @@ export default define(meta, async (ps, me) => {
 		query._id = {
 			$gt: ps.sinceId
 		};
-		ps.v11compatible = true;
 	} else if (ps.untilId) {
 		query._id = {
 			$lt: ps.untilId
 		};
-		ps.v11compatible = true;
 	}
 
 	// Get followers
