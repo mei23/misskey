@@ -1,6 +1,6 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
-import User, { IUser } from '../../../../models/user';
+import User, { IUser, ILocalUser, pack as packUser } from '../../../../models/user';
 import Following, { IFollowing } from '../../../../models/following';
 import { pack } from '../../../../models/user';
 import { getFriendIds } from '../../common/get-friends';
@@ -8,6 +8,8 @@ import define from '../../define';
 import { ApiError } from '../../error';
 import { getFollowerIds } from '../../common/get-followers';
 import { canShowFollows } from '../../common/can-show-follows';
+import { V10Followees, PackedFollowee } from '../../../../models/packed-schemas';
+import { toOidString, toISODateOrNull } from '../../../../misc/pack-utils';
 
 export const meta = {
 	desc: {
@@ -46,6 +48,33 @@ export const meta = {
 			validator: $.optional.type(ID),
 			default: null as any,
 			transform: transform,
+			desc: {
+				'ja-JP': '指定すると、このRelationIDより過去のレコードを取得します。'
+			}
+		},
+
+		sinceId: {
+			validator: $.optional.type(ID),
+			transform: transform,
+			desc: {
+				'ja-JP': '[v11-互換] 指定すると、このRelationIDより未来のレコードを取得します。またEntiryがv11互換に変わります。またソート順が逆になります。'
+			}
+		},
+
+		untilId: {
+			validator: $.optional.type(ID),
+			transform: transform,
+			desc: {
+				'ja-JP': '[v11-互換] 指定すると、このRelationIDより過去のレコードを取得します。またEntiryがv11互換に変わります。'
+			}
+		},
+
+		v11compatible: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': '[v11-互換] 指定すると、Entiryがv11互換に変わります。'
+			}
 		},
 
 		iknow: {
@@ -136,11 +165,27 @@ export default define(meta, async (ps, me) => {
 		};
 	}
 
+	const sort = {
+		_id: -1
+	};
+
 	// カーソルが指定されている場合
 	if (ps.cursor) {
 		query._id = {
 			$lt: ps.cursor
 		};
+	// v11互換パラメーター
+	} else if (ps.sinceId) {
+		sort._id = 1;
+		query._id = {
+			$gt: ps.sinceId
+		};
+		ps.v11compatible = true;
+	} else if (ps.untilId) {
+		query._id = {
+			$lt: ps.untilId
+		};
+		ps.v11compatible = true;
 	}
 
 	let following: (IFollowing & { _user: IUser })[];
@@ -151,7 +196,7 @@ export default define(meta, async (ps, me) => {
 		}, {
 			$sort: { _id: -1 }
 		}, {
-			$limit: ps.limit + 1,
+			$limit: ps.limit! + (ps.v11compatible ? 0 : 1)
 		}, {
 			// join User
 			$lookup: {
@@ -183,20 +228,35 @@ export default define(meta, async (ps, me) => {
 		}, {
 			$sort: { _id: -1 }
 		}, {
-			$limit: ps.limit + 1,
+			$limit: ps.limit! + (ps.v11compatible ? 0 : 1)
 		}]) as (IFollowing & { _user: IUser })[];
 	}
 
-	// 「次のページ」があるかどうか
-	const inStock = following.length === ps.limit + 1;
-	if (inStock) {
-		following.pop();
+	if (!ps.v11compatible) {	// V10Following
+		// 「次のページ」があるかどうか
+		const inStock = following.length === ps.limit! + 1;
+		if (inStock) {
+			following.pop();
+		}
+
+		return {
+			users: await Promise.all(following.map(f => pack(f._user, me, { detail: true }))),
+			next: inStock ? toOidString(following[following.length - 1]._id) : null,
+		} as V10Followees;
+	} else {	// v11
+		const packFollowee = async (
+			x: IFollowing & { _user: IUser },
+			me?: ILocalUser | null | undefined,
+		): Promise<PackedFollowee> => {
+			return {
+				id: toOidString(x._id),
+				createdAt: toISODateOrNull(x.createdAt),
+				followeeId: toOidString(x.followeeId),
+				followerId: toOidString(x.followerId),
+				followee: await packUser(x._user, me, { detail: true }),
+			};
+		}
+
+		return await Promise.all(following.map(x => packFollowee));
 	}
-
-	const users = await Promise.all(following.map(f => pack(f._user, me, { detail: true })));
-
-	return {
-		users: users,
-		next: inStock ? following[following.length - 1]._id : null,
-	};
 });

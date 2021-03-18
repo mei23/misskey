@@ -155,3 +155,30 @@ export type PackedUser = ThinPackedUser & {
 	hasUnreadAnnouncement?: boolean;
 	*/
 }
+
+export type PackedFollowBase = {
+	/** Relation ID */
+	id: string;
+	/** フォローの作成日時 */
+	createdAt: string | null;
+	/** フォローされたユーザーのID */
+	followeeId: string;
+	/** フォローしたユーザーのID */
+	followerId: string;
+}
+
+export type PackedFollowee = PackedFollowBase & {
+	/** フォローされたユーザーのオブジェクト */
+	followee?: PackedUser | null;
+};
+
+export type PackedFollowees = PackedFollowee[];
+
+export type V10Followees = {
+	/** フォローしているユーザーオブジェクト */
+	users: (PackedUser | null)[];
+	/** 返した中で最後のRelation ID (nextという名前だけどnextではない！) */
+	next: string
+}
+
+export type Followees = V10Followees | PackedFollowees;
