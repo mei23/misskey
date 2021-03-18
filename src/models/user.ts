@@ -1,3 +1,4 @@
+// tslint:disable: use-type-alias
 import * as mongo from 'mongodb';
 import * as deepcopy from 'deepcopy';
 import db from '../db/mongodb';
@@ -323,6 +324,22 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 	};
 }
 
+type PackOptions = {
+	detail?: boolean,
+	includeSecrets?: boolean,
+	includeHasUnreadNotes?: boolean
+};
+
+export async function pack(
+	src: IUser,
+	me?: string | mongo.ObjectID | IUser | null,
+	options?: PackOptions
+): Promise<PackedUser>;
+export async function pack(
+	src: string | mongo.ObjectID,
+	me?: string | mongo.ObjectID | IUser | null,
+	options?: PackOptions
+): Promise<PackedUser | null>;
 /**
  * Pack a user for API response
  *
@@ -331,15 +348,11 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
  * @param options? serialize options
  * @return Packed user
  */
-export const pack = async (
+export async function pack(
 	src: string | mongo.ObjectID | IUser,
 	me?: string | mongo.ObjectID | IUser | null,
-	options?: {
-		detail?: boolean,
-		includeSecrets?: boolean,
-		includeHasUnreadNotes?: boolean
-	}
-): Promise<PackedUser | null> => {
+	options?: PackOptions
+): Promise<PackedUser | null> {
 	const opts = Object.assign({
 		detail: false,
 		includeSecrets: false
