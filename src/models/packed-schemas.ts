@@ -132,7 +132,7 @@ export type PackedUser = ThinPackedUser & {
 	// my secrets
 	email?: string | null;
 	emailVerified?: boolean;
-	clientSettings: any;
+	clientSettings?: any;
 	settings?: {
 		autoWatch: boolean;
 		alwaysMarkNsfw?: boolean;
