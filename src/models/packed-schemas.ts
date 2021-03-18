@@ -156,6 +156,7 @@ export type PackedUser = ThinPackedUser & {
 	*/
 }
 
+//#region Follow
 export type PackedFollowBase = {
 	/** Relation ID */
 	id: string;
@@ -169,16 +170,25 @@ export type PackedFollowBase = {
 
 export type PackedFollowee = PackedFollowBase & {
 	/** フォローされたユーザーのオブジェクト */
-	followee?: PackedUser | null;
+	followee: PackedUser;
 };
 
-export type PackedFollowees = PackedFollowee[];
+export type PackedFollower = PackedFollowBase & {
+	/** フォローしているユーザーのオブジェクト */
+	follower: PackedUser;
+};
 
 export type V10Followees = {
-	/** フォローしているユーザーオブジェクト */
-	users: (PackedUser | null)[];
+	/** フォローしているユーザーのオブジェクト */
+	users: PackedUser[];
 	/** 返した中で最後のRelation ID (nextという名前だけどnextではない！) */
 	next: string
 }
 
-export type Followees = V10Followees | PackedFollowees;
+export type V10Followers = {
+	/** フォローされたユーザーのオブジェクト */
+	users: PackedUser[];
+	/** 返した中で最後のRelation ID (nextという名前だけどnextではない！) */
+	next: string
+}
+//#endregion

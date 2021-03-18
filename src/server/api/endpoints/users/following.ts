@@ -253,7 +253,7 @@ export default define(meta, async (ps, me) => {
 				createdAt: toISODateOrNull(x.createdAt),
 				followeeId: toOidString(x.followeeId),
 				followerId: toOidString(x.followerId),
-				followee: await packUser(x._user, me, { detail: true }),
+				followee: (await packUser(x._user, me, { detail: true }))!,	// TODO: User.packの型をなおす
 			};
 		}
 
