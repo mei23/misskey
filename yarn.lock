@@ -7252,10 +7252,10 @@ printj@~1.1.0:
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
 
-probe-image-size@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.0.0.tgz#8a287207c04058f33edd31e7a66f6c5eaac02301"
-  integrity sha512-pddLh5UPAR2tj0GXin5qCFoYa9oo1HOvk+9HYb+V1z7sUjuhCsVbCAKDVvMXwJp5JSsYOoCZ6iQaDpjPvS04nQ==
+probe-image-size@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.0.1.tgz#ac815d78bdf8c5643af6e541a572c0077c75f2c1"
+  integrity sha512-4ua2TGdO761JWaTgbLD2Uq9yFvB34QBAxnqz9GOs3w4+SC4dfbQcnnNY8loHjZV5NRW8PSQRz+WZ6NfUvbuRDA==
   dependencies:
     deepmerge "^4.0.0"
     needle "^2.5.2"
