@@ -89,7 +89,7 @@
 		"@types/web-push": "3.3.0",
 		"@types/webpack": "5.28.0",
 		"@types/websocket": "1.0.2",
-		"@types/ws": "7.4.0",
+		"@types/ws": "7.4.1",
 		"abort-controller": "3.0.0",
 		"animejs": "3.2.1",
 		"apexcharts": "3.26.0",
