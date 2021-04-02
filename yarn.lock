@@ -4534,10 +4534,10 @@ ip-address@^6.3.0:
     lodash.repeat "4.1.0"
     sprintf-js "1.1.2"
 
-ip-cidr@2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-2.1.3.tgz#158cf1d87bf2474ac5091d4791e435772e2fb99d"
-  integrity sha512-1kNaI+fluuQLVnDyCvQv9U3nX9jr4UtY5saPbnnTsaCMWJySVb+MhML7gknW3Rogi2g35kwedSR9UKLwL5qoVQ==
+ip-cidr@2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-2.1.4.tgz#5d687775a15afb394a1132a8f57e7f5b798c3942"
+  integrity sha512-dre+OGDYAYHMCm6nNoqXHwGByqMDHArVpxslJVtSxk47spvyjoiKNe7X+HV+AtBN+LxboCVuY0ARXpzibizNMg==
   dependencies:
     ip-address "^6.3.0"
     jsbn "^1.1.0"
