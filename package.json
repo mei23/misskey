@@ -198,7 +198,7 @@
 		"syuilo-password-strength": "0.0.1",
 		"terser-webpack-plugin": "4.2.3",
 		"textarea-caret": "3.1.0",
-		"three": "0.126.1",
+		"three": "0.127.0",
 		"tinycolor2": "1.4.2",
 		"tmp": "0.2.1",
 		"ts-loader": "8.1.0",
