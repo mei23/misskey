@@ -35,6 +35,9 @@ export function parsePlainX(source: string): MfmForest | null {
 	return normalize(mfmLanguage.plainX.tryParse(source));
 }
 
+/**
+ * メンション, タグ, URL, リンク, コード のみ
+ */
 export function parseBasic(source: string): MfmForest | null {
 	if (source == null || source == '') {
 		return null;
