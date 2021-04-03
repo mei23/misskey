@@ -1,4 +1,4 @@
-import { parseFull } from '../../../../mfm/parse';
+import { parseBasic } from '../../../../mfm/parse';
 import { sum, unique } from '../../../../prelude/array';
 import { shouldMuteNote } from './should-mute-note';
 import MkNoteMenu from '../views/components/note-menu.vue';
@@ -87,8 +87,7 @@ export default (opts: Opts = {}) => ({
 
 		urls(): string[] {
 			if (this.appearNote.text) {
-				const ast = parseFull(this.appearNote.text);
-				// TODO: 再帰的にURL要素がないか調べる
+				const ast = parseBasic(this.appearNote.text);
 				const urls = unique(ast
 					.filter(t => ((t.node.type == 'url' || t.node.type == 'link') && t.node.props.url && !t.node.props.silent))
 					.map(t => t.node.props.url));
