@@ -116,6 +116,8 @@ export type INote = {
 	mecabWords?: string[];
 	trendWords?: string[];
 
+	mfmTypes?: string[];
+
 	// 非正規化
 	_reply?: {
 		userId: mongo.ObjectID;
@@ -383,6 +385,14 @@ export const pack = async (
 		return renote ? `${renote._id}` : null;
 	};
 
+	// tslint:disable-next-line:no-unnecessary-initializer
+	let notHaveDecorationMfm: boolean | undefined = undefined;
+
+	if (db.mfmTypes) {
+		const decorationMfmTypes = db.mfmTypes.filter(x => !['text', 'mention', 'hashtag', 'url', 'link', 'emoji', 'blockCode', 'inlineCode'].includes(x)) || [];
+		notHaveDecorationMfm = decorationMfmTypes.length === 0;
+	}
+
 	const packed: PackedNote = await awaitAll({
 		id: toOidString(db._id),
 		createdAt: toISODateOrNull(db.createdAt),
@@ -412,6 +422,7 @@ export const pack = async (
 		url: db.url || null,
 		appId: toOidStringOrNull(db.appId),
 		app: db.appId ? packApp(db.appId) : null,
+		notHaveDecorationMfm,
 
 		visibleUserIds: db.visibleUserIds?.length > 0 ? db.visibleUserIds.map(toOidString) : [],
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],

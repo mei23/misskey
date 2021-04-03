@@ -38,6 +38,7 @@ import { getIndexer, getWordIndexer } from '../../misc/mecab';
 import Following from '../../models/following';
 import { IActivity } from '../../remote/activitypub/type';
 import { normalizeTag } from '../../misc/normalize-tag';
+import extractMfmTypes from '../../misc/extract-mfm-types';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -200,6 +201,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 	let tags = data.apHashtags;
 	let emojis = data.apEmojis;
 	let mentionedUsers = data.apMentions;
+	let mfmTypes: string[] = [];
 
 	const parseEmojisInToken = true;
 
@@ -218,6 +220,8 @@ export default async (user: IUser, data: Option, silent = false) => {
 		emojis = unique(concat([data.apEmojis || [], extractEmojis(combinedTokens)]));
 
 		mentionedUsers = data.apMentions || await extractMentionedUsers(user, combinedTokens);
+
+		mfmTypes = extractMfmTypes(combinedTokens);
 	}
 
 	tags = tags.filter(tag => Array.from(tag || '').length <= 128).splice(0, 64);
@@ -248,7 +252,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 		}
 	}
 
-	const note = await insertNote(user, data, tags, emojis, mentionedUsers);
+	const note = await insertNote(user, data, tags, emojis, mentionedUsers, mfmTypes);
 
 	(async () => {
 		if (data.preview) return;
@@ -494,7 +498,7 @@ function incQuoteCount(renote: INote) {
 	});
 }
 
-async function insertNote(user: IUser, data: Option, tags: string[], emojis: string[], mentionedUsers: IUser[]) {
+async function insertNote(user: IUser, data: Option, tags: string[], emojis: string[], mentionedUsers: IUser[], mfmTypes?: string[]) {
 	const insert: any = {
 		_id: genId(data.createdAt),
 		createdAt: data.createdAt,
@@ -520,6 +524,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 				? data.visibleUsers.map(u => u._id)
 				: []
 			: [],
+		mfmTypes,
 
 		// 以下非正規化データ
 		_reply: data.reply ? {
