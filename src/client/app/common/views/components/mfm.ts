@@ -1,7 +1,7 @@
 import Vue, { VNode } from 'vue';
 import { length } from 'stringz';
 import { MfmForest } from '../../../../../mfm/prelude';
-import { parse, parsePlain, parsePlainX } from '../../../../../mfm/parse';
+import { parseFull, parsePlain, parsePlainX } from '../../../../../mfm/parse';
 import MkUrl from './url.vue';
 import MkMention from './mention.vue';
 import { concat, sum } from '../../../../../prelude/array';
@@ -54,7 +54,7 @@ export default Vue.component('misskey-flavored-markdown', {
 	render(createElement) {
 		if (this.text == null || this.text == '') return;
 
-		const ast = (this.plain ? this.extra ? parsePlainX : parsePlain : parse)(this.text);
+		const ast = (this.plain ? this.extra ? parsePlainX : parsePlain : parseFull)(this.text);
 
 		let bigCount = 0;
 		let motionCount = 0;

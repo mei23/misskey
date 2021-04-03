@@ -7,7 +7,7 @@ import acceptAllFollowRequests from '../../../../services/following/requests/acc
 import { publishToFollowers } from '../../../../services/i/update';
 import define from '../../define';
 import getDriveFileUrl from '../../../../misc/get-drive-file-url';
-import { parse, parsePlain } from '../../../../mfm/parse';
+import { parseFull, parsePlain } from '../../../../mfm/parse';
 import extractEmojis from '../../../../misc/extract-emojis';
 import extractHashtags from '../../../../misc/extract-hashtags';
 import { updateUsertags } from '../../../../services/update-hashtag';
@@ -339,7 +339,7 @@ export default define(meta, async (ps, user, app) => {
 		}
 
 		if (updates.description != null) {
-			const tokens = parse(updates.description);
+			const tokens = parseFull(updates.description);
 			emojis = emojis.concat(extractEmojis(tokens));
 			tags = extractHashtags(tokens).map(tag => normalizeTag(tag)).slice(0, 64);
 		}

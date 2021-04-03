@@ -11,7 +11,7 @@ import DriveFile, { IDriveFile } from '../../models/drive-file';
 import { createNotification } from '../../services/create-notification';
 import NoteWatching from '../../models/note-watching';
 import watch from './watch';
-import { parse } from '../../mfm/parse';
+import { parseFull } from '../../mfm/parse';
 import { IApp } from '../../models/app';
 import resolveUser from '../../remote/resolve-user';
 import Meta from '../../models/meta';
@@ -205,10 +205,10 @@ export default async (user: IUser, data: Option, silent = false) => {
 
 	// Parse MFM if needed
 	if (parseEmojisInToken || !tags || !emojis || !mentionedUsers) {
-		const tokens = data.text ? parse(data.text) : [];
-		const cwTokens = data.cw ? parse(data.cw) : [];
+		const tokens = data.text ? parseFull(data.text) : [];
+		const cwTokens = data.cw ? parseFull(data.cw) : [];
 		const choiceTokens = data.poll && data.poll.choices
-			? concat((data.poll.choices as IChoice[]).map(choice => parse(choice.text)))
+			? concat((data.poll.choices as IChoice[]).map(choice => parseFull(choice.text)))
 			: [];
 
 		const combinedTokens = tokens.concat(cwTokens).concat(choiceTokens);

@@ -34,7 +34,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { parse } from '../../../../../mfm/parse';
+import { parseFull } from '../../../../../mfm/parse';
 import { unique } from '../../../../../prelude/array';
 
 export default Vue.extend({
@@ -50,7 +50,7 @@ export default Vue.extend({
 		},
 		urls(): string[] {
 			if (this.message.text) {
-				const ast = parse(this.message.text);
+				const ast = parseFull(this.message.text);
 				return unique(ast
 					.filter(t => ((t.node.type == 'url' || t.node.type == 'link') && t.node.props.url && !t.node.props.silent))
 					.map(t => t.node.props.url));

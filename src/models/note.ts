@@ -12,7 +12,7 @@ import Emoji from './emoji';
 import { packEmojis } from '../misc/pack-emojis';
 import { dbLogger } from '../db/logger';
 import { decodeReaction, decodeReactionCounts } from '../misc/reaction-lib';
-import { parse } from '../mfm/parse';
+import { parseFull } from '../mfm/parse';
 import { toString } from '../mfm/to-string';
 import { PackedNote } from './packed-schemas';
 import { awaitAll } from '../prelude/await-all';
@@ -435,7 +435,7 @@ export const pack = async (
 	});
 
 	if (packed.user?.isCat && packed.text) {
-		const tokens = packed.text ? parse(packed.text) : [];
+		const tokens = packed.text ? parseFull(packed.text) : [];
 		packed.text = toString(tokens, { doNyaize: true });
 	}
 

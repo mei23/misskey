@@ -73,56 +73,56 @@
 	</section>
 
 	<section>
-		<header>引用</header>
+		<header>引用 (ブロック要素)</header>
 		<p>引用を示すことができます。</p>
 		<p><mfm :text="preview_quote" :key="preview_quote"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_quote"></ui-textarea>
 	</section>
 
 	<section>
-		<header>中央寄せ</header>
+		<header>中央寄せ (ブロック要素)<</header>
 		<p>中央寄せで表示することができます。</p>
 		<p><mfm :text="preview_center" :key="preview_center"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_center"></ui-textarea>
 	</section>
 
 	<section>
-		<header>コード (インライン)</header>
+		<header>インラインコード</header>
 		<p>ソースコードなどをインラインでシンタックスハイライトします。</p>
 		<p><mfm :text="preview_inlineCode" :key="preview_inlineCode"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_inlineCode"></ui-textarea>
 	</section>
 
 	<section>
-		<header>コード (ブロック)</header>
+		<header>コードブロック (ブロック要素)</header>
 		<p>ソースコードなどをブロックでシンタックスハイライトします。言語指定も出来ます。</p>
 		<p><mfm :text="preview_blockCode" :key="preview_blockCode"/></p>
 		<ui-textarea :slim="false" class="text" v-model="preview_blockCode"></ui-textarea>
 	</section>
 
 	<section>
-		<header>数式 (インライン)</header>
+		<header>インライン数式</header>
 		<p>数式 (KaTeX)をインラインで表示します。</p>
 		<p><mfm :text="preview_inlineMath" :key="preview_inlineMath"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_inlineMath"></ui-textarea>
 	</section>
 
 	<section>
-		<header>数式 (ブロック)</header>
+		<header>ブロック数式 (ブロック要素)</header>
 		<p>数式 (KaTeX)をブロックで表示します。</p>
 		<p><mfm :text="preview_blockMath" :key="preview_blockMath"/></p>
 		<ui-textarea :slim="false" class="text" v-model="preview_blockMath"></ui-textarea>
 	</section>
 
 	<section>
-		<header>検索</header>
+		<header>検索 (ブロック要素)</header>
 		<p>入力済み検索ボックスを表示させることができます。</p>
 		<p><mfm :text="preview_search" :key="preview_search"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_search"></ui-textarea>
 	</section>
 
 	<section>
-		<header>タイトル</header>
+		<header>タイトル (ブロック要素)</header>
 		<p>タイトルのようになります</p>
 		<p><mfm :text="preview_title" :key="preview_title"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_title"></ui-textarea>
@@ -164,7 +164,7 @@
 	</section>
 
 	<section>
-		<header>マーキー</header>
+		<header>マーキー (ブロック要素)</header>
 		<p><mfm :text="preview_marquee" :key="preview_marquee"/></p>
 		<ui-textarea :slim="false" class="text" v-model="preview_marquee"></ui-textarea>
 	</section>

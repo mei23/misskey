@@ -2,7 +2,7 @@ import insertTextAtCursor from 'insert-text-at-cursor';
 import { length } from 'stringz';
 import MkVisibilityChooser from '../views/components/visibility-chooser.vue';
 import getFace from './get-face';
-import { parse } from '../../../../mfm/parse';
+import { parseFull } from '../../../../mfm/parse';
 import i18n from '../../i18n';
 import { erase, unique, concat } from '../../../../prelude/array';
 import { faFish, faShareSquare } from '@fortawesome/free-solid-svg-icons';
@@ -446,7 +446,7 @@ export default (opts) => ({
 			});
 
 			if (this.text && this.text != '') {
-				const hashtags = parse(this.text).filter(x => x.node.type === 'hashtag').map(x => x.node.props.hashtag);
+				const hashtags = parseFull(this.text).filter(x => x.node.type === 'hashtag').map(x => x.node.props.hashtag);
 				const history = JSON.parse(localStorage.getItem('hashtags') || '[]') as string[];
 				localStorage.setItem('hashtags', JSON.stringify(unique(hashtags.concat(history))));
 			}

@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { parse } from '../../../../../../mfm/parse';
+import { parseFull } from '../../../../../../mfm/parse';
 import { unique } from '../../../../../../prelude/array';
 
 export default Vue.extend({
@@ -30,7 +30,7 @@ export default Vue.extend({
 	computed: {
 		urls(): string[] {
 			if (this.text) {
-				const ast = parse(this.text);
+				const ast = parseFull(this.text);
 				// TODO: 再帰的にURL要素がないか調べる
 				return unique(ast
 					.filter(t => ((t.node.type == 'url' || t.node.type == 'link') && t.node.props.url && !t.node.props.silent))

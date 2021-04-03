@@ -70,7 +70,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { parse } from '../../../../../mfm/parse';
+import { parseFull } from '../../../../../mfm/parse';
 import { host } from '../../../config';
 import { toASCII } from 'punycode';
 import extractMentions from '../../../../../misc/extract-mentions';
@@ -142,7 +142,7 @@ export default Vue.extend({
 		}
 
 		if (this.reply && this.reply.text != null) {
-			const ast = parse(this.reply.text);
+			const ast = parseFull(this.reply.text);
 
 			for (const x of extractMentions(ast)) {
 				const mention = x.host ? `@${x.username}@${toASCII(x.host)}` : `@${x.username}`;

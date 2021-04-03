@@ -3,7 +3,7 @@ import renderKey from './key';
 import config from '../../../config';
 import { ILocalUser } from '../../../models/user';
 import { toHtml } from '../../../mfm/to-html';
-import { parse } from '../../../mfm/parse';
+import { parseFull } from '../../../mfm/parse';
 import DriveFile from '../../../models/drive-file';
 import { getEmojis } from './note';
 import renderEmoji from './emoji';
@@ -101,7 +101,7 @@ export default async (user: ILocalUser) => {
 		url: `${config.url}/@${user.username}`,
 		preferredUsername: user.username,
 		name: user.name,
-		summary: toHtml(parse(user.description)),
+		summary: toHtml(parseFull(user.description)),
 		icon: (avatar && avatar.metadata && !avatar.metadata.isSensitive) ? renderImage(avatar) : undefined,
 		image: (banner && banner.metadata && !banner.metadata.isSensitive) ? renderImage(banner) : undefined,
 		tag,
