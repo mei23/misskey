@@ -19,6 +19,7 @@ import { awaitAll } from '../prelude/await-all';
 import { pack as packApp } from './app';
 import { toISODateOrNull, toOidString, toOidStringOrNull } from '../misc/pack-utils';
 import { transform } from '../misc/cafy-id';
+import extractMfmTypes from '../misc/extract-mfm-types';
 
 const Note = db.get<INote>('notes');
 Note.createIndex('uri', { sparse: true, unique: true });
@@ -115,8 +116,6 @@ export type INote = {
 	 */
 	mecabWords?: string[];
 	trendWords?: string[];
-
-	mfmTypes?: string[];
 
 	// 非正規化
 	_reply?: {
@@ -385,14 +384,6 @@ export const pack = async (
 		return renote ? `${renote._id}` : null;
 	};
 
-	// tslint:disable-next-line:no-unnecessary-initializer
-	let notHaveDecorationMfm: boolean | undefined = undefined;
-
-	if (db.mfmTypes) {
-		const decorationMfmTypes = db.mfmTypes.filter(x => !['text', 'mention', 'hashtag', 'url', 'link', 'emoji', 'blockCode', 'inlineCode'].includes(x)) || [];
-		notHaveDecorationMfm = decorationMfmTypes.length === 0;
-	}
-
 	const packed: PackedNote = await awaitAll({
 		id: toOidString(db._id),
 		createdAt: toISODateOrNull(db.createdAt),
@@ -422,7 +413,6 @@ export const pack = async (
 		url: db.url || null,
 		appId: toOidStringOrNull(db.appId),
 		app: db.appId ? packApp(db.appId) : null,
-		notHaveDecorationMfm,
 
 		visibleUserIds: db.visibleUserIds?.length > 0 ? db.visibleUserIds.map(toOidString) : [],
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],
@@ -445,9 +435,16 @@ export const pack = async (
 		} : {})
 	});
 
-	if (packed.user?.isCat && packed.text) {
-		const tokens = packed.text ? parseFull(packed.text) : [];
-		packed.text = toString(tokens, { doNyaize: true });
+	const tokens = packed.text ? parseFull(packed.text) : [];
+
+	if (tokens) {
+		const mfmTypes = extractMfmTypes(tokens);
+		const decorationMfmTypes = mfmTypes.filter(x => !['text', 'mention', 'hashtag', 'url', 'link', 'emoji', 'blockCode', 'inlineCode'].includes(x)) || [];
+		packed.notHaveDecorationMfm = decorationMfmTypes.length === 0;
+
+		if (packed.user?.isCat && packed.text) {
+			packed.text = toString(tokens, { doNyaize: true });
+		}
 	}
 
 	if (!opts.skipHide) {
