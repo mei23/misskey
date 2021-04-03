@@ -23,6 +23,7 @@ export const mfmLanguage = P.createLanguage({
 	root: r => P.alt(r.block, r.inline).atLeast(1),
 	plain: r => P.alt(r.emoji, r.text).atLeast(1),
 	plainX: r => P.alt(r.inline).atLeast(1),
+	basic: r => P.alt(r.inlineBasic).atLeast(1),
 	block: r => P.alt(
 		r.title,
 		r.quote,
@@ -31,6 +32,38 @@ export const mfmLanguage = P.createLanguage({
 		r.mathBlock,
 		r.center,
 		r.marquee
+	),
+	inline: r => P.alt(
+		r.big,
+		r.bold,
+		r.small,
+		r.italic,
+		r.strike,
+		r.motion,
+		r.spin,
+		r.xspin,
+		r.yspin,
+		r.jump,
+		r.flip,
+		r.vflip,
+		r.rotate,
+		r.inlineCode,
+		r.mathInline,
+		r.mention,
+		r.hashtag,
+		r.url,
+		r.link,
+		r.emoji,
+		r.fn,
+		r.text
+	),
+	inlineBasic: r => P.alt(
+		r.mention,
+		r.hashtag,
+		r.url,
+		r.link,
+		r.emoji,
+		r.text
 	),
 	startOfLine: () => P((input, i) => {
 		if (i == 0 || input[i] == '\n' || input[i - 1] == '\n') {
@@ -78,30 +111,7 @@ export const mfmLanguage = P.createLanguage({
 			});
 		}).map(x => createTree('marquee', r.inline.atLeast(1).tryParse(x.content), { attr: x.attr }));
 	},
-	inline: r => P.alt(
-		r.big,
-		r.bold,
-		r.small,
-		r.italic,
-		r.strike,
-		r.motion,
-		r.spin,
-		r.xspin,
-		r.yspin,
-		r.jump,
-		r.flip,
-		r.vflip,
-		r.rotate,
-		r.inlineCode,
-		r.mathInline,
-		r.mention,
-		r.hashtag,
-		r.url,
-		r.link,
-		r.emoji,
-		r.fn,
-		r.text
-	),
+
 	big: r => P.regexp(/^\*\*\*([\s\S]+?)\*\*\*/, 1).map(x => createTree('big', r.inline.atLeast(1).tryParse(x), {})),
 	bold: r => {
 		const asterisk = P.regexp(/\*\*([\s\S]+?)\*\*/, 1);

@@ -34,3 +34,11 @@ export function parsePlainX(source: string): MfmForest | null {
 
 	return normalize(mfmLanguage.plainX.tryParse(source));
 }
+
+export function parseBasic(source: string): MfmForest | null {
+	if (source == null || source == '') {
+		return null;
+	}
+
+	return normalize(mfmLanguage.basic.tryParse(source));
+}
