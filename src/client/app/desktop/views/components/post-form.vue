@@ -79,7 +79,7 @@ import XVisibilityIcon from '../../../common/views/components/visibility-icon.vu
 import form from '../../../common/scripts/post-form';
 import { toASCII } from 'punycode';
 import extractMentions from '../../../../../misc/extract-mentions';
-import { parseFull } from '../../../../../mfm/parse';
+import { parseBasic } from '../../../../../mfm/parse';
 import { host } from '../../../config';
 
 export default Vue.extend({
@@ -129,7 +129,7 @@ export default Vue.extend({
 		}
 
 		if (this.reply && this.reply.text != null) {
-			const ast = parseFull(this.reply.text);
+			const ast = parseBasic(this.reply.text);
 
 			for (const x of extractMentions(ast)) {
 				const mention = x.host ? `@${x.username}@${toASCII(x.host)}` : `@${x.username}`;
