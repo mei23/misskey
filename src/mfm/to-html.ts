@@ -4,7 +4,7 @@ import { INote } from '../models/note';
 import { concat } from '../prelude/array';
 import { MfmForest, MfmTree } from './prelude';
 
-export function toHtml(tokens: MfmForest, mentionedRemoteUsers: INote['mentionedRemoteUsers'] = []) {
+export function toHtml(tokens: MfmForest | null, mentionedRemoteUsers: INote['mentionedRemoteUsers'] = []) {
 	if (tokens == null) {
 		return null;
 	}
