@@ -1,6 +1,6 @@
 import Vue, { VNode } from 'vue';
 import { length } from 'stringz';
-import { MfmForest } from '../../../../../mfm/prelude';
+import { MfmForest, urlRegex } from '../../../../../mfm/prelude';
 import { parseFull, parsePlain, parsePlainX } from '../../../../../mfm/parse';
 import MkUrl from './url.vue';
 import MkMention from './mention.vue';
@@ -346,16 +346,31 @@ export default Vue.component('misskey-flavored-markdown', {
 				}
 
 				case 'link': {
+					let text = token.children.filter(x => x.node.type === 'text').map(x => x.node.props.text)[0];
+					const href = token.node.props.url;
+
+					const t = (text as string | null)?.match(/https?:\/\/\S+/);
+					const h = (href as string | null)?.match(/https?:\/\/\S+/);
+
+					if (t && h) {
+						const tu = new URL(t[0]);
+						const hu = new URL(h[0]);
+
+						if (tu.hostname !== hu.hostname) {
+							text = href;
+						}
+					}
+
 					return [createElement('a', {
 						attrs: {
 							class: 'link',
-							href: token.node.props.url,
+							href: href,
 							rel: 'nofollow noopener',
 							target: '_blank',
-							title: token.node.props.url,
+							title: href,
 							style: 'color:var(--mfmLink);'
 						}
-					}, genEl(token.children, inQuote))];
+					}, text)];
 				}
 
 				case 'mention': {

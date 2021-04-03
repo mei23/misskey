@@ -264,7 +264,7 @@ export const mfmLanguage = P.createLanguage({
 			P.string('['), ['text', P.regexp(/[^\n\[\]]+/)] as any, P.string(']'),
 			P.string('('), ['url', r.url] as any, P.string(')'),
 		).map((x: any) => {
-			return createTree('link', r.inline.atLeast(1).tryParse(x.text), {
+			return createTree('link', r.text.atLeast(1).tryParse(x.text), {
 				silent: x.silent,
 				url: x.url.node.props.url
 			});
