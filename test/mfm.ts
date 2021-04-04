@@ -11,45 +11,48 @@
 import * as assert from 'assert';
 
 import { parseFull, parsePlain } from '../src/mfm/parse';
-import { createTree as tree, createLeaf as leaf, MfmTree } from '../src/mfm/prelude';
+import { createMfmNode, MfmNode } from '../src/mfm/prelude';
 import { removeOrphanedBrackets } from '../src/mfm/language';
 
-function text(text: string): MfmTree {
-	return leaf('text', { text });
+
+function text(text: string): MfmNode {
+	return createMfmNode('text', { text });
 }
 
-describe('createLeaf', () => {
-	it('creates leaf', () => {
-		assert.deepStrictEqual(leaf('text', { text: 'abc' }), {
-			node: {
-				type: 'text',
-				props: {
-					text: 'abc'
-				}
+function tree(type: string, children: any[], props: any) {
+	return createMfmNode(type, props, children);
+}
+
+function leaf(type: string, props: any) {
+	return createMfmNode(type, props);
+}
+
+describe('createMfmNode', () => {
+	it('without children', () => {
+		assert.deepStrictEqual(createMfmNode('text', { text: 'abc' }), {
+			type: 'text',
+			props: {
+				text: 'abc'
 			},
 			children: [],
 		});
 	});
-});
 
-describe('createTree', () => {
-	it('creates tree', () => {
-		const t = tree('tree', [
-			leaf('left', { a: 2 }),
-			leaf('right', { b: 'hi' })
-		], {
-				c: 4
-			});
+	it('with children', () => {
+		const t = createMfmNode('tree', { c: 4 },
+			[
+				createMfmNode('left', { a: 2 }),
+				createMfmNode('right', { b: 'hi' })
+			]);
+
 		assert.deepStrictEqual(t, {
-			node: {
-				type: 'tree',
-				props: {
-					c: 4
-				}
+			type: 'tree',
+			props: {
+				c: 4
 			},
 			children: [
-				leaf('left', { a: 2 }),
-				leaf('right', { b: 'hi' })
+				{ type: 'left', props: { a: 2 }, children: [] },
+				{ type: 'right', props: { b: 'hi' }, children: [] },
 			],
 		});
 	});
@@ -317,38 +320,6 @@ describe('MFM', () => {
 					}),
 				]);
 			});
-/*
-			it('multi', () => {
-				const tokens = parseFull('<spin>:foo:</spin><spin>:foo:</spin>');
-				assert.deepStrictEqual(tokens, [
-					tree('spin', [
-						leaf('emoji', { name: 'foo' })
-					], {
-						attr: null
-					}),
-					tree('spin', [
-						leaf('emoji', { name: 'foo' })
-					], {
-						attr: null
-					}),
-				]);
-			});
-
-			it('nested', () => {
-				const tokens = parseFull('<spin><spin>:foo:</spin></spin>');
-				assert.deepStrictEqual(tokens, [
-					tree('spin', [
-						tree('spin', [
-							leaf('emoji', { name: 'foo' })
-						], {
-							attr: null
-						}),
-					], {
-						attr: null
-					}),
-				]);
-			});
-*/
 		});
 
 		it('jump', () => {
