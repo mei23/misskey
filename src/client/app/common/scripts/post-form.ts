@@ -446,7 +446,7 @@ export default (opts) => ({
 			});
 
 			if (this.text && this.text != '') {
-				const hashtags = parseBasic(this.text).filter(x => x.node.type === 'hashtag').map(x => x.node.props.hashtag);
+				const hashtags = parseBasic(this.text).filter(x => x.type === 'hashtag').map(x => x.props.hashtag);
 				const history = JSON.parse(localStorage.getItem('hashtags') || '[]') as string[];
 				localStorage.setItem('hashtags', JSON.stringify(unique(hashtags.concat(history))));
 			}

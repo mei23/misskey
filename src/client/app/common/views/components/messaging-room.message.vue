@@ -52,8 +52,8 @@ export default Vue.extend({
 			if (this.message.text) {
 				const ast = parseBasic(this.message.text);
 				return unique(ast
-					.filter(t => ((t.node.type == 'url' || t.node.type == 'link') && t.node.props.url && !t.node.props.silent))
-					.map(t => t.node.props.url));
+					.filter(node => ((node.type == 'url' || node.type == 'link') && node.props.url && !node.props.silent))
+					.map(node => node.props.url));
 			} else {
 				return null;
 			}

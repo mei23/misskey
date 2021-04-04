@@ -1,39 +1,43 @@
-import { Tree } from '../prelude/tree';
-import * as T from '../prelude/tree';
-
-type Node<T, P> = { type: T, props: P };
-
-export type MentionNode = Node<'mention', {
-	canonical: string,
-	username: string,
-	host: string,
-	acct: string
-}>;
-
-export type HashtagNode = Node<'hashtag', {
-	hashtag: string
-}>;
-
-export type EmojiNode = Node<'emoji', {
-	name: string
-}>;
-
-export type MfmNode =
-	MentionNode |
-	HashtagNode |
-	EmojiNode |
-	Node<string, any>;
-
-export type MfmTree = Tree<MfmNode>;
-
-export type MfmForest = MfmTree[];
-
-export function createLeaf(type: string, props: any): MfmTree {
-	return T.createLeaf({ type, props });
+export interface MfmNode {
+	type: string;
+	props: Record<string, any>;
+	children: MfmNode[];
 }
 
-export function createTree(type: string, children: MfmForest, props: any): MfmTree {
-	return T.createTree({ type, props }, children);
+export interface MfmMentionNode extends MfmNode {
+	type: 'mention';
+	props: {
+		canonical: string;
+		username: string;
+		host: string;
+		acct: string;
+	}
+}
+
+export interface MfmHashtagNode extends MfmNode {
+	type: 'hashtag';
+	props: {
+		hashtag: string;
+	};
+}
+
+export interface MfmEmojiNode extends MfmNode {
+	type: 'emoji';
+	props: {
+		name: string;
+	};
+}
+
+// TODO
+
+//export type MfmForest = MfmNode[];
+
+export function createMfmNode(type: string, props: Record<string, any> = {}, children: MfmNode[] = []): MfmNode {
+	return {
+		type,
+		props,
+		children
+	}
 }
 
 // eslint-disable-next-line no-useless-escape

@@ -89,8 +89,8 @@ export default (opts: Opts = {}) => ({
 			if (this.appearNote.text) {
 				const ast = parseBasic(this.appearNote.text);
 				const urls = unique(ast
-					.filter(t => ((t.node.type == 'url' || t.node.type == 'link') && t.node.props.url && !t.node.props.silent))
-					.map(t => t.node.props.url));
+					.filter(node => ((node.type == 'url' || node.type == 'link') && node.props.url && !node.props.silent))
+					.map(node => node.props.url));
 
 				// unique without hash
 				// [ http://a/#1, http://a/#2, http://b/#3 ] => [ http://a/#1, http://b/#3 ]

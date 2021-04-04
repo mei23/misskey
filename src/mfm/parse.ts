@@ -1,14 +1,13 @@
 import { mfmLanguage } from './language';
-import { MfmForest } from './prelude';
+import { MfmNode } from './prelude';
 import { normalize } from './normalize';
 
 /**
  * すべて (インライン＋ブロック)
  */
-export function parseFull(source: string): MfmForest | null {
-	if (source == null || source == '') {
-		return null;
-	}
+export function parseFull(source: string): MfmNode[] | null {
+	if (source == null) return null;
+	if (source == '') return[];
 
 	return normalize(mfmLanguage.root.tryParse(source));
 }
@@ -16,10 +15,9 @@ export function parseFull(source: string): MfmForest | null {
 /**
  * 絵文字のみ
  */
-export function parsePlain(source: string): MfmForest | null {
-	if (source == null || source == '') {
-		return null;
-	}
+export function parsePlain(source: string): MfmNode[] | null {
+	if (source == null) return null;
+	if (source == '') return[];
 
 	return normalize(mfmLanguage.plain.tryParse(source));
 }
@@ -27,10 +25,9 @@ export function parsePlain(source: string): MfmForest | null {
 /**
  * インライン要素のみ
  */
-export function parsePlainX(source: string): MfmForest | null {
-	if (source == null || source == '') {
-		return null;
-	}
+export function parsePlainX(source: string): MfmNode[] | null {
+	if (source == null) return null;
+	if (source == '') return[];
 
 	return normalize(mfmLanguage.plainX.tryParse(source));
 }
@@ -38,10 +35,9 @@ export function parsePlainX(source: string): MfmForest | null {
 /**
  * メンション, タグ, URL, リンク, コード のみ
  */
-export function parseBasic(source: string): MfmForest | null {
-	if (source == null || source == '') {
-		return null;
-	}
+export function parseBasic(source: string): MfmNode[] | null {
+	if (source == null) return null;
+	if (source == '') return[];
 
 	return normalize(mfmLanguage.basic.tryParse(source));
 }
@@ -49,10 +45,9 @@ export function parseBasic(source: string): MfmForest | null {
 /**
  * メンション, タグ, URL, リンク のみ
  */
-export function parseThin(source: string): MfmForest | null {
-	if (source == null || source == '') {
-		return null;
-	}
+export function parseThin(source: string): MfmNode[] | null {
+	if (source == null) return null;
+	if (source == '') return[];
 
 	return normalize(mfmLanguage.thin.tryParse(source));
 }
