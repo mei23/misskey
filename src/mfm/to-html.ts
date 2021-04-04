@@ -13,11 +13,18 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 
 	const doc = window.document;
 
-	function appendChildren(children: MfmNode[], targetElement: any): void {
-		for (const child of children.map(t => handlers[t.type](t))) targetElement.appendChild(child);
+	function appendChildren(nodes: MfmNode[], targetElement: HTMLElement): void {
+		for (const node of nodes) {
+			const handler = handlers[node.type];
+			if (handler) {
+				targetElement.appendChild(handler(node));
+			} else {
+				console.warn(`Unknown node type ${node.type}. This is a bug.`);
+			}
+		}
 	}
 
-	const handlers: { [key: string]: (node: MfmNode) => any } = {
+	const handlers: { [key: string]: ((node: MfmNode) => HTMLElement | Text) | undefined } = {
 		bold(node) {
 			const el = doc.createElement('b');
 			appendChildren(node.children, el);

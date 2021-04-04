@@ -8,11 +8,14 @@ export type RestoreOptions = {
 export function toString(nodes: MfmNode[] | null, opts?: RestoreOptions): string {
 	if (nodes === null) return '';
 
-	function appendChildren(children: MfmNode[], opts?: RestoreOptions): string {
-		return children.map(t => handlers[t.type](t, opts)).join('');
+	function appendChildren(nodes: MfmNode[], opts?: RestoreOptions): string {
+		return nodes.map(node => {
+			const handler = handlers[node.type];
+			return handler ? handler(node, opts) : ''
+		}).join('');
 	}
 
-	const handlers: { [key: string]: (node: MfmNode, opts?: RestoreOptions) => string } = {
+	const handlers: { [key: string]: ((node: MfmNode, opts?: RestoreOptions) => string) | undefined } = {
 		bold(node, opts) {
 			return `**${appendChildren(node.children, opts)}**`;
 		},
