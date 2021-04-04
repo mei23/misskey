@@ -1,14 +1,16 @@
 import { MfmNode } from '../mfm/prelude';
-import { unique, concat } from '../prelude/array';
 
 export default function(nodes: MfmNode[]): string[] {
-	return unique(preorderF(nodes).map(x => x.type));
-}
+	const types = new Set<string>();
 
-function preorder<T>(t: MfmNode): MfmNode[] {
-	return [t, ...preorderF(t.children)];
-}
+	function scan(nodes: MfmNode[]) {
+		for (const node of nodes) {
+			types.add(node.type);
+			scan(node.children);
+		}
+	}
 
-function preorderF<T>(ts: MfmNode[]): MfmNode[] {
-	return concat(ts.map(preorder));
+	scan(nodes);
+
+	return [...types];
 }
