@@ -1,6 +1,6 @@
 import { parseFull } from '../mfm/parse';
-import toText from '../mfm/to-text';
-import toWord from '../mfm/to-word';
+import toText from '../mfm/toText';
+import toWord from '../mfm/toWord';
 import config from '../config';
 import { unique } from '../prelude/array';
 import { spawn } from 'child_process';

@@ -733,8 +733,7 @@ function incNotesCount(user: IUser) {
 	}
 }
 
-// TODO: parseBasicの結果以外でも入れることが出来てしまう
-async function extractMentionedUsers(user: IUser, tokens: ReturnType<typeof parseBasic>): Promise<IUser[]> {
+async function extractMentionedUsers(user: IUser, tokens: ReturnType<typeof parse>): Promise<IUser[]> {
 	if (tokens == null) return [];
 
 	const mentions = extractMentions(tokens);

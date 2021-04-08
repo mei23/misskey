@@ -435,15 +435,15 @@ export const pack = async (
 		} : {})
 	});
 
-	const nodes = packed.text ? parseFull(packed.text) : [];
+	const tokens = packed.text ? parseFull(packed.text) : [];
 
-	if (nodes) {
-		const mfmTypes = extractMfmTypes(nodes);
+	if (tokens) {
+		const mfmTypes = extractMfmTypes(tokens);
 		const decorationMfmTypes = mfmTypes.filter(x => !['text', 'mention', 'hashtag', 'url', 'link', 'emoji'].includes(x)) || [];
 		packed.notHaveDecorationMfm = decorationMfmTypes.length === 0;
 
 		if (packed.user?.isCat && packed.text) {
-			packed.text = toString(nodes, { doNyaize: true });
+			packed.text = toString(tokens, { doNyaize: true });
 		}
 	}
 
