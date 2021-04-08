@@ -1,10 +1,13 @@
 // test is located in test/extract-mentions
 
-import { MentionNode, MfmForest } from '../mfm/prelude';
-import { preorderF } from '../prelude/tree';
+import { MfmNode, MfmMentionNode } from '../mfm/prelude';
 
-export default function(mfmForest: MfmForest): MentionNode['props'][] {
+/**
+ * Extract mentions
+ * @param nodes parseBasicの結果を入れる
+ */
+export default function(nodes: MfmNode[]): MfmMentionNode['props'][] {
 	// TODO: 重複を削除
-	const mentionNodes = preorderF(mfmForest).filter(x => x.type === 'mention') as MentionNode[];
+	const mentionNodes = nodes.filter(x => x.type === 'mention') as MfmMentionNode [];
 	return mentionNodes.map(x => x.props);
 }

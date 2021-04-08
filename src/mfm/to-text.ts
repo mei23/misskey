@@ -1,53 +1,53 @@
-import { MfmForest, MfmTree } from './prelude';
+import { MfmNode } from './prelude';
 
 const check = (x?: string) => x && x.length;
 
-function visit(tree: MfmTree): string {
-	switch (tree.node.type) {
+function visit(node: MfmNode): string {
+	switch (node.type) {
 		case 'titlePlain':
 		case 'atPlain': {
-			return tree.node.props.raw;
+			return node.props.raw;
 		}
 
 		case 'search': {
-			return tree.node.props.query;
+			return node.props.query;
 		}
 
 		case 'codeBlock':
 		case 'codeInline': {
-			return [tree.node.props.lang, tree.node.props.code].filter(check).join(' ');
+			return [node.props.lang, node.props.code].filter(check).join(' ');
 		}
 
 		case 'mathBlock':
 		case 'mathInline': {
-			return tree.node.props.formula;
+			return node.props.formula;
 		}
 
 		/*
 		case 'mention': {
-			return tree.node.props.canonical;
+			return node.props.canonical;
 		}
 		*/
 
 		case 'hashtag': {
-			return `#${tree.node.props.hashtag}`;
+			return `#${node.props.hashtag}`;
 		}
 
 		case 'url': {
-			return tree.node.props.url;
+			return node.props.url;
 		}
 
 		case 'emoji': {
-			return tree.node.props.emoji || `:${tree.node.props.name}:`;
+			return node.props.emoji || `:${node.props.name}:`;
 		}
 
 		case 'text': {
-			return tree.node.props.text;
+			return node.props.text;
 		}
 
 		default: {
-			if (tree.children.length) {
-				return tree.children.map(visit).join(' ');
+			if (node.children.length) {
+				return node.children.map(visit).join(' ');
 			}
 
 			return '';
@@ -55,4 +55,4 @@ function visit(tree: MfmTree): string {
 	}
 }
 
-export default (forest: MfmForest) => (forest || []).map(visit).join(' ');
+export default (nodes: MfmNode[]) => (nodes || []).map(visit).join(' ');

@@ -1,152 +1,155 @@
-import { MfmForest, MfmTree } from './prelude';
+import { MfmNode } from './prelude';
 import { nyaize } from '../misc/nyaize';
 
 export type RestoreOptions = {
 	doNyaize?: boolean;
 };
 
-export function toString(tokens: MfmForest | null, opts?: RestoreOptions): string {
-	if (tokens === null) return '';
+export function toString(nodes: MfmNode[] | null, opts?: RestoreOptions): string {
+	if (nodes === null) return '';
 
-	function appendChildren(children: MfmForest, opts?: RestoreOptions): string {
-		return children.map(t => handlers[t.node.type](t, opts)).join('');
+	function appendChildren(nodes: MfmNode[], opts?: RestoreOptions): string {
+		return nodes.map(node => {
+			const handler = handlers[node.type];
+			return handler ? handler(node, opts) : ''
+		}).join('');
 	}
 
-	const handlers: { [key: string]: (token: MfmTree, opts?: RestoreOptions) => string } = {
-		bold(token, opts) {
-			return `**${appendChildren(token.children, opts)}**`;
+	const handlers: { [key: string]: ((node: MfmNode, opts?: RestoreOptions) => string) | undefined } = {
+		bold(node, opts) {
+			return `**${appendChildren(node.children, opts)}**`;
 		},
 
-		big(token, opts) {
-			return `***${appendChildren(token.children, opts)}***`;
+		big(node, opts) {
+			return `***${appendChildren(node.children, opts)}***`;
 		},
 
-		fn(token, opts) {
-			const name = token.node.props?.name;
-			const args = token.node.props?.args || {};
+		fn(node, opts) {
+			const name = node.props?.name;
+			const args = node.props?.args || {};
 			const argsStr = Object.entries(args).map(([k, v]) => v === true ? k : `${k}=${v}`).join(',');
-			return `[${name}${argsStr !== '' ? '.' + argsStr : ''} ${appendChildren(token.children, opts)}]`;
+			return `[${name}${argsStr !== '' ? '.' + argsStr : ''} ${appendChildren(node.children, opts)}]`;
 		},
 
-		small(token, opts) {
-			return `<small>${appendChildren(token.children, opts)}</small>`;
+		small(node, opts) {
+			return `<small>${appendChildren(node.children, opts)}</small>`;
 		},
 
-		strike(token, opts) {
-			return `~~${appendChildren(token.children, opts)}~~`;
+		strike(node, opts) {
+			return `~~${appendChildren(node.children, opts)}~~`;
 		},
 
-		italic(token, opts) {
-			return `<i>${appendChildren(token.children, opts)}</i>`;
+		italic(node, opts) {
+			return `<i>${appendChildren(node.children, opts)}</i>`;
 		},
 
-		motion(token, opts) {
-			return `<motion>${appendChildren(token.children, opts)}</motion>`;
+		motion(node, opts) {
+			return `<motion>${appendChildren(node.children, opts)}</motion>`;
 		},
 
-		spin(token, opts) {
-			const attr = token.node.props?.attr;
+		spin(node, opts) {
+			const attr = node.props?.attr;
 			const post = attr ? ` ${attr}` : '';
-			return `<spin${post}>${appendChildren(token.children, opts)}</spin>`;
+			return `<spin${post}>${appendChildren(node.children, opts)}</spin>`;
 		},
 
-		rotate(token, opts) {
-			const attr = token.node.props?.attr;
+		rotate(node, opts) {
+			const attr = node.props?.attr;
 			const post = attr ? ` ${attr}` : '';
-			return `<rotate${post}>${appendChildren(token.children, opts)}</rotate>`;
+			return `<rotate${post}>${appendChildren(node.children, opts)}</rotate>`;
 		},
 
-		xspin(token, opts) {
-			const attr = token.node.props?.attr;
+		xspin(node, opts) {
+			const attr = node.props?.attr;
 			const post = attr ? ` ${attr}` : '';
-			return `<xspin${post}>${appendChildren(token.children, opts)}</xspin>`;
+			return `<xspin${post}>${appendChildren(node.children, opts)}</xspin>`;
 		},
 
-		yspin(token, opts) {
-			const attr = token.node.props?.attr;
+		yspin(node, opts) {
+			const attr = node.props?.attr;
 			const post = attr ? ` ${attr}` : '';
-			return `<yspin${post}>${appendChildren(token.children, opts)}</yspin>`;
+			return `<yspin${post}>${appendChildren(node.children, opts)}</yspin>`;
 		},
 
-		jump(token, opts) {
-			return `<jump>${appendChildren(token.children, opts)}</jump>`;
+		jump(node, opts) {
+			return `<jump>${appendChildren(node.children, opts)}</jump>`;
 		},
 
-		flip(token, opts) {
-			return `<flip>${appendChildren(token.children, opts)}</flip>`;
+		flip(node, opts) {
+			return `<flip>${appendChildren(node.children, opts)}</flip>`;
 		},
 
-		vflip(token, opts) {
-			return `<vflip>${appendChildren(token.children, opts)}</vflip>`;
+		vflip(node, opts) {
+			return `<vflip>${appendChildren(node.children, opts)}</vflip>`;
 		},
 
-		marquee(token, opts) {
-			const attr = token.node.props?.attr;
+		marquee(node, opts) {
+			const attr = node.props?.attr;
 			const post = attr ? ` ${attr}` : '';
-			return `<marquee${post}>${appendChildren(token.children, opts)}</marquee>`;
+			return `<marquee${post}>${appendChildren(node.children, opts)}</marquee>`;
 		},
 
-		blockCode(token) {
-			return `\`\`\`${token.node.props.lang || ''}\n${token.node.props.code}\n\`\`\`\n`;
+		blockCode(node) {
+			return `\`\`\`${node.props.lang || ''}\n${node.props.code}\n\`\`\`\n`;
 		},
 
-		center(token, opts) {
-			return `<center>${appendChildren(token.children, opts)}</center>`;
+		center(node, opts) {
+			return `<center>${appendChildren(node.children, opts)}</center>`;
 		},
 
-		emoji(token) {
-			return (token.node.props.emoji ? token.node.props.emoji : `:${token.node.props.name}:`);
+		emoji(node) {
+			return (node.props.emoji ? node.props.emoji : `:${node.props.name}:`);
 		},
 
-		hashtag(token) {
-			return `#${token.node.props.hashtag}`;
+		hashtag(node) {
+			return `#${node.props.hashtag}`;
 		},
 
-		inlineCode(token) {
-			return `\`${token.node.props.code}\``;
+		inlineCode(node) {
+			return `\`${node.props.code}\``;
 		},
 
-		mathInline(token) {
-			return `\\(${token.node.props.formula}\\)`;
+		mathInline(node) {
+			return `\\(${node.props.formula}\\)`;
 		},
 
-		mathBlock(token) {
-			return `\\[${token.node.props.formula}\\]`;
+		mathBlock(node) {
+			return `\\[${node.props.formula}\\]`;
 		},
 
-		link(token, opts) {
-			if (token.node.props.silent) {
-				return `?[${appendChildren(token.children, opts)}](${token.node.props.url})`;
+		link(node, opts) {
+			if (node.props.silent) {
+				return `?[${appendChildren(node.children, opts)}](${node.props.url})`;
 			} else {
-				return `[${appendChildren(token.children, opts)}](${token.node.props.url})`;
+				return `[${appendChildren(node.children, opts)}](${node.props.url})`;
 			}
 		},
 
-		mention(token) {
-			return token.node.props.canonical;
+		mention(node) {
+			return node.props.canonical;
 		},
 
-		quote(token) {
-			return `${appendChildren(token.children, {doNyaize: false}).replace(/^/gm, '>').trim()}\n`;
+		quote(node) {
+			return `${appendChildren(node.children, {doNyaize: false}).replace(/^/gm, '>').trim()}\n`;
 		},
 
-		title(token, opts) {
-			return `[${appendChildren(token.children, opts)}]\n`;
+		title(node, opts) {
+			return `[${appendChildren(node.children, opts)}]\n`;
 		},
 
-		text(token, opts) {
-			return (opts && opts.doNyaize) ? nyaize(token.node.props.text) : token.node.props.text;
+		text(node, opts) {
+			return (opts && opts.doNyaize) ? nyaize(node.props.text) : node.props.text;
 		},
 
-		url(token) {
-			return `<${token.node.props.url}>`;
+		url(node) {
+			return `<${node.props.url}>`;
 		},
 
-		search(token, opts) {
-			const query = token.node.props.query;
+		search(node, opts) {
+			const query = node.props.query;
 			return `${(opts && opts.doNyaize ? nyaize(query) : query)} [search]\n`;
 		}
 	};
 
-	return appendChildren(tokens, { doNyaize: (opts && opts.doNyaize) || false }).trim();
+	return appendChildren(nodes, { doNyaize: (opts && opts.doNyaize) || false }).trim();
 }
