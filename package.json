@@ -173,7 +173,7 @@
 		"parsimmon": "1.16.0",
 		"postcss": "8.2.10",
 		"postcss-loader": "5.2.0",
-		"probe-image-size": "7.0.1",
+		"probe-image-size": "7.1.0",
 		"progress-bar-webpack-plugin": "2.1.0",
 		"promise-limit": "2.7.0",
 		"promise-sequential": "1.1.1",
