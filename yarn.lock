@@ -6708,10 +6708,10 @@ parseurl@^1.3.2:
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
-parsimmon@1.16.0:
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/parsimmon/-/parsimmon-1.16.0.tgz#2834e3db645b6a855ab2ea14fbaad10d82867e0f"
-  integrity sha512-tekGDz2Lny27SQ/5DzJdIK0lqsWwZ667SCLFIDCxaZM7VNgQjyKLbaL7FYPKpbjdxNAXFV/mSxkq5D2fnkW4pA==
+parsimmon@1.17.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/parsimmon/-/parsimmon-1.17.0.tgz#520bfaf5d80677cf74d9d2a586b6a503a29223b5"
+  integrity sha512-gp5yNYs0Lyv5Mp6hj+JMzsHaM4Mel0WuK2iHYKX32ActYAQdsSq+t4nVsqlOpUCiMYdTX1wFISLvugrAl9harg==
 
 pascalcase@^0.1.1:
   version "0.1.1"
