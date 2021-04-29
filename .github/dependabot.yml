@@ -1,0 +1,125 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 50
+  ignore:
+  - dependency-name: commander
+    versions:
+    - "> 5.1.0"
+  - dependency-name: deepcopy
+    versions:
+    - "> 0.6.3"
+  - dependency-name: html-entities
+    versions:
+    - "> 1.4.0"
+  - dependency-name: "@koa/router"
+    versions:
+    - "> 8.0.8"
+  - dependency-name: koa-router
+    versions:
+    - "> 7.4.0"
+  - dependency-name: monk
+    versions:
+    - "> 7.3.0, < 7.4"
+  - dependency-name: sharp
+    versions:
+    - ">= 0.26.a, < 0.27"
+  - dependency-name: terser-webpack-plugin
+    versions:
+    - "> 4.2.3"
+  - dependency-name: "@types/koa"
+    versions:
+    - "> 2.0.49"
+  - dependency-name: vue-prism-component
+    versions:
+    - "> 1.2.0"
+  - dependency-name: aws-sdk
+    versions:
+    - 2.834.0
+    - 2.840.0
+    - 2.845.0
+    - 2.846.0
+    - 2.851.0
+    - 2.853.0
+    - 2.855.0
+    - 2.856.0
+    - 2.858.0
+    - 2.859.0
+    - 2.870.0
+    - 2.871.0
+    - 2.874.0
+    - 2.875.0
+    - 2.880.0
+    - 2.882.0
+    - 2.884.0
+    - 2.888.0
+    - 2.889.0
+    - 2.894.0
+  - dependency-name: js-yaml
+    versions:
+    - 4.0.0
+    - 4.1.0
+  - dependency-name: webpack
+    versions:
+    - 5.24.1
+    - 5.31.2
+    - 5.34.0
+    - 5.36.0
+  - dependency-name: highlight.js
+    versions:
+    - 10.7.2
+  - dependency-name: sharp
+    versions:
+    - 0.28.0
+    - 0.28.1
+  - dependency-name: "@types/js-yaml"
+    versions:
+    - 4.0.0
+  - dependency-name: systeminformation
+    versions:
+    - 5.0.11
+    - 5.0.8
+    - 5.0.9
+    - 5.1.2
+    - 5.2.1
+    - 5.2.5
+    - 5.3.0
+    - 5.3.1
+    - 5.3.2
+    - 5.4.0
+    - 5.6.9
+  - dependency-name: jsonld
+    versions:
+    - 5.0.0
+  - dependency-name: "@types/node"
+    versions:
+    - 14.14.26
+    - 14.14.30
+    - 14.14.32
+  - dependency-name: apexcharts
+    versions:
+    - 3.25.0
+  - dependency-name: mocha
+    versions:
+    - 8.3.0
+  - dependency-name: "@types/mongodb"
+    versions:
+    - 3.6.5
+  - dependency-name: gulp-replace
+    versions:
+    - 1.1.1
+  - dependency-name: css-loader
+    versions:
+    - 5.2.2
+  - dependency-name: ts-loader
+    versions:
+    - 9.0.0
+  - dependency-name: three
+    versions:
+    - 0.119.1
+  - dependency-name: katex
+    versions:
+    - 0.12.0
