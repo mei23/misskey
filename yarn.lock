@@ -504,10 +504,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-views@2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@types/koa-views/-/koa-views-2.0.3.tgz#38fc1f3027503acba73a93fe06678813f306779b"
-  integrity sha512-XLn//7qUUz2U9ZKXyHPwVIcQbZcW3phYTFXHGa1eW5BN88bi8n2fegvwJ+TokL2jRmRqBWwMB5p7Aab9iq1sZw==
+"@types/koa-views@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@types/koa-views/-/koa-views-2.0.4.tgz#3fa87ba13174f9816c6f7701fbf129dfe9855e39"
+  integrity sha512-aGFBVLiPC7FkXTqHLhnmjKhx3COV+GeJHO9OkLX/p/iAQTgDB5bbnsddx3XgrS6aACWyxR3BpQJVDdSqCNY1lw==
   dependencies:
     "@types/koa" "*"
 
