@@ -72,7 +72,7 @@
 		"@types/qrcode": "1.4.0",
 		"@types/ratelimiter": "3.4.1",
 		"@types/redis": "2.8.28",
-		"@types/rename": "1.0.2",
+		"@types/rename": "1.0.3",
 		"@types/request-stats": "3.0.0",
 		"@types/rimraf": "3.0.0",
 		"@types/seedrandom": "3.0.0",

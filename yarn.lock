@@ -710,10 +710,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/rename@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.2.tgz#82a3b674d07b0936e9d7de00f5268faa45c237d7"
-  integrity sha512-0rTMy5prUJHfmXnjP8xv/Wyfo0c1GoMQx2uX/8+JApIVND64EQ00DgdeeeRLlFm0GwNrGxy23yhc2AD6KOF2Ag==
+"@types/rename@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.3.tgz#b70569a5717f51b498d7890b239446a11231bbe7"
+  integrity sha512-rn/kvKlH5LFHHDqZ+RbTtUu9MNitcJ7rGQ1l5ohSV5p5jAiTJVXzqtGE45sXIwNfK3Haeq4scWCj5XDNz9FuXQ==
 
 "@types/request-stats@3.0.0":
   version "3.0.0"
