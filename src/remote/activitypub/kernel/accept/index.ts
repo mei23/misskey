@@ -1,7 +1,7 @@
 import Resolver from '../../resolver';
 import { IRemoteUser } from '../../../../models/user';
 import acceptFollow from './follow';
-import { IAccept, IFollow, getApType, isFollow } from '../../type';
+import { IAccept, getApType, isFollow } from '../../type';
 import { apLogger } from '../../logger';
 
 const logger = apLogger;
@@ -24,5 +24,5 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<string> =>
 
 	if (isFollow(object)) return await acceptFollow(actor, object);
 
-	return `skip: Unknown Reject type: ${getApType(object)}`;
+	return `skip: Unknown Accept type: ${getApType(object)}`;
 };
