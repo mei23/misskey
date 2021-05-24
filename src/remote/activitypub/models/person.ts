@@ -253,7 +253,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 	//#endregion
 
 	//#region カスタム絵文字取得
-	const emojis = await extractEmojis(person.tag, host).catch(e => {
+	const emojis = await extractEmojis(person.tag || [], host).catch(e => {
 		logger.info(`extractEmojis: ${e}`);
 		return [] as IEmoji[];
 	});
@@ -323,8 +323,9 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 		fetchImage(exist, person.icon).catch(() => null),
 		fetchImage(exist, person.image).catch(() => null),
 	]);
+
 	// カスタム絵文字取得
-	const emojis = await extractEmojis(person.tag, exist.host).catch(e => {
+	const emojis = await extractEmojis(person.tag || [], exist.host).catch(e => {
 		logger.info(`extractEmojis: ${e}`);
 		return [] as IEmoji[];
 	});
@@ -560,7 +561,7 @@ export async function fetchOutbox(user: IUser) {
 	const resolver = new Resolver();
 
 	// Fetch activities from outbox (first page only)
-	let unresolvedActivities: (IObject | string)[];
+	let unresolvedActivities: (IObject | string)[] | undefined;
 
 	const collection = await resolver.resolveCollection(user.outbox);
 	if (!isOrderedCollection(collection)) throw new Error(`Object is not an OrderedCollection`);

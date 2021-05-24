@@ -54,10 +54,10 @@ type IUserBase = {
 	notesCount: number;
 	username: string;
 	usernameLower: string;
-	avatarId: mongo.ObjectID;
-	bannerId: mongo.ObjectID;
-	avatarUrl?: string;
-	bannerUrl?: string;
+	avatarId?: mongo.ObjectID | null;
+	bannerId?: mongo.ObjectID | null;
+	avatarUrl?: string | null;
+	bannerUrl?: string | null;
 	avatarColor?: any;
 	bannerColor?: any;
 	wallpaperId: mongo.ObjectID;
