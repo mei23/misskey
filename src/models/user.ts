@@ -215,10 +215,10 @@ export interface IRemoteUser extends IUserBase {
 	sharedInbox?: string;
 	outbox?: string;
 	featured?: string;
-	endpoints: string[];
+	endpoints?: string[];
 	uri: string;
 	url?: string;
-	publicKey: {
+	publicKey?: {
 		id: string;
 		publicKeyPem: string;
 	};

@@ -65,7 +65,12 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// http-signature signer がわからなければ終了
 	if (user == null) {
-		throw new Error('failed to resolve http-signature signer');
+		return `skip: failed to resolve http-signature signer`;
+	}
+
+	// publicKey がなくても終了
+	if (user.publicKey == null) {
+		return `skip: failed to resolve user publicKey signer`;
 	}
 	//#endregion
 
@@ -96,6 +101,10 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 			user = await dbResolver.getRemoteUserFromKeyId(activity.signature.creator);
 			if (user == null) {
 				return `skip: LD-Signatureのユーザーが取得できませんでした`;
+			}
+
+			if (user.publicKey == null) {
+				throw `skip: LD-SignatureのユーザーはpublicKeyを持っていませんでした`
 			}
 
 			// LD-Signature検証

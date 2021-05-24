@@ -69,3 +69,45 @@ export default class Resolver {
 		return object;
 	}
 }
+
+export type MockResponse = {
+	type: string;
+	content: string;
+};
+
+export class MockResolver extends Resolver {
+	private _rs: Map<string, MockResponse> = new Map<string, MockResponse>();
+	public async _register(uri: string, res: MockResponse) {
+		this._rs.set(uri, res);
+	}
+
+	public async resolve(value: string | IObject): Promise<IObject> {
+		if (typeof value !== 'string') return value;
+
+		const r = this._rs.get(value);
+
+		if (!r) {
+			throw {
+				name: `StatusError`,
+				statusCode: 404,
+				message: `404 Not Found`
+			};
+		}
+
+		const object = JSON.parse(r.content);
+
+		if (object === null || (
+			Array.isArray(object['@context']) ?
+				!object['@context'].includes('https://www.w3.org/ns/activitystreams') :
+				object['@context'] !== 'https://www.w3.org/ns/activitystreams'
+		)) {
+			throw {
+				name: `InvalidResponse`,
+				statusCode: 482,
+				message: `Invalid @context`
+			};
+		}
+
+		return object;
+	}
+}
