@@ -4,7 +4,7 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage } from '../type';
+import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage, getApType } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -39,7 +39,7 @@ function toNote(object: IObject, uri: string): IPost {
 	}
 
 	if (!isPost(object)) {
-		throw new Error(`invalid Note: invalid object type ${object.type}`);
+		throw new Error(`invalid Note: invalid object type ${getApType(object)}`);
 	}
 
 	if (object.id && extractApHost(object.id) !== expectHost) {

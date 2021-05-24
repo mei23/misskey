@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, getOneApHrefNullable, isOrderedCollectionPage, isCreate, isPost } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, getOneApHrefNullable, isOrderedCollectionPage, isCreate, isPost, getApType } from '../type';
 import { IDriveFile } from '../../../models/drive-file';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/from-html';
@@ -172,9 +172,9 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 				birthday: bday ? bday[0] : undefined,
 				location: person['vcard:Address'] || undefined,
 			},
-			isBot: object.type == 'Service',
-			isGroup: object.type == 'Group',
-			isOrganization: object.type == 'Organization',
+			isBot: getApType(object) === 'Service',
+			isGroup: getApType(object) === 'Group',
+			isOrganization: getApType(object) === 'Organization',
 			isCat: (person as any).isCat === true
 		}) as IRemoteUser;
 	} catch (e) {
@@ -380,9 +380,9 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 			birthday: bday ? bday[0] : undefined,
 			location: person['vcard:Address'] || undefined,
 		},
-		isBot: object.type == 'Service',
-		isGroup: object.type == 'Group',
-		isOrganization: object.type == 'Organization',
+		isBot: getApType(object) === 'Service',
+		isGroup: getApType(object) === 'Group',
+		isOrganization: getApType(object) === 'Organization',
 		isCat: (person as any).isCat === true,
 		isLocked: person.manuallyApprovesFollowers,
 		isExplorable: !!person.discoverable,
@@ -541,7 +541,7 @@ export async function updateFeatured(userId: mongo.ObjectID) {
 	// Resolve and regist Notes
 	const limit = promiseLimit(2);
 	const featuredNotes = await Promise.all(items
-		.filter(item => item.type === 'Note')
+		.filter(item => getApType(item) === 'Note')	// TODO: Noteでなくてもいいかも
 		.slice(0, 20)
 		.map(item => limit(() => resolveNote(item, resolver)) as Promise<INote>));
 

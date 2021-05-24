@@ -56,6 +56,15 @@ export function getApId(value: string | IObject | undefined): string {
 	throw new Error(`cannot detemine id`);
 }
 
+/**
+ * Get ActivityStreams Object type
+ */
+export function getApType(value: IObject): string {
+	if (typeof value.type === 'string') return value.type;
+	if (Array.isArray(value.type) && typeof value.type[0] === 'string') return value.type[0];
+	throw new Error(`cannot detect type`);
+}
+
 export function getOneApHrefNullable(value: ApObject | undefined): string | undefined {
 	const firstOne = Array.isArray(value) ? value[0] : value;
 	return getApHrefNullable(firstOne);
@@ -135,7 +144,7 @@ export interface IPost extends IObject {
 export const validPost = ['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video', 'Event'];
 
 export const isPost = (object: IObject): object is IPost =>
-	validPost.includes(object.type);
+	validPost.includes(getApType(object));
 
 export interface ITombstone extends IObject {
 	type: 'Tombstone';
@@ -144,7 +153,7 @@ export interface ITombstone extends IObject {
 }
 
 export const isTombstone = (object: IObject): object is ITombstone =>
-	object.type === 'Tombstone';
+	getApType(object) === 'Tombstone';
 
 export interface IQuestion extends IObject {
 	type: 'Note' | 'Question';
@@ -158,7 +167,7 @@ export interface IQuestion extends IObject {
 }
 
 export const isQuestion = (object: IObject): object is IQuestion =>
-	object.type === 'Note' || object.type === 'Question';
+	getApType(object) === 'Note' || getApType(object) === 'Question';
 
 interface IQuestionChoice {
 	name?: string;
@@ -171,14 +180,14 @@ export interface IApDocument extends IObject {
 }
 
 export const isDocument = (object: IObject): object is IApDocument =>
-	['Audio', 'Document', 'Image', 'Page', 'Video'].includes(object.type);
+	['Audio', 'Document', 'Image', 'Page', 'Video'].includes(getApType(object));
 
 export interface IApImage extends IObject {
 	type: 'Image';
 }
 
 export const isImage = (object: IObject): object is IApImage =>
-	object.type === 'Image';
+	getApType(object) === 'Image';
 
 export interface IApPropertyValue extends IObject {
 	type: 'PropertyValue';
@@ -189,7 +198,7 @@ export interface IApPropertyValue extends IObject {
 
 export const isPropertyValue = (object: IObject): object is IApPropertyValue =>
 	object &&
-	object.type === 'PropertyValue' &&
+	getApType(object) === 'PropertyValue' &&
 	typeof object.name === 'string' &&
 	typeof (object as any).value === 'string';
 
@@ -199,7 +208,7 @@ export interface IApMention extends IObject {
 }
 
 export const isMention = (object: IObject): object is IApMention =>
-	object.type === 'Mention' &&
+	getApType(object) === 'Mention' &&
 	typeof object.href === 'string';
 
 export interface IApHashtag extends IObject {
@@ -208,7 +217,7 @@ export interface IApHashtag extends IObject {
 }
 
 export const isHashtag = (object: IObject): object is IApHashtag =>
-	object.type === 'Hashtag' &&
+	getApType(object) === 'Hashtag' &&
 	typeof object.name === 'string';
 
 export interface IApPerson extends IObject {
@@ -232,7 +241,7 @@ export interface IApPerson extends IObject {
 export const validActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];
 
 export const isActor = (object: IObject): object is IApPerson =>
-	validActor.includes(object.type);
+	validActor.includes(getApType(object));
 
 export interface IApEmoji extends IObject {
 	type: 'Emoji';
@@ -242,19 +251,19 @@ export interface IApEmoji extends IObject {
 }
 
 export const isEmoji = (object: IObject): object is IApEmoji =>
-	object.type === 'Emoji' && typeof object.name === 'string' && object.icon != null;
+	getApType(object) === 'Emoji' && typeof object.name === 'string' && object.icon != null;
 
 export const isCollection = (object: IObject): object is ICollection =>
-	object.type === 'Collection';
+	getApType(object) === 'Collection';
 
 export const isOrderedCollection = (object: IObject): object is IOrderedCollection =>
-	object.type === 'OrderedCollection';
+	getApType(object) === 'OrderedCollection';
 
 export const isCollectionPage = (object: IObject): object is ICollectionPage =>
-	object.type === 'CollectionPage';
+	getApType(object) === 'CollectionPage';
 
 export const isOrderedCollectionPage = (object: IObject): object is IOrderedCollectionPage =>
-	object.type === 'OrderedCollectionPage';
+	getApType(object) === 'OrderedCollectionPage';
 
 export const isCollectionOrOrderedCollection = (object: IObject): object is ICollection | IOrderedCollection =>
 	isCollection(object) || isOrderedCollection(object);
@@ -316,17 +325,17 @@ export interface IFlag extends IActivity {
 	type: 'Flag';
 }
 
-export const isCreate = (object: IObject): object is ICreate => object.type === 'Create';
-export const isDelete = (object: IObject): object is IDelete => object.type === 'Delete';
-export const isUpdate = (object: IObject): object is IUpdate => object.type === 'Update';
-export const isRead = (object: IObject): object is IRead => object.type === 'Read';
-export const isUndo = (object: IObject): object is IUndo => object.type === 'Undo';
-export const isFollow = (object: IObject): object is IFollow => object.type === 'Follow';
-export const isAccept = (object: IObject): object is IAccept => object.type === 'Accept';
-export const isReject = (object: IObject): object is IReject => object.type === 'Reject';
-export const isAdd = (object: IObject): object is IAdd => object.type === 'Add';
-export const isRemove = (object: IObject): object is IRemove => object.type === 'Remove';
-export const isLike = (object: IObject): object is ILike => object.type === 'Like' || object.type === 'Dislike' || object.type === 'EmojiReaction' || object.type === 'EmojiReact';
-export const isAnnounce = (object: IObject): object is IAnnounce => object.type === 'Announce';
-export const isBlock = (object: IObject): object is IBlock => object.type === 'Block';
-export const isFlag = (object: IObject): object is IFlag => object.type === 'Flag';
+export const isCreate = (object: IObject): object is ICreate => getApType(object) === 'Create';
+export const isDelete = (object: IObject): object is IDelete => getApType(object) === 'Delete';
+export const isUpdate = (object: IObject): object is IUpdate => getApType(object) === 'Update';
+export const isRead = (object: IObject): object is IRead => getApType(object) === 'Read';
+export const isUndo = (object: IObject): object is IUndo => getApType(object) === 'Undo';
+export const isFollow = (object: IObject): object is IFollow => getApType(object) === 'Follow';
+export const isAccept = (object: IObject): object is IAccept => getApType(object) === 'Accept';
+export const isReject = (object: IObject): object is IReject => getApType(object) === 'Reject';
+export const isAdd = (object: IObject): object is IAdd => getApType(object) === 'Add';
+export const isRemove = (object: IObject): object is IRemove => getApType(object) === 'Remove';
+export const isLike = (object: IObject): object is ILike => getApType(object) === 'Like' || getApType(object) === 'Dislike' || getApType(object) === 'EmojiReaction' || getApType(object) === 'EmojiReact';
+export const isAnnounce = (object: IObject): object is IAnnounce => getApType(object) === 'Announce';
+export const isBlock = (object: IObject): object is IBlock => getApType(object) === 'Block';
+export const isFlag = (object: IObject): object is IFlag => getApType(object) === 'Flag';
