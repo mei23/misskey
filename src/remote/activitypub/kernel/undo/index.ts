@@ -1,5 +1,5 @@
 import { IRemoteUser } from '../../../../models/user';
-import { IUndo, IFollow, IBlock, ILike, IAnnounce, isFollow, isLike, isAnnounce, getApType } from '../../type';
+import { IUndo, isFollow, isLike, isAnnounce, getApType, isBlock } from '../../type';
 import unfollow from './follow';
 import unblock from './block';
 import undoLike from './like';
@@ -29,6 +29,7 @@ export default async (actor: IRemoteUser, activity: IUndo): Promise<string> => {
 	}
 
 	if (isFollow(object)) return await unfollow(actor, object);
+	if (isBlock(object)) return await unblock(actor, object);
 	if (isLike(object)) return await undoLike(actor, object);
 	if (isAnnounce(object)) return await undoAnnounce(actor, object);
 
