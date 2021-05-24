@@ -529,12 +529,12 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-views@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@types/koa-views/-/koa-views-2.0.4.tgz#3fa87ba13174f9816c6f7701fbf129dfe9855e39"
-  integrity sha512-aGFBVLiPC7FkXTqHLhnmjKhx3COV+GeJHO9OkLX/p/iAQTgDB5bbnsddx3XgrS6aACWyxR3BpQJVDdSqCNY1lw==
+"@types/koa-views@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/koa-views/-/koa-views-7.0.0.tgz#5613450c77ab69c980c47104378da4b7669c5f2e"
+  integrity sha512-AB/NB+oFHcLOZJYFv3bG5Af8YbwYCD9/zK0WcKALsbjI/FRKrcXTUTC64RebDrkyOkBm3bpCgpGndhAH/3YQ2Q==
   dependencies:
-    "@types/koa" "*"
+    koa-views "*"
 
 "@types/koa@*", "@types/koa@^2.13.1":
   version "2.13.1"
@@ -5264,7 +5264,7 @@ koa-slow@2.1.0:
     lodash.isregexp "3.0.5"
     q "1.4.1"
 
-koa-views@7.0.1:
+koa-views@*, koa-views@7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/koa-views/-/koa-views-7.0.1.tgz#0c8f8e65d5cd2e08249430cb83dc361e49a17a5a"
   integrity sha512-yS8751DXHXXDbdl/oUZd0PsgnxR0MLiguu77Eqrgu6yawE9Hi99wNKiVENb0Kfgsmvq/8px7YCI+USgxaTB1LA==
