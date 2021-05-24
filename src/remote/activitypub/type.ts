@@ -220,10 +220,10 @@ export const isHashtag = (object: IObject): object is IApHashtag =>
 	getApType(object) === 'Hashtag' &&
 	typeof object.name === 'string';
 
-export interface IApPerson extends IObject {
+export interface IActor extends IObject {
 	type: 'Person' | 'Service' | 'Organization' | 'Group' | 'Application';
 	name?: string;
-	preferredUsername?: string;
+	preferredUsername: string;
 	manuallyApprovesFollowers?: boolean;
 	discoverable?: boolean;
 	inbox: string;
@@ -240,7 +240,7 @@ export interface IApPerson extends IObject {
 
 export const validActor = ['Person', 'Service', 'Group', 'Organization', 'Application'];
 
-export const isActor = (object: IObject): object is IApPerson =>
+export const isActor = (object: IObject): object is IActor =>
 	validActor.includes(getApType(object));
 
 export interface IApEmoji extends IObject {

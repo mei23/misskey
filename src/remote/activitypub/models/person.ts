@@ -6,7 +6,7 @@ import config from '../../../config';
 import User, { validateUsername, IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
-import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IApPerson, isPropertyValue, IApPropertyValue, ApObject, getApIds, getOneApHrefNullable, isOrderedCollectionPage, isCreate, isPost, getApType, getApId, IApImage } from '../type';
+import { isCollectionOrOrderedCollection, isCollection, isOrderedCollection, IObject, isActor, IActor, isPropertyValue, IApPropertyValue, ApObject, getApIds, getOneApHrefNullable, isOrderedCollectionPage, isCreate, isPost, getApType, getApId, IApImage } from '../type';
 import Meta from '../../../models/meta';
 import { fromHtml } from '../../../mfm/from-html';
 import { htmlToMfm } from '../misc/html-to-mfm';
@@ -36,46 +36,46 @@ const logger = apLogger;
  * @param x Fetched object
  * @param uri Fetch target URI
  */
-function toPerson(x: IObject, uri: string): IApPerson {
+function validateActor(x: IObject, uri: string): IActor {
 	const expectHost = toUnicode(new URL(uri).hostname.toLowerCase());
 
 	if (x == null) {
-		throw new Error('invalid person: object is null');
+		throw new Error('invalid Actor: object is null');
 	}
 
 	if (!isActor(x)) {
-		throw new Error(`invalid person type '${x.type}'`);
+		throw new Error(`invalid Actor type '${x.type}'`);
 	}
 
 	if (typeof x.preferredUsername !== 'string') {
-		throw new Error('invalid person: preferredUsername is not a string');
+		throw new Error('invalid Actor: preferredUsername is not a string');
 	}
 
 	if (typeof x.inbox !== 'string') {
-		throw new Error('invalid person: inbox is not a string');
+		throw new Error('invalid Actor: inbox is not a string');
 	}
 
 	if (!validateUsername(x.preferredUsername, true)) {
-		throw new Error('invalid person: invalid username');
+		throw new Error('invalid Actor: invalid username');
 	}
 
 	if (typeof x.id !== 'string') {
-		throw new Error('invalid person: id is not a string');
+		throw new Error('invalid Actor: id is not a string');
 	}
 
 	const idHost = toUnicode(new URL(x.id).hostname.toLowerCase());
 	if (idHost !== expectHost) {
-		throw new Error('invalid person: id has different host');
+		throw new Error('invalid Actor: id has different host');
 	}
 
 	if (x.publicKey) {
 		if (typeof x.publicKey.id !== 'string') {
-			throw new Error('invalid person: publicKey.id is not a string');
+			throw new Error('invalid Actor: publicKey.id is not a string');
 		}
 
 		const publicKeyIdHost = toUnicode(new URL(x.publicKey.id).hostname.toLowerCase());
 		if (publicKeyIdHost !== expectHost) {
-			throw new Error('invalid person: publicKey.id has different host');
+			throw new Error('invalid Actor: publicKey.id has different host');
 		}
 	}
 
@@ -104,7 +104,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 
 	const object = await resolver.resolve(uri);
 
-	const person = toPerson(object, uri);
+	const person = validateActor(object, uri);
 
 	logger.info(`Creating the Person: ${person.id}`);
 
@@ -142,7 +142,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			isLocked: person.manuallyApprovesFollowers,
 			isExplorable: !!person.discoverable,
 			username: person.preferredUsername,
-			usernameLower: person.preferredUsername!.toLowerCase(),
+			usernameLower: person.preferredUsername.toLowerCase(),
 			host,
 			publicKey: person.publicKey ? {
 				id: person.publicKey.id,
@@ -175,7 +175,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
 			// 同じ@username@host を持つものがあった場合、被った先を返す
 			const u = await User.findOne({
 				uri: { $ne: person.id },
-				usernameLower: person.preferredUsername!.toLowerCase(),
+				usernameLower: person.preferredUsername.toLowerCase(),
 				host
 			});
 
@@ -279,7 +279,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IU
  * @param resolver Resolver
  * @param hint Hint of Person object (この値が正当なPersonの場合、Remote resolveをせずに更新に利用します)
  */
-export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApPerson): Promise<void> {
+export async function updatePerson(uri: string, resolver?: Resolver, hint?: IActor): Promise<void> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	// URIがこのサーバーを指しているならスキップ
@@ -299,7 +299,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IApP
 
 	const object = hint || await resolver.resolve(uri) as any;
 
-	const person = toPerson(object, uri);
+	const person = validateActor(object, uri);
 
 	logger.info(`Updating the Person: ${person.id}`);
 
