@@ -70,17 +70,23 @@ export default class Resolver {
 	}
 }
 
-export type MockResponse = {
+type MockResponse = {
 	type: string;
 	content: string;
 };
 
 export class MockResolver extends Resolver {
-	private _rs: Map<string, MockResponse> = new Map<string, MockResponse>();
-	public async _register(uri: string, res: MockResponse) {
-		this._rs.set(uri, res);
+	//#region For mock
+	private _rs = new Map<string, MockResponse>();
+	public async _register(uri: string, content: string | Object, type = 'application/activity+json') {
+		this._rs.set(uri, {
+			type,
+			content: typeof content === 'string' ? content : JSON.stringify(content)
+		});
 	}
+	//#endregion
 
+	//#region Overrides
 	public async resolve(value: string | IObject): Promise<IObject> {
 		if (typeof value !== 'string') return value;
 
@@ -90,24 +96,13 @@ export class MockResolver extends Resolver {
 			throw {
 				name: `StatusError`,
 				statusCode: 404,
-				message: `404 Not Found`
+				message: `Not registed for mock`
 			};
 		}
 
 		const object = JSON.parse(r.content);
 
-		if (object === null || (
-			Array.isArray(object['@context']) ?
-				!object['@context'].includes('https://www.w3.org/ns/activitystreams') :
-				object['@context'] !== 'https://www.w3.org/ns/activitystreams'
-		)) {
-			throw {
-				name: `InvalidResponse`,
-				statusCode: 482,
-				message: `Invalid @context`
-			};
-		}
-
 		return object;
 	}
+	//#endregion
 }
