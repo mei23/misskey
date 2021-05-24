@@ -1,7 +1,7 @@
 import Resolver from '../../resolver';
 import { IRemoteUser } from '../../../../models/user';
 import rejectFollow from './follow';
-import { IReject, getApType, isFollow } from '../../type';
+import { IReject, isFollow, getApType } from '../../type';
 import { apLogger } from '../../logger';
 
 const logger = apLogger;
