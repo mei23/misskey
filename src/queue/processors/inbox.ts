@@ -70,7 +70,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 
 	// publicKey がなくても終了
 	if (user.publicKey == null) {
-		return `skip: failed to resolve user publicKey signer`;
+		return `skip: failed to resolve user publicKey`;
 	}
 	//#endregion
 
