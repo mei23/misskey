@@ -97,7 +97,7 @@ export async function fetchPerson(uri: string): Promise<IUser | null> {
 /**
  * Personを作成します。
  */
-export async function createPerson(uri: string, resolver?: Resolver): Promise<IUser> {
+export async function createPerson(uri: string, resolver?: Resolver): Promise<IRemoteUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	if (resolver == null) resolver = new Resolver();
