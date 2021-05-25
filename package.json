@@ -104,7 +104,7 @@
 		"commander": "4.1.1",
 		"content-disposition": "0.5.3",
 		"crc-32": "1.2.0",
-		"css-loader": "5.2.4",
+		"css-loader": "5.2.6",
 		"cssnano": "5.0.4",
 		"dateformat": "4.5.1",
 		"deepcopy": "0.6.3",
