@@ -8,6 +8,8 @@
  * > TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true mocha test/ap.ts --require ts-node/register -g 'test name'
  */
 
+process.env.NODE_ENV = 'test';
+
 import * as assert from 'assert';
 
 import rndstr from 'rndstr';
