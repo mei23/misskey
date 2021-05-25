@@ -74,6 +74,6 @@ describe('Parse Object', async () => {
 		assert.deepStrictEqual(user.uri, id);
 		assert.deepStrictEqual(user.username, preferredUsername);
 		assert.deepStrictEqual(user.inbox, inbox);
-		assert.deepStrictEqual(user.inbox, inbox);
+		assert.deepStrictEqual(user.outbox, outbox);
 	});
 });
