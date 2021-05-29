@@ -1483,10 +1483,10 @@ autobind-decorator@2.4.0:
   resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
   integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
 
-autosize@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/autosize/-/autosize-4.0.2.tgz#073cfd07c8bf45da4b9fd153437f5bafbba1e4c9"
-  integrity sha512-jnSyH2d+qdfPGpWlcuhGiHmqBJ6g3X+8T+iRwFrHPLVcdoGJE/x6Qicm6aDHfTsbgZKxyV8UU/YB2p4cjKDRRA==
+autosize@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/autosize/-/autosize-5.0.0.tgz#4fbe4d263182fab405f5c8148b33398940403c44"
+  integrity sha512-sZz3VVgbU2VY1EZnNf3GBHNmsO8LE679RvDb/yPgB+i6Q89YX+dJTjtRfTirM1/iCP/brOXoSzwusRg3yjNTdw==
 
 autwh@0.1.0:
   version "0.1.0"
