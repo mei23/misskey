@@ -17,9 +17,7 @@ import Resolver from '../src/remote/activitypub/resolver';
 import { IObject } from '../src/remote/activitypub/type';
 import { createPerson } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
-import { inspect } from 'util';
 import { tryProcessInbox } from '../src/queue/processors/inbox';
-import * as crypto from 'crypto';
 
 //#region Mock
 type MockResponse = {
@@ -109,45 +107,49 @@ describe('inbox', async () => {
 	const preferredUsername = `${rndstr('A-Z', 4)}${rndstr('a-z', 4)}`;
 	const actorId = `${host}/users/${preferredUsername.toLowerCase()}`;
 
-	// RSA 2048
-	const keypair = {
-		publicKey: '-----BEGIN PUBLIC KEY-----\n' +
-			'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxyHWcv0qoirejkw7UIr/\n' +
-			'fvlKTivOCnXpX0Uy5eZb4DqMQRrPGxayrHrsP0MFJ9s5MGQ4wcXqW//DGbL618Ce\n' +
-			'iMegMx8+ArunUVWiZ1/A5ysQTXkORclo+CQRSwaRWuW46seomuFOMON2/1WXpcv7\n' +
-			'WDPYRkTNgu+P1XhJRkjE+a1WwqUDOmcjf9FP1XjfQ83JPVKZClx5/f6ldlNDHOPk\n' +
-			'yx3egCUqWCTVjrYmEp8dkhGWZqvkfA83bktxt05Kkg8T/v4OVXLONTs1z7W/aGMy\n' +
-			'1lnGtbVa0ykFUQRrNUrZLzZyYp3Jdl1fK3bA3aZPxQCDgdrchz0wT2NuAukUge5l\n' +
-			'rwIDAQAB\n' +
-			'-----END PUBLIC KEY-----\n',
+	const sig = {
 		privateKey: '-----BEGIN PRIVATE KEY-----\n' +
-			'MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDHIdZy/SqiKt6O\n' +
-			'TDtQiv9++UpOK84KdelfRTLl5lvgOoxBGs8bFrKseuw/QwUn2zkwZDjBxepb/8MZ\n' +
-			'svrXwJ6Ix6AzHz4Cu6dRVaJnX8DnKxBNeQ5FyWj4JBFLBpFa5bjqx6ia4U4w43b/\n' +
-			'VZely/tYM9hGRM2C74/VeElGSMT5rVbCpQM6ZyN/0U/VeN9Dzck9UpkKXHn9/qV2\n' +
-			'U0Mc4+TLHd6AJSpYJNWOtiYSnx2SEZZmq+R8DzduS3G3TkqSDxP+/g5Vcs41OzXP\n' +
-			'tb9oYzLWWca1tVrTKQVRBGs1StkvNnJincl2XV8rdsDdpk/FAIOB2tyHPTBPY24C\n' +
-			'6RSB7mWvAgMBAAECggEAHxMNtwYAyCuubUBCJVB7jGH0kXxOe91onKBcz/mBrt0U\n' +
-			'E/jOBukk2ruX8EtSG6UfKIkLPlnXN6IS3QjMEi0R0EBupGukrqJ/+rZFUKJlpO1Y\n' +
-			'bu6MJqHGiqp+NFoDBs9AawrbKcgs/n4QjMnbj1jkkSAOCPElrOAbbvGFZb1nV5rJ\n' +
-			'Vrb8JpUr2K95GB6j3VLaYlWb16zGpjSVKz1BLYbD26zUJRRzipE+Mm/vzJGBWpXd\n' +
-			'OTL9LqrR12GIvRiB7J4i3pla/1BeU4ahBLA13WJMwoNGSjL9Wo20Y0BFYYjeEZrq\n' +
-			'ALFFR1ghdHcr/7n46U6gvwGsBrxlW2oMycyz0E1cqQKBgQD5L/8bYv0M9zyQiGOj\n' +
-			'n56mDcLzdm8LmybPDIKEcPMYn9fVrsPGdQP5rIoLmYvsAu5LtXxQhYciw7R4fHtU\n' +
-			'njHAr1kraqsMGNYCP11m11OO4tyeWOsYuOPJoZvehu57fCwXm6vzBw8NrgY0DXtm\n' +
-			'9zIdnuX+y7mOjw3Yhlg20yUGywKBgQDMk4QduH36QE5p2lGikqtAl+s1Z0FayWR7\n' +
-			'U8B2tfRq4nBeIOQ3OuUp/ZqQD0IOFjqZ5B7FqOIIPt5cdwtbWmsRdYlcjgdF2xap\n' +
-			'wYbdvvCykwpkU6V/aribKFIHt5dgNzvTw/vtGSLkqXRxgYsj/0Fq7VWQJhbELLyc\n' +
-			'Et6TA0ocLQKBgQCNL1CPJ8rQadR634v0zR+KXgmy/8ty+/lFHoVknMpfjVEw1NA/\n' +
-			'xVT3RXcBk4HfutlhM/a3eLBUViYOjhkinG78CV2wZ8N6GyhGJbi56A6Dyq3NWfv6\n' +
-			'Ceel+lbiAfllJbmltqH6FGnHCm6hV3IvqKdQeRM/BhagWxUxNQ0OIxu7eQKBgQC3\n' +
-			'nKsWldET/AWlAhsFJEjqR7AHFW7WEi3KdwgmQ/dku2oJQdIzM/wc7Q59wAQUaqUc\n' +
-			'HF/2HjcJGYwwR3R9ALFaUTkBRkSG0TYNFLJ8cfTNAiZwl5bRvrKEJ/NAE+qco9Zh\n' +
-			'oeSKEGZ9/w2RFqkQnPhVBUEniNgkKNb76f+0yV4J3QKBgQC3bilF2Moeob2uiw5u\n' +
-			'MIQoI2YtkhmfdERi9nqga9jL3aV6TIjLWekDzQ+XzzNasqrsvb0H0dYBx/siEqHa\n' +
-			'TnH/nEasW3CnbZRhfYpZ7zNemezYOGBIfhXgEhP+u4dgIagjs+HMkSfyF1gEpqWA\n' +
-			'koncST6l9G/bJHVmQaOmJEgE1g==\n' +
-			'-----END PRIVATE KEY-----\n'
+			'MIIEwAIBADANBgkqhkiG9w0BAQEFAASCBKowggSmAgEAAoIBAQC705lqJh9iElEX\n' +
+			'DuISRJh8YEg8qEB9STKcRv0xcmTtA9T3lpm0ke47x+LXOv7HJ3TDVSAannWynpjM\n' +
+			'oEWqTpCh6GSgQVoeBJPuqiSWNvfVIoCG+PVgjtdL6B8Ve9A0pcxwecOzqlhWCN3V\n' +
+			'4Ov51bE0gkXP+N/7igwMmZ0UP7wTTN2PbnWikl23jMo5g9sVI66mf9Y/ivwc6CDd\n' +
+			'bHcu/hjxJFGOfwjjDZFR8wyCC7jru50vEb6L3JJCyvWkGUW5hQvFMgJoia2lTShk\n' +
+			'VT25PVt3wQxBc2Z2q6m1Qf9sYpQhy3Y63ZQPMFUDCAHqp0NCaiSxUR7BrBELDyvd\n' +
+			'Shk4Se2VAgMBAAECggEBALQgLyZPPRWOP1n/meqvAhV1OJGDQaVlBzY8FiDPdd6f\n' +
+			'KCPwt6Mlt/R4syB5oVBYlG+nOUyN3o3X7u1+XpD/G1FKTwYo5kWXWk8tuDyepnot\n' +
+			'xliqdJePJQXUq8qsnHWA81iCTZ4FpQWNJ0EvnN5Rgsm6jTzvjc3rC7chsjRzEujl\n' +
+			'zaVZIomLaIqZOZ51nHMhUbobpfjXLZ3M2AWZn05fTWazm7s4ZcI8yRqeEskLSnqz\n' +
+			'0vh9VKyIWAHgmbi58mQOGbk6e0X7RCpUGdfQy9rQiTldQpfs8SNEwrBDBWmISqM1\n' +
+			'zU+mSnO8vXNvgZhwRbvDsyRDaR0pKi8JT1PbfGa8iMECgYEA8We5z0kKhdqgz/Ck\n' +
+			'b2OivpIqW5rJ6HdMYrXFthd3li6RK8hMPJCt8nlfLsL53BS31FSMbafEvdQabqql\n' +
+			'XvEV4F7WiDrepyMRVV6vnl5P8FpARb5fJaDJUHRx1K/XQsLx+rBqal+yRfGFZXyG\n' +
+			'205+2GATsbei3YLt0xeEBzOtxm0CgYEAxy6gfOwwrTVgSnJCbZalX4IJHVU7km7l\n' +
+			'OU9f5LMilpSG/+HMP1zEHe6VlmdqFwNjCqJkFx4O/zddcaZirO1miQdm/G3RkLrh\n' +
+			'7aUPlXNlxdux0RsLKFalckyT5Ki5q4ljXbgakg6MNEvwtpzlPxDj1RQ0e9a+xT7I\n' +
+			'RdPUv8VwaskCgYEAk26O21q3c4JPfk9wjZrjNNIdzm5da30YiJyNECWK4oy0GnIs\n' +
+			'pTyTD6gyimOHp3J7xtCQJxQ0It8b+YR8lNxWSP6CtRaHDrprBqFaTjU5SwhDgpS+\n' +
+			'lUN6T4meT4/IvrxCfqEpjKe/P9o+ZvnDfsKU017yCDKn4/Lnfmk5OBDGy40CgYEA\n' +
+			'iratK/KtP6NBiPcjzgAw8V+1C0mVcDhsyMm/hZ0/hFCx57gPrzzik9nZMWKZ3qcM\n' +
+			'LZbET9kuJo0fNYvjgnzegKW4EipE3R9ZQlBGlxVDllSW9IJ59cDJ/dzYzlC25YCL\n' +
+			'w/P4BSm+eJk+bV68xHv1vyoQFwKJ3wIHJaINsvREgwkCgYEAgokRzKQkrN3u+4hW\n' +
+			'nQyCtw4zAya3vADnpjqYKJP0+6krDIYga0ECmcuxMODcCCzT8jNUZ+SZOOmo5/pq\n' +
+			'kkqdJGB7WdQ2GV99+JL+iAxuL5Hg/s3vPUJnqNh/mqNrDD79YgtKudV9Xz5UPovM\n' +
+			'IPOaHB/A1AkSkjEp0NiYbicbo04=\n' +
+			'-----END PRIVATE KEY-----\n',
+		publicKey: '-----BEGIN PUBLIC KEY-----\n' +
+			'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu9OZaiYfYhJRFw7iEkSY\n' +
+			'fGBIPKhAfUkynEb9MXJk7QPU95aZtJHuO8fi1zr+xyd0w1UgGp51sp6YzKBFqk6Q\n' +
+			'oehkoEFaHgST7qokljb31SKAhvj1YI7XS+gfFXvQNKXMcHnDs6pYVgjd1eDr+dWx\n' +
+			'NIJFz/jf+4oMDJmdFD+8E0zdj251opJdt4zKOYPbFSOupn/WP4r8HOgg3Wx3Lv4Y\n' +
+			'8SRRjn8I4w2RUfMMggu467udLxG+i9ySQsr1pBlFuYULxTICaImtpU0oZFU9uT1b\n' +
+			'd8EMQXNmdquptUH/bGKUIct2Ot2UDzBVAwgB6qdDQmoksVEewawRCw8r3UoZOEnt\n' +
+			'lQIDAQAB\n' +
+			'-----END PUBLIC KEY-----\n',
+		signingString: '(request-target): post /inbox\n' +
+			'host: host2.test\n' +
+			'date: Sun, 30 May 2021 08:52:59 GMT\n' +
+			'digest: x',
+		signature: 'TCnwHkzEQ0doqZPr0o6nwdD/KTMKBQnZl0QZg9X2iUiBGn4JO2Xq91fFrJ2hbjYiTkrCxHgxA3L/eZgjRe7JyCOscJL87aa3i2TbOxBcEo/Wp8+Kav7KENC8l2O6kXVG0Elr0v4D0Z/XM/9fvmfRxAas/Ub6Nmj4LAEkAMrdH0IEx2UcvZ9UtqtJdYaBxRGdMOGnaaLEe4X12c5bGwQ0mOCpsqEsUQCTQAxiw2aVesEH8M+7vaGahfq4oJ7N+5sujiOWQVEfU0TXj1eJiVotqbQwPvZjjMbpT6tatkdu6DIUVWIZX4g5OloNKQ1o82yxx3mYVpbePlEGhoSKLOSzuA=='
 	};
 
 	const actor = {
@@ -161,7 +163,7 @@ describe('inbox', async () => {
 			id: `${actorId}#main-key`,
 			type: 'key',
 			owner: actorId,
-			publicKeyPem: keypair.publicKey
+			publicKeyPem: sig.publicKey
 		}
 	};
 
@@ -195,22 +197,12 @@ describe('inbox', async () => {
 			keyId: actor.publicKey.id,
 			algorithm: sigAlg,
 			headers: [ '(request-target)', 'date', 'host', 'digest' ],
-			signature: ''
+			signature: sig.signature,
 		},
-		signingString: '(request-target): post /inbox\n' +
-			'date: Sun, 30 May 2021 03:57:28 GMT\n' +
-			'host: host2.test\n' +
-			'digest: SHA-256=KLYUB5VxlDercSu7v3ZiEU+P4qnWIqEt2EMSUobeg4M=',
+		signingString: sig.signingString,
 		algorithm: sigAlg.toUpperCase(),
 		keyId: actor.publicKey.id,
 	};
-
-	const sign = crypto.createSign(hashAlg);
-	sign.update(signature.signingString);
-	sign.end();
-	const sig = sign.sign(keypair.privateKey, 'base64');
-
-	signature.params.signature = sig;
 
 	it('generic', async () => {
 		const resolver = new MockResolver()
