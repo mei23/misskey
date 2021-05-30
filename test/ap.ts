@@ -187,20 +187,16 @@ describe('inbox', async () => {
 		cc: post.cc,
 	} as any;
 
-	const keyType = 'rsa';
-	const hashAlg = 'sha256';
-	const sigAlg = `${keyType}-${hashAlg}`;
-
 	const signature = {
 		scheme: 'Signature',
 		params: {
 			keyId: actor.publicKey.id,
-			algorithm: sigAlg,
+			algorithm: 'rsa-sha256',
 			headers: [ '(request-target)', 'date', 'host', 'digest' ],
 			signature: sig.signature,
 		},
 		signingString: sig.signingString,
-		algorithm: sigAlg.toUpperCase(),
+		algorithm: 'RSA-SHA256',
 		keyId: actor.publicKey.id,
 	};
 
