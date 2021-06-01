@@ -1,59 +1,44 @@
-import * as http from 'http';
-import * as https from 'https';
-import got from 'got';
-import * as Got from 'got';
-import { getAgentByUrl } from '../../misc/fetch';
-import { sign } from 'http-signature';
-import { URL } from 'url';
-import * as crypto from 'crypto';
 import config from '../../config';
+import fetch from 'node-fetch';
+import { getAgentByUrl } from '../../misc/fetch';
+import { genSignedPost, genSignedGet } from './signed-request';
 import { ILocalUser } from '../../models/user';
+import { inspect } from 'util';
 
 export default async (user: ILocalUser, url: string, object: any) => {
-	const timeout = 10 * 1000;
+	const body = JSON.stringify(object);
 
-	const data = JSON.stringify(object);
-
-	const sha256 = crypto.createHash('sha256');
-	sha256.update(data);
-	const hash = sha256.digest('base64');
-
-	const req = got.post<any>(url, {
-		body: data,
-		headers: {
+	const req = genSignedPost({ privateKeyPem: user.keypair, keyId: `${config.url}/users/${user._id}#main-key` }, url, body, {
 			'User-Agent': config.userAgent,
-			'Content-Type': 'application/activity+json',
-			'Digest': `SHA-256=${hash}`
-		},
-		timeout,
-		hooks: {
-			beforeRequest: [
-				options => {
-					options.request = (url: URL, opt: http.RequestOptions, callback?: (response: any) => void) => {
-						// Select custom agent by URL
-						opt.agent = getAgentByUrl(url, false);
-
-						// Wrap original https?.request
-						const requestFunc = url.protocol === 'http:' ? http.request : https.request;
-						const clientRequest = requestFunc(url, opt, callback) as http.ClientRequest;
-
-						// HTTP-Signature
-						sign(clientRequest, {
-							authorizationHeaderName: 'Signature',
-							key: user.keypair,
-							keyId: `${config.url}/users/${user._id}#main-key`,
-							headers: ['(request-target)', 'date', 'host', 'digest']
-						});
-
-						return clientRequest;
-					};
-				},
-			],
-		},
-		retry: 0,
 	});
 
-	await receiveResponce(req, 10 * 1024 * 1024);
+	console.log(inspect(req));
+
+	const timeout = 10 * 1000;
+
+	const controller = new AbortController();
+
+	setTimeout(() => {
+		controller.abort();
+	}, timeout * 6);
+
+	const res = await fetch(url, {
+		method: req.request.method,
+		body: body,
+		headers: req.request.headers,
+		timeout,
+		size: 10 * 1024 * 1024,
+		agent: getAgentByUrl,
+		signal: controller.signal,
+	});
+
+	if (!res.ok) {
+		throw {
+			name: `StatusError`,
+			statusCode: res.status,
+			message: `${res.status} ${res.statusText}`,
+		};
+	}
 };
 
 /**
@@ -62,81 +47,43 @@ export default async (user: ILocalUser, url: string, object: any) => {
  * @param url URL to fetch
  */
 export async function signedGet(url: string, user: ILocalUser) {
+	const req = genSignedGet({ privateKeyPem: user.keypair, keyId: `${config.url}/users/${user._id}#main-key` }, url, {
+		'User-Agent': config.userAgent,
+	});
+
+	console.log(inspect(req));
+
 	const timeout = 10 * 1000;
 
-	const req = got.get<any>(url, {
-		headers: {
-			'Accept': 'application/activity+json, application/ld+json',
-			'User-Agent': config.userAgent,
-		},
-		responseType: 'json',
+	const controller = new AbortController();
+
+	setTimeout(() => {
+		controller.abort();
+	}, timeout * 6);
+
+	const res = await fetch(req.request.url, {
+		headers: req.request.headers,
 		timeout,
-		hooks: {
-			beforeRequest: [
-				options => {
-					options.request = (url: URL, opt: http.RequestOptions, callback?: (response: any) => void) => {
-						// Select custom agent by URL
-						opt.agent = getAgentByUrl(url, false);
-
-						// Wrap original https?.request
-						const requestFunc = url.protocol === 'http:' ? http.request : https.request;
-						const clientRequest = requestFunc(url, opt, callback) as http.ClientRequest;
-
-						// HTTP-Signature
-						sign(clientRequest, {
-							authorizationHeaderName: 'Signature',
-							key: user.keypair,
-							keyId: `${config.url}/users/${user._id}#main-key`,
-							headers: ['(request-target)', 'host', 'date', 'accept']
-						});
-
-						return clientRequest;
-					};
-				},
-			],
-		},
-		retry: 0,
+		size: 10 * 1024 * 1024,
+		agent: getAgentByUrl,
+		signal: controller.signal,
 	});
 
-	const res = await receiveResponce(req, 10 * 1024 * 1024);
+	if (!res.ok) {
+		throw {
+			name: `StatusError`,
+			statusCode: res.status,
+			message: `${res.status} ${res.statusText}`,
+		};
+	}
 
-	return res.body;
-}
-
-export async function receiveResponce<T>(req: Got.CancelableRequest<Got.Response<T>>, maxSize: number) {
-	// 応答ヘッダでサイズチェック
-	req.on('response', (res: Got.Response) => {
-		const contentLength = res.headers['content-length'];
-		if (contentLength != null) {
-			const size = Number(contentLength);
-			if (size > maxSize) {
-				req.cancel();
-			}
-		}
-	});
-
-	// 受信中のデータでサイズチェック
-	req.on('downloadProgress', (progress: Got.Progress) => {
-		if (progress.transferred > maxSize) {
-			req.cancel();
-		}
-	});
-
-	// 応答取得 with ステータスコードエラーの整形
-	const res = await req.catch(e => {
-		if (e.name === 'HTTPError') {
-			const statusCode = (e as Got.HTTPError).response.statusCode;
-			const statusMessage = (e as Got.HTTPError).response.statusMessage;
-			throw {
-				name: `StatusError`,
-				statusCode,
-				statusMessage,
-				message: `${statusCode} ${statusMessage}`,
-			};
-		} else {
-			throw e;
-		}
-	});
-
-	return res;
+	try {
+		return await res.json();
+	} catch (e) {
+		throw {
+			name: `JsonParseError`,
+			statusCode: 481,
+			message: `JSON parse error ${e.message || e}`
+		};
+	}
 }
