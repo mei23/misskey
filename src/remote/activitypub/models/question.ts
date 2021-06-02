@@ -27,6 +27,8 @@ export async function extractPollFromQuestion(source: string | IObject, resolver
 			votes: x.replies && x.replies.totalItems || x._misskey_votes || 0,
 		} as IChoice));
 
+	if (choices.length > 100) throw 'too many choices';
+
 	return {
 		choices,
 		multiple,
