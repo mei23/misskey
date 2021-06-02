@@ -194,16 +194,16 @@
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-"@redocly/openapi-core@1.0.0-beta.48":
-  version "1.0.0-beta.48"
-  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.48.tgz#89b2535d59331dbedb446207f12a7396c998b4a7"
-  integrity sha512-rlus9qQC4Pkzz2Ljcv+jQjFdKOYSWnsYXWN6zNik9iiiQtMmGEdszsERCbSAYw/CZ5DRCAHMeKrh8f4LBCpx1A==
+"@redocly/openapi-core@1.0.0-beta.49":
+  version "1.0.0-beta.49"
+  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.49.tgz#acb244add181f59411939bc6e18586ef4df597e3"
+  integrity sha512-SwCtQeyovcV7cS6YQoe5GWX3hWXAZrnrZQtQv0YW91CtrZMBdk5qA5eQ9Mkkbk6YOKKCWkc8yD+KdkRATlyPNw==
   dependencies:
     "@redocly/ajv" "^6.12.3"
     "@types/node" "^14.11.8"
     colorette "^1.2.0"
     js-levenshtein "^1.1.6"
-    js-yaml "^3.14.0"
+    js-yaml "^3.14.1"
     lodash.isequal "^4.5.0"
     minimatch "^3.0.4"
     node-fetch "^2.6.1"
@@ -4967,7 +4967,7 @@ js-yaml@4.1.0:
   dependencies:
     argparse "^2.0.1"
 
-js-yaml@^3.13.1, js-yaml@^3.14.0:
+js-yaml@^3.13.1, js-yaml@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"
   integrity sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==
