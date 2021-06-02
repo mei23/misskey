@@ -12,8 +12,6 @@ export default async (user: ILocalUser, url: string, object: any) => {
 			'User-Agent': config.userAgent,
 	});
 
-	console.log(inspect(req));
-
 	const timeout = 10 * 1000;
 
 	const controller = new AbortController();
@@ -50,8 +48,6 @@ export async function signedGet(url: string, user: ILocalUser) {
 	const req = genSignedGet({ privateKeyPem: user.keypair, keyId: `${config.url}/users/${user._id}#main-key` }, url, {
 		'User-Agent': config.userAgent,
 	});
-
-	console.log(inspect(req));
 
 	const timeout = 10 * 1000;
 
