@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 import { getAgentByUrl } from '../../misc/fetch';
 import { genSignedPost, genSignedGet } from './signed-request';
 import { ILocalUser } from '../../models/user';
-import { inspect } from 'util';
 
 export default async (user: ILocalUser, url: string, object: any) => {
 	const body = JSON.stringify(object);
@@ -34,6 +33,7 @@ export default async (user: ILocalUser, url: string, object: any) => {
 		throw {
 			name: `StatusError`,
 			statusCode: res.status,
+			statusMessage: res.statusText,
 			message: `${res.status} ${res.statusText}`,
 		};
 	}
@@ -69,6 +69,7 @@ export async function signedGet(url: string, user: ILocalUser) {
 		throw {
 			name: `StatusError`,
 			statusCode: res.status,
+			statusMessage: res.statusText,
 			message: `${res.status} ${res.statusText}`,
 		};
 	}
