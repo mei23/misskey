@@ -118,12 +118,16 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 
 	// 添付ファイル
 	// Noteがsensitiveなら添付もsensitiveにする
-	const limit = promiseLimit(2);
+	const limit = promiseLimit<IDriveFile>(2);
 
 	note.attachment = toArray(note.attachment);
+
+	// 添付が多すぎたら無視
+	if (note.attachment.length > 100) return null;
+
 	const files = note.attachment
 		.map(attach => attach.sensitive = note.sensitive)
-		? (await Promise.all(note.attachment.map(x => limit(() => resolveImage(actor, x)) as Promise<IDriveFile>)))
+		? (await Promise.all(note.attachment.map(x => limit(() => resolveImage(actor, x)))))
 			.filter(image => image != null)
 		: [];
 
