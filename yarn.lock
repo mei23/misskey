@@ -7089,10 +7089,10 @@ printj@~1.1.0:
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
 
-probe-image-size@7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.2.0.tgz#97fedffe7e98c3bb6d47e7fe2f4150df70e6cb74"
-  integrity sha512-j2GKJfir1/Ys4dbUS5rFlP2khb27tocC1AGZVMaMemkuLxIFbUmRqOlZW4LPAAmH4Td7DqLTYPkMoUmByI0tDg==
+probe-image-size@7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/probe-image-size/-/probe-image-size-7.2.1.tgz#df0c924e67e247bc94f8fcb0fad7f0081061fc44"
+  integrity sha512-d+6L3NvQBCNt4peRDoEfA7r9bPm6/qy18FnLKwg4NWBC5JrJm0pMLRg1kF4XNsPe1bUdt3WIMonPJzQWN2HXjQ==
   dependencies:
     lodash.merge "^4.6.2"
     needle "^2.5.2"
