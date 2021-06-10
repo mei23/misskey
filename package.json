@@ -131,7 +131,7 @@
 		"htmlescape": "1.1.1",
 		"http-proxy-agent": "4.0.1",
 		"http-signature": "1.3.5",
-		"http-signature-header": "2.0.1",
+		"http-signature-header": "2.0.2",
 		"https-proxy-agent": "5.0.0",
 		"insert-text-at-cursor": "0.3.0",
 		"ip-cidr": "2.1.4",
