@@ -167,7 +167,7 @@
 		"os-utils": "0.0.14",
 		"parse5": "6.0.1",
 		"parsimmon": "1.17.0",
-		"postcss": "8.2.15",
+		"postcss": "8.3.2",
 		"postcss-loader": "5.3.0",
 		"probe-image-size": "7.2.1",
 		"progress-bar-webpack-plugin": "2.1.0",
