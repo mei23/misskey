@@ -201,7 +201,7 @@
 		"ts-loader": "9.2.3",
 		"ts-node": "10.0.0",
 		"twemoji-parser": "13.1.0",
-		"typescript": "3.9.9",
+		"typescript": "3.9.10",
 		"uuid": "8.3.2",
 		"v-animate-css": "0.0.3",
 		"v-debounce": "0.1.2",
