@@ -802,10 +802,10 @@
     "@types/expect" "^1.20.4"
     "@types/node" "*"
 
-"@types/web-push@3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.3.0.tgz#459eb722c9585b84a149e7020606d4f65f64f0ca"
-  integrity sha512-QHEQCPrVy1JZtZK0cA8DHT2MhuCJNyI3m+DzuOTSGa56VM6g2bjdD+hMp8A/2Ca9w0GfmdcStrLgfXAUKKlvJg==
+"@types/web-push@3.3.1":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@types/web-push/-/web-push-3.3.1.tgz#0b5a3ab30128d180fcf8e7d4ab2e2bf2413af6f2"
+  integrity sha512-n4XCXwssioxBjSIxsDllP7dqpNgGes1t3mL8wINsUsgadx28FqoHmqLLan1fuX9OGLH6Fz4DcV3ZK+1XEdzXMg==
   dependencies:
     "@types/node" "*"
 
