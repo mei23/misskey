@@ -2,6 +2,7 @@ import * as crypto from 'crypto';
 import * as jsonld from 'jsonld';
 import { CONTEXTS } from './contexts';
 
+// https://github.com/mei23/ldsig
 // https://docs.joinmastodon.org/spec/security/#ld
 // https://github.com/transmute-industries/RsaSignature2017
 // https://socialhub.activitypub.rocks/t/making-sense-of-rsasignature2017/347
