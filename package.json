@@ -42,7 +42,7 @@
 		"@types/elasticsearch": "5.0.37",
 		"@types/fluent-ffmpeg": "2.1.17",
 		"@types/gulp": "4.0.8",
-		"@types/gulp-rename": "2.0.0",
+		"@types/gulp-rename": "2.0.1",
 		"@types/js-yaml": "4.0.1",
 		"@types/jsdom": "16.2.12",
 		"@types/jsonld": "1.5.5",
