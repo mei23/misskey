@@ -463,10 +463,10 @@
   resolved "https://registry.yarnpkg.com/@types/jsonld/-/jsonld-1.5.5.tgz#c2238462a83e90f003929cef6a36eded2ceed069"
   integrity sha512-/4PvZJJh3Lqz9bkwvSwfyLWnR1xFQ7h4KLq8i0yaGjBBq09qLMJlCqvfXfE5qFEnClmWM+GK2Edjbb6QDS2SXQ==
 
-"@types/katex@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.11.0.tgz#b16c54ee670925ffef0616beae9e90c557e17334"
-  integrity sha512-27BfE8zASRLYfSBNMk5/+KIjr2CBBrH0i5lhsO04fca4TGirIIMay73v3zNkzqmsaeIa/Mi5kejWDcxPLAmkvA==
+"@types/katex@0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@types/katex/-/katex-0.11.1.tgz#34de04477dcf79e2ef6c8d23b41a3d81f9ebeaf5"
+  integrity sha512-DUlIj2nk0YnJdlWgsFuVKcX27MLW0KbKmGVoUHmFr+74FYYNUDAaj9ZqTADvsbE8rfxuVmSFc7KczYn5Y09ozg==
 
 "@types/keygrip@*":
   version "1.0.2"
