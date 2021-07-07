@@ -508,10 +508,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-send@4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@types/koa-send/-/koa-send-4.1.2.tgz#978f8267ad116d12ac6a18fecd8f34c5657e09ad"
-  integrity sha512-rfqKIv9bFds39Jxvsp8o3YJLnEQVPVriYA14AuO2OY65IHh/4UX4U/iMs5L0wATpcRmm1bbe0BNk23TRwx3VQQ==
+"@types/koa-send@4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@types/koa-send/-/koa-send-4.1.3.tgz#17193c6472ae9e5d1b99ae8086949cc4fd69179d"
+  integrity sha512-daaTqPZlgjIJycSTNjKpHYuKhXYP30atFc1pBcy6HHqB9+vcymDgYTguPdx9tO4HMOqNyz6bz/zqpxt5eLR+VA==
   dependencies:
     "@types/koa" "*"
 
