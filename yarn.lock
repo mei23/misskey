@@ -487,10 +487,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa-favicon@2.0.19":
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/@types/koa-favicon/-/koa-favicon-2.0.19.tgz#a1b584fd64c99f16710633272292bf7d4b0ca1fa"
-  integrity sha512-QmpDuOpMn7soINt0mbOdZIaRQp9vRVR7g/MfLqozAq0gZALxqtcu6KUIWf6vxvkY5U1jzFctfaPa7I3KpAcbqA==
+"@types/koa-favicon@2.0.21":
+  version "2.0.21"
+  resolved "https://registry.yarnpkg.com/@types/koa-favicon/-/koa-favicon-2.0.21.tgz#d8a0ed062a6f5e3f838fe09c21e8b3f0490369cd"
+  integrity sha512-paH1nheVhijx/VduoR/RCD/qTCiX+OI/6fHLi3mZae053Ts+gUBOrKtzl3pMTDbdEBqdLolfLje3PZbb6jW0jQ==
   dependencies:
     "@types/koa" "*"
 
