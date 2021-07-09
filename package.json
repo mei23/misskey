@@ -69,7 +69,7 @@
 		"@types/parsimmon": "1.10.6",
 		"@types/pug": "2.0.4",
 		"@types/punycode": "2.1.0",
-		"@types/qrcode": "1.4.0",
+		"@types/qrcode": "1.4.1",
 		"@types/ratelimiter": "3.4.2",
 		"@types/redis": "2.8.30",
 		"@types/rename": "1.0.3",
