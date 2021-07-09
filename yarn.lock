@@ -676,10 +676,10 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
-"@types/ratelimiter@3.4.1":
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/@types/ratelimiter/-/ratelimiter-3.4.1.tgz#d8fb65c47a5c5625d8d8b04592370932dc6c0d4a"
-  integrity sha512-dFrZRKbL0IxIxobQbxoSyQkHWmy8B80PmVSxJL6tlOdD5Q8LqRRpEQ/t7uRkGfufOJF8kVkzBjyPr6Jp5msBgg==
+"@types/ratelimiter@3.4.2":
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/@types/ratelimiter/-/ratelimiter-3.4.2.tgz#adf1a6d0cbe72d42207efc510a9170602e23456c"
+  integrity sha512-iz+yyY+ViphaM8ZwrX1mUQzelIeC59zyaaLKTJ0YVOOCkCpIYpaysiIM4z5Xv9HdXYqIb80S+DhH7J22A0rW2w==
 
 "@types/readable-stream@^2.3.9":
   version "2.3.9"
