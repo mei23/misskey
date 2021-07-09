@@ -555,10 +555,10 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa__multer@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@types/koa__multer/-/koa__multer-2.0.2.tgz#53d20c5eeab669f1fcb4b82603a8c65f1868611c"
-  integrity sha512-wIRH6jXfKgfMSEGmXo8sTT+13J/RXPYqIfNRwYDE9izsNv125o2pU/7hnnc+c2rGNNO5cG/ahsegZm8h8bDWEQ==
+"@types/koa__multer@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@types/koa__multer/-/koa__multer-2.0.3.tgz#8ad84281eaee82717c2b26cbb10b13b0c83cc536"
+  integrity sha512-nxVUQIBYxjLSDScxe2YlHL8uJpuPtElEK15Q7D51hD6TwfFKe+7Ji/8Q8ewwzUlFWiuOnFbuXdy/HIjgQiTSHA==
   dependencies:
     "@types/koa" "*"
 
