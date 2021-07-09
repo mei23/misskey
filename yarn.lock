@@ -696,10 +696,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/rename@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.3.tgz#b70569a5717f51b498d7890b239446a11231bbe7"
-  integrity sha512-rn/kvKlH5LFHHDqZ+RbTtUu9MNitcJ7rGQ1l5ohSV5p5jAiTJVXzqtGE45sXIwNfK3Haeq4scWCj5XDNz9FuXQ==
+"@types/rename@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/rename/-/rename-1.0.4.tgz#30c6f0306042591a560361ea02639e89647dd173"
+  integrity sha512-eV81+6bVv2mdCBahkMefjEUwAjKDAP3AuyhqWCWRxcRaeVdUeHUBaoq2zSz+5HNHF2jzTajMcfLvJsy4K3cbwA==
 
 "@types/request-stats@3.0.0":
   version "3.0.0"
