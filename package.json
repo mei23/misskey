@@ -67,7 +67,7 @@
 		"@types/oauth": "0.9.1",
 		"@types/parse5": "6.0.1",
 		"@types/parsimmon": "1.10.6",
-		"@types/pug": "2.0.4",
+		"@types/pug": "2.0.5",
 		"@types/punycode": "2.1.0",
 		"@types/qrcode": "1.4.1",
 		"@types/ratelimiter": "3.4.2",
