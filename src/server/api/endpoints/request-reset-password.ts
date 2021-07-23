@@ -38,7 +38,7 @@ export default define(meta, async (ps) => {
 
 	// そのユーザーは存在しない
 	if (user == null) {
-		apiLogger.warn(`Reset password requested for ${ps.username}, bat not found.`);
+		apiLogger.warn(`Reset password requested for ${ps.username}, but not found.`);
 		return;	// エラー内容を返してもいい
 	}
 
@@ -47,20 +47,20 @@ export default define(meta, async (ps) => {
 
 	// 削除済み
 	if (user.deletedAt != null) {
-		apiLogger.warn(`Reset password requested for ${ps.username}, bat deleted.`);
+		apiLogger.warn(`Reset password requested for ${ps.username}, but deleted.`);
 		return;	// エラー内容を返してもいい
 	}
 
 	// 凍結されている
 	if (user.isSuspended) {
-		apiLogger.warn(`Reset password requested for ${ps.username}, bat suspended.`);
+		apiLogger.warn(`Reset password requested for ${ps.username}, but suspended.`);
 		return;	// エラー内容を返してもいい
 	}
 
 	// 合致するメアドが登録されていなかったら無視
 	if (user.email !== ps.email) {
 		try {
-			apiLogger.warn(`Reset password requested for ${ps.username}, bat email missmatch.`);
+			apiLogger.warn(`Reset password requested for ${ps.username}, but email missmatch.`);
 		} catch {}
 		return;	// エラー内容はあえて返さない
 	}
@@ -68,7 +68,7 @@ export default define(meta, async (ps) => {
 	// メアドが認証されていなかったら無視
 	if (!user.emailVerified) {
 		try {
-			apiLogger.warn(`Reset password requested for ${ps.username}, bat email not verified.`);
+			apiLogger.warn(`Reset password requested for ${ps.username}, but email not verified.`);
 		} catch {}
 		return;	// エラー内容はあえて返さない
 	}
