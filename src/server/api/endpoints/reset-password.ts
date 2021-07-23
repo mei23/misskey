@@ -41,7 +41,7 @@ export default define(meta, async (ps, user) => {
 	const hash = await bcrypt.hash(ps.password, salt);
 
 	await User.findOneAndUpdate({
-		_id: user._id
+		_id: req.userId
 	}, {
 		$set: {
 			password: hash
