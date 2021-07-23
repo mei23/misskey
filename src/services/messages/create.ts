@@ -9,7 +9,7 @@ import renderCreate from '../../remote/activitypub/renderer/create';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import { deliver } from '../../queue';
 
-export async function createMessage(user: IUser, recipient: IUser, text: string, file: IDriveFile, uri?: string) {
+export async function createMessage(user: IUser, recipient: IUser, text: string | null, file: IDriveFile | undefined, uri?: string) {
 	const message = await MessagingMessage.insert({
 		createdAt: new Date(),
 		fileId: file ? file._id : undefined,

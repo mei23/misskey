@@ -3,7 +3,7 @@ import { queueLogger } from '../../logger';
 import Note from '../../../models/note';
 import User from '../../../models/user';
 import del from '../../../services/note/delete';
-import { DeleteNoteJobData } from '../../type';
+import { DeleteNoteJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('delete-note');
 

@@ -11,7 +11,7 @@ import resolveUser from '../../../remote/resolve-user';
 import { pushUserToUserList } from '../../../services/user-list/push';
 import { downloadTextFile } from '../../../misc/download-text-file';
 import { isSelfHost, toDbHost } from '../../../misc/convert-host';
-import { DbUserImportJobData } from '../../type';
+import { DbUserImportJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('import-user-lists');
 

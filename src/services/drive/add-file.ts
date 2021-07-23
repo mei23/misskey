@@ -344,7 +344,8 @@ async function deleteOldFile(user: IRemoteUser) {
 		_id: {
 			$nin: [user.avatarId, user.bannerId]
 		},
-		'metadata.userId': user._id
+		'metadata.userId': user._id,
+		'metadata.deletedAt': { $exists: false },
 	}, {
 		sort: {
 			_id: 1
@@ -404,7 +405,7 @@ export async function addFile(
 		}
 	}
 
-	//#region Check drive usage
+	//#region Check drive usageisRemote
 	if (!isLink) {
 		const usage = await DriveFile
 			.aggregate([{

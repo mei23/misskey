@@ -19,13 +19,13 @@ export async function downloadUrl(url: string, path: string) {
 	const controller = new AbortController();
 	setTimeout(() => {
 		controller.abort();
-	}, 60 * 1000);
+	}, 31 * 1000);
 
 	const response = await fetch(new URL(url).href, {
 		headers: {
 			'User-Agent': config.userAgent
 		},
-		timeout: 10 * 1000,
+		timeout: 30 * 1000,
 		size: config.maxFileSize || 262144000,
 		signal: controller.signal,
 		agent: u => u.protocol == 'http:' ? httpAgent : httpsAgent,

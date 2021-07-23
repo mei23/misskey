@@ -19,7 +19,7 @@ export async function genRsaKeyPair(modulusLength = 2048) {
 	});
 }
 
-export async function genEcKeyPair(namedCurve: 'prime256v1' | 'secp384r1' | 'secp521r1' | 'curve25519' = 'prime256v1') {
+export async function genEcKeyPair(namedCurve: 'prime256v1' | 'secp384r1' | 'secp521r1' = 'prime256v1') {
 	return await generateKeyPair('ec', {
 		namedCurve,
 		publicKeyEncoding: {

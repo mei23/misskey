@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: node cli/diag-environment.js
-    - run: NODE_ENV=production yarn install
-    - run: NODE_ENV=production yarn build
+    - run: yarn install
+    - run: yarn build
     - run: cp test/test.yml .config/
     - run: yarn test

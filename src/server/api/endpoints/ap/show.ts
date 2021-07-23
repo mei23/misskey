@@ -9,7 +9,7 @@ import { createNote } from '../../../../remote/activitypub/models/note';
 import Resolver from '../../../../remote/activitypub/resolver';
 import { ApiError } from '../../error';
 import { extractApHost } from '../../../../misc/convert-host';
-import { isActor, isPost } from '../../../../remote/activitypub/type';
+import { isActor, isPost, getApId } from '../../../../remote/activitypub/type';
 import { isBlockedHost } from '../../../../services/instance-moderation';
 
 export const meta = {
@@ -110,7 +110,7 @@ async function fetchAny(uri: string) {
 
 	// それでもみつからなければ新規であるため登録
 	if (isActor(object)) {
-		const user = await createPerson(object.id);
+		const user = await createPerson(getApId(object));
 		return {
 			type: 'User',
 			object: await packUser(user, null, { detail: true })
@@ -118,10 +118,10 @@ async function fetchAny(uri: string) {
 	}
 
 	if (isPost(object)) {
-		const note = await createNote(object.id, null, true);
+		const note = await createNote(getApId(object), null, true);
 		return {
 			type: 'Note',
-			object: await packNote(note, null, { detail: true })
+			object: await packNote(note!, null, { detail: true })
 		};
 	}
 

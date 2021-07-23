@@ -2,7 +2,7 @@ import * as mongo from 'mongodb';
 import * as Bull from 'bull';
 import { queueLogger } from '../../logger';
 import Note from '../../../models/note';
-import { NotifyPollFinishedJobData } from '../../type';
+import { NotifyPollFinishedJobData } from '../../types';
 import { createNotification } from '../../../services/create-notification';
 import { getInstanceActor } from '../../../services/instance-actor';
 

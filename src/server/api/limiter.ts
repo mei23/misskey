@@ -8,7 +8,7 @@ import { addrToPeer } from '../../misc/addr-to-peer';
 
 const logger = new Logger('limiter');
 
-export default (endpoint: IEndpoint, user?: IUser, ip?: string) => new Promise((ok, reject) => {
+export default (endpoint: IEndpoint, user: IUser | null | undefined, ip?: string) => new Promise((ok, reject) => {
 	// Redisがインストールされてない場合は常に許可
 	if (limiterDB == null) {
 		ok();
@@ -47,9 +47,9 @@ export default (endpoint: IEndpoint, user?: IUser, ip?: string) => new Promise((
 	function min() {
 		const minIntervalLimiter = new Limiter({
 			id: `${target}:${key}:min`,
-			duration: limitation.minInterval,
+			duration: limitation!.minInterval,
 			max: 1,
-			db: limiterDB
+			db: limiterDB!
 		});
 
 		minIntervalLimiter.get((err, info) => {
@@ -75,9 +75,9 @@ export default (endpoint: IEndpoint, user?: IUser, ip?: string) => new Promise((
 	function max() {
 		const limiter = new Limiter({
 			id: `${target}:${key}`,
-			duration: limitation.duration,
-			max: limitation.max,
-			db: limiterDB
+			duration: limitation!.duration,
+			max: limitation!.max,
+			db: limiterDB!
 		});
 
 		limiter.get((err, info) => {

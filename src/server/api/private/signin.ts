@@ -59,7 +59,7 @@ export default async (ctx: Router.RouterContext) => {
 			}
 		}) as ILocalUser;
 
-	if (user === null) {
+	if (user == null || user.isDeleted || user.isSuspended) {
 		ctx.throw(404, {
 			error: 'user not found'
 		});

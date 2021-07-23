@@ -627,6 +627,7 @@ export class Room {
 		this.isTransformMode = true;
 		this.furnitureControl.setMode(type);
 		this.furnitureControl.attach(this.selectedObject);
+		this.controls.enableZoom = false;
 	}
 
 	/**
@@ -636,6 +637,7 @@ export class Room {
 	public exitTransformMode() {
 		this.isTransformMode = false;
 		this.furnitureControl.detach();
+		this.controls.enableZoom = true;
 	}
 
 	/**

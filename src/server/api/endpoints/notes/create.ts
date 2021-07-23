@@ -144,7 +144,7 @@ export const meta = {
 		},
 
 		fileIds: {
-			validator: $.optional.arr($.type(ID)).unique().range(1, 4),
+			validator: $.optional.arr($.type(ID)).unique().range(1, 8),
 			transform: transformMany,
 			desc: {
 				'ja-JP': '添付するファイル'
@@ -152,7 +152,7 @@ export const meta = {
 		},
 
 		mediaIds: {
-			validator: $.optional.arr($.type(ID)).unique().range(1, 4),
+			validator: $.optional.arr($.type(ID)).unique().range(1, 8),
 			transform: transformMany,
 			deprecated: true,
 			desc: {

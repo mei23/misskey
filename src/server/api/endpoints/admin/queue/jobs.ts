@@ -1,6 +1,6 @@
 import $ from 'cafy';
 import define from '../../../define';
-import { deliverQueue, inboxQueue, dbQueue } from '../../../../../queue';
+import { deliverQueue, inboxQueue, dbQueue } from '../../../../../queue/queues';
 import * as Bull from 'bull';
 
 export const meta = {

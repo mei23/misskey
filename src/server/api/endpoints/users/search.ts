@@ -28,36 +28,32 @@ export const meta = {
 		},
 
 		offset: {
-			validator: $.optional.either($.optional.num.min(0), $.str.pipe(v => 0 <= Number(v))),
+			validator: $.optional.num.min(0),
 			default: 0,
-			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': 'オフセット'
 			}
 		},
 
 		limit: {
-			validator: $.optional.either($.optional.num.range(1, 100), $.str.pipe(v => 1 <= Number(v) && Number(v) <= 100)),
+			validator: $.optional.num.range(1, 100),
 			default: 10,
-			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': '取得する数'
 			}
 		},
 
 		localOnly: {
-			validator: $.optional.either($.boolean, $.str.or(['true', 'false'])),
+			validator: $.optional.boolean,
 			default: false,
-			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': 'ローカルユーザーのみ検索対象にするか否か'
 			}
 		},
 
 		detail: {
-			validator: $.optional.either($.boolean, $.str.or(['true', 'false'])),
+			validator: $.optional.boolean,
 			default: true,
-			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': '詳細なユーザー情報を含めるか否か'
 			}

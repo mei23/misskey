@@ -10,7 +10,7 @@ import parseAcct from '../../../misc/acct/parse';
 import resolveUser from '../../../remote/resolve-user';
 import { downloadTextFile } from '../../../misc/download-text-file';
 import { isSelfHost, toDbHost } from '../../../misc/convert-host';
-import { DbUserImportJobData } from '../../type';
+import { DbUserImportJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('import-blocking');
 

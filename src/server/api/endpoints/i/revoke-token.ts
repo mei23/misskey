@@ -3,6 +3,7 @@ import define from '../../define';
 //import { AccessTokens } from '../../../../models';
 import ID, { transform } from '../../../../misc/cafy-id';
 import AccessToken from '../../../../models/access-token';
+import { publishTerminate } from '../../../../services/server-event';
 
 export const meta = {
 	requireCredential: true as const,
@@ -23,6 +24,10 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	await AccessToken.remove({
-		_id: ps.tokenId
+		_id: ps.tokenId,
+		userId: user._id
 	});
+
+	// Terminate streaming
+	publishTerminate(user._id);
 });

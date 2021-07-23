@@ -9,7 +9,7 @@ import User from '../../../models/user';
 import dateFormat = require('dateformat');
 import Following from '../../../models/following';
 import { getFullApAccount } from '../../../misc/convert-host';
-import { DbUserJobData } from '../../type';
+import { DbUserJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('export-following');
 

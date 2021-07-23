@@ -10,15 +10,13 @@ export const meta = {
 
 	params: {
 		limit: {
-			validator: $.optional.either($.optional.num.range(1, 1000), $.str.pipe(v => 1 <= Number(v) && Number(v) <= 1000)),
+			validator: $.optional.num.range(1, 1000),
 			default: 20,
-			transform: (v: any) => JSON.parse(v),
 		},
 
 		offset: {
-			validator: $.optional.either($.optional.num.min(0), $.str.pipe(v => 0 <= Number(v))),
+			validator: $.optional.num.min(0),
 			default: 0,
-			transform: (v: any) => JSON.parse(v),
 			desc: {
 				'ja-JP': 'オフセット'
 			}

@@ -1,7 +1,7 @@
 import Resolver from '../../resolver';
 import { IRemoteUser } from '../../../../models/user';
 import rejectFollow from './follow';
-import { IReject, IFollow } from '../../type';
+import { IReject, isFollow, getApType } from '../../type';
 import { apLogger } from '../../logger';
 
 const logger = apLogger;
@@ -21,11 +21,7 @@ export default async (actor: IRemoteUser, activity: IReject): Promise<string> =>
 		throw `Resolution failed: ${e}`;
 	}
 
-	switch (object.type) {
-	case 'Follow':
-		return await rejectFollow(actor, object as IFollow);
+	if (isFollow(object)) return await rejectFollow(actor, object);
 
-	default:
-		return `skip: Unknown reject type: ${object.type}`;
-	}
+	return `skip: Unknown Reject type: ${getApType(object)}`;
 };

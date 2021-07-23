@@ -5,7 +5,7 @@ import { queueLogger } from '../../logger';
 import User from '../../../models/user';
 import DriveFile from '../../../models/drive-file';
 import deleteFile from '../../../services/drive/delete-file';
-import { DbUserJobData } from '../../type';
+import { DbUserJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('delete-drive-files');
 

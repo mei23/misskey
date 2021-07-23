@@ -1,5 +1,5 @@
 import { IRemoteUser } from '../../../../models/user';
-import { IUndo, IFollow, IBlock, ILike, IAnnounce } from '../../type';
+import { IUndo, isFollow, isLike, isAnnounce, getApType, isBlock } from '../../type';
 import unfollow from './follow';
 import unblock from './block';
 import undoLike from './like';
@@ -28,19 +28,10 @@ export default async (actor: IRemoteUser, activity: IUndo): Promise<string> => {
 		return `skip: Resolution failed: ${e}`;
 	}
 
-	switch (object.type) {
-		case 'Follow':
-			return await unfollow(actor, object as IFollow);
-		case 'Block':
-			return await unblock(actor, object as IBlock);
-		case 'Like':
-		case 'Dislike':
-		case 'EmojiReaction':
-		case 'EmojiReact':
-			return await undoLike(actor, object as ILike);
-		case 'Announce':
-			return await undoAnnounce(actor, object as IAnnounce);
-		default:
-			return `skip: unknown object type ${object.type}`;
-	}
+	if (isFollow(object)) return await unfollow(actor, object);
+	if (isBlock(object)) return await unblock(actor, object);
+	if (isLike(object)) return await undoLike(actor, object);
+	if (isAnnounce(object)) return await undoAnnounce(actor, object);
+
+	return `skip: unknown object type ${getApType(object)}`;
 };

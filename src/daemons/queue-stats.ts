@@ -1,6 +1,6 @@
 import * as Deque from 'double-ended-queue';
 import Xev from 'xev';
-import { deliverQueue, inboxQueue } from '../queue';
+import { deliverQueue, inboxQueue } from '../queue/queues';
 import config from '../config';
 import { getWorkerStrategies } from '..';
 

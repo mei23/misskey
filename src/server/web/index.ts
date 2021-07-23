@@ -57,14 +57,6 @@ app.use(async (ctx, next) => {
 const router = new Router();
 
 //#region static assets
-router.get('/static-assets/twemoji/*', async ctx => {
-	await send(ctx as any, ctx.path.replace('/static-assets/', ''), {
-		root: staticAssets,
-		maxage: ms('30 days'),
-		immutable: true,
-	});
-});
-
 router.get('/static-assets/*', async ctx => {
 	await send(ctx as any, ctx.path.replace('/static-assets/', ''), {
 		root: staticAssets,

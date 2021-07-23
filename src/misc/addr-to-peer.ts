@@ -5,9 +5,12 @@ export function addrToPeer(addr: string): string | null | undefined {
 
 	if (addr.includes(':')) {
 		// v6は/64単位
-		const cidr = new IPCIDR(`${addr}/64`);
-		if (!cidr.isValid()) return null;
-		return cidr.start();
+		try {
+			const cidr = new IPCIDR(`${addr}/64`);
+			return cidr.start();
+		} catch {
+			return null;
+		}
 	} else {
 		return addr;
 	}

@@ -44,7 +44,7 @@ export const pack = async (
 	delete _session._id;
 
 	// Populate app
-	_session.app = await packApp(_session.appId, me);
+	_session.app = await packApp(_session.appId, me, { detail: true });
 
 	return _session;
 };

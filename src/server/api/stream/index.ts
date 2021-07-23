@@ -18,8 +18,8 @@ import { PubSubMessage, NoteStreamBody } from '../../../services/stream';
  * Main stream connection
  */
 export default class Connection {
-	public user?: IUser;
-	public app: IApp;
+	public user?: IUser | null;
+	public app?: IApp | null;
 	private wsConnection: websocket.connection;
 	public subscriber: EventEmitter;
 	private channels: Channel[] = [];
@@ -30,8 +30,8 @@ export default class Connection {
 	constructor(
 		wsConnection: websocket.connection,
 		subscriber: EventEmitter,
-		user: IUser,
-		app: IApp
+		user: IUser | null | undefined,
+		app: IApp | null | undefined,
 	) {
 		this.wsConnection = wsConnection;
 		this.user = user;

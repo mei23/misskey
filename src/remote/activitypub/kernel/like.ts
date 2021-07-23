@@ -1,5 +1,5 @@
 import { IRemoteUser } from '../../../models/user';
-import { ILike, getApId } from '../type';
+import { ILike, getApId, getApType } from '../type';
 import create from '../../../services/note/reaction/create';
 import { resolveNote, extractEmojis } from '../models/note';
 
@@ -11,6 +11,6 @@ export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 
 	await extractEmojis(activity.tag, actor.host).catch(() => null);
 
-	await create(actor, note, activity._misskey_reaction || activity.content || activity.name, activity.type === 'Dislike');
+	await create(actor, note, activity._misskey_reaction || activity.content || activity.name, getApType(activity) === 'Dislike');
 	return `ok`;
 };

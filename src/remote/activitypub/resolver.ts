@@ -44,8 +44,6 @@ export default class Resolver {
 
 		this.history.add(value);
 
-		console.log(`ResolveRequest: ${value}`);
-
 		if (config.signToActivityPubGet && !this.user) {
 			this.user = await getInstanceActor();
 		}

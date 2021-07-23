@@ -6,6 +6,7 @@ import { createDeleteNotesJob, createDeleteDriveFilesJob } from '../../../../que
 import Message from '../../../../models/messaging-message';
 import Signin from '../../../../models/signin';
 import { doPostSuspend } from '../../../../services/suspend-user';
+import { publishTerminate } from '../../../../services/server-event';
 
 export const meta = {
 	requireCredential: true,
@@ -43,6 +44,9 @@ export default define(meta, async (ps, user) => {
 			clientSettings: {},
 		}
 	});
+
+	// Terminate streaming
+	publishTerminate(user._id);
 
 	Message.remove({ userId: user._id });
 	Signin.remove({ userId: user._id });

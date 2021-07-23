@@ -14,7 +14,7 @@
 
 	<section>
 		<header><fa icon="terminal"/> {{ $t('console.title') }}</header>
-		<ui-input v-model="endpoint" :datalist="endpoints">
+		<ui-input v-model="endpoint" :datalist="endpoints" @keydown="onEndpointChange()">
 			<span>{{ $t('console.endpoint') }}</span>
 		</ui-input>
 		<ui-textarea v-model="body">
@@ -51,7 +51,7 @@ export default Vue.extend({
 	},
 
 	created() {
-		this.$root.api('endpoints').then(endpoints => {
+		this.$root.api('endpoints', {}, false, true).then(endpoints => {
 			this.endpoints = endpoints;
 		});
 	},
@@ -93,7 +93,24 @@ export default Vue.extend({
 				this.sending = false;
 				this.res = JSON.stringify(err, null, 2) || 'UNKNOWN ERROR';
 			});
-		}
+		},
+
+		onEndpointChange() {
+			this.$root.api('endpoint', { endpoint: this.endpoint }, false, true).then(endpoint => {
+				if (!endpoint) return;
+				const body = {};
+				for (const p of endpoint.params) {
+					body[p.name] =
+						p.type === 'String' ? p.enum ? p.enum[0] : typeof p.default === 'string' ? p.default : '' :
+						p.type === 'Number' ? typeof p.default === 'number' ? p.default : 1 :
+						p.type === 'Boolean' ? typeof p.default === 'boolean' ? p.default : false :
+						p.type === 'Array' ? [] :
+						p.type === 'Object' ? {} :
+						null;
+				}
+				this.body = JSON5.stringify(body, null, 2);
+			});
+		},
 	}
 });
 </script>

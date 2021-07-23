@@ -13,7 +13,7 @@ const accessDenied = {
 	id: '56f35758-7dd5-468b-8439-5d6fb8ec9b8e'
 };
 
-export default async (endpoint: string, user: IUser, app: IApp, data: any, file?: any, ip?: string) => {
+export default async (endpoint: string, user: IUser | null | undefined, app: IApp | null | undefined, data: any, file?: any, ip?: string) => {
 	const isSecure = user != null && app == null;
 
 	const ep = endpoints.find(e => e.name === endpoint);
@@ -40,19 +40,19 @@ export default async (endpoint: string, user: IUser, app: IApp, data: any, file?
 		});
 	}
 
-	if (ep.meta.requireCredential && user.isDeleted) {
+	if (ep.meta.requireCredential && user!.isDeleted) {
 		throw new ApiError(accessDenied, { reason: 'Your account has been deleted.' });
 	}
 
-	if (ep.meta.requireCredential && user.isSuspended) {
+	if (ep.meta.requireCredential && user!.isSuspended) {
 		throw new ApiError(accessDenied, { reason: 'Your account has been suspended.' });
 	}
 
-	if (ep.meta.requireAdmin && !user.isAdmin) {
+	if (ep.meta.requireAdmin && !user!.isAdmin) {
 		throw new ApiError(accessDenied, { reason: 'You are not the admin.' });
 	}
 
-	if (ep.meta.requireModerator && !user.isAdmin && !user.isModerator) {
+	if (ep.meta.requireModerator && !user!.isAdmin && !user!.isModerator) {
 		throw new ApiError(accessDenied, { reason: 'You are not a moderator.' });
 	}
 

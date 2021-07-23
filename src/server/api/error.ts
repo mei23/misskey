@@ -6,7 +6,7 @@ export class ApiError extends Error {
 	public httpStatusCode?: number;
 	public info?: any;
 
-	constructor(e?: { message: string, code: string, id: string, kind?: 'client' | 'server', httpStatusCode?: number }, info?: any) {
+	constructor(e?: { message: string, code: string, id: string, kind?: 'client' | 'server', httpStatusCode?: number } | null, info?: any) {
 		if (e == null) e = {
 			message: 'Internal error occurred. Please contact us if the error persists.',
 			code: 'INTERNAL_ERROR',

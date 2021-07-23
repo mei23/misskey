@@ -9,7 +9,7 @@
 			</div>
 		</div>
 	</x-draggable>
-	<p class="remain">{{ 4 - files.length }}/4</p>
+	<p class="remain">{{ 8 - files.length }}/8</p>
 </div>
 </template>
 
@@ -136,5 +136,6 @@ export default Vue.extend({
 		margin 0
 		padding 0
 		color var(--primaryAlpha04)
+		z-index 10
 
 </style>

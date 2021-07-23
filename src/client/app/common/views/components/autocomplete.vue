@@ -131,7 +131,7 @@ const angleDb: MfmDef[] = [
 ];
 
 const fnDb: MfmDef[] = [
-	{ name: 'jerry', head: '[jerry ', tail: ']', desc: '[jerry 🍮]' },
+	{ name: 'jelly', head: '[jelly ', tail: ']', desc: '[jelly 🍮]' },
 	{ name: 'tada', head: '[tada ', tail: ']', desc: '[tada 🍮]' },
 	{ name: 'jump', head: '[jump ', tail: ']', desc: '[jump 🍮]' },
 	{ name: 'bounce', head: '[bounce ', tail: ']', desc: '[bounce 🍮]' },
@@ -295,6 +295,14 @@ export default Vue.extend({
 
 				const matched: any[] = [];
 				const max = 30;
+
+				// 完全一致
+				if (matched.length < max) {
+					this.emojiDb.some(x => {
+						if (x.name === this.q && !matched.some(y => y.emoji == x.emoji)) matched.push(x);
+						return matched.length == max;
+					});
+				}
 
 				// カスタム絵文字マッチ
 				if (matched.length < max) {

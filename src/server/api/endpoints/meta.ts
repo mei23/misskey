@@ -21,9 +21,8 @@ export const meta = {
 
 	params: {
 		detail: {
-			validator: $.optional.either($.boolean, $.str.or(['true', 'false'])),
+			validator: $.optional.boolean,
 			default: true,
-			transform: (v: any) => JSON.parse(v),
 		}
 	},
 

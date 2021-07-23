@@ -1,7 +1,7 @@
 import * as mongo from 'mongodb';
 import * as Bull from 'bull';
 import { queueLogger } from '../../logger';
-import { ExpireMuteJobData } from '../../type';
+import { ExpireMuteJobData } from '../../types';
 import Mute from '../../../models/mute';
 import { publishMutingChanged } from '../../../services/server-event';
 

@@ -2,8 +2,9 @@ import * as childProcess from 'child_process';
 import * as http from 'http';
 import fetch from 'node-fetch';
 import loadConfig from '../src/config/load';
+import { SIGKILL } from 'constants';
 
-const port = loadConfig().port;
+export const port = loadConfig().port;
 
 export const async = (fn: Function) => (done: Function) => {
 	fn().then(() => {
@@ -24,6 +25,45 @@ export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProce
 			if (message === 'ok') moreProcess().then(() => done()).catch(e => done(e));
 		});
 	};
+}
+
+export function startServer(timeout = 30 * 1000): Promise<childProcess.ChildProcess> {
+	return new Promise((res, rej) => {
+		const t = setTimeout(() => {
+			p.kill(SIGKILL);
+			rej('timeout to start');
+		}, timeout);
+
+		const p = childProcess.spawn('node', [__dirname + '/../index.js'], {
+			stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
+			env: { NODE_ENV: 'test', PATH: process.env.PATH }
+		});
+
+		p.on('error', e => rej(e));
+
+		p.on('message', message => {
+			if (message === 'ok') {
+				clearTimeout(t);
+				res(p);
+			}
+		});
+	});
+}
+
+export function shutdownServer(p: childProcess.ChildProcess, timeout = 20 * 1000) {
+	return new Promise((res, rej) => {
+		const t = setTimeout(() => {
+			p.kill(SIGKILL);
+			res('force exit');
+		}, timeout);
+
+		p.once('exit', () => {
+			clearTimeout(t);
+			res('exited');
+		});
+
+		p.kill();
+	});
 }
 
 export const api = async (endpoint: string, params: any, me?: any): Promise<{ body: any, status: number }> => {

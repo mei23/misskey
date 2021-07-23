@@ -1,5 +1,5 @@
 import define from '../../../define';
-import { deliverQueue, inboxQueue } from '../../../../../queue';
+import { deliverQueue, inboxQueue } from '../../../../../queue/queues';
 
 export const meta = {
 	tags: ['admin'],

@@ -54,10 +54,10 @@ type IUserBase = {
 	notesCount: number;
 	username: string;
 	usernameLower: string;
-	avatarId: mongo.ObjectID;
-	bannerId: mongo.ObjectID;
-	avatarUrl?: string;
-	bannerUrl?: string;
+	avatarId?: mongo.ObjectID | null;
+	bannerId?: mongo.ObjectID | null;
+	avatarUrl?: string | null;
+	bannerUrl?: string | null;
 	avatarColor?: any;
 	bannerColor?: any;
 	wallpaperId: mongo.ObjectID;
@@ -215,10 +215,10 @@ export interface IRemoteUser extends IUserBase {
 	sharedInbox?: string;
 	outbox?: string;
 	featured?: string;
-	endpoints: string[];
+	endpoints?: string[];
 	uri: string;
 	url?: string;
-	publicKey: {
+	publicKey?: {
 		id: string;
 		publicKeyPem: string;
 	};
@@ -236,8 +236,8 @@ export const isRemoteUser = (user: any): user is IRemoteUser =>
 	!isLocalUser(user);
 
 //#region Validators
-export function validateUsername(username: string, remote = false): boolean {
-	return typeof username == 'string' && (remote ? /^\w([\w.-]*\w)?$/ : /^\w{1,20}$/).test(username);
+export function validateUsername(username: string): boolean {
+	return typeof username == 'string' && (/^\w{1,20}$/).test(username);
 }
 
 export function validatePassword(password: string): boolean {

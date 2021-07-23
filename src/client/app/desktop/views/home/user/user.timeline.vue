@@ -39,13 +39,13 @@ export default Vue.extend({
 				includeReplies: this.mode == 'with-replies' || this.mode == 'with-media',
 				includeMyRenotes: this.mode != 'my-posts',
 				withFiles: this.mode == 'with-media',
-				untilDate: cursor ? cursor : new Date().getTime() + 1000 * 86400 * 365
+				untilId: cursor ? cursor : undefined,
 			}).then(notes => {
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
 					return {
 						notes: notes,
-						cursor: new Date(notes[notes.length - 1].createdAt).getTime()
+						cursor: notes[notes.length - 1].id
 					};
 				} else {
 					return {

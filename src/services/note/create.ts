@@ -105,16 +105,16 @@ class NotificationManager {
 type Option = {
 	createdAt?: Date;
 	name?: string;
-	text?: string;
-	reply?: INote;
-	renote?: INote;
+	text?: string | null;
+	reply?: INote | null;
+	renote?: INote | null;
 	files?: IDriveFile[];
 	geo?: any;
 	poll?: any;
 	viaMobile?: boolean;
 	localOnly?: boolean;
 	copyOnce?: boolean;
-	cw?: string;
+	cw?: string | null;
 	visibility?: string;
 	visibleUsers?: IUser[];
 	apMentions?: IUser[];

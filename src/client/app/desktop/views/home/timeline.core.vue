@@ -114,7 +114,6 @@ export default Vue.extend({
 
 		this.makePromise = cursor => this.$root.api(this.endpoint, {
 			limit: fetchLimit + 1,
-			untilDate: cursor ? undefined : (this.date ? this.date.getTime() : undefined),
 			untilId: cursor ? cursor : undefined,
 			...this.baseQuery, ...this.query
 		}).then(notes => {

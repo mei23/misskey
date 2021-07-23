@@ -1,36 +1,25 @@
 import * as http from 'http';
 import * as https from 'https';
-import * as cache from 'lookup-dns-cache';
-import fetch, { HeadersInit } from 'node-fetch';
+import CacheableLookup from 'cacheable-lookup';
+import fetch from 'node-fetch';
 import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
 import { AbortController } from 'abort-controller';
+import Logger from '../services/logger';
 
-export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: HeadersInit) {
-	const controller = new AbortController();
-	setTimeout(() => {
-		controller.abort();
-	}, timeout * 6);
+const logger = new Logger('fetch');
 
-	const res = await fetch(url, {
-		headers: Object.assign({
+export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
+	const res = await getResponse({
+		url,
+		method: 'GET',
+		headers: objectAssignWithLcKey({
 			'User-Agent': config.userAgent,
 			Accept: accept
 		}, headers || {}),
-		timeout,
-		size: 10 * 1024 * 1024,
-		agent: getAgentByUrl,
-		signal: controller.signal,
+		timeout
 	});
-
-	if (!res.ok) {
-		throw {
-			name: `StatusError`,
-			statusCode: res.status,
-			message: `${res.status} ${res.statusText}`,
-		};
-	}
 
 	try {
 		return await res.json();
@@ -43,19 +32,36 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 	}
 }
 
-export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: HeadersInit) {
+export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>) {
+	const res = await getResponse({
+		url,
+		method: 'GET',
+		headers: objectAssignWithLcKey({
+			'User-Agent': config.userAgent,
+			Accept: accept
+		}, headers || {}),
+		timeout
+	});
+
+	return await res.text();
+}
+
+export async function getResponse(args: { url: string, method: string, body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
+	logger.debug(`${args.method.toUpperCase()} ${args.url}\nHeaders: ${JSON.stringify(args.headers, null, 2)}${args.body ? `\n${args.body}` : ''}`);
+
+	const timeout = args?.timeout || 10 * 1000;
+
 	const controller = new AbortController();
 	setTimeout(() => {
 		controller.abort();
 	}, timeout * 6);
 
-	const res = await fetch(url, {
-		headers: Object.assign({
-			'User-Agent': config.userAgent,
-			Accept: accept
-		}, headers || {}),
+	const res = await fetch(args.url, {
+		method: args.method,
+		headers: args.headers,
+		body: args.body,
 		timeout,
-		size: 10 * 1024 * 1024,
+		size: args?.size || 10 * 1024 * 1024,
 		agent: getAgentByUrl,
 		signal: controller.signal,
 	});
@@ -64,19 +70,39 @@ export async function getHtml(url: string, accept = 'text/html, */*', timeout = 
 		throw {
 			name: `StatusError`,
 			statusCode: res.status,
+			statusMessage: res.statusText,
 			message: `${res.status} ${res.statusText}`,
 		};
 	}
 
-	return await res.text();
+	return res;
 }
+
+function lcObjectKey(src: Record<string, string>) {
+	const dst: Record<string, string> = {};
+	for (const key of Object.keys(src).filter(x => x != '__proto__' && typeof src[x] === 'string')) dst[key.toLowerCase()] = src[key];
+	return dst;
+}
+
+function objectAssignWithLcKey(a: Record<string, string>, b: Record<string, string>) {
+	return Object.assign(lcObjectKey(a), lcObjectKey(b));
+}
+
+//#region Agent
+const cache = new CacheableLookup({
+	maxTtl: 3600,	// 1hours
+	errorTtl: 30,	// 30secs
+	lookup: false,	// nativeのdns.lookupにfallbackしない
+});
+
 /**
  * Get http non-proxy agent
  */
 const _http = new http.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
-});
+	lookup: cache.lookup,	// DefinitelyTyped issues
+} as http.AgentOptions);
 
 /**
  * Get https non-proxy agent
@@ -85,20 +111,20 @@ const _https = new https.Agent({
 	keepAlive: true,
 	keepAliveMsecs: 30 * 1000,
 	lookup: cache.lookup,
-});
+} as https.AgentOptions);
 
 /**
  * Get http proxy or non-proxy agent
  */
 export const httpAgent = config.proxy
-	? new HttpProxyAgent(config.proxy) as unknown as http.Agent
+	? new HttpProxyAgent(config.proxy)
 	: _http;
 
 /**
  * Get https proxy or non-proxy agent
  */
 export const httpsAgent = config.proxy
-	? new HttpsProxyAgent(config.proxy) as unknown as https.Agent
+	? new HttpsProxyAgent(config.proxy)
 	: _https;
 
 /**
@@ -113,3 +139,4 @@ export function getAgentByUrl(url: URL, bypassProxy = false): http.Agent | https
 		return url.protocol == 'http:' ? httpAgent : httpsAgent;
 	}
 }
+//#endregion Agent

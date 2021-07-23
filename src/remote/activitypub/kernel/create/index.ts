@@ -1,7 +1,7 @@
 import Resolver from '../../resolver';
 import { IRemoteUser } from '../../../../models/user';
 import createNote from './note';
-import { ICreate, getApId, isPost } from '../../type';
+import { ICreate, getApId, isPost, getApType } from '../../type';
 import { apLogger } from '../../logger';
 import { toArray, concat, unique } from '../../../../prelude/array';
 
@@ -42,6 +42,6 @@ export default async (actor: IRemoteUser, activity: ICreate): Promise<string> =>
 	if (isPost(object)) {
 		return await createNote(resolver, actor, object, false, activity);
 	} else {
-		return `Unknown type: ${object.type}`;
+		return `Unknown type: ${getApType(object)}`;
 	}
 };

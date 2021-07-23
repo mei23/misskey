@@ -5,7 +5,7 @@ import { queueLogger } from '../../logger';
 import Note from '../../../models/note';
 import deleteNote from '../../../services/note/delete';
 import User from '../../../models/user';
-import { DbUserJobData } from '../../type';
+import { DbUserJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('delete-notes');
 

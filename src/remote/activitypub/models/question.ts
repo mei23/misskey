@@ -20,12 +20,14 @@ export async function extractPollFromQuestion(source: string | IObject, resolver
 		throw 'invalid question';
 	}
 
-	const choices = question[multiple ? 'anyOf' : 'oneOf']
+	const choices = (question[multiple ? 'anyOf' : 'oneOf'] || [])
 		.map((x, i) => ({
 			id: i,
 			text: x.name,
 			votes: x.replies && x.replies.totalItems || x._misskey_votes || 0,
 		} as IChoice));
+
+	if (choices.length > 100) throw 'too many choices';
 
 	return {
 		choices,
