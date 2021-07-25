@@ -18,11 +18,11 @@ export const meta = {
 
 	params: {
 		username: {
-			validator: $.str
+			validator: $.str.min(1)
 		},
 
 		email: {
-			validator: $.str
+			validator: $.str.min(1)
 		},
 	},
 
