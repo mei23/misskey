@@ -29,6 +29,7 @@ import MkReversi from './views/pages/games/reversi.vue';
 import MkTag from './views/pages/tag.vue';
 import MkShare from '../common/views/pages/share.vue';
 import MkFollow from '../common/views/pages/follow.vue';
+import MkResetPassword from '../common/views/pages/reset-password.vue';
 import MkNotFound from '../common/views/pages/not-found.vue';
 
 import PostForm from './views/components/post-form-dialog.vue';
@@ -177,6 +178,7 @@ init((launch, os) => {
 			{ path: '/@:acct/room', props: true, component: () => import('../common/views/pages/room/room.vue').then(m => m.default) },
 			{ path: '/notes/:note', component: MkNote },
 			{ path: '/authorize-follow', component: MkFollow },
+			{ path: '/reset-password/:token', component: MkResetPassword, props: true },
 			{ path: '/mfm-cheat-sheet', component: () => import('../common/views/pages/mfm-cheat-sheet.vue').then(m => m.default) },
 			{ path: '*', component: MkNotFound }
 		]

@@ -3,7 +3,10 @@
 	<div class="bg" ref="bg" @click="onBgClick"></div>
 	<div class="main" ref="main">
 		<template v-if="type == 'signin'">
-			<mk-signin/>
+			<mk-signin @reminder="onReminder"/>
+		</template>
+		<template v-if="type == 'reminder'">
+			<mk-reminder @done="onReminderDone"/>
 		</template>
 		<template v-else>
 			<div class="icon" v-if="!input && !select && !user" :class="type"><fa :icon="icon"/></div>
@@ -172,7 +175,15 @@ export default Vue.extend({
 				e.stopPropagation();
 				this.ok();
 			}
-		}
+		},
+
+		onReminder() {
+			this.type = 'reminder';
+		},
+
+		onReminderDone() {
+			this.close();
+		},
 	}
 });
 </script>
