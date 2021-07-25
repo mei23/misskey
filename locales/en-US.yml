@@ -770,6 +770,7 @@ common/views/components/signup.vue:
 common/views/components/reminder.vue:
   username: "Username"
   email: "Email Address"
+  desc: "If your email address has been verified, you will be sent a link to reset your password."
   submit: "Submit"
 common/views/components/special-message.vue:
   new-year: "Happy New Year!"
