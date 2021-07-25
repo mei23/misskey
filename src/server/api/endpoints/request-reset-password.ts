@@ -73,7 +73,7 @@ export default define(meta, async (ps) => {
 		return;	// エラー内容はあえて返さない
 	}
 
-	const token = secureRndstr(64);
+	const token = secureRndstr(50);
 
 	await PasswordResetRequest.insert({
 		createdAt: new Date(),
