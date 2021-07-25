@@ -9,16 +9,15 @@ export const meta = {
 
 	params: {
 		token: {
-			validator: $.str
+			validator: $.str.min(1)
 		},
 
 		password: {
-			validator: $.str
+			validator: $.str.min(1)
 		}
 	},
 
 	errors: {
-
 	}
 };
 
