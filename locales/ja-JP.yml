@@ -36,6 +36,7 @@ common:
   signin: "ログイン"
   signup: "新規登録"
   signout: "ログアウト"
+  reminder: "パスワードを忘れた"
   reload-to-apply-the-setting: "この設定を反映するにはページをリロードする必要があります。今すぐリロードしますか？"
   unfollow-confirm: "{name}さんをフォロー解除しますか？"
   delete-confirm: "この投稿を削除しますか？"
@@ -829,6 +830,11 @@ common/views/components/signup.vue:
   create: "アカウント作成"
   some-error: "何らかの原因によりアカウントの作成に失敗しました。再度お試しください。"
 
+common/views/components/reminder.vue:
+  username: "ユーザー名"
+  email: "メールアドレス"
+  submit: "送信"
+
 common/views/components/special-message.vue:
   new-year: "Happy New Year!"
   christmas: "Merry Christmas!"
@@ -1068,6 +1074,10 @@ common/views/pages/follow.vue:
   request-pending: "フォロー許可待ち"
   follow-processing: "フォロー処理中"
   follow-request: "フォロー申請"
+
+common/views/pages/reset-password.vue:
+  password: "新しいパスワード"
+  save: "保存"
 
 desktop:
   banner-crop-title: "バナーとして表示する部分を選択"
