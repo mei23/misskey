@@ -7,6 +7,9 @@
 	<ui-input v-model="email" type="text" spellcheck="false" required>
 		<span>{{ $t('email') }}</span>
 	</ui-input>
+	<p class="desc">
+		{{ $t('desc') }}
+	</p>
 	<ui-button type="submit" :disabled="reminderg">{{ $t('submit') }}</ui-button>
 </form>
 </template>
@@ -56,12 +59,6 @@ export default Vue.extend({
 		&, *
 			cursor wait !important
 
-	> .avatar
-		margin 0 auto 0 auto
-		width 64px
-		height 64px
-		background #ddd
-		background-position center
-		background-size cover
-		border-radius 100%
+	> .desc
+		font-size small
 </style>

@@ -832,7 +832,8 @@ common/views/components/signup.vue:
 
 common/views/components/reminder.vue:
   username: "ユーザー名"
-  email: "メールアドレス"
+  email: "登録したメールアドレス"
+  desc: "メールアドレスが認証済みの場合、パスワードリセット用のリンクが送信されます。"
   submit: "送信"
 
 common/views/components/special-message.vue:
