@@ -35,6 +35,7 @@ common:
   signin: "Log In"
   signup: "Sign up"
   signout: "Logout"
+  reminder: "Forgot password"
   reload-to-apply-the-setting: "You'll need to reload the page to reflect this setting. Do you want to reload it now?"
   unfollow-confirm: "Do you want to unfollow {name}?"
   delete-confirm: "Are you sure you want to delete this post?"
@@ -766,6 +767,10 @@ common/views/components/signup.vue:
   recaptcha: "Verification"
   create: "Create an Account"
   some-error: "An attempt at account creation has failed for some reason. Please try again."
+common/views/components/reminder.vue:
+  username: "Username"
+  email: "Email Address"
+  submit: "Submit"
 common/views/components/special-message.vue:
   new-year: "Happy New Year!"
   christmas: "Merry Christmas!"
@@ -976,6 +981,9 @@ common/views/pages/follow.vue:
   request-pending: "Pending follow request"
   follow-processing: "Processing follow"
   follow-request: "Follow request"
+common/views/pages/reset-password.vue:
+  password: "New password"
+  save: "Save"
 desktop:
   banner-crop-title: "Crop the part that appears as a banner"
   banner: "Banner"
