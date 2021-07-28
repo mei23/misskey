@@ -1,4 +1,4 @@
-FROM node:14.17.3-alpine3.14 AS base
+FROM node:14.17.3-alpine3.13 AS base
 
 ENV NODE_ENV=production
 
@@ -18,9 +18,7 @@ RUN apk add --no-cache \
     nasm \
     pkgconfig \
     python3 \
-    zlib-dev \
-    vips-dev \
-    vips
+    zlib-dev
 
 COPY package.json yarn.lock ./
 RUN yarn install
@@ -31,8 +29,7 @@ FROM base AS runner
 
 RUN apk add --no-cache \
     ffmpeg \
-    tini \
-    vips
+    tini
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
