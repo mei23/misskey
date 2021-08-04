@@ -198,7 +198,7 @@
 		"three": "0.131.1",
 		"tinycolor2": "1.4.2",
 		"tmp": "0.2.1",
-		"ts-loader": "9.2.4",
+		"ts-loader": "9.2.5",
 		"ts-node": "10.1.0",
 		"twemoji-parser": "13.1.0",
 		"typescript": "3.9.10",
