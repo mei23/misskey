@@ -4475,10 +4475,10 @@ ip-address@^7.1.0:
     jsbn "1.1.0"
     sprintf-js "1.1.2"
 
-ip-cidr@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-3.0.3.tgz#8b485797346f5d6fab1b18911f81b01dd967ee2e"
-  integrity sha512-fMKYefFwb57R6A2M6AoSONAZ/oSW3dGAtwG05LFMUeZk7mxE2WJg3D7O46TPI/qaKZst/tg14dh77rLpPDnxIA==
+ip-cidr@3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-3.0.4.tgz#a915c47e00f47ea8d5f8ed662ea6161471c44375"
+  integrity sha512-pKNiqmBlTvEkhaLAa3+FOmYSY0/jjADVxxjA3NbujZZTT8mjLI90Q+6mwg6kd0fNm0RuAOkWJ1u1a/ETmlrPNQ==
   dependencies:
     ip-address "^7.1.0"
     jsbn "^1.1.0"
