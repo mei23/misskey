@@ -106,7 +106,7 @@
 		"crc-32": "1.2.0",
 		"cross-env": "7.0.3",
 		"css-loader": "6.2.0",
-		"cssnano": "5.0.7",
+		"cssnano": "5.0.8",
 		"dateformat": "4.5.1",
 		"deepcopy": "0.6.3",
 		"diskusage": "1.1.3",
