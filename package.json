@@ -71,7 +71,7 @@
 		"@types/punycode": "2.1.0",
 		"@types/qrcode": "1.4.1",
 		"@types/ratelimiter": "3.4.2",
-		"@types/redis": "2.8.31",
+		"@types/redis": "2.8.32",
 		"@types/rename": "1.0.4",
 		"@types/request-stats": "3.0.0",
 		"@types/rimraf": "3.0.2",
