@@ -8670,10 +8670,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@5.9.3:
-  version "5.9.3"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.9.3.tgz#d247c3fc27dc51787af28f0b4a0d82f9bce7f88b"
-  integrity sha512-FmifqCPDU5uJZeORt1jCiATBTHwpX7luDzeFo8lojYbEiJk6oR3mtAZBOayCo3iEmgSILzmbcO855OXPHCeU+g==
+systeminformation@5.9.6:
+  version "5.9.6"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.9.6.tgz#22b6b47181e6528b3104c4f17c028dd8ae3d6315"
+  integrity sha512-dtf9nGrR4DlI63XfkbsdgSb/DMUwJNT899M4kt4Z8tSldqF/o/Dl1KmcmAoixrk70mmETlGjBJaAnRZzlzmaGQ==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
