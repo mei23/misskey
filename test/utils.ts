@@ -1,6 +1,6 @@
 import * as childProcess from 'child_process';
 import * as http from 'http';
-import { getResponse } from '../src/misc/fetch';
+import got from 'got';
 import loadConfig from '../src/config/load';
 import { SIGKILL } from 'constants';
 
@@ -71,13 +71,14 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 		i: me.token
 	} : {};
 
-	const res = await getResponse({
-		url: `http://localhost:${port}/api/${endpoint}`,
+	const res = await got<string>(`http://localhost:${port}/api/${endpoint}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(Object.assign(auth, params))
+		body: JSON.stringify(Object.assign(auth, params)),
+		timeout: 10 * 1000,
+		retry: 0,
 	});
 
 	const status = res.statusCode;

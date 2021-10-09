@@ -1,9 +1,9 @@
 import * as mongo from 'mongodb';
 import db from '../db/mongodb';
-import config from '../config';
 import * as deepcopy from 'deepcopy';
 import isObjectid from '../misc/is-objectid';
 import { toApHost } from '../misc/convert-host';
+import { getEmojiUrl } from '../misc/pack-emojis';
 
 const Emoji = db.get<IEmoji>('emoji');
 Emoji.createIndex('name');
@@ -53,7 +53,7 @@ export async function packXEmoji(emoji: any): Promise<IXEmoji> {
 	}
 
 	// リモートは /files/ で Proxyさせる
-	const url = _emoji.host ? `${config.url}/files/${_emoji.name}@${_emoji.host}/${_emoji.updatedAt ? _emoji.updatedAt.getTime().toString(16) : '0'}.png` : _emoji.url;
+	const url = getEmojiUrl(emoji)
 
 	const name = _emoji.name + (_emoji.host ? `@${toApHost(_emoji.host)}` : '');
 

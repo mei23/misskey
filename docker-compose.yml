@@ -27,7 +27,7 @@ services:
 
   mongo:
     restart: always
-    image: mongo:4.1
+    image: mongo:4.4
     networks:
       - internal_network
     environment:

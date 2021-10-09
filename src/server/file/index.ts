@@ -7,7 +7,6 @@ import * as Koa from 'koa';
 import * as cors from '@koa/cors';
 import * as Router from '@koa/router';
 import sendDriveFile from './send-drive-file';
-import sendEmoji from './send-emoji';
 
 // Init app
 const app = new Koa();
@@ -34,7 +33,6 @@ router.get('/app-default.jpg', ctx => {
 	ctx.set('Cache-Control', 'max-age=2592000, s-maxage=172800, immutable');
 });
 
-router.get('/:name@:host/*', sendEmoji);
 router.get('/:id', sendDriveFile);
 router.get('/:id/*', sendDriveFile);
 

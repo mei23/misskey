@@ -12,3 +12,18 @@ If you find the existing issue, please add your reaction or comment to the issue
 
 基本的にendpointsの下のファイルを削除/移動するような改修は行わない  
 https://github.com/mei23/misskey/issues/86
+
+### ローカルでテストを動かす方法
+```
+cp test/test.yml .config/
+```
+
+```
+docker-compose -f test/docker-compose.yml up
+```
+でテスト用のDBとRedisを上げる。
+または、空の (データが消去されてもいい) DBを準備して`.config/test.yml`を調整する。
+
+```
+yarn test
+```
