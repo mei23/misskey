@@ -22,7 +22,7 @@ import apiServer from './api';
 import { sum } from '../prelude/array';
 import User from '../models/user';
 import Logger from '../services/logger';
-import { program } from '../argv';
+import { envOption } from '../env';
 
 export const serverLogger = new Logger('server', 'gray', false);
 
@@ -37,7 +37,7 @@ if (!['production', 'test'].includes(process.env.NODE_ENV || 'development')) {
 	}));
 
 	// Delay
-	if (program.slow) {
+	if (envOption.slow) {
 		app.use(slow({
 			delay: 3000
 		}));

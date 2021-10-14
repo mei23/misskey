@@ -449,6 +449,7 @@ common:
   dev: "アプリの作成に失敗しました。再度お試しください。"
   ai-chan-kawaii: "藍ちゃかわいい"
   you: "あなた"
+  startTalk: "トークを開始"
   addUsertag: "ユーザータグを追加"
   addUsertagDetail: "ユーザータグは他のユーザーは見れません, @タグでサジェストすることが出来ます"
   removeUsertagConfirm: "このユーザータグを削除しますか？"

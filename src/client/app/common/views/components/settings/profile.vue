@@ -5,7 +5,7 @@
 
 		<section class="esokaraujimuwfttfzgocmutcihewscl">
 			<div class="header" :style="bannerStyle" @click.stop="updateBanner()" title="Update banner" style="cursor:pointer">
-				<mk-avatar class="avatar" :user="$store.state.i" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
+				<mk-avatar class="avatar" :user="$store.state.i" :key="$store.state.i.avatarId" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
 			</div>
 
 			<ui-form :disabled="saving">
@@ -253,10 +253,12 @@ export default Vue.extend({
 
 	methods: {
 		updateAvatar() {
+			if (this.$root.isMobile) return;
 			updateAvatar(this.$root)();
 		},
 
 		updateBanner() {
+			if (this.$root.isMobile) return;
 			updateBanner(this.$root)();
 		},
 

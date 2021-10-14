@@ -16,7 +16,7 @@ import serverStats from './daemons/server-stats';
 import queueStats from './daemons/queue-stats';
 import loadConfig from './config/load';
 import { Config } from './config/types';
-import { program } from './argv';
+import { envOption } from './env';
 import { checkMongoDB } from './misc/check-mongodb';
 import { showMachineInfo } from './misc/show-machine-info';
 
@@ -56,13 +56,13 @@ function main() {
 	//#endregion
 
 	const st = getWorkerStrategies(config);
-	if (st.workers + st.servers + st.queues === 0) program.disableClustering = true;
+	if (st.workers + st.servers + st.queues === 0) envOption.disableClustering = true;
 
-	if (program.disableClustering) {
+	if (envOption.disableClustering) {
 		masterMain(config).then(() => {
 			ev.mount();
 
-			if (program.daemons) {
+			if (!envOption.noDaemons) {
 				serverStats();
 				queueStats();
 			}
@@ -80,7 +80,7 @@ function main() {
 		masterMain(config).then(() => {
 			ev.mount();
 
-			if (program.daemons) {
+			if (!envOption.noDaemons) {
 				serverStats();
 				queueStats();
 			}
@@ -100,7 +100,7 @@ function main() {
 }
 
 function greet(config: Config) {
-	if (!program.quiet && process.env.NODE_ENV !== 'test') {
+	if (!envOption.quiet && process.env.NODE_ENV !== 'test') {
 		//#region Misskey logo
 		const v = `v${config.version}`;
 		console.log('  _____ _         _           ');
@@ -118,7 +118,7 @@ function greet(config: Config) {
 	}
 
 	bootLogger.info('Welcome to Misskey!');
-	bootLogger.info(`Misskey v${config.version}`, null, true);
+	bootLogger.info(`Misskey v${config.version}`, undefined, true);
 }
 
 /**
@@ -195,7 +195,7 @@ function showEnvironment(): void {
 
 	if (env !== 'production') {
 		logger.warn('The environment is not in production mode.');
-		logger.warn('DO NOT USE FOR PRODUCTION PURPOSE!', null, true);
+		logger.warn('DO NOT USE FOR PRODUCTION PURPOSE!', undefined, true);
 	}
 }
 
@@ -287,7 +287,7 @@ cluster.on('exit', worker => {
 });
 
 // Display detail of unhandled promise rejection
-if (!program.quiet) {
+if (!envOption.quiet) {
 	process.on('unhandledRejection', console.dir);
 }
 

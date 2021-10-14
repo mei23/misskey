@@ -410,6 +410,7 @@ common:
   dev: "Failed to create the application. Please try again."
   ai-chan-kawaii: "Ai-chan kawaii!"
   you: "You"
+  startTalk: "Start talk"
   addUsertag: "Add usertag"
   addUsertagDetail: "The usertag cannot be seen by other users, you can suggest it with the @tag"
   removeUsertagConfirm: "Are you sure you want to delete this user tag?"

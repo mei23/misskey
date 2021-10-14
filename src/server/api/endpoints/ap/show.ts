@@ -11,6 +11,7 @@ import { ApiError } from '../../error';
 import { extractApHost } from '../../../../misc/convert-host';
 import { isActor, isPost, getApId } from '../../../../remote/activitypub/type';
 import { isBlockedHost } from '../../../../services/instance-moderation';
+import * as ms from 'ms';
 
 export const meta = {
 	tags: ['federation'],
@@ -19,7 +20,12 @@ export const meta = {
 		'ja-JP': 'URIを指定してActivityPubオブジェクトを参照します。'
 	},
 
-	requireCredential: false,
+	requireCredential: true as const,
+
+	limit: {
+		duration: ms('1hour'),
+		max: 3600
+	},
 
 	params: {
 		uri: {

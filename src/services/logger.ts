@@ -2,7 +2,7 @@ import * as cluster from 'cluster';
 import * as os from 'os';
 import * as chalk from 'chalk';
 import * as dateformat from 'dateformat';
-import { program } from '../argv';
+import { envOption } from '../env';
 import Log from '../models/log';
 
 type Domain = {
@@ -32,7 +32,7 @@ export default class Logger {
 	}
 
 	private log(level: Level, message: string, data: Record<string, any> | null | undefined, important = false, subDomains: Domain[] = [], store = false): void {
-		if (program.quiet) return;
+		if (envOption.quiet) return;
 		//if (process.env.NODE_ENV === 'test') return;
 		if (!this.store) store = false;
 
@@ -60,7 +60,7 @@ export default class Logger {
 			null;
 
 		let log = `${l} ${worker}\t[${domains.join(' ')}]\t${m}`;
-		if (program.withLogTime) log = chalk.gray(time) + ' ' + log;
+		if (envOption.withLogTime) log = chalk.gray(time) + ' ' + log;
 
 		console.log(important ? chalk.bold(log) : log);
 
@@ -98,7 +98,7 @@ export default class Logger {
 	}
 
 	public debug(message: string, data?: Record<string, any>, important = false): void { // デバッグ用に使う(開発者に必要だが利用者に不要な情報)
-		if (process.env.NODE_ENV != 'production' || program.verbose) {
+		if (process.env.NODE_ENV != 'production' || envOption.verbose) {
 			this.log('debug', message, data, important);
 		}
 	}

@@ -28,6 +28,11 @@ export default Vue.extend({
 		// ログインユーザー
 		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
 			menu = menu.concat([
+				{
+					icon: 'comments',
+					text: this.$t('@.startTalk'),
+					action: this.startTalk
+				},
 				null,
 				{
 					icon: faUserTag,
@@ -81,6 +86,16 @@ export default Vue.extend({
 			this.$nextTick(() => {
 				this.destroyDom();
 			});
+		},
+
+		startTalk() {
+			if (this.$root.isMobile) {
+				this.$router.push(`/i/messaging/${this.user.username}`);
+			} else {
+				import('../../../desktop/views/components/messaging-room-window.vue').then(m => this.$root.new(m.default, {
+					user: this.user
+				}));
+			}
 		},
 
 		async addUsertag() {
