@@ -10,7 +10,7 @@ import i18n from '../../../i18n';
 import { url } from '../../../config';
 import copyToClipboard from '../../../common/scripts/copy-to-clipboard';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
-import { faPlaneArrival, faPlaneDeparture, faUserFriends, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPlaneArrival, faPlaneDeparture, faUserFriends, faPaperPlane, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/note-menu.vue'),
@@ -124,6 +124,12 @@ export default Vue.extend({
 				icon: ['far', 'trash-alt'],
 				text: this.isSelf ? this.$t('delete') : this.$t('deleteAsAdmin'),
 				action: this.del
+			});
+
+			if (!this.isSelf) it.push({
+				icon: faExclamationCircle,
+				text: this.$t('report'),
+				action: this.report
 			});
 
 			return it;
@@ -284,6 +290,30 @@ export default Vue.extend({
 			const q = `follow:${user} until:${date}`;
 
 			this.$router.push(`/search?q=${encodeURIComponent(q)}`);
+		},
+
+		async report() {
+			const reported = this.$t('report-abuse-reported'); // なぜか後で参照すると null になるので最初にメモリに確保しておく
+			const { canceled, result: comment } = await this.$root.dialog({
+				title: this.$t('report-abuse-detail'),
+				input: true
+			});
+			if (canceled) return;
+			this.$root.api('users/report-abuse', {
+				userId: this.note.userId,
+				noteIds: [this.note.id],
+				comment: comment
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					text: reported
+				});
+			}, e => {
+				this.$root.dialog({
+					type: 'error',
+					text: e
+				});
+			});
 		},
 
 		closed() {

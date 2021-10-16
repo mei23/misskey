@@ -331,7 +331,7 @@ export const mfmLanguage = P.createLanguage({
 	fn: r => {
 		return P((input, i) => {
 			const text = input.substr(i);
-			const match = text.match(/^\[([0-9a-z]+)(?:\.([0-9a-z.,=]+))?\s+([^\n\[\]]+)\]/);
+			const match = text.match(/^\$\[([0-9a-z]+)(?:\.([0-9a-z.,=]+))?\s+([^\n\[\]]+)\]/);
 			if (!match) return P.makeFailure(i, 'not a fn');
 
 			const name = match[1];

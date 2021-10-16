@@ -131,29 +131,29 @@ const angleDb: MfmDef[] = [
 ];
 
 const fnDb: MfmDef[] = [
-	{ name: 'jelly', head: '[jelly ', tail: ']', desc: '[jelly 🍮]' },
-	{ name: 'tada', head: '[tada ', tail: ']', desc: '[tada 🍮]' },
-	{ name: 'jump', head: '[jump ', tail: ']', desc: '[jump 🍮]' },
-	{ name: 'bounce', head: '[bounce ', tail: ']', desc: '[bounce 🍮]' },
-	{ name: 'shake', head: '[shake ', tail: ']', desc: '[shake 🍮]' },
-	{ name: 'twitch', head: '[twitch ', tail: ']', desc: '[twitch 🍮]' },
+	{ name: 'jelly', head: '$[jelly ', tail: ']', desc: '$[jelly 🍮]' },
+	{ name: 'tada', head: '$[tada ', tail: ']', desc: '$[tada 🍮]' },
+	{ name: 'jump', head: '$[jump ', tail: ']', desc: '$[jump 🍮]' },
+	{ name: 'bounce', head: '$[bounce ', tail: ']', desc: '$[bounce 🍮]' },
+	{ name: 'shake', head: '$[shake ', tail: ']', desc: '$[shake 🍮]' },
+	{ name: 'twitch', head: '$[twitch ', tail: ']', desc: '$[twitch 🍮]' },
 
-	{ name: 'flip', head: '[flip ', tail: ']', desc: '[flip flip]' },
-	{ name: 'flip.v', head: '[flip.v ', tail: ']', desc: '[flip.v flip]' },
-	{ name: 'flip.v,h', head: '[flip.v,h ', tail: ']', desc: '[flip.v,h flip]' },
+	{ name: 'flip', head: '$[flip ', tail: ']', desc: '$[flip flip]' },
+	{ name: 'flip.v', head: '$[flip.v ', tail: ']', desc: '$[flip.v flip]' },
+	{ name: 'flip.v,h', head: '$[flip.v,h ', tail: ']', desc: '$[flip.v,h flip]' },
 
-	{ name: 'spin', head: '[spin ', tail: ']', desc: '[spin spin]' },
-	{ name: 'spin.x', head: '[spin.x ', tail: ']', desc: '[spin.x spin]' },
-	{ name: 'spin.y', head: '[spin.y ', tail: ']', desc: '[spin.y spin]' },
+	{ name: 'spin', head: '$[spin ', tail: ']', desc: '$[spin spin]' },
+	{ name: 'spin.x', head: '$[spin.x ', tail: ']', desc: '$[spin.x spin]' },
+	{ name: 'spin.y', head: '$[spin.y ', tail: ']', desc: '$[spin.y spin]' },
 
-	{ name: 'x2', head: '[x2 ', tail: ']', desc: '[x2 🍮]' },
-	{ name: 'x3', head: '[x3 ', tail: ']', desc: '[x3 🍮]' },
-	{ name: 'x4', head: '[x4 ', tail: ']', desc: '[x4 🍮]' },
+	{ name: 'x2', head: '$[x2 ', tail: ']', desc: '$[x2 🍮]' },
+	{ name: 'x3', head: '$[x3 ', tail: ']', desc: '$[x3 🍮]' },
+	{ name: 'x4', head: '$[x4 ', tail: ']', desc: '$[x4 🍮]' },
 
-	{ name: 'blur', head: '[blur ', tail: ']', desc: '[blur 🍮]' },
+	{ name: 'blur', head: '$[blur ', tail: ']', desc: '$[blur 🍮]' },
 
-	{ name: 'font.serif', head: '[font.serif ', tail: ']', desc: '[font.serif serif]' },
-	{ name: 'font.monospace', head: '[font.monospace ', tail: ']', desc: '[font.monospace monospace]' },
+	{ name: 'font.serif', head: '$[font.serif ', tail: ']', desc: '$[font.serif serif]' },
+	{ name: 'font.monospace', head: '$[font.monospace ', tail: ']', desc: '$[font.monospace monospace]' },
 ];
 
 export default Vue.extend({
@@ -339,8 +339,8 @@ export default Vue.extend({
 					const name = this.q.substr(1);
 					const db = angleDb.filter(x => x.name.startsWith(name));
 					this.mfms = db;
-				} else if (this.q.startsWith('[')) {
-					const name = this.q.substr(1);
+				} else if (this.q.startsWith('$[')) {
+					const name = this.q.substr(2);
 					const db = fnDb.filter(x => x.name.startsWith(name));
 					this.mfms = db;
 				}

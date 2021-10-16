@@ -700,6 +700,9 @@ common/views/components/note-menu.vue:
   delete-and-edit-confirm: "この投稿を削除してもう一度編集しますか？この投稿へのリアクション、リノート、返信も全て削除されます。"
   remote: "投稿元で見る"
   pin-limit-exceeded: "これ以上ピン留めできません。"
+  report: "通報"
+  report-abuse-detail: "どのような迷惑行為を行っていますか？"
+  report-abuse-reported: "管理者に報告されました。ご協力ありがとうございました。"
 
 common/views/components/user-menu.vue:
   mention: "メンション"
@@ -713,7 +716,7 @@ common/views/components/user-menu.vue:
   unblock-confirm: "このユーザーをブロック解除しますか？"
   push-to-list: "リストに追加"
   select-list: "リストを選択してください"
-  report-abuse: "スパムを報告"
+  report-abuse: "通報"
   report-abuse-detail: "どのような迷惑行為を行っていますか？"
   report-abuse-reported: "管理者に報告されました。ご協力ありがとうございました。"
   silence: "サイレンス"
@@ -1525,7 +1528,8 @@ admin/views/abuse.vue:
   target: "対象"
   reporter: "報告者"
   details: "詳細"
-  remove-report: "削除"
+  notes: "投稿"
+  remove-report: "通報を削除"
 
 admin/views/instance.vue:
   instance: "インスタンス"
@@ -2182,6 +2186,7 @@ deck/deck.tl-column.vue:
   is-media-only: "メディア投稿のみ"
   is-sfw-media-only: "SFWメディア投稿のみ"
   is-nsfw-media-only: "NSFWメディア投稿のみ"
+  excludeRenote: "Renoteを含めない"
   edit: "オプション"
 
 deck/deck.user-column.vue:

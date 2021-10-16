@@ -82,7 +82,7 @@ class Autocomplete {
 		const hashtagIndex = text.lastIndexOf('#');
 		const emojiIndex = text.lastIndexOf(':');
 		const angleIndex = text.lastIndexOf('<');
-		const fnIndex = text.lastIndexOf('[');
+		const fnIndex = text.lastIndexOf('$[');
 
 		const max = Math.max(
 			mentionIndex,
@@ -138,9 +138,9 @@ class Autocomplete {
 		}
 
 		if (isFn && opened == false) {
-			const fn = text.substr(fnIndex + 1);
+			const fn = text.substr(fnIndex + 2);
 			if (fn.match(/^[a-z]*$/)) {
-				this.open('mfm', `[${fn}`);
+				this.open('mfm', `$[${fn}`);
 				opened = true;
 			}
 		}

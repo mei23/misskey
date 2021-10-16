@@ -263,8 +263,7 @@ export default define({
 					type: 'error',
 					text: e.message || e
 				});
-				throw e;
-			}).then(() => {
+			}).finally(() => {
 				this.posting = false;
 				this.$nextTick(() => {
 					this.$refs.text.focus();
