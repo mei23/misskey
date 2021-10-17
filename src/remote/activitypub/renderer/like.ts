@@ -11,6 +11,7 @@ export const renderLike = async (noteReaction: INoteReaction, note: INote) => {
 		id: `${config.url}/likes/${noteReaction._id}`,
 		actor: `${config.url}/users/${noteReaction.userId}`,
 		object: note.uri ? note.uri : `${config.url}/notes/${noteReaction.noteId}`,
+		published: noteReaction.createdAt.toISOString(),
 		content: reaction,
 		_misskey_reaction: reaction
 	} as any;
