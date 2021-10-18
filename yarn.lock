@@ -1887,10 +1887,10 @@ cache-content-type@^1.0.0:
     mime-types "^2.1.18"
     ylru "^1.2.0"
 
-cacheable-lookup@6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-6.0.3.tgz#61d6171f6818fab230666b11f7cf3f5a48df7818"
-  integrity sha512-xdwIK7MEC8NpRIt0dx2PL7pTRKaSmDb+zirzuM+cJTRWDfwfVu4XyASkODIU4XbjsyFHKo/tDOPSs64Z3yfFWg==
+cacheable-lookup@6.0.4:
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/cacheable-lookup/-/cacheable-lookup-6.0.4.tgz#65c0e51721bb7f9f2cb513aed6da4a1b93ad7dc8"
+  integrity sha512-mbcDEZCkv2CZF4G01kr8eBd/5agkt9oCqz75tJMSIsquvRZ2sL6Hi5zGVKi/0OSC9oO1GHfJ2AV0ZIOY9vye0A==
 
 cacheable-lookup@^5.0.3:
   version "5.0.4"
