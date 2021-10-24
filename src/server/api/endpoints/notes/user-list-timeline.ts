@@ -416,7 +416,5 @@ export default define(meta, async (ps, user) => {
 	}
 	//#endregion
 
-	console.log(JSON.stringify(query, null, 2));
-
 	return await getPackedTimeline(user, query, sort, ps.limit!);
 });

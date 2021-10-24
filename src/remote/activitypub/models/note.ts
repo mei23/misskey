@@ -143,7 +143,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 				return x;
 			}
 		}).catch(async e => {
-			// トークだったらinReplyToのエラーは無視
+			// チャットだったらinReplyToのエラーは無視
 			const uri = getApId(getOneApId(note.inReplyTo!));
 			if (uri.startsWith(config.url + '/')) {
 				const id = uri.split('/').pop();

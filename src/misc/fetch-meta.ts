@@ -9,8 +9,7 @@ const defaultMeta: any = {
 	remoteDriveCapacityMb: 8,
 	hidedTags: [],
 	stats: {
-		originalNotesCount: 0,
-		originalUsersCount: 0
+		// Object.assignじゃマージされない
 	},
 	maxNoteTextLength: 1000,
 	enableEmojiReaction: true,

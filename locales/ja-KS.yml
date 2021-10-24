@@ -54,7 +54,7 @@ common:
   month-and-day: "{month}月 {day}日"
   trash: "ゴミ箱"
   drive: "ドライブ"
-  messaging: "トーク"
+  messaging: "チャット"
   home: "ホーム"
   timeline: "タイムライン"
   following: "フォローしとる"

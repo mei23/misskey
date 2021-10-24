@@ -45,3 +45,9 @@ node built/tools/clean-old-renotes.js 30
 ```sh
 node built/tools/clean-unused-files.js
 ```
+
+## statsを再集計する
+
+```sh
+node built/tools/recount-stats.js
+```

@@ -172,10 +172,12 @@ export type IMeta = {
 	announcements?: any[];
 
 	stats?: {
-		notesCount: number;
-		originalNotesCount: number;
-		usersCount: number;
-		originalUsersCount: number;
+		notesCount?: number;
+		originalNotesCount?: number;
+		usersCount?: number;
+		originalUsersCount?: number;
+		reactionsCount?: number;
+		//originalReactionsCount?: number;
 	};
 
 	disableRegistration?: boolean;

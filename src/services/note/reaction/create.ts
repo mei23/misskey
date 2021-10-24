@@ -12,6 +12,7 @@ import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { toDbReaction, decodeReaction } from '../../../misc/reaction-lib';
 import deleteReaction from './delete';
 import { packEmojis } from '../../../misc/pack-emojis';
+import Meta from '../../../models/meta';
 
 export default async (user: IUser, note: INote, reaction?: string, dislike = false) => {
 	reaction = await toDbReaction(reaction, true, user.host);
@@ -53,6 +54,8 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 			lastActivityAt: new Date()
 		}
 	});
+
+	incReactionsCount(user);
 
 	const decodedReaction = decodeReaction(reaction);
 	const emoji = (await packEmojis([decodedReaction.replace(/:/g, '')], note._user.host))[0];
@@ -113,3 +116,22 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 
 	return;
 };
+
+function incReactionsCount(user: IUser) {
+	if (isLocalUser(user)) {
+		Meta.update({}, {
+			$inc: {
+				'stats.reactionsCount': 1,
+				//'stats.originalReactionsCount': 1
+			}
+		}, { upsert: true });
+	} else {
+		/*
+		Meta.update({}, {
+			$inc: {
+				'stats.originalReactionsCount': 1
+			}
+		}, { upsert: true });
+		*/
+	}
+}

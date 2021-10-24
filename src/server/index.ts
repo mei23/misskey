@@ -23,6 +23,10 @@ import { sum } from '../prelude/array';
 import User from '../models/user';
 import Logger from '../services/logger';
 import { envOption } from '../env';
+import parse from '../misc/acct/parse';
+import resolveUser from '../remote/resolve-user';
+import getDriveFileUrl from '../misc/get-drive-file-url';
+import DriveFile from '../models/drive-file';
 
 export const serverLogger = new Logger('server', 'gray', false);
 
@@ -69,6 +73,20 @@ const router = new Router();
 router.use(activityPub.routes());
 router.use(nodeinfo.routes());
 router.use(wellKnown.routes());
+
+router.get('/avatar/@:acct', async ctx => {
+	const { username, host } = parse(ctx.params.acct);
+	const user = await resolveUser(username, host);
+	const url = user?.avatarId ? getDriveFileUrl(await DriveFile.findOne({ _id: user.avatarId }), true) : null;
+
+	if (url) {
+		ctx.set('Cache-Control', 'public, max-age=300');
+		ctx.redirect(url);
+	} else {
+		ctx.set('Cache-Control', 'public, max-age=300');
+		ctx.redirect(`${config.driveUrl}/default-avatar.jpg`);
+	}
+});
 
 router.get('/verify-email/:code', async ctx => {
 	const user = await User.findOne({ emailVerifyCode: ctx.params.code });

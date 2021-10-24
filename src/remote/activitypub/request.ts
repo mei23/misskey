@@ -50,14 +50,5 @@ export async function signedGet(url: string, user: ILocalUser) {
 		headers: req.request.headers
 	});
 
-	try {
-		return await res.json();
-	} catch (e) {
-		throw {
-			name: `JsonParseError`,
-			statusCode: 481,
-			message: `JSON parse error ${e.message || e}`
-		};
-	}
+	return await JSON.parse(res.body);
 }
-

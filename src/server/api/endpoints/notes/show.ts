@@ -49,6 +49,6 @@ export default define(meta, async (ps, user) => {
 
 	return await pack(note, user, {
 		detail: true,
-		skipHide: user.isAdmin || user.isModerator
+		skipHide: user?.isAdmin || user?.isModerator
 	});
 });

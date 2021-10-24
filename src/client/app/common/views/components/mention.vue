@@ -45,8 +45,7 @@ export default Vue.extend({
 		},
 		avator(): string {
 			const ascii = `@${this.username}` + (this.host != localHost ? `@${this.host}` : '');
-			const customEmoji = this.customEmojis.find(x => x.name == ascii);
-			return customEmoji ? customEmoji.url : null;
+			return `/avatar/${ascii}`
 		}
 	},
 	methods: {

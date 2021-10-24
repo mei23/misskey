@@ -25,6 +25,12 @@ export async function pushUserToUserList(target: IUser, list: IUserList) {
 }
 
 async function tryProxyFollow(target: IRemoteUser, userId: mongo.ObjectID) {
+	// めんどくさそうなアカウントはスキップ
+	if (target.isLocked) {
+		return;
+	}
+
+	// 誰かがフォローしていればスキップ
 	const count = await Following.count({
 		followeeId: target._id,
 		'_follower.host': null
@@ -34,6 +40,7 @@ async function tryProxyFollow(target: IRemoteUser, userId: mongo.ObjectID) {
 		return;
 	}
 
+	// その人がフォロー申請中だったらスキップ
 	const req = await FollowRequest.findOne({
 		followerId: userId,
 		followeeId: target._id
