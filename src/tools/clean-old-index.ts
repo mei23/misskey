@@ -35,6 +35,7 @@ async function main(days = 90) {
 			$and: [
 				{ userId: user._id },
 				{ _id: { $lt: id } },
+				{ mecabWords: { $exists: true } },
 			],
 		}, {
 			$set: {
@@ -50,6 +51,7 @@ async function main(days = 90) {
 			$and: [
 				{ userId: user._id },
 				{ _id: { $lt: id2 } },
+				{ trendWords: { $exists: true } },
 			],
 		}, {
 			$set: {
