@@ -32,6 +32,7 @@ import resolveUser from '../../resolve-user';
 import { normalizeTag } from '../../../misc/normalize-tag';
 import { substr } from 'stringz';
 import { resolveAnotherUser } from '../misc/resolve-another-user';
+import { StatusError } from '../../../misc/fetch';
 const logger = apLogger;
 
 const MAX_NAME_LENGTH = 512;
@@ -110,6 +111,10 @@ export async function fetchPerson(uri: string): Promise<IUser | null> {
  */
 export async function createPerson(uri: string, resolver?: Resolver): Promise<IRemoteUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
+
+	if (uri.startsWith(config.url)) {
+		throw new StatusError('cannot resolve local user', 400, 'cannot resolve local user');
+	}
 
 	if (resolver == null) resolver = new Resolver();
 

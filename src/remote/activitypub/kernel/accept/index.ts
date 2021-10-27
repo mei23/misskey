@@ -16,6 +16,7 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<string> =>
 	let object;
 
 	try {
+		// TODO: Accept.objectはローカルアクティビティなのでここでResolveするのはおかしい。Follow Activityは公開していない上にidも適当なのでここでstringが来たら何も出来ない。
 		object = await resolver.resolve(activity.object);
 	} catch (e) {
 		logger.error(`Resolution failed: ${e}`);
