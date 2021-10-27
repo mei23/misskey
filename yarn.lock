@@ -7238,10 +7238,10 @@ printj@~1.1.0:
   resolved "https://registry.yarnpkg.com/printj/-/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
   integrity sha512-zA2SmoLaxZyArQTOPj5LXecR+RagfPSU5Kw1qP+jkWeNlrq+eJZyY2oS68SU1Z/7/myXM4lo9716laOFAVStCQ==
 
-private-ip@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/private-ip/-/private-ip-2.3.0.tgz#aa07bf623c60ea75ee5d140814f492648c001717"
-  integrity sha512-3lTFzg+Z1Q2VNQChw8AW2c5LM7getyUJ67SqeWtvnkUO4gihjbf5oIEK4+jAQ4v1sCqOVV7r+GzKrgowW/W3tw==
+private-ip@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/private-ip/-/private-ip-2.3.1.tgz#fef387b981eb5c50caaab36da8c62f346356a415"
+  integrity sha512-aH66ibTf0E+HD76Kt8U/4pcz+1qnr2S0ODcllD96ULxK2bSZYFlJGSR4nq/rl+4QEEpOV1kSX7ruvTpzizAodQ==
   dependencies:
     ip-regex "^4.3.0"
     ipaddr.js "^2.0.1"
