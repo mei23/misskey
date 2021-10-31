@@ -2,18 +2,20 @@ import $ from 'cafy';
 import define from '../../define';
 import config from '../../../../config';
 import User, { pack as packUser, IUser } from '../../../../models/user';
-import { createPerson } from '../../../../remote/activitypub/models/person';
+import { createPerson, resolvePerson } from '../../../../remote/activitypub/models/person';
 import Note, { pack as packNote, INote } from '../../../../models/note';
-import { createNote, extractEmojis } from '../../../../remote/activitypub/models/note';
+import { createNote, extractEmojis, resolveNote } from '../../../../remote/activitypub/models/note';
 import Resolver from '../../../../remote/activitypub/resolver';
 import { ApiError } from '../../error';
 import { extractApHost } from '../../../../misc/convert-host';
-import { isActor, isPost, getApId, isEmoji } from '../../../../remote/activitypub/type';
+import { isActor, isPost, getApId, isEmoji, isLike, getApType } from '../../../../remote/activitypub/type';
 import { isBlockedHost } from '../../../../services/instance-moderation';
 import * as ms from 'ms';
 import * as escapeRegexp from 'escape-regexp';
 import { StatusError } from '../../../../misc/fetch';
 import Emoji, { IEmoji } from '../../../../models/emoji';
+import NoteReaction, { INoteReaction, pack as packReaction } from '../../../../models/note-reaction';
+import createReaction from '../../../../services/note/reaction/create';
 
 export const meta = {
 	tags: ['federation'],
@@ -125,6 +127,17 @@ async function fetchAny(uri: string) {
 		return await mergePack({ emoji: emojis[0] });
 	}
 
+	if (isLike(object)) {
+		const like = object;
+		const actor = await resolvePerson(getApId(like.actor));
+		const note = await resolveNote(getApId(like.object), null, true);
+		if (!actor.host) throw new Error('actor.host is null');
+		if (!note) throw new Error('note not found');
+
+		const reaction = await createReaction(actor, note, like._misskey_reaction || like.content || like.name, getApType(like) === 'Dislike');
+		return await mergePack({ reaction });
+	}
+
 	return null;
 }
 
@@ -146,6 +159,7 @@ async function processLocal(uri: string) {
 			user: type === 'users' ? await User.findOne({ _id: id }) : null,
 			note: type === 'notes' ? await Note.findOne({ _id: id }) : null,
 			emoji: type === 'emojis' ? await Emoji.findOne({ name: id, host: null }) : null,
+			reaction: type === 'likes' ? await NoteReaction.findOne({ _id: id }) : null,
 		});
 	}
 
@@ -173,6 +187,7 @@ async function processRemote(uri: string) {
 		User.findOne({ uri: uri }),
 		Note.findOne({ uri: uri }),
 		Emoji.findOne({ uri: uri }),
+		// DBのリモートリアクションにはAP IDが付いてない
 	]);
 
 	return await mergePack({ user, note, emoji });
@@ -183,7 +198,7 @@ async function processRemote(uri: string) {
  * @returns Packed API response, or null on not found.
  * @throws RejectedError on deleted, moderated or hidden.
  */
-async function mergePack(opts: { user?: IUser | null, note?: INote | null, emoji?: IEmoji | null }) {
+async function mergePack(opts: { user?: IUser | null, note?: INote | null, emoji?: IEmoji | null, reaction?: INoteReaction | null }) {
 	if (opts.user != null) {
 		if (opts.user.isDeleted) throw new RejectedError('User is deleted');
 		if (opts.user.isSuspended) throw new RejectedError('User is suspended');
@@ -210,6 +225,13 @@ async function mergePack(opts: { user?: IUser | null, note?: INote | null, emoji
 				host: opts.emoji.host,
 				url: opts.emoji.url,
 			},
+		};
+	}
+
+	if (opts.reaction != null) {
+		return {
+			type: 'Reaction',
+			object: await packReaction(opts.reaction),
 		};
 	}
 
