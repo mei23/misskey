@@ -206,22 +206,22 @@
   resolved "https://registry.yarnpkg.com/@prezzemolo/zip/-/zip-0.0.3.tgz#6532d4bcd77c6a95e3a90ca5388a09b532a1f8e4"
   integrity sha512-IyIYdSlA0pKk0Vm9do2NF2ky01nvl+NnX4qTlXAVEI6hPGtpYEPlu5buFI7vGCHd8qs1CVuRp/FY1qjQU0wvrA==
 
-"@redocly/ajv@^8.6.2":
-  version "8.6.2"
-  resolved "https://registry.yarnpkg.com/@redocly/ajv/-/ajv-8.6.2.tgz#8c4e485e72f7864f91fae40093bed548ec2619b2"
-  integrity sha512-tU8fQs0D76ZKhJ2cWtnfQthWqiZgGBx0gH0+5D8JvaBEBaqA8foPPBt3Nonwr3ygyv5xrw2IzKWgIY86BlGs+w==
+"@redocly/ajv@^8.6.4":
+  version "8.6.4"
+  resolved "https://registry.yarnpkg.com/@redocly/ajv/-/ajv-8.6.4.tgz#94053e7a9d4146d1a4feacd3813892873f229a85"
+  integrity sha512-y9qNj0//tZtWB2jfXNK3BX18BSBp9zNR7KE7lMysVHwbZtY392OJCjm6Rb/h4UHH2r1AqjNEHFD6bRn+DqU9Mw==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-"@redocly/openapi-core@1.0.0-beta.65":
-  version "1.0.0-beta.65"
-  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.65.tgz#672449a8360964ee15b230a8cd702acd7b04ac3d"
-  integrity sha512-ckgBAijkxDV+M8Njk1T5Qdp2bFWEjiYNX0sunIS84B52HfwmoV+x1Ts8xbvQwxbgH7GPw1LB9+C/nk44w7Dnwg==
+"@redocly/openapi-core@1.0.0-beta.66":
+  version "1.0.0-beta.66"
+  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.66.tgz#366c7e2cda99b3c4a3f4a0594bde1ca0c41f118f"
+  integrity sha512-CNh0RgsT1a1cDBlTWJoM1yHGFoTE+5KlaJMmSdQ/oV/pcCIhxFYY02500gnup4lMicKjAAjcl6ckzL3yCzRyCA==
   dependencies:
-    "@redocly/ajv" "^8.6.2"
+    "@redocly/ajv" "^8.6.4"
     "@types/node" "^14.11.8"
     colorette "^1.2.0"
     js-levenshtein "^1.1.6"
@@ -229,6 +229,7 @@
     lodash.isequal "^4.5.0"
     minimatch "^3.0.4"
     node-fetch "^2.6.1"
+    pluralize "^8.0.0"
     yaml-ast-parser "0.0.43"
 
 "@sindresorhus/is@^4.0.0":
@@ -6866,6 +6867,11 @@ plugin-error@^0.1.2:
     arr-diff "^1.0.1"
     arr-union "^2.0.1"
     extend-shallow "^1.1.2"
+
+pluralize@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-8.0.0.tgz#1a6fa16a38d12a1901e0320fa017051c539ce3b1"
+  integrity sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
 
 pngjs@^3.3.0:
   version "3.4.0"
