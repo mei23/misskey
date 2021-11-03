@@ -356,10 +356,10 @@
   resolved "https://registry.yarnpkg.com/@types/double-ended-queue/-/double-ended-queue-2.1.1.tgz#f077386134f0f736d927812c85c43a04f21ddc27"
   integrity sha512-O2+umEIlHBVyi+ePmucPjpINqTvSnsz+hAok0D4IpvrOsIsDr6c34B0AbNXW2UDVYuxbv51z5dxnrRt23ohgWg==
 
-"@types/elasticsearch@5.0.38":
-  version "5.0.38"
-  resolved "https://registry.yarnpkg.com/@types/elasticsearch/-/elasticsearch-5.0.38.tgz#d31e205595e08fe45b5943ca1e2fc930a4141f93"
-  integrity sha512-GAbCLDUQd1JsL4jlUyoRZPLi7LZiSbjqqEAk+DLcc02bavLJCtE4Z3cOS5CU8Te0XzmjTCMBP7GmulshWXoZdA==
+"@types/elasticsearch@5.0.39":
+  version "5.0.39"
+  resolved "https://registry.yarnpkg.com/@types/elasticsearch/-/elasticsearch-5.0.39.tgz#c5ccfc6a91614b3354cc1ec8c84358e3c5d625c3"
+  integrity sha512-klvUxN72d1WxEcJcHrprebfy0h5Soc/u19dFKUnVj+e2s1GWZdbtY6JwmvMPsaQD2+YM8iz2PggiK+gVrPO8jw==
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
