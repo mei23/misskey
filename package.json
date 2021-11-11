@@ -40,7 +40,7 @@
 		"@types/bull": "3.15.5",
 		"@types/double-ended-queue": "2.1.1",
 		"@types/elasticsearch": "5.0.38",
-		"@types/fluent-ffmpeg": "2.1.18",
+		"@types/fluent-ffmpeg": "2.1.20",
 		"@types/gulp": "4.0.9",
 		"@types/gulp-rename": "2.0.1",
 		"@types/js-yaml": "4.0.4",
