@@ -8,13 +8,13 @@ ENV BUILD_DEPS autoconf automake file g++ gcc libc-dev libtool make nasm pkgconf
 
 FROM base AS builder
 
+RUN apk add --no-cache $BUILD_DEPS
+
 COPY . ./
 
-RUN apk add --no-cache $BUILD_DEPS && \
-    git submodule update --init && \
-    yarn install && \
-    yarn build && \
-    rm -rf .git
+RUN git submodule update --init
+RUN yarn install
+RUN yarn build
 
 FROM base AS runner
 
@@ -29,7 +29,6 @@ COPY --from=builder /misskey/built ./built
 COPY --from=builder /misskey/packages/backend/node_modules ./packages/backend/node_modules
 COPY --from=builder /misskey/packages/backend/built ./packages/backend/built
 COPY --from=builder /misskey/packages/client/node_modules ./packages/client/node_modules
-COPY --from=builder /misskey/packages/client/built ./packages/client/built
 COPY . ./
 
 CMD ["npm", "run", "migrateandstart"]
