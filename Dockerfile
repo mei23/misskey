@@ -1,7 +1,5 @@
 FROM node:16.13.0-bullseye AS base
 
-ENV NODE_ENV=production
-
 WORKDIR /misskey
 
 FROM base AS builder
