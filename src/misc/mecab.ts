@@ -8,19 +8,23 @@ import * as util from 'util';
 import * as stream from 'stream';
 import * as memoryStreams from 'memory-streams';
 import { EOL } from 'os';
+const NeologdNormalizer = require('neologd-normalizer').default;
 
 const pipeline = util.promisify(stream.pipeline);
 
 export async function getIndexer(note: Partial<Record<'text' | 'cw', string>>): Promise<string[]> {
 	const source = `${note.text || ''} ${note.cw || ''}`;
-	const text = toText(parseFull(source)!);
+	let text = toText(parseFull(source)!);
+	text = NeologdNormalizer.normalize(text);
+	console.log(text);
 	const tokens = await me(text);
 	return unique(tokens.filter(token => ['フィラー', '感動詞', '形容詞', '連体詞', '動詞', '副詞', '名詞'].includes(token[1])).map(token => token[0]));
 }
 
 export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>>): Promise<string[]> {
 	const source = `${note.text || ''} ${note.cw || ''}`;
-	const text = toWord(parseFull(source)!);
+	let text = toWord(parseFull(source)!);
+	text = NeologdNormalizer.normalize(text);
 	const tokens = await me(text);
 	const words = unique(tokens.filter(token => token[2] === '固有名詞').map(token => token[0]));
 
