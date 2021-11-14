@@ -1,4 +1,4 @@
-FROM node:16.6.2-bullseye AS base
+FROM node:16.13.0-bullseye AS base
 
 ENV NODE_ENV=production
 
