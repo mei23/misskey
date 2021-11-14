@@ -1,36 +1,30 @@
-FROM node:16.6.2-alpine3.13 AS base
+FROM node:16.6.2-bullseye AS base
 
 ENV NODE_ENV=production
 
 WORKDIR /misskey
 
-ENV BUILD_DEPS autoconf automake file g++ gcc libc-dev libtool make nasm pkgconfig python3 zlib-dev git
-
 FROM base AS builder
+
+RUN apt-get update
+RUN apt-get install -y build-essential
 
 COPY . ./
 
-RUN apk add --no-cache $BUILD_DEPS && \
-    git submodule update --init && \
-    yarn install && \
-    yarn build && \
-    rm -rf .git
+RUN git submodule update --init
+RUN yarn install
+RUN yarn build
 
 FROM base AS runner
 
-RUN apk add --no-cache \
-    ffmpeg \
-    tini
-
-ENTRYPOINT ["/sbin/tini", "--"]
+RUN apt-get update
+RUN apt-get install -y ffmpeg
 
 COPY --from=builder /misskey/node_modules ./node_modules
 COPY --from=builder /misskey/built ./built
 COPY --from=builder /misskey/packages/backend/node_modules ./packages/backend/node_modules
 COPY --from=builder /misskey/packages/backend/built ./packages/backend/built
 COPY --from=builder /misskey/packages/client/node_modules ./packages/client/node_modules
-COPY --from=builder /misskey/packages/client/built ./packages/client/built
 COPY . ./
 
 CMD ["npm", "run", "migrateandstart"]
-
