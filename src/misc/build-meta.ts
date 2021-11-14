@@ -63,6 +63,8 @@ export async function buildMeta(instance: IMeta, detail = true) {
 		enableServiceWorker: instance.enableServiceWorker,
 
 		proxyAccountName: instance.proxyAccount || null,
+
+		minimumAge: config.minimumAge,
 	};
 
 	if (detail) {

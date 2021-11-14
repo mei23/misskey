@@ -138,7 +138,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
 
-	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
+	const bday = person['vcard:bday']?.match(/^[0-9]{4,8}-\d{2}-\d{2}/);
 
 	// Create user
 	let user: IRemoteUser | undefined;
@@ -342,7 +342,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
 
-	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
+	const bday = person['vcard:bday']?.match(/^[0-9]{4,8}-\d{2}-\d{2}/);
 
 	const updates = {
 		lastFetchedAt: new Date(),

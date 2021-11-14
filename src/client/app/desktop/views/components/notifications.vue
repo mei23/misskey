@@ -172,6 +172,22 @@
 							</a>
 						</div>
 					</template>
+
+					<template v-if="notification.type == 'unreadMessagingMessage'">
+						<mk-avatar class="avatar" :user="notification.user"/>
+						<div class="text">
+							<header>
+								<fa :icon="['far', 'comment']" class="icon"/>
+								<router-link :to="notification.user | userPage" v-user-preview="notification.user.id" class="name">
+									<mk-user-name :user="notification.user"/>
+								</router-link>
+								<mk-time :time="notification.createdAt"/>
+							</header>
+							<a class="note-preview" @click="toChat(notification.user)">
+								<mfm :text="notification.message.text" :plain="true" :custom-emojis="notification.message.emojis"/>
+							</a>
+						</div>
+					</template>
 				</div>
 
 				<p class="date" v-if="i != notifications.length - 1 && notification && _notifications[i + 1] && notification._date != _notifications[i + 1]._date" :key="notification.id + '-time'">
@@ -316,6 +332,10 @@ export default Vue.extend({
 		followRequests() {
 			this.$root.new(MkFollowRequestsWindow);
 		},
+
+		toChat(user: any) {
+			import('./messaging-room-window.vue').then(m => this.$root.new(m.default, { user }));
+		},
 	}
 });
 </script>
@@ -420,7 +440,7 @@ export default Vue.extend({
 					.text header [data-icon]
 						color #888
 
-				&.reply, &.mention, &.highlight
+				&.reply, &.mention, &.highlight, &.unreadMessagingMessage
 					.text header [data-icon]
 						color #555
 

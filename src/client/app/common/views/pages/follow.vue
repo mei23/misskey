@@ -80,6 +80,12 @@ export default Vue.extend({
 						this.user = res.object;
 					} else if (res.type === 'Note') {
 						this.$router.push(`/notes/${res.object.id}`);
+					} else if (res.type === 'Emoji') {
+						this.$root.dialog({
+							type: 'success',
+							text: `:${res.object.name}:`,
+							mfmCustomEmojis: [ res.object ]
+						});
 					} else {
 						this.$root.dialog({
 							type: 'error',

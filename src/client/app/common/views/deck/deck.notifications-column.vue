@@ -62,7 +62,7 @@ export default Vue.extend({
 					title: this.$t('@.notification-type'),
 					type: null,
 					select: {
-						items: ['all', 'follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'poll_vote', 'poll_finished', 'receiveFollowRequest', 'highlight'].map(x => ({
+						items: ['all', 'follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'poll_vote', 'poll_finished', 'receiveFollowRequest', 'highlight', 'unreadMessagingMessage'].map(x => ({
 							value: x, text: this.$t('@.notification-types.' + x)
 						}))
 						default: this.column.notificationType,

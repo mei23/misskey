@@ -7,6 +7,7 @@ import Following from '../models/following';
 import deleteFollowing from '../services/following/delete';
 import rejectFollowing from '../services/following/requests/reject';
 import FollowRequest from '../models/follow-request';
+import Notification from '../models/notification';
 
 export async function doPostSuspend(user: IUser) {
 	await unFollowAll(user).catch(() => {});
@@ -14,7 +15,14 @@ export async function doPostSuspend(user: IUser) {
 	await removeFollowingRequestAll(user).catch(() => {});
 	await removeFollowedRequestAll(user).catch(() => {});
 	await sendDeleteActivity(user).catch(() => {});
+
+	// アカウント削除時に受信したNotificationを削除するように
+	await Notification.remove({
+		notifieeId: user._id
+	}).catch(() => {});
 }
+
+
 
 export async function sendDeleteActivity(user: IUser) {
 	if (isLocalUser(user)) {

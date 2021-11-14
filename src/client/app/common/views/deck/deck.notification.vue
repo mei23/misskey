@@ -124,6 +124,22 @@
 	<template v-if="notification.type == 'mention'">
 		<mk-note :note="notification.note"/>
 	</template>
+
+	<div class="notification unreadMessagingMessage" v-if="notification.type == 'unreadMessagingMessage'">
+		<mk-avatar class="avatar" :user="notification.user"/>
+		<div>
+			<header>
+				<fa :icon="['far', 'comment']" class="icon"/>
+				<router-link :to="notification.user | userPage" class="name">
+					<mk-user-name :user="notification.user"/>
+				</router-link>
+				<mk-time :time="notification.createdAt"/>
+			</header>
+			<a class="note-ref" @click="toChat(notification.user)">
+				<mfm :text="notification.message.text" :plain="true" :custom-emojis="notification.message.emojis"/>
+			</a>
+		</div>
+	</div>
 </div>
 </template>
 
@@ -149,6 +165,14 @@ export default Vue.extend({
 				this.$router.push('/i/received-follow-requests');
 			} else {
 				import('../../../desktop/views/components/received-follow-requests-window.vue').then(m => this.$root.new(m.default));
+			}
+		},
+
+		toChat(user: any) {
+			if (this.$root.isMobile) {
+				this.$router.push(`/i/messaging/${user.username}`);
+			} else {
+				import('../../../desktop/views/components/messaging-room-window.vue').then(m => this.$root.new(m.default, { user }));
 			}
 		},
 	},
@@ -231,7 +255,7 @@ export default Vue.extend({
 			> div > header [data-icon]
 				color #888
 
-		&.reply, &.mention, &.highlight
+		&.reply, &.mention, &.highlight, &.unreadMessagingMessage
 			> div > header [data-icon]
 				color #555
 

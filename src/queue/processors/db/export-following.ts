@@ -6,7 +6,7 @@ import * as mongo from 'mongodb';
 import { queueLogger } from '../../logger';
 import { addFile } from '../../../services/drive/add-file';
 import User from '../../../models/user';
-import dateFormat = require('dateformat');
+import { format } from 'date-fns';
 import Following from '../../../models/following';
 import { getFullApAccount } from '../../../misc/convert-host';
 import { DbUserJobData } from '../../types';
@@ -84,7 +84,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>): Promise<str
 	stream.end();
 	logger.succ(`Exported to: ${path}`);
 
-	const fileName = 'following-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
+	const fileName = 'following-' + format(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
 	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();

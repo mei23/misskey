@@ -6,7 +6,7 @@ import * as mongo from 'mongodb';
 import { queueLogger } from '../../logger';
 import { addFile } from '../../../services/drive/add-file';
 import User from '../../../models/user';
-import dateFormat = require('dateformat');
+import { format } from 'date-fns';
 import Mute from '../../../models/mute';
 import { getFullApAccount } from '../../../misc/convert-host';
 import { DbUserJobData } from '../../types';
@@ -87,7 +87,7 @@ export async function exportMute(job: Bull.Job<DbUserJobData>): Promise<string> 
 	stream.end();
 	logger.succ(`Exported to: ${path}`);
 
-	const fileName = 'mute-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.csv';
+	const fileName = 'mute-' + format(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
 	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();

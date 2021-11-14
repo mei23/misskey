@@ -24,7 +24,7 @@ export default function(type, data): Notification {
 		case 'unreadMessagingMessage':
 			return {
 				title: `New message from ${getUserName(data.user)}`,
-				body: data.text, // TODO: getMessagingMessageSummary(data),
+				body: data.text,
 				icon: data.user.avatarUrl
 			};
 

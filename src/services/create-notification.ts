@@ -8,6 +8,7 @@ import pushSw from './push-notification';
 
 
 export async function createNotification(notifiee: ObjectID, notifier: ObjectID, type: 'poll_finished' | 'reply' | 'renote' | 'quote' | 'mention' | 'highlight', content: { noteId: ObjectID }): Promise<INotification | undefined>;
+export async function createNotification(notifiee: ObjectID, notifier: ObjectID, type: 'unreadMessagingMessage', content: { messageId: ObjectID }): Promise<INotification | undefined>;
 export async function createNotification(notifiee: ObjectID, notifier: ObjectID, type: 'poll_vote', content: { noteId: ObjectID, choice: number }): Promise<INotification | undefined>;
 export async function createNotification(notifiee: ObjectID, notifier: ObjectID, type: 'reaction', content: { noteId: ObjectID, reaction?: string }): Promise<INotification | undefined>;
 export async function createNotification(notifiee: ObjectID, notifier: ObjectID, type: 'follow'): Promise<INotification | undefined>;

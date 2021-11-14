@@ -77,6 +77,14 @@
 			<p class="note-preview">{{ getNoteSummary(notification.note) }}</p>
 		</div>
 	</template>
+
+	<template v-if="notification.type == 'unreadMessagingMessage'">
+		<mk-avatar class="avatar" :user="notification.user"/>
+		<div class="text">
+			<p><fa :icon="['far', 'comment']"/><mk-user-name :user="notification.user"/></p>
+			<p class="note-preview">{{ notification.message.text }}</p>
+		</div>
+	</template>
 </div>
 </template>
 
@@ -147,7 +155,7 @@ export default Vue.extend({
 		.text p [data-icon]
 			color #888
 
-	&.reply, &.mention
+	&.reply, &.mention, &.unreadMessagingMessage
 		.text p [data-icon]
 			color #fff
 

@@ -55,6 +55,8 @@ export const pack = async (
 		_message = deepcopy(message);
 	}
 
+	if (_message == null) return null;
+
 	// Rename _id to id
 	_message.id = _message._id;
 	delete _message._id;

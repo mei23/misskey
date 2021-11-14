@@ -49,7 +49,7 @@ type IUserBase = {
 	lastActivityAt?: Date;
 	followersCount: number;
 	followingCount: number;
-	name?: string;
+	name?: string | null;
 	notesCount: number;
 	username: string;
 	usernameLower: string;
@@ -62,13 +62,13 @@ type IUserBase = {
 	wallpaperId: mongo.ObjectID;
 	wallpaperUrl?: string;
 	data: any;
-	description: string;
+	description?: string | null;
 	pinnedNoteIds: mongo.ObjectID[];
 	emojis?: string[];
 	tags?: string[];
 	profile?: {
-		location?: string;
-		birthday?: string; // 'YYYY-MM-DD'
+		location?: string | null;
+		birthday?: string | null; // 'YYYY-MM-DD'
 		tags?: string[];
 	};
 
@@ -258,7 +258,7 @@ export function isValidLocation(location: string): boolean {
 
 export function isValidBirthday(birthday: string): boolean {
 	// eslint-disable-next-line no-useless-escape
-	return typeof birthday == 'string' && /^([0-9]{4})\-([0-9]{2})-([0-9]{2})$/.test(birthday);
+	return typeof birthday == 'string' && /^([0-9]{4,8})\-([0-9]{2})-([0-9]{2})$/.test(birthday);
 }
 //#endregion
 

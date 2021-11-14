@@ -82,6 +82,7 @@ export type Source = {
 	themeColor?: string;
 
 	hideServerInfo?: boolean;
+	minimumAge?: number;
 };
 
 export type DriveConfig = {

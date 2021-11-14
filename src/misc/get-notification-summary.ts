@@ -24,6 +24,8 @@ export default function(notification: any): string {
 			return `Vote ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
 		case 'poll_finished':
 			return `poll_finished ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
+		case 'unreadMessagingMessage':
+			return `${getUserName(notification.user)} ${notification.message?.text}}`;
 		case 'highlight':
 			return `Highlight ${getUserName(notification.user)} ${getNoteSummary(notification.note)}`;
 		default:

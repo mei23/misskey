@@ -55,6 +55,7 @@ common:
     mention: "メンション"
     reaction: "リアクション"
     highlight: "ハイライト"
+    unreadMessagingMessage: "チャットメッセージ"
   got-it: "わかった"
   customization-tips:
     title: "カスタマイズのヒント"
@@ -873,6 +874,7 @@ common/views/components/notification-settings.vue:
   poll_vote: "投票"
   poll_finished: "アンケート完了"
   highlight: "ハイライトワード"
+  unreadMessagingMessage: "チャットメッセージ"
   mark-as-read-all-notifications: "すべての通知を既読にする"
   mark-as-read-all-unread-notes: "すべての投稿を既読にする"
   mark-as-read-all-talk-messages: "すべてのトークを既読にする"
@@ -1983,6 +1985,8 @@ common/views/components/follow-button.vue:
   request-pending: "フォロー許可待ち"
   follow-processing: "フォロー処理中"
   follow-request: "フォロー申請"
+  remoteFollow: "リモートフォロー"
+  remoteFollowMessage: "以下のアカウントをフォローしたいインスタンスの検索ボックスに入れてフォローして下さい。\n```\n{acct}\n```\n\n\nまたは、以下にフォローしたいアカウントを入力して下さい。"
 
 mobile/views/components/note.vue:
   private: "この投稿は非公開です"

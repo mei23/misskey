@@ -114,6 +114,20 @@
 	<template v-if="notification.type == 'mention'">
 		<mk-note :note="notification.note"/>
 	</template>
+
+	<div class="notification unreadMessagingMessage" v-if="notification.type == 'unreadMessagingMessage'">
+		<mk-avatar class="avatar" :user="notification.user"/>
+		<div>
+			<header>
+				<fa icon="user-clock"/>
+				<router-link class="name" :to="notification.user | userPage"><mk-user-name :user="notification.user"/></router-link>
+				<mk-time :time="notification.createdAt"/>
+			</header>
+			<a class="note-ref" @click="toChat(notification.user)">
+				<mfm :text="notification.message.text" :plain="true" :custom-emojis="notification.message.emojis"/>
+			</a>
+		</div>
+	</div>
 </div>
 </template>
 
@@ -136,6 +150,10 @@ export default Vue.extend({
 	methods: {
 		followRequests() {
 			this.$router.push('/i/received-follow-requests');
+		},
+
+		toChat(user: any) {
+			this.$router.push(`/i/messaging/${user.username}`);
 		},
 	},
 });
@@ -219,7 +237,7 @@ export default Vue.extend({
 			> div > header [data-icon]
 				color #888
 
-		&.reply, &.mention, &.highlight
+		&.reply, &.mention, &.highlight, &.unreadMessagingMessage
 			> div > header [data-icon]
 				color #555
 

@@ -31,5 +31,6 @@ jobs:
     - run: yarn install
     - run: git diff --exit-code yarn.lock
     - run: yarn build
+    - run: ls built/meta.json
     - run: cp test/test.yml .config/
     - run: yarn test

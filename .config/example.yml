@@ -189,3 +189,6 @@ themeColor: '#fb4e4e'
 
 # サーバー情報を隠す (default: false)
 #hideServerInfo: true
+
+# 設定できる最低年齢
+# minimumAge: 13

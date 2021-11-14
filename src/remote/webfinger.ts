@@ -4,7 +4,9 @@ import { query as urlQuery } from '../prelude/url';
 
 type ILink = {
 	href: string;
-	rel: string;
+	rel?: string;
+	type?: string;
+	template?: string;
 };
 
 type IWebFinger = {

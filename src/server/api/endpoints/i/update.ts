@@ -15,6 +15,8 @@ import { ApiError } from '../../error';
 import { sendDeleteActivity } from '../../../../services/suspend-user';
 import { doPostUnsuspend } from '../../../../services/unsuspend-user';
 import { normalizeTag } from '../../../../misc/normalize-tag';
+import config from '../../../../config';
+import { calcAge } from '../../../../misc/calc-age';
 
 export const meta = {
 	desc: {
@@ -196,7 +198,8 @@ export const meta = {
 				reaction: $.optional.bool,
 				poll_vote: $.optional.bool,
 				poll_finished: $.optional.bool,
-				highlight: $.optional.bool
+				highlight: $.optional.bool,
+				unreadMessagingMessage: $.optional.bool
 			}),
 			desc: {
 				'ja-JP': 'オフラインプッシュ通知の対象'
@@ -239,7 +242,19 @@ export default define(meta, async (ps, user, app) => {
 	if (ps.name !== undefined) updates.name = ps.name;
 	if (ps.description !== undefined) updates.description = ps.description;
 	if (ps.location !== undefined) updates['profile.location'] = ps.location;
-	if (ps.birthday !== undefined) updates['profile.birthday'] = ps.birthday;
+	if (ps.birthday !== undefined) {
+		if (typeof config.minimumAge === 'number' && ps.birthday != null) {
+			const d = new Date(ps.birthday);
+			if (d?.toString() !== 'Invalid Date') {
+				const a = calcAge(d);
+				if (a < config.minimumAge && a >= 0) {
+					ps.birthday = null;
+				}
+			}
+		}
+
+		updates['profile.birthday'] = ps.birthday;
+	}
 	if (ps.avatarId !== undefined) updates.avatarId = ps.avatarId;
 	if (ps.bannerId !== undefined) updates.bannerId = ps.bannerId;
 	if (ps.wallpaperId !== undefined) updates.wallpaperId = ps.wallpaperId;
