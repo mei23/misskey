@@ -12,7 +12,7 @@ COPY . ./
 
 RUN apk add --no-cache $BUILD_DEPS && \
     git submodule update --init && \
-    yarn install && \
+    yarn install --production=false && \
     yarn build && \
     rm -rf .git
 
