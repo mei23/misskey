@@ -57,7 +57,7 @@
 		"@types/koa__cors": "3.0.3",
 		"@types/koa__multer": "2.0.4",
 		"@types/koa__router": "8.0.9",
-		"@types/lodash": "4.14.176",
+		"@types/lodash": "4.14.177",
 		"@types/mocha": "9.0.0",
 		"@types/mongodb": "3.6.20",
 		"@types/node": "14.17.33",
