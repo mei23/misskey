@@ -306,10 +306,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/bull@3.15.5":
-  version "3.15.5"
-  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.5.tgz#a4459c127c5b10fb847531579a2cd5db35751366"
-  integrity sha512-XgJQWJ03jyKMfdoL8IAIoHIo7JkkL74kcxuujTONkSJswm0giIJ9kuVgDNHS0OvD+OiPNcFmbBl0H3scj2+A8A==
+"@types/bull@3.15.6":
+  version "3.15.6"
+  resolved "https://registry.yarnpkg.com/@types/bull/-/bull-3.15.6.tgz#55594c6965f2f37b905d644d7e00987900f5e911"
+  integrity sha512-6M8r7uT6+3w1HNwinvzM5unPYAIlVBsCG9/7HI0dKNUWj1N9dM3JY81FNTFuG6WWFeaQvLCAH3rXpOs1/YaCww==
   dependencies:
     "@types/ioredis" "*"
 
