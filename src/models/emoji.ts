@@ -26,6 +26,7 @@ export type IEmoji = {
 	type?: string;
 	md5?: string;
 	saved?: boolean;
+	direction?: string;
 };
 
 export type IXEmoji = {

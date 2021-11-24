@@ -2,12 +2,15 @@
 <div class="mk-window" :data-flexible="isFlexible" @dragover="onDragover">
 	<div class="bg" ref="bg" v-show="isModal" @click="onBgClick"></div>
 	<div class="main" ref="main" tabindex="-1" :data-is-modal="isModal" @mousedown="onBodyMousedown" @keydown="onKeydown" :style="{ minWidth: width, height }">
-		<div class="body">
+		<div class="body" :class="{ transparent }">
 			<header ref="header"
 				@contextmenu.prevent="() => {}" @mousedown.prevent="onHeaderMousedown"
 			>
 				<h1><slot name="header"></slot></h1>
 				<div>
+					<button class="transparent" @mousedown.stop="() => {}" @click="() => transparent = !transparent" :title="$t('transparent')">
+						<i><fa :icon="transparent ? farSquare : faSquare"/></i>
+					</button>
 					<button class="popout" v-if="popoutUrl" @mousedown.stop="() => {}" @click="popout" :title="$t('popout')">
 						<i><fa :icon="['far', 'window-restore']"/></i>
 					</button>
@@ -39,7 +42,8 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import anime from 'animejs';
 import contains from '../../../common/scripts/contains';
-
+import { faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faSquare as farSquare } from '@fortawesome/free-regular-svg-icons';
 const minHeight = 40;
 const minWidth = 200;
 
@@ -86,6 +90,13 @@ export default Vue.extend({
 			type: Boolean,
 			required: false,
 			default: true
+		}
+	},
+
+	data() {
+		return {
+			transparent: false,
+			faSquare, farSquare
 		}
 	},
 
@@ -549,6 +560,9 @@ export default Vue.extend({
 			background var(--secondary)
 			border-radius 6px
 			box-shadow 0 2px 12px 0 rgba(#000, 0.5)
+
+			&.transparent
+				background var(--face)
 
 			> header
 				$header-height = 40px

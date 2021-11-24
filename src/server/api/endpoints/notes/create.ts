@@ -9,6 +9,8 @@ import create from '../../../../services/note/create';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import { ApiError } from '../../error';
+import { uniqBy } from 'lodash';
+import { removeNull } from '../../../../prelude/array';
 
 let maxNoteTextLength = 1000;
 
@@ -46,7 +48,7 @@ export const meta = {
 		},
 
 		visibleUserIds: {
-			validator: $.optional.arr($.type(ID)).unique().min(0),
+			validator: $.optional.arr($.type(ID)),
 			transform: transformMany,
 			desc: {
 				'ja-JP': '(投稿の公開範囲が specified の場合)投稿を閲覧できるユーザー'
@@ -251,9 +253,11 @@ export default define(meta, async (ps, user, app) => {
 
 	let visibleUsers: IUser[] = [];
 	if (ps.visibleUserIds) {
-		visibleUsers = await Promise.all(ps.visibleUserIds.map(id => User.findOne({
+		const users = await Promise.all(uniqBy(ps.visibleUserIds, x => `${x}`).map(id => User.findOne({
 			_id: id
 		})));
+
+		visibleUsers = removeNull(users);
 	}
 
 	let files: IDriveFile[] = [];

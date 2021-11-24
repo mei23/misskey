@@ -449,6 +449,7 @@ export async function pack(
 		}): [],
 
 		avoidSearchIndex: !!db.avoidSearchIndex,
+		tags: db.tags || [],
 
 		...(opts.detail ? {
 			createdAt: toISODateOrNull(db.createdAt),
@@ -467,7 +468,6 @@ export async function pack(
 				birthday: db.profile?.birthday || null,
 				location: db.profile?.location || null,
 			},
-			tags: db.tags || [],
 			fields: db.fields || [],
 			followersCount: db.followersCount,
 			followingCount: db.followingCount,

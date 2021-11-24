@@ -38,7 +38,9 @@
 						<mk-time :time="message.createdAt"/>
 					</header>
 					<div class="body">
-						<p class="text"><span class="me" v-if="isMe(message)">{{ $t('you') }}:</span>{{ message.text }}</p>
+						<p class="text"><span class="me" v-if="isMe(message)">{{ $t('you') }}:</span>
+							<mfm :text="message.text" :custom-emojis="message.emojis"/>
+						</p>
 					</div>
 				</div>
 			</a>

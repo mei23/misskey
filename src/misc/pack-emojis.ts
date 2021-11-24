@@ -18,6 +18,7 @@ type IREmoji = {
 	 */
 	host: string,
 	resolvable: string,
+	direction?: string;
 };
 
 const SELF_HOST = null;
@@ -97,12 +98,18 @@ export async function packCustomEmoji(str: string, ownerHost: string | null): Pr
 
 	if (emoji == null) return null;
 
-	return {
+	const e = {
 		name: str,
 		url: getEmojiUrl(emoji),
 		host: host,
 		resolvable: resolvable,
 	} as IREmoji;
+
+	if (emoji.direction) {
+		e.direction = emoji.direction
+	}
+
+	return e;
 }
 
 /**

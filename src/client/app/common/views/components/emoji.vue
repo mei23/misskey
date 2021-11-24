@@ -1,6 +1,6 @@
 <template>
 <!-- カスタム絵文字 -->
-<img v-if="customEmoji" class="fvgwvorwhxigeolkkrcderjzcawqrscl custom" :class="{ normal: normal }" :src="url" :alt="alt" :title="title"/>
+<img v-if="customEmoji" class="fvgwvorwhxigeolkkrcderjzcawqrscl custom" :class="{ normal: normal, flip: requireFlip }" :src="url" :alt="alt" :title="title"/>
 <!-- 絵文字 Vendor (OS, Browser) -->
 <span v-else-if="char && vendor">{{ char }}</span>
 <!-- 絵文字 General -->
@@ -270,6 +270,10 @@ export default Vue.extend({
 			type: Boolean,
 			default: false
 		},
+		direction: {
+			type: String,
+			default: 'none'
+		},
 	},
 
 	data() {
@@ -277,7 +281,8 @@ export default Vue.extend({
 			url: null,
 			fallbackUrl: undefined,
 			char: null,
-			customEmoji: null
+			customEmoji: null,
+			requireFlip: false,
 		}
 	},
 
@@ -310,6 +315,7 @@ export default Vue.extend({
 					this.url = this.$store.state.device.disableShowingAnimatedImages
 						? getStaticImageUrl(customEmoji.url)
 						: customEmoji.url;
+					this.requireFlip = (this.direction === 'right' && customEmoji.direction === 'left') || (this.direction === 'left' && customEmoji.direction === 'right');
 				}
 			}
 		},
@@ -323,6 +329,7 @@ export default Vue.extend({
 				this.url = this.$store.state.device.disableShowingAnimatedImages
 					? getStaticImageUrl(customEmoji.url)
 					: customEmoji.url;
+					this.requireFlip = (this.direction === 'right' && customEmoji.direction === 'left') || (this.direction === 'left' && customEmoji.direction === 'right');
 			} else {
 				//const emoji = lib[this.name];
 				//if (emoji) {
@@ -372,6 +379,9 @@ export default Vue.extend({
 		height 2.5em
 		vertical-align middle
 		transition transform 0.2s ease
+
+		&.flip
+			transform scaleX(-1)
 
 		&:hover
 			transform scale(1.2)

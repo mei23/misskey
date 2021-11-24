@@ -1331,6 +1331,7 @@ desktop/views/components/users-list-item.vue:
   followed: "Follows you"
 desktop/views/components/window.vue:
   popout: "Pop-out"
+  transparent: "Transparent"
   close: "Close"
 desktop/views/home/featured.vue:
   options: "Options"
@@ -1582,6 +1583,7 @@ admin/views/emoji.vue:
     add: "Add"
     info: "We recommend PNG images under 50KB."
     added: "Emoji was added"
+    direction: "Face direction"
   emojis:
     title: "Emojis"
     update: "Update"
@@ -1600,6 +1602,9 @@ admin/views/emoji.vue:
   origin: "Origin"
   all: "All"
   newer: "Newer"
+  none: "None"
+  left: "Left"
+  right: "Right"
 
 admin/views/announcements.vue:
   announcements: "Announcements"

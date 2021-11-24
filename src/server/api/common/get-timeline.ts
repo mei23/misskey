@@ -33,6 +33,7 @@ export async function getPackedTimeline(me: ILocalUser | null, query: any, sort:
 							isCat: true,
 							isBot: true,
 							isAdmin: true,
+							tags: true,
 						}	// $project in pipeline
 					}
 				],	// pipeline

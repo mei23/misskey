@@ -60,6 +60,7 @@ export type ThinPackedUser = {
 	isCat: boolean;
 	instance: any;	// TODO
 	avoidSearchIndex?: boolean;
+	tags: string[];
 	emojis: {
 		name: string;
 		url: string;
@@ -80,7 +81,6 @@ export type PackedUser = ThinPackedUser & {
 		birthday?: string | null;
 		location?: string | null;
 	};
-	tags?: string[];
 	fields?: {
 		name: string;
 		value: string;

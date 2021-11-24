@@ -82,5 +82,6 @@ export default define(meta, async (ps) => {
 		url: getEmojiUrl(e),
 		type: e.type,
 		md5: e.md5,
+		direction: e.direction,
 	}));
 });

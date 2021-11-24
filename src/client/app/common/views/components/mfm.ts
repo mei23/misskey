@@ -54,6 +54,10 @@ export default Vue.component('misskey-flavored-markdown', {
 			type: Boolean,
 			default: true
 		},
+		direction: {
+			type: String,
+			default: 'none'
+		},
 	},
 
 	render(createElement) {
@@ -530,7 +534,8 @@ export default Vue.component('misskey-flavored-markdown', {
 						},
 						props: {
 							customEmojis: this.customEmojis || customEmojis,
-							normal: this.plain
+							normal: this.plain,
+							direction: this.direction,
 						}
 					})];
 				}
