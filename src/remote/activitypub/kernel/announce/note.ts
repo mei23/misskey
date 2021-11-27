@@ -10,6 +10,7 @@ import { isBlockedHost } from '../../../../services/instance-moderation';
 import { parseAudience } from '../../audience';
 import { parseDateWithLimit } from '../../misc/date';
 import { StatusError } from '../../../../misc/fetch';
+import { inspect } from 'util';
 
 const logger = apLogger;
 
@@ -45,7 +46,7 @@ export default async function(resolver: Resolver, actor: IRemoteUser, activity: 
 			if (e instanceof StatusError && e.isClientError) {
 				return `skip: Ignored announce target: ${uri} => ${targetUri} - ${e.statusCode}`;
 			}
-			throw `Error in announce target: ${uri} => ${targetUri} - ${e.statusCode || e}`;
+			return `skip: Error in announce target: ${uri} => ${targetUri} - ${inspect(e)}`;
 		}
 
 		// skip unavailable
