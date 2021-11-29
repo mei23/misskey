@@ -58,26 +58,6 @@
 			<fa :icon="faPlus" fixed-width/>{{ $t('recently-found-users') }}
 		</mk-user-list>
 	</template>
-
-	<div class="localfedi7" v-if="meta && stats && tag == null" :style="{ backgroundImage: meta.bannerUrl ? `url(${meta.bannerUrl})` : null }">
-		<header>{{ $t('explore', { host: meta.name }) }}</header>
-		<div>{{ $t('users-info', { users: num(stats.originalUsersCount) }) }}</div>
-	</div>
-
-	<template v-if="tag == null">
-		<mk-user-list :make-promise="verifiedUsers" :expanded="false">
-			<fa :icon="faBookmark" fixed-width/>{{ $t('verified-users') }}
-		</mk-user-list>
-		<mk-user-list :make-promise="popularUsers" :expanded="false">
-			<fa :icon="faChartLine" fixed-width/>{{ $t('popular-users') }}
-		</mk-user-list>
-		<mk-user-list :make-promise="recentlyUpdatedUsers" :expanded="false">
-			<fa :icon="faCommentAlt" fixed-width/>{{ $t('recently-updated-users') }}
-		</mk-user-list>
-		<mk-user-list :make-promise="recentlyRegisteredUsers" :expanded="false">
-			<fa :icon="faPlus" fixed-width/>{{ $t('recently-registered-users') }}
-		</mk-user-list>
-	</template>
 </div>
 </template>
 
