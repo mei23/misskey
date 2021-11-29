@@ -10,6 +10,7 @@ import { EventEmitter } from 'events';
 import config from '../../config';
 import rndstr from 'rndstr';
 import Logger from '../../services/logger';
+import activeUsersChart from '../../services/chart/active-users';
 
 export const streamLogger = new Logger('stream', 'cyan');
 
@@ -98,8 +99,15 @@ module.exports = (server: http.Server) => {
 		}
 		//#endregion 後方互換性のため
 
+		const intervalId = user ? setInterval(() => {
+			activeUsersChart.update(user);
+		}, 1000 * 60 * 5) : null;
+
+		if (user) activeUsersChart.update(user);
+
 		connection.once('close', () => {
 			connCount--;
+			if (intervalId) clearInterval(intervalId);
 			streamLogger.info(`close ${connHash} (${connPeer} ${connUser}) total=${connCount}`);
 			ev.removeAllListeners();
 			main.dispose();

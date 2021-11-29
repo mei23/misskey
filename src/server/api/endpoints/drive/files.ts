@@ -82,5 +82,5 @@ export default define(meta, async (ps, user) => {
 			sort: sort
 		});
 
-	return await packMany(files, { detail: false, self: true });
+	return await packMany(files, { detail: true, self: true });
 });

@@ -49,12 +49,6 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 
 	perUserReactionsChart.update(user, note);
 
-	User.update({ _id: user._id }, {
-		$set: {
-			lastActivityAt: new Date()
-		}
-	});
-
 	incReactionsCount(user);
 
 	const decodedReaction = decodeReaction(reaction);

@@ -1,7 +1,8 @@
 <template>
 <div class="mk-window" :data-flexible="isFlexible" @dragover="onDragover">
 	<div class="bg" ref="bg" v-show="isModal" @click="onBgClick"></div>
-	<div class="main" ref="main" tabindex="-1" :data-is-modal="isModal" @mousedown="onBodyMousedown" @keydown="onKeydown" :style="{ minWidth: width, height }">
+	<div class="main" ref="main" tabindex="-1" :data-is-modal="isModal" @mousedown="onBodyMousedown" @keydown="onKeydown"
+		:style="{ width: fixedWidth ? width : undefined, minWidth: fixedWidth ? undefined : width, height }">
 		<div class="body" :class="{ transparent }">
 			<header ref="header"
 				@contextmenu.prevent="() => {}" @mousedown.prevent="onHeaderMousedown"
@@ -77,6 +78,10 @@ export default Vue.extend({
 		height: {
 			type: String,
 			default: 'auto'
+		},
+		fixedWidth: {
+			type: Boolean,
+			default: false
 		},
 		popoutUrl: {
 			type: [String, Function],

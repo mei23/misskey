@@ -6,6 +6,7 @@ import endpoints from './endpoints';
 import { ApiError } from './error';
 import { apiLogger } from './logger';
 import { toArray } from '../../prelude/array';
+import activeUsersChart from '../../services/chart/active-users';
 
 const accessDenied = {
 	message: 'Access denied.',
@@ -106,5 +107,7 @@ export default async (endpoint: string, user: IUser | null | undefined, app: IAp
 		if (time > 1000) {
 			apiLogger.warn(`SLOW API CALL DETECTED: ${ep.name} user=${user?.username} (${time}ms)`);
 		}
+
+		if (user) activeUsersChart.update(user);
 	});
 };

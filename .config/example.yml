@@ -129,6 +129,8 @@ themeColor: '#fb4e4e'
 #  mecabBin: mecab
 #  # mecab辞書 (オプション)
 #  mecabDic: /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd
+#  # mecab辞書はmecab-ipadic-NEologd
+#  mecabNeologd: true
 
 # Elasticsearch
 #elasticsearch:

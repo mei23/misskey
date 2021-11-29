@@ -76,6 +76,7 @@ export type Source = {
 		mecabBin?: string;
 		mecabDic?: string;
 		mecabServer?: string;
+		mecabNeologd?: boolean;
 	};
 
 	icons?: Icons

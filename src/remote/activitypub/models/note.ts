@@ -276,7 +276,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver |
 	const uri = getApId(value);
 
 	// ブロックしてたら中断
-	if (await isBlockedHost(extractApHost(uri))) throw { statusCode: 451 };
+	if (await isBlockedHost(extractApHost(uri))) throw new StatusError('Blocked instance', 451, 'Blocked instance');
 
 	const unlock = await getApLock(uri);
 

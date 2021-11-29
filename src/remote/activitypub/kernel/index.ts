@@ -17,8 +17,11 @@ import flag from './flag';
 import { apLogger } from '../logger';
 import Resolver from '../resolver';
 import { toArray } from '../../../prelude/array';
+import activeUsersChart from '../../../services/chart/active-users';
 
 export async function performActivity(actor: IRemoteUser, activity: IObject): Promise<string> {
+	activeUsersChart.update(actor);
+
 	if (isCollectionOrOrderedCollection(activity)) {
 		const resolver = new Resolver();
 		for (const item of toArray(isCollection(activity) ? activity.items : activity.orderedItems)) {

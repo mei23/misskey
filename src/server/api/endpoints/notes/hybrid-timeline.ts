@@ -3,7 +3,6 @@ import ID, { transform } from '../../../../misc/cafy-id';
 import { getFriendIds } from '../../common/get-friends';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
-import activeUsersChart from '../../../../services/chart/active-users';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
 import UserList from '../../../../models/user-list';
@@ -375,8 +374,6 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 	//#endregion
-
-	activeUsersChart.update(user);
 
 	return await getPackedTimeline(user, query, sort, ps.limit!);
 });

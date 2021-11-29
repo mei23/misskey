@@ -274,7 +274,7 @@ common:
     suggest-recent-hashtags: "最近のハッシュタグを投稿フォームに表示する"
     always-show-nsfw: "常に閲覧注意のメディアを表示する"
     alwaysOpenCw: "最初からCW/閲覧注意のコンテンツを表示する"
-    always-mark-nsfw: "常にメディアを閲覧注意として投稿"
+    always-mark-nsfw: "デフォルトでファイルを閲覧注意にする"
     show-full-acct: "ユーザー名のホストを省略しない"
     show-via: "viaを表示する"
     reduce-motion: "UIの動きを減らす"

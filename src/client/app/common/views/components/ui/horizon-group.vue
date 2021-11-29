@@ -1,5 +1,5 @@
 <template>
-<div class="vnxwkwuf" :class="{ inputs, noGrow }" :data-children-count="children">
+<div class="vnxwkwuf" :class="{ inputs, inputsx, noGrow }" :data-children-count="children">
 	<slot></slot>
 </div>
 </template>
@@ -12,6 +12,11 @@ export default Vue.extend({
 	},
 	props: {
 		inputs: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		inputsx: {
 			type: Boolean,
 			required: false,
 			default: false
@@ -41,6 +46,9 @@ export default Vue.extend({
 
 	&.inputs
 		margin 32px 0
+
+	&.inputsx
+		padding 32px 0
 
 	&.fit-top
 		margin-top 0

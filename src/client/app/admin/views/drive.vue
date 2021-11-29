@@ -69,17 +69,10 @@ export default Vue.extend({
 			try {
 				return await this.$root.api('drive/files/show', this.target.startsWith('http') ? { url: this.target } : { fileId: this.target });
 			} catch (e) {
-				if (e == 'file-not-found') {
-					this.$root.dialog({
-						type: 'error',
-						text: this.$t('file-not-found')
-					});
-				} else {
-					this.$root.dialog({
-						type: 'error',
-						text: e.toString()
-					});
-				}
+				this.$root.dialog({
+					type: 'error',
+					text: e.message || e
+				});
 			}
 		},
 
@@ -95,7 +88,7 @@ export default Vue.extend({
 			await process().catch(e => {
 				this.$root.dialog({
 					type: 'error',
-					text: e.toString()
+					text: e.message || e
 				});
 			});
 		},
@@ -132,7 +125,7 @@ export default Vue.extend({
 			await process().catch(e => {
 				this.$root.dialog({
 					type: 'error',
-					text: e.toString()
+					text: e.message || e
 				});
 			});
 		},
@@ -150,7 +143,7 @@ export default Vue.extend({
 			await process().catch(e => {
 				this.$root.dialog({
 					type: 'error',
-					text: e.toString()
+					text: e.message || e
 				});
 			});
 		},

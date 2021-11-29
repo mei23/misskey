@@ -109,11 +109,7 @@ export default function(type, data): Notification {
 					};
 
 				default:
-					return {
-						title: `${getUserName(notification.user)}`,
-						body: notification.type,
-						icon: notification.user.avatarUrl
-					};
+					return null;
 			}
 
 		default:

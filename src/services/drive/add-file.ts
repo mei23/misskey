@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 import * as mongodb from 'mongodb';
 
-import DriveFile, { IMetadata, getDriveFileBucket, IDriveFile } from '../../models/drive-file';
+import DriveFile, { IMetadata, getDriveFileBucket, IDriveFile, IProperties } from '../../models/drive-file';
 import DriveFolder from '../../models/drive-folder';
 import { pack } from '../../models/drive-file';
 import { publishMainStream, publishDriveStream } from '../stream';
@@ -462,7 +462,7 @@ export async function addFile(
 		return driveFolder;
 	};
 
-	const properties: {[key: string]: any} = {};
+	const properties: IProperties = {};
 
 	if (info.width) {
 		properties['width'] = info.width;

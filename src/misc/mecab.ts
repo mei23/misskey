@@ -8,6 +8,7 @@ import * as util from 'util';
 import * as stream from 'stream';
 import * as memoryStreams from 'memory-streams';
 import { EOL } from 'os';
+const NeologdNormalizer = require('neologd-normalizer').default;
 
 const pipeline = util.promisify(stream.pipeline);
 
@@ -31,7 +32,9 @@ export async function getWordIndexer(note: Partial<Record<'text' | 'cw', string>
 
 async function me(text: string): Promise<string[][]> {
 	if (config.mecabSearch?.mecabBin) {
-		return await mecab(text.normalize('NFKC'), config.mecabSearch.mecabBin, config.mecabSearch.mecabDic)
+		text = text.normalize('NFKC');
+		if (config.mecabSearch.mecabNeologd) text = NeologdNormalizer.normalize(text);
+		return await mecab(text, config.mecabSearch.mecabBin, config.mecabSearch.mecabDic)
 	}
 
 	return [];

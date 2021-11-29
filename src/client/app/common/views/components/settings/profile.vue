@@ -28,7 +28,7 @@
 					<template #prefix><fa icon="birthday-cake"/></template>
 				</ui-input>
 
-				<ui-horizon-group inputs>
+				<ui-horizon-group inputsx>
 					<ui-input type="file" @change="onAvatarChange">
 						<span>{{ $t('avatar') }}</span>
 						<template #icon><fa icon="image"/></template>

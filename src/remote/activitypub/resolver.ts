@@ -46,6 +46,10 @@ export default class Resolver {
 
 		this.history.add(value);
 
+		if (!value.match(/^https?:/)) {
+			throw new StatusError('Bad protocol', 400, 'Bad protocol');
+		}
+
 		const host = extractApHost(value);
 		// ブロックしてたら中断
 		if (await isBlockedHost(host)) {

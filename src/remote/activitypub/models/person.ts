@@ -243,8 +243,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 	const bannerId = banner ? banner._id : null;
 	const avatarUrl = getDriveFileUrl(avatar, true);
 	const bannerUrl = getDriveFileUrl(banner, false);
-	const avatarColor = avatar && avatar.metadata?.properties.avgColor ? avatar.metadata.properties.avgColor : null;
-	const bannerColor = banner && banner.metadata?.properties.avgColor ? banner.metadata.properties.avgColor : null;
+	const avatarColor = null;
+	const bannerColor = null;
 
 	await User.update({ _id: user._id }, {
 		$set: {
@@ -381,13 +381,13 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 	if (avatar) {
 		updates.avatarId = avatar._id;
 		updates.avatarUrl = getDriveFileUrl(avatar, true);
-		updates.avatarColor = avatar.metadata?.properties.avgColor ? avatar.metadata.properties.avgColor : null;
+		updates.avatarColor = null;
 	}
 
 	if (banner) {
 		updates.bannerId = banner._id;
 		updates.bannerUrl = getDriveFileUrl(banner, true);
-		updates.bannerColor = banner.metadata?.properties.avgColor ? banner.metadata.properties.avgColor : null;
+		updates.bannerColor = null;
 	}
 
 	// Update user

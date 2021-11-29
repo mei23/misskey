@@ -35,7 +35,7 @@ export const meta = {
 };
 
 export default define(meta, async (ps, me) => {
-	const dt = new Date(Date.now() - 1000 * 60 * 20);
+	const dt = new Date(Date.now() - 1000 * 60 * 10);
 
 	const [local, global] = await Promise.all([
 		User.count({

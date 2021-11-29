@@ -258,7 +258,7 @@ common:
     suggest-recent-hashtags: "Show recent popular hashtags on the post form"
     always-show-nsfw: "Always show NSFW contents"
     alwaysOpenCw: "Show CW/NSFW content from the beginning"
-    always-mark-nsfw: "Always mark posts with media attachments as NSFW"
+    always-mark-nsfw: "Mark as NSFW by default"
     show-full-acct: "Do not omit the hostname from the username"
     show-via: "Show via"
     reduce-motion: "Reduce motion in UI"

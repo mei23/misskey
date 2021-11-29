@@ -20,7 +20,6 @@ import { updateHashtags } from '../update-hashtag';
 import isQuote from '../../misc/is-quote';
 import notesChart from '../../services/chart/notes';
 import perUserNotesChart from '../../services/chart/per-user-notes';
-import activeUsersChart from '../../services/chart/active-users';
 import instanceChart from '../../services/chart/instance';
 
 import { erase, concat, unique } from '../../prelude/array';
@@ -255,8 +254,6 @@ export default async (user: IUser, data: Option, silent = false) => {
 		// 統計を更新
 		notesChart.update(note, true);
 		perUserNotesChart.update(user, note, true);
-		// ローカルユーザーのチャートはタイムライン取得時に更新しているのでリモートユーザーの場合だけでよい
-		if (isRemoteUser(user)) activeUsersChart.update(user);
 
 		// Register host
 		if (isRemoteUser(user)) {
@@ -701,8 +698,7 @@ function saveReply(reply: INote, note: INote) {
 function incNotesCountOfUser(user: IUser) {
 	User.update({ _id: user._id }, {
 		$set: {
-			updatedAt: new Date(),
-			lastActivityAt: new Date()
+			updatedAt: new Date()
 		},
 		$inc: {
 			notesCount: 1
