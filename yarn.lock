@@ -5300,10 +5300,10 @@ koa-slow@2.1.0:
     lodash.isregexp "3.0.5"
     q "1.4.1"
 
-koa-views@7.0.2:
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/koa-views/-/koa-views-7.0.2.tgz#c96fd9e2143ef00c29dc5160c5ed639891aa723d"
-  integrity sha512-dvx3mdVeSVuIPEaKAoGbxLcenudvhl821xxyuRbcoA+bOJ2dvN8wlGjkLu0ZFMlkCscXZV6lzxy28rafeazI/w==
+koa-views@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/koa-views/-/koa-views-8.0.0.tgz#bcba45e07a0e42b61583d0e6998f0da061485cb5"
+  integrity sha512-nvGKdG8yVyomhouwN060SWd7Q9kGYRr322dwN6jvI04hgiDEW9vsPXEje9OEtBgGXxHURe7xOzo3bxQ3DBc1Nw==
   dependencies:
     consolidate "^0.16.0"
     debug "^4.1.0"
