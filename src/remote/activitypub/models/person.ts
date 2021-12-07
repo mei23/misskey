@@ -422,7 +422,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
  * Misskeyに対象のPersonが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolvePerson(uri: string, verifier?: string | null, resolver?: Resolver): Promise<IUser> {
+export async function resolvePerson(uri: string, verifier?: string | null, resolver?: Resolver, noResolve = false): Promise<IUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	//#region このサーバーに既に登録されていたらそれを返す
@@ -432,6 +432,10 @@ export async function resolvePerson(uri: string, verifier?: string | null, resol
 		return exist;
 	}
 	//#endregion
+
+	if (noResolve) {
+		throw new StatusError('Resolve skipped', 400, 'Resolve skipped');
+	}
 
 	// リモートサーバーからフェッチしてきて登録
 	if (resolver == null) resolver = new Resolver();

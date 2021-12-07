@@ -61,7 +61,7 @@
 			<span class="app" v-if="note.app && $store.state.settings.showVia">via <b>{{ note.app.name }}</b></span>
 			<mk-reactions-viewer :note="appearNote"/>
 			<button class="replyButton" @click="reply()" :title="$t('reply')">
-				<fa :icon="appearNote.reply ? 'reply-all' : 'reply'"/>
+				<fa icon="reply"/>
 				<p class="count" v-if="appearNote.repliesCount + appearNote.quoteCount > 0">{{ appearNote.repliesCount + appearNote.quoteCount }}</p>
 			</button>
 			<button v-if="appearNote.myRenoteId != null" class="renoteButton renoted" @click="undoRenote()" title="Undo">

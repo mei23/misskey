@@ -167,7 +167,7 @@ async function workerMain(config: Config) {
 
 	setInterval(() => {
 		clusterLogger.info(`memoryUsage(${workerType}:${process.pid}): ${JSON.stringify(process.memoryUsage())}`);
-	}, 5 * 60 * 1000);
+	}, 60 * 60 * 1000);
 
 	setInterval(() => {
 		const restartMin =

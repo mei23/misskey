@@ -10,6 +10,7 @@ import i18n from '../../../i18n';
 import { faExclamationCircle, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
 import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
 import { faUserTag } from '@fortawesome/free-solid-svg-icons';
+import getAcct from '../../../../../misc/acct/render';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/user-menu.vue'),
@@ -90,7 +91,7 @@ export default Vue.extend({
 
 		startTalk() {
 			if (this.$root.isMobile) {
-				this.$router.push(`/i/messaging/${this.user.username}`);
+				this.$router.push(`/i/messaging/${getAcct(this.user)}`); 
 			} else {
 				import('../../../desktop/views/components/messaging-room-window.vue').then(m => this.$root.new(m.default, {
 					user: this.user

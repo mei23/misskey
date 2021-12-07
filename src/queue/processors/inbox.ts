@@ -9,7 +9,7 @@ import Logger from '../../services/logger';
 import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
-import { getApId } from '../../remote/activitypub/type';
+import { getApId, isDelete, isUndo } from '../../remote/activitypub/type';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost } from '../../services/instance-moderation';
 import { InboxJobData } from '../types';
@@ -64,7 +64,7 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	// || activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
 	if (user == null) {
 		try {
-			user = await resolvePerson(getApId(activity.actor), undefined, resolver) as IRemoteUser;
+			user = await resolvePerson(getApId(activity.actor), undefined, resolver, isDelete(activity) || isUndo(activity)) as IRemoteUser;
 		} catch (e) {
 			// 対象が4xxならスキップ
 			if (e instanceof StatusError && e.isClientError) {

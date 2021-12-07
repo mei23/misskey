@@ -1,5 +1,5 @@
 <template>
-<ui-container :body-togglable="true" :expanded="expanded">
+<ui-container :body-togglable="true" @toggle="onToggle" :expanded="expanded">
 	<template #header><slot></slot></template>
 
 	<mk-error v-if="!fetching && !inited" @retry="init()"/>
@@ -56,6 +56,7 @@ export default Vue.extend({
 
 	data() {
 		return {
+			initialized: false,
 			fetching: true,
 			fetchingMoreUsers: false,
 			us: [],
@@ -65,11 +66,12 @@ export default Vue.extend({
 	},
 
 	created() {
-		this.init();
+		if (this.expanded) this.init();
 	},
 
 	methods: {
 		init() {
+			this.initialized = true;
 			this.fetching = true;
 			this.makePromise().then(x => {
 				if (Array.isArray(x)) {
@@ -94,6 +96,10 @@ export default Vue.extend({
 			}, e => {
 				this.fetchingMoreUsers = false;
 			});
+		},
+
+		onToggle(show: boolean) {
+			if (show && !this.initialized) this.init();
 		}
 	}
 });

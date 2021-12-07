@@ -136,6 +136,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import getNoteSummary from '../../../../../misc/get-note-summary';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
+import getAcct from '../../../../../misc/acct/render';
 
 export default Vue.extend({
 	i18n: i18n(),
@@ -153,7 +154,7 @@ export default Vue.extend({
 		},
 
 		toChat(user: any) {
-			this.$router.push(`/i/messaging/${user.username}`);
+			this.$router.push(`/i/messaging/${getAcct(user)}`); 
 		},
 	},
 });

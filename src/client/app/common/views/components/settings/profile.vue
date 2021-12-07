@@ -221,8 +221,6 @@ export default Vue.extend({
 		this.location = this.$store.state.i.profile.location;
 		this.description = this.$store.state.i.description;
 		this.birthday = this.$store.state.i.profile.birthday;
-		this.avatarId = this.$store.state.i.avatarId;
-		this.bannerId = this.$store.state.i.bannerId;
 		this.isCat = this.$store.state.i.isCat;
 		this.isBot = this.$store.state.i.isBot;
 		this.isLocked = this.$store.state.i.isLocked;
@@ -484,6 +482,12 @@ export default Vue.extend({
 		},
 
 		async deleteAccount() {
+			const { canceled: canceled2 } = await this.$root.dialog({
+				title: this.$t('delete-account-confirm'),
+				showCancelButton: true
+			});
+			if (canceled2) return;
+
 			const { canceled: canceled, result: password } = await this.$root.dialog({
 				title: this.$t('enter-password'),
 				input: {
@@ -491,12 +495,6 @@ export default Vue.extend({
 				}
 			});
 			if (canceled) return;
-
-			const { canceled: canceled2 } = await this.$root.dialog({
-				title: this.$t('delete-account-confirm'),
-				showCancelButton: true
-			});
-			if (canceled2) return;
 
 			this.$root.api('i/delete-account', {
 				password

@@ -60,7 +60,7 @@
 		<footer>
 			<mk-reactions-viewer :note="appearNote"/>
 			<button @click="reply()" :title="$t('title')">
-				<fa :icon="appearNote.reply ? 'reply-all' : 'reply'"/>
+				<fa icon="reply"/>
 				<p class="count" v-if="appearNote.repliesCount + appearNote.quoteCount > 0">{{ appearNote.repliesCount + appearNote.quoteCount }}</p>
 			</button>
 			<button v-if="appearNote.myRenoteId != null" @click="undoRenote()" title="Undo" class="renoted">
