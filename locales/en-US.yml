@@ -108,6 +108,7 @@ common:
   aboutInstance: "About this instance"
   favoriteReactions: "Favorite reactions"
   mostReacteds: "Most reacteds"
+  frequently-replied-users: "Frequent mentions"
 
   favorites: "Favorites"
   noteReactions: "Reacted notes"

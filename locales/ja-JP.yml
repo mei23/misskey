@@ -110,6 +110,7 @@ common:
   aboutInstance: "このインスタンスについて"
   favoriteReactions: "よくするリアクション"
   mostReacteds: "よくされるリアクション"
+  frequently-replied-users: "よく話すユーザー"
 
   favorites: "お気に入り"
   noteReactions: "リアクションした投稿"

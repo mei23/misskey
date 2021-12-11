@@ -1,8 +1,6 @@
 import $ from 'cafy';
-import * as mongo from 'mongodb';
 import Note from '../../../../models/note';
 import { packMany } from '../../../../models/note';
-import es from '../../../../db/elasticsearch';
 import define from '../../define';
 import { ApiError } from '../../error';
 import User, { IUser, ILocalUser } from '../../../../models/user';
@@ -65,45 +63,7 @@ export default define(meta, async (ps, me) => {
 	});
 	if (internal !== null) return internal;
 
-	if (es == null) throw new ApiError(meta.errors.searchingNotAvailable);
-
-	const response = await es.search({
-		index: 'misskey',
-		type: 'note',
-		body: {
-			size: ps.limit,
-			from: ps.offset,
-			query: {
-				simple_query_string: {
-					fields: ['text'],
-					query: ps.query,
-					default_operator: 'and'
-				}
-			},
-			sort: [
-				{ _doc: 'desc' }
-			]
-		}
-	});
-
-	if (response.hits.total === 0) {
-		return [];
-	}
-
-	const hits = response.hits.hits.map(hit => new mongo.ObjectID(hit._id));
-
-	// Fetch found notes
-	const notes = await Note.find({
-		_id: {
-			$in: hits
-		}
-	}, {
-		sort: {
-			_id: -1
-		}
-	});
-
-	return await packMany(notes, me);
+	throw new ApiError(meta.errors.searchingNotAvailable);
 });
 
 async function searchInternal(me: ILocalUser, query: string, limit: number | undefined, offset: number | undefined) {

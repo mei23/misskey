@@ -123,20 +123,15 @@ icons:
 # デフォルトのテーマカラー
 themeColor: '#fb4e4e'
 
-# Mecab検索インデックス 使用する場合は以下を指定
+# MeCab検索インデックス 使用する場合は以下を指定
+# Ubuntuとかなら apt install -y mecab mecab-ipadic-utf8 して、mecabSearch.mecabBin を指定すればよい。
 #mecabSearch:
-#  # mecabパス
+#  # MeCabパス
 #  mecabBin: mecab
-#  # mecab辞書 (オプション)
+#  # MeCab辞書 (オプション)
 #  mecabDic: /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd
-#  # mecab辞書はmecab-ipadic-NEologd
+#  # MeCab辞書がmecab-ipadic-NEologdの場合は以下を指定するとよい
 #  mecabNeologd: true
-
-# Elasticsearch
-#elasticsearch:
-#  host: localhost
-#  port: 9200
-#  pass: null
 
 # Whether disable HSTS
 #disableHsts: true

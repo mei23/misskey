@@ -74,6 +74,7 @@ export const mfmLanguage = P.createLanguage({
 		r.sup,
 		r.sub,
 		r.rgbshift,
+		r.x1,
 		r.x2,
 		r.x3,
 		r.x4,
@@ -247,6 +248,7 @@ export const mfmLanguage = P.createLanguage({
 	sup: r => P.regexp(/<sup>(.+?)<\/sup>/, 1).map(x => createMfmNode('sup', {}, r.inline.atLeast(1).tryParse(x))),
 	sub: r => P.regexp(/<sub>(.+?)<\/sub>/, 1).map(x => createMfmNode('sub', {}, r.inline.atLeast(1).tryParse(x))),
 	rgbshift: r => P.regexp(/<rgbshift>(.+?)<\/rgbshift>/, 1).map(x => createMfmNode('rgbshift', {}, r.inline.atLeast(1).tryParse(x))),
+	x1: r => P.regexp(/<x1>(.+?)<\/x1>/, 1).map(x => createMfmNode('x1', {}, r.inline.atLeast(1).tryParse(x))),
 	x2: r => P.regexp(/<x2>(.+?)<\/x2>/, 1).map(x => createMfmNode('x2', {}, r.inline.atLeast(1).tryParse(x))),
 	x3: r => P.regexp(/<x3>(.+?)<\/x3>/, 1).map(x => createMfmNode('x3', {}, r.inline.atLeast(1).tryParse(x))),
 	x4: r => P.regexp(/<x4>(.+?)<\/x4>/, 1).map(x => createMfmNode('x4', {}, r.inline.atLeast(1).tryParse(x))),
@@ -338,7 +340,7 @@ export const mfmLanguage = P.createLanguage({
 			const argsPart = match[2];
 			const content = match[3];
 
-			if (!['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'rgbshift', 'x2', 'x3', 'x4', 'font', 'blur'].includes(name)) {
+			if (!['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'rgbshift', 'x1', 'x2', 'x3', 'x4', 'font', 'blur'].includes(name)) {
 				return P.makeFailure(i, 'unknown fn name');
 			}
 

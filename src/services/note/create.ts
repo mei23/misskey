@@ -1,4 +1,3 @@
-import es from '../../db/elasticsearch';
 import Note, { pack, INote, IChoice } from '../../models/note';
 import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser, getMute } from '../../models/user';
 import { publishMainStream, publishNotesStream } from '../stream';
@@ -585,19 +584,6 @@ function index(note: INote) {
 				});
 			});
 		}
-	}
-
-	if (!note.text || !config.elasticsearch) return;
-
-	if (es) {
-		es.index({
-			index: 'misskey',
-			type: 'note',
-			id: note._id.toString(),
-			body: {
-				text: note.text
-			}
-		});
 	}
 }
 

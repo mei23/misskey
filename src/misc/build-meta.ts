@@ -80,7 +80,7 @@ export async function buildMeta(instance: IMeta, detail = true) {
 			registration: !instance.disableRegistration,
 			localTimeLine: !instance.disableLocalTimeline,
 			globalTimeLine: !instance.disableGlobalTimeline,
-			elasticsearch: config.elasticsearch ? true : false,
+			elasticsearch: false,
 			recaptcha: instance.enableRecaptcha,
 			objectStorage: config.drive && config.drive.storage === 'minio',
 			twitter: instance.enableTwitterIntegration,

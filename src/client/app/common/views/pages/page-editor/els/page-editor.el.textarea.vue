@@ -55,4 +55,5 @@ export default Vue.extend({
 		background transparent
 		color var(--text)
 		font-size 14px
+		resize vertical
 </style>

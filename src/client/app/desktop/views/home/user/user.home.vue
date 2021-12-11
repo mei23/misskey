@@ -15,6 +15,8 @@
 	</div>
 	<!-- リアクション -->
 	<x-reactions :user="user"/>
+	<!-- よく話すユーザー -->
+	<mk-user-list :make-promise="makeFrequentlyRepliedUsersPromise" :icon-only="true"><fa icon="users"/> {{ $t('@.frequently-replied-users') }}</mk-user-list>
 	<!-- フォト -->
 	<x-photos :user="user"/>
 	<!-- タイムライン -->
@@ -44,6 +46,13 @@ export default Vue.extend({
 			required: true
 		}
 	},
+	data() {
+		return {
+			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get_frequently_replied_users', {
+				userId: this.user.id
+			}).then(res => res.map(x => x.user)),
+		};
+	}
 	methods: {
 		warp(date) {
 			(this.$refs.tl as any).warp(date);

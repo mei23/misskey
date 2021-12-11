@@ -205,6 +205,11 @@ export default Vue.component('misskey-flavored-markdown', {
 							style = !this.$store.state.settings.disableAnimatedMfm ? 'animation: mfm-rgbshift 2s linear infinite;' : '';
 							break;
 						}
+						case 'x1': {
+							style = `font-size: 100%;`;
+							fixedSize = true;
+							break;
+						}
 						case 'x2': {
 							style = `font-size: 200%;`;
 							fixedSize = true;
@@ -390,6 +395,12 @@ export default Vue.component('misskey-flavored-markdown', {
 					return (createElement as any)('span', {
 						style: !this.$store.state.settings.disableAnimatedMfm ? 'animation: mfm-rgbshift 2s linear infinite;' : ''
 					}, genEl(node.children, fixedSize));
+				}
+
+				case 'x1': {
+					return (createElement as any)('span', {
+						style: `font-size: 100%;`
+					}, genEl(node.children, true));
 				}
 
 				case 'x2': {

@@ -291,7 +291,7 @@ export default Vue.extend({
 			preview_search: `MisskeyでFediverseの世界が広がります 検索`,
 			preview_title: `【タイトル】`,
 			preview_anime1: `<motion>モーション</motion>\n*** ビッグ＋ ***\n**** ビッグ＋＋ ****\n<jump>ジャンプ</jump>\n<blink>blink</blink> <twitch>twitch</twitch> <shake>shake</shake>`,
-			preview_x: `<x2>🍮</x2>\n<x3>🍮</x3>\n<x4>🍮</x4>\n`,
+			preview_x: `<x1>🍮</x1>\n<x2>🍮</x2>\n<x3>🍮</x3>\n<x4>🍮</x4>\n`,
 			preview_flip: '<flip>左右反転</flip>\n<vflip>上下反転</vflip>\n<flip><vflip>双方反転</vflip></flip>',
 			preview_spin: '<spin>回転</spin> <spin left>左回転</spin> <spin alternate>往復回転</spin>',
 			preview_xspin: '<xspin>回転</xspin> <xspin left>左回転</xspin> <xspin alternate>往復回転</xspin>',
@@ -309,7 +309,7 @@ export default Vue.extend({
 			preview_fnSpeed: '$[spin.y,left,speed=1s あいう]\n$[spin.y,left,speed=2s あいう]\n$[spin.y,left,speed=3s あいう]',
 			preview_fnDelay: '$[spin.y,left,speed=1s,delay=0.1s あいう]\n$[spin.y,left,speed=1s,delay=0.2s あいう]\n$[spin.y,left,speed=1s,delay=0.3s あいう]',
 			preview_rgbshift: '<rgbshift>色ずれアニメーション効果です</rgbshift>',
-			preview_fnX: '$[x2 あいう]\n$[x3 あいう]\n$[x4 あいう]',
+			preview_fnX: '$[x1 あいう]\n$[x2 あいう]\n$[x3 あいう]\n$[x4 あいう]',
 			preview_blur: '$[blur あいう]',
 			preview_font: '$[font.serif serif]\n$[font.monospace monospace]',
 

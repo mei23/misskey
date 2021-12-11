@@ -21,7 +21,6 @@
 	</ui-container>
 	<x-reactions :user="user" style="margin-top: 16px; margin-bottom: 16px; "/>
 	<mk-user-list :make-promise="makeFrequentlyRepliedUsersPromise" :icon-only="true"><fa icon="users"/> {{ $t('frequently-replied-users') }}</mk-user-list>
-	<mk-user-list v-if="$store.getters.isSignedIn && $store.state.i.id !== user.id" :make-promise="makeFollowersYouKnowPromise" :icon-only="true"><fa icon="users"/> {{ $t('followers-you-know') }}</mk-user-list>
 </div>
 </template>
 
@@ -46,11 +45,6 @@ export default Vue.extend({
 			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get_frequently_replied_users', {
 				userId: this.user.id
 			}).then(res => res.map(x => x.user)),
-			makeFollowersYouKnowPromise: () => this.$root.api('users/followers', {
-				userId: this.user.id,
-				iknow: true,
-				limit: 30
-			}).then(res => res.users),
 		};
 	}
 });

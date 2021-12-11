@@ -101,6 +101,7 @@ const angleDb: MfmDef[] = [
 
 	{ name: 'rgbshift', head: '<rgbshift>', tail: '</rgbshift>', desc: '<rgbshift>rpgshift</rgbshift>' },
 
+	{ name: 'x1', head: '<x1>', tail: '</x1>', desc: '<x1>🍮</x1>' },
 	{ name: 'x2', head: '<x2>', tail: '</x2>', desc: '<x2>🍮</x2>' },
 	{ name: 'x3', head: '<x3>', tail: '</x3>', desc: '<x3>🍮</x3>' },
 	{ name: 'x4', head: '<x4>', tail: '</x4>', desc: '<x4>🍮</x4>' },
@@ -146,6 +147,7 @@ const fnDb: MfmDef[] = [
 	{ name: 'spin.x', head: '$[spin.x ', tail: ']', desc: '$[spin.x spin]' },
 	{ name: 'spin.y', head: '$[spin.y ', tail: ']', desc: '$[spin.y spin]' },
 
+	{ name: 'x1', head: '$[x1 ', tail: ']', desc: '$[x1 🍮]' },
 	{ name: 'x2', head: '$[x2 ', tail: ']', desc: '$[x2 🍮]' },
 	{ name: 'x3', head: '$[x3 ', tail: ']', desc: '$[x3 🍮]' },
 	{ name: 'x4', head: '$[x4 ', tail: ']', desc: '$[x4 🍮]' },

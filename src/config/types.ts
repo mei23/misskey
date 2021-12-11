@@ -23,11 +23,6 @@ export type Source = {
 		db?: number;
 		prefix?: string;
 	};
-	elasticsearch: {
-		host: string;
-		port: number;
-		pass: string;
-	};
 	drive?: DriveConfig;
 	remoteDrive?: DriveConfig;
 	proxyRemoteFiles?: boolean;

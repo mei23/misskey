@@ -117,6 +117,7 @@ export default Vue.extend({
 
 	&.iconOnly
 		padding 12px
+		text-align center
 
 		> .user
 			display inline-block
