@@ -596,10 +596,10 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
-"@types/koa__cors@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-3.0.3.tgz#49d75813b443ba3d4da28ea6cf6244b7e99a3b23"
-  integrity sha512-74Xb4hJOPGKlrQ4PRBk1A/p0gfLpgbnpT0o67OMVbwyeMXvlBN+ZCRztAAmkKZs+8hKbgMutUlZVbA52Hr/0IA==
+"@types/koa__cors@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-3.1.0.tgz#e8bd895b8cd5d185e7a14f71879c9dd493f6e273"
+  integrity sha512-G58LPceUaxFq+H/0dYtRAfqGtriw8K8+r4p0bqLm5CojYqIwBlWyBvj8OStmk5ojfeyf5jccbMOwQVDg2I3U9Q==
   dependencies:
     "@types/koa" "*"
 
