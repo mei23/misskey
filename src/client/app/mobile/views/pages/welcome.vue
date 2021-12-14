@@ -12,32 +12,12 @@
 		<div class="signin">
 			<a href="/signin" @click.prevent="signin()">{{ $t('@.signin') }}</a>
 		</div>
-		<div class="tl">
-			<mk-welcome-timeline/>
-		</div>
-		<div class="hashtags">
-			<mk-tag-cloud/>
-		</div>
-		<div class="photos">
-			<div v-for="photo in photos" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
-		</div>
-		<div class="stats" v-if="stats">
-			<span><fa icon="user"/> {{ stats.originalUsersCount | number }}</span>
-			<span><fa icon="pencil-alt"/> {{ stats.originalNotesCount | number }}</span>
-		</div>
 		<div class="announcements" v-if="announcements && announcements.length > 0">
 			<article v-for="(announcement, i) in announcements" :key="i">
 				<span class="title" v-html="announcement.title"></span>
 				<div v-html="announcement.text"></div>
 			</article>
 		</div>
-		<div class="info" v-if="meta">
-			<p>Version: <b>{{ meta.version }}</b></p>
-			<p>Maintainer: <b><a :href="'mailto:' + meta.maintainer.email" target="_blank">{{ meta.maintainer.name }}</a></b></p>
-		</div>
-		<footer>
-			<small>{{ copyright }}</small>
-		</footer>
 	</div>
 </div>
 </template>
@@ -46,7 +26,6 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import { constants, host } from '../../../config';
-import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode/';
 
 export default Vue.extend({
@@ -71,24 +50,6 @@ export default Vue.extend({
 			this.description = meta.description;
 			this.announcements = meta.announcements;
 			this.banner = meta.bannerUrl;
-		});
-
-		this.$root.api('stats', {}, false, true).then((stats: any) => {
-			this.stats = stats;
-		});
-
-		const image = ['image/jpeg','image/png','image/apng','image/gif','image/webp'];
-
-		this.$root.api('notes/featured', {
-			fileType: image,
-			limit: 6,
-			days: 1,
-			excludeNsfw: true,
-			includeGlobal: true,
-		}, false, false).then((notes: any[]) => {
-			notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-			const files = concat(notes.map((n: any): any[] => n.files));
-			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);
 		});
 	},
 	methods: {

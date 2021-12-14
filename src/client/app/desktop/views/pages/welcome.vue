@@ -125,7 +125,6 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import { host, constants } from '../../../config';
-import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode/';
 
 export default Vue.extend({
@@ -155,20 +154,6 @@ export default Vue.extend({
 
 		this.$root.api('stats', {}, false, true).then((stats: any) => {
 			this.stats = stats;
-		});
-
-		const image = ['image/jpeg','image/png','image/apng','image/gif','image/webp'];
-
-		this.$root.api('notes/featured', {
-			fileType: image,
-			limit: 6,
-			days: 1,
-			excludeNsfw: true,
-			includeGlobal: true,
-		}, false, false).then((notes: any[]) => {
-			notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-			const files = concat(notes.map((n: any): any[] => n.files));
-			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);
 		});
 	},
 
