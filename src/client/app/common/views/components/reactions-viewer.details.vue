@@ -1,6 +1,10 @@
 <template>
 <transition name="zoom-in-top">
 	<div class="buebdbiu" ref="popover" v-if="show">
+		<div class="reaction">
+			<mk-reaction-icon class="icon" :reaction="reaction" :customEmojis="customEmojis"/>
+			<span class="name" v-if="reaction.match(/:/)">{{ reaction.replace(/:/g, '').replace(/@\./, '') }}</span>
+		</div>
 		<b v-for="u in users.slice(0, 10)" :key="u.id" style="margin-right: 12px;">
 			<mk-avatar :user="u" style="width: 24px; height: 24px; margin-right: 2px;"/>
 			<mk-user-name :user="u" :nowrap="false" style="line-height: 24px;"/>
@@ -15,6 +19,14 @@ import Vue from 'vue';
 
 export default Vue.extend({
 	props: {
+		reaction: {
+			type: String,
+			required: true,
+		},
+		customEmojis: {
+			type: Array,
+			required: true,
+		},
 		users: {
 			type: Array,
 			required: true,
@@ -99,4 +111,12 @@ export default Vue.extend({
 		border-right solid 14px transparent
 		border-bottom solid 14px $bgcolor
 		border-left solid 14px transparent
+
+	> .reaction
+		margin 0.3em
+		> .icon
+			font-size 2em
+		> .name
+			margin 1em
+			font-style italic
 </style>

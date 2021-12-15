@@ -1990,6 +1990,10 @@ deck/deck.user-column.vue:
   timeline: "Timeline"
   pinned-notes: "Pinned posts"
   fetch-posts: "Fetch posts"
+  years-old: "{age} years old"
+  year: "/"
+  month: "/"
+  day: "-"
 docs:
   edit-this-page-on-github: "Found an error, or do you want to contribute to the documentation?"
   edit-this-page-on-github-link: "Edit this page at GitHub!"

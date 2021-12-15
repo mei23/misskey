@@ -2209,6 +2209,10 @@ deck/deck.user-column.vue:
   timeline: "タイムライン"
   pinned-notes: "ピン留めされた投稿"
   fetch-posts: 投稿を取得
+  years-old: "{age}歳"
+  year: "年"
+  month: "月"
+  day: "日"
 
 docs:
   edit-this-page-on-github: "間違いや改善点を見つけましたか？"

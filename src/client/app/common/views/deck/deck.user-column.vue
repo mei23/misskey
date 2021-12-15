@@ -43,6 +43,10 @@
 					</dd>
 				</dl>
 			</div>
+		<div class="info">
+			<div class="location" v-if="user.profile && user.profile.location"><fa icon="map-marker"/> {{ user.profile.location }}</div>
+			<div class="birthday" v-if="user.profile && user.profile.birthday"><fa icon="birthday-cake"/> {{ user.profile.birthday.replace('-', $t('year')).replace('-', $t('month')) + $t('day') }} ({{ $t('years-old', { age }) }})</div>
+		</div>
 			<div class="counts">
 				<div v-if="isPostsPage">
 					<a @click="scrollToTL()">
@@ -88,6 +92,7 @@ import XListMenu from '../../../common/views/components/list-menu.vue';
 import XIntegrations from '../../../common/views/components/integrations.vue';
 import ImageViewer from '../../../common/views/components/image-viewer.vue';
 import { faUserTag } from '@fortawesome/free-solid-svg-icons';
+import { calcAge } from '../../../../../misc/calc-age';
 
 export default Vue.extend({
 	i18n: i18n('deck/deck.user-column.vue'),
@@ -115,6 +120,9 @@ export default Vue.extend({
 				backgroundImage: `url(${ this.user.bannerUrl })`
 			};
 		},
+		age(): number {
+			return calcAge(this.user.profile.birthday);
+		}
 	},
 
 	watch: {
