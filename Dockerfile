@@ -14,7 +14,7 @@ RUN yarn install
 COPY . ./
 RUN yarn build
 
-FROM 16.13-bullseye-slim AS runner
+FROM node:16.13-bullseye-slim AS runner
 
 RUN apt-get update
 RUN apt-get install -y ffmpeg mecab mecab-ipadic-utf8
