@@ -1,4 +1,4 @@
-FROM node:16.13.0-bullseye AS base
+FROM node:16.13-bullseye AS base
 
 ENV NODE_ENV=production
 
@@ -14,7 +14,7 @@ RUN yarn install
 COPY . ./
 RUN yarn build
 
-FROM base AS runner
+FROM 16.13-bullseye-slim AS runner
 
 RUN apt-get update
 RUN apt-get install -y ffmpeg mecab mecab-ipadic-utf8
