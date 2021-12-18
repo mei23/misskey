@@ -22,6 +22,10 @@ export function concat<T>(xss: T[][]): T[] {
 	return ([] as T[]).concat(...xss);
 }
 
+export function removeNull<T>(src: (T | null | undefined)[]): T[] {
+	return src.filter((x): x is T => x != null);
+}
+
 /**
  * Returns the array of elements that is not equal to the element
  */

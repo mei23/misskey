@@ -8,7 +8,7 @@
 <a class="gqnyydlzavusgskkfvwvjiattxdzsqlf" v-else
 	:href="image.url"
 	:style="style"
-	:title="image.name"
+	:title="imageInfo"
 	@click.prevent="onClick"
 >
 </a>
@@ -44,7 +44,10 @@ export default Vue.extend({
 				'background-color': `var(--face)`,
 				'background-image': url
 			};
-		}
+		},
+		imageInfo(): string {
+			return `${this.image.name}\n${this.image.properties?.width} x ${this.image.properties?.height} px`;
+		},
 	},
 	methods: {
 		onClick() {

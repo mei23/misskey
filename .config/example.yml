@@ -4,6 +4,9 @@ url: https://example.tld/
 # Listen port
 port: 3000
 
+# Listen address (default is probably any)
+# addr: '127.0.0.0'
+
 mongodb:
   host: localhost
   port: 27017
@@ -39,6 +42,7 @@ drive:
 #    useSSL: true
 #    accessKey: <accessKey>
 #    secretKey: <secretKey>
+#    useProxy: true
 #    setPublicRead: false
 #    s3ForcePathStyle: true
 #
@@ -57,6 +61,9 @@ drive:
 #     S3: https://<bucket>.s3.amazonaws.com
 #     GCS: https://storage.googleapis.com/<bucket>
 #     Other services: https://s3.example.com/<bucket>
+#
+# * useProxy
+#     Use proxy
 #
 # * setPublicRead
 #     Set to true to set 'public-read' to the file (default: false)
@@ -116,18 +123,15 @@ icons:
 # デフォルトのテーマカラー
 themeColor: '#fb4e4e'
 
-# Mecab検索インデックス 使用する場合は以下を指定
+# MeCab検索インデックス 使用する場合は以下を指定
+# Ubuntuとかなら apt install -y mecab mecab-ipadic-utf8 して、mecabSearch.mecabBin を指定すればよい。
 #mecabSearch:
-#  # mecabパス
+#  # MeCabパス
 #  mecabBin: mecab
-#  # mecab辞書 (オプション)
+#  # MeCab辞書 (オプション)
 #  mecabDic: /usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd
-
-# Elasticsearch
-#elasticsearch:
-#  host: localhost
-#  port: 9200
-#  pass: null
+#  # MeCab辞書がmecab-ipadic-NEologdの場合は以下を指定するとよい
+#  mecabNeologd: true
 
 # Whether disable HSTS
 #disableHsts: true
@@ -173,8 +177,15 @@ themeColor: '#fb4e4e'
 #proxySmtp: socks4://127.0.0.1:1080 # use SOCKS4
 #proxySmtp: socks5://127.0.0.1:1080 # use SOCKS5
 
-# アップロードやリモート取得で処理できるファイルサイズの制限 (bytes)
+#allowedPrivateNetworks: [
+#  '127.0.0.1/32'
+#]
+
+# Upload or download file size limits (bytes)
 #maxFileSize: 262144000
 
 # サーバー情報を隠す (default: false)
 #hideServerInfo: true
+
+# 設定できる最低年齢
+# minimumAge: 13

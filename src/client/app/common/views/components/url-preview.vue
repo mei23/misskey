@@ -11,6 +11,9 @@
 		</a>
 	</div>
 </div>
+<div v-else-if="steamId && !narrow">
+	<iframe :src="`https://store.steampowered.com/widget/${steamId}/`" frameborder="0" width="100%" height="190"></iframe>
+</div>
 <div v-else class="mk-url-preview">
 	<a :class="{ mini: narrow, compact }" :href="landingUrl" rel="nofollow noopener" target="_blank" :title="landingUrl" v-if="!fetching">
 		<div class="thumbnail" v-if="thumbnail && (!sensitive || $store.state.device.alwaysShowNsfw)" :style="`background-image: url('${thumbnail}')`">
@@ -85,6 +88,7 @@ export default Vue.extend({
 			tweetId: null,
 			tweetExpanded: this.detail,
 			embedId: `embed${Math.random().toString().replace(/\D/,'')}`,
+			steamId: null,
 			tweetHeight: 150,
 			tweetLeft: 0,
 			playerEnabled: false,
@@ -97,6 +101,11 @@ export default Vue.extend({
 
 		if (this.isBlokedUrl(requestUrl)) {
 			return;
+		}
+
+		if (requestUrl.hostname == 'store.steampowered.com') {
+			const m = requestUrl.pathname.match(/^\/app\/(\d+)/);
+			if (m) this.steamId = m[1];
 		}
 
 		if (requestUrl.hostname == 'twitter.com') {

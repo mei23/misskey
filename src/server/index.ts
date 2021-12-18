@@ -22,7 +22,11 @@ import apiServer from './api';
 import { sum } from '../prelude/array';
 import User from '../models/user';
 import Logger from '../services/logger';
-import { program } from '../argv';
+import { envOption } from '../env';
+import parse from '../misc/acct/parse';
+import resolveUser from '../remote/resolve-user';
+import getDriveFileUrl from '../misc/get-drive-file-url';
+import DriveFile from '../models/drive-file';
 
 export const serverLogger = new Logger('server', 'gray', false);
 
@@ -37,7 +41,7 @@ if (!['production', 'test'].includes(process.env.NODE_ENV || 'development')) {
 	}));
 
 	// Delay
-	if (program.slow) {
+	if (envOption.slow) {
 		app.use(slow({
 			delay: 3000
 		}));
@@ -69,6 +73,20 @@ const router = new Router();
 router.use(activityPub.routes());
 router.use(nodeinfo.routes());
 router.use(wellKnown.routes());
+
+router.get('/avatar/@:acct', async ctx => {
+	const { username, host } = parse(ctx.params.acct);
+	const user = await resolveUser(username, host);
+	const url = user?.avatarId ? getDriveFileUrl(await DriveFile.findOne({ _id: user.avatarId }), true) : null;
+
+	if (url) {
+		ctx.set('Cache-Control', 'public, max-age=300');
+		ctx.redirect(url);
+	} else {
+		ctx.set('Cache-Control', 'public, max-age=300');
+		ctx.redirect(`${config.driveUrl}/default-avatar.jpg`);
+	}
+});
 
 router.get('/verify-email/:code', async ctx => {
 	const user = await User.findOne({ emailVerifyCode: ctx.params.code });
@@ -114,7 +132,7 @@ export const startServer = () => {
 	require('./api/streaming')(server);
 
 	// Listen
-	server.listen(config.port);
+	server.listen(config.port, config.addr || undefined);
 
 	return server;
 };
@@ -126,7 +144,7 @@ export default () => new Promise(resolve => {
 	require('./api/streaming')(server);
 
 	// Listen
-	server.listen(config.port, resolve);
+	server.listen(config.port, config.addr || undefined, resolve);
 
 	//#region Network stats
 	let queue: any[] = [];

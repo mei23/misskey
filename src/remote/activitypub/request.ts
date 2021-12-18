@@ -2,8 +2,9 @@ import config from '../../config';
 import { getResponse } from '../../misc/fetch';
 import { createSignedPost, createSignedGet } from './ap-request';
 import { ILocalUser } from '../../models/user';
+import { ThinUserWithKey } from '../../queue/types';
 
-export default async (user: ILocalUser, url: string, object: any) => {
+export default async (user: ThinUserWithKey, url: string, object: any) => {
 	const body = JSON.stringify(object);
 
 	const req = createSignedPost({
@@ -49,14 +50,5 @@ export async function signedGet(url: string, user: ILocalUser) {
 		headers: req.request.headers
 	});
 
-	try {
-		return await res.json();
-	} catch (e) {
-		throw {
-			name: `JsonParseError`,
-			statusCode: 481,
-			message: `JSON parse error ${e.message || e}`
-		};
-	}
+	return await JSON.parse(res.body);
 }
-

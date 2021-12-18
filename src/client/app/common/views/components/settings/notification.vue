@@ -12,6 +12,7 @@
 		<ui-switch v-model="poll_vote" @change="onChangePushNotifications">{{ $t('poll_vote') }}</ui-switch>
 		<ui-switch v-model="poll_finished" @change="onChangePushNotifications">{{ $t('poll_finished') }}</ui-switch>
 		<ui-switch v-model="highlight" @change="onChangePushNotifications">{{ $t('highlight') }}</ui-switch>
+		<ui-switch v-model="unreadMessagingMessage" @change="onChangePushNotifications">{{ $t('unreadMessagingMessage') }}</ui-switch>
 	</section>
 	<section>
 		<ui-switch v-model="$store.state.i.settings.autoWatch" @change="onChangeAutoWatch">
@@ -45,6 +46,7 @@ export default Vue.extend({
 			poll_vote: true,
 			poll_finished: true,
 			highlight: true,
+			unreadMessagingMessage: true,
 		};
 	},
 
@@ -58,6 +60,7 @@ export default Vue.extend({
 		this.poll_vote = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'poll_vote');
 		this.poll_finished = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'poll_finished');
 		this.highlight = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'highlight');
+		this.unreadMessagingMessage = this.getPushNotificationsValue(this.$store.state.i.settings.pushNotifications, 'unreadMessagingMessage');
 	},
 
 	methods: {
@@ -79,6 +82,7 @@ export default Vue.extend({
 					poll_vote: this.poll_vote,
 					poll_finished: this.poll_finished,
 					highlight: this.highlight,
+					unreadMessagingMessage: this.unreadMessagingMessage,
 				}
 			});
 		},

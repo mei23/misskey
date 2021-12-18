@@ -25,8 +25,23 @@ export const getDriveFileBucket = async (): Promise<mongo.GridFSBucket> => {
 	return bucket;
 };
 
+export type IDriveFile = {
+	_id: mongo.ObjectID;
+	uploadDate: Date;
+	md5: string;
+	filename: string;
+	contentType: string;
+	animation?: 'yes' | 'no';
+	metadata?: IMetadata;
+
+	/**
+	 * ファイルサイズ
+	 */
+	length: number;
+};
+
 export type IMetadata = {
-	properties: any;
+	properties?: IProperties;
 	userId: mongo.ObjectID;
 	_user: any;
 	folderId: mongo.ObjectID;
@@ -87,6 +102,14 @@ export type IMetadata = {
 	isRemote?: boolean;
 };
 
+export type IProperties = {
+	width?: number;
+	height?: number;
+	webpublicWidth?: number;
+	webpublicHeight?: number;
+	webpublicLength?: number;
+};
+
 export type IStorageProps = {
 	/**
 	 * ObjectStorage key for original
@@ -104,21 +127,6 @@ export type IStorageProps = {
 	webpublicKey?: string;
 
 	id?: string;
-};
-
-export type IDriveFile = {
-	_id: mongo.ObjectID;
-	uploadDate: Date;
-	md5: string;
-	filename: string;
-	contentType: string;
-	animation?: 'yes' | 'no';
-	metadata?: IMetadata;
-
-	/**
-	 * ファイルサイズ
-	 */
-	length: number;
 };
 
 export function validateFileName(name: string): boolean {
@@ -180,7 +188,7 @@ export const pack = async (
 	}
 
 	// rendered target
-	let _target: any = {};
+	const _target: any = {};
 
 	_target.id = _file._id;
 	_target.createdAt = _file.uploadDate;
@@ -188,17 +196,20 @@ export const pack = async (
 	_target.type = _file.contentType;
 	_target.animation = _file.animation;
 	_target.datasize = _file.length;
+	_target.size = _file.length;
 	_target.md5 = _file.md5;
-
-	_target = Object.assign(_target, _file.metadata);
 
 	_target.url = getDriveFileUrl(_file);
 	_target.thumbnailUrl = getDriveFileUrl(_file, true);
-	_target.isRemote = _file.metadata.isRemote;
 
-	if (_target.properties == null) _target.properties = {};
+	_target.properties = _file.metadata.properties || {};
+	_target.comment = _file.metadata.comment;
+	_target.deletedAt = _file.metadata.deletedAt;
+	_target.isSensitive = _file.metadata.isSensitive;
 
 	if (opts.detail) {
+		_target.folderId = _file.metadata.folderId;
+
 		if (_target.folderId) {
 			// Populate folder
 			_target.folder = await packFolder(_target.folderId, {
@@ -218,17 +229,9 @@ export const pack = async (
 
 	if (opts.withUser) {
 		// Populate user
+		_target.userId = _file.metadata.userId;
 		_target.user = await packUser(_file.metadata.userId);
 	}
-
-	delete _target.withoutChunks;
-	delete _target.storage;
-	delete _target.storageProps;
-	delete _target.isRemote;
-	delete _target._user;
-	delete _target.src;
-	delete _target.uri;
-	delete _target.attachedNoteIds;
 
 	if (opts.self) {
 		_target.webpublicUrl = _target.url;

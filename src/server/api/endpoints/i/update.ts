@@ -15,6 +15,8 @@ import { ApiError } from '../../error';
 import { sendDeleteActivity } from '../../../../services/suspend-user';
 import { doPostUnsuspend } from '../../../../services/unsuspend-user';
 import { normalizeTag } from '../../../../misc/normalize-tag';
+import config from '../../../../config';
+import { calcAge } from '../../../../misc/calc-age';
 
 export const meta = {
 	desc: {
@@ -196,7 +198,8 @@ export const meta = {
 				reaction: $.optional.bool,
 				poll_vote: $.optional.bool,
 				poll_finished: $.optional.bool,
-				highlight: $.optional.bool
+				highlight: $.optional.bool,
+				unreadMessagingMessage: $.optional.bool
 			}),
 			desc: {
 				'ja-JP': 'オフラインプッシュ通知の対象'
@@ -239,7 +242,19 @@ export default define(meta, async (ps, user, app) => {
 	if (ps.name !== undefined) updates.name = ps.name;
 	if (ps.description !== undefined) updates.description = ps.description;
 	if (ps.location !== undefined) updates['profile.location'] = ps.location;
-	if (ps.birthday !== undefined) updates['profile.birthday'] = ps.birthday;
+	if (ps.birthday !== undefined) {
+		if (typeof config.minimumAge === 'number' && ps.birthday != null) {
+			const d = new Date(ps.birthday);
+			if (d?.toString() !== 'Invalid Date') {
+				const a = calcAge(d);
+				if (a < config.minimumAge && a >= 0) {
+					ps.birthday = null;
+				}
+			}
+		}
+
+		updates['profile.birthday'] = ps.birthday;
+	}
 	if (ps.avatarId !== undefined) updates.avatarId = ps.avatarId;
 	if (ps.bannerId !== undefined) updates.bannerId = ps.bannerId;
 	if (ps.wallpaperId !== undefined) updates.wallpaperId = ps.wallpaperId;
@@ -267,14 +282,10 @@ export default define(meta, async (ps, user, app) => {
 		if (avatar == null) throw new ApiError(meta.errors.noSuchAvatar);
 		if (!avatar.contentType.startsWith('image/')) throw new ApiError(meta.errors.avatarNotAnImage);
 
-		if (avatar.metadata.deletedAt) {
+		if (avatar.metadata?.deletedAt) {
 			updates.avatarUrl = null;
 		} else {
 			updates.avatarUrl = getDriveFileUrl(avatar, true);
-
-			if (avatar.metadata.properties.avgColor) {
-				updates.avatarColor = avatar.metadata.properties.avgColor;
-			}
 		}
 	}
 
@@ -286,14 +297,10 @@ export default define(meta, async (ps, user, app) => {
 		if (banner == null) throw new ApiError(meta.errors.noSuchBanner);
 		if (!banner.contentType.startsWith('image/')) throw new ApiError(meta.errors.bannerNotAnImage);
 
-		if (banner.metadata.deletedAt) {
+		if (banner.metadata?.deletedAt) {
 			updates.bannerUrl = null;
 		} else {
 			updates.bannerUrl = getDriveFileUrl(banner, false);
-
-			if (banner.metadata.properties.avgColor) {
-				updates.bannerColor = banner.metadata.properties.avgColor;
-			}
 		}
 	}
 
@@ -308,14 +315,10 @@ export default define(meta, async (ps, user, app) => {
 
 			if (wallpaper == null) throw new Error('wallpaper not found');
 
-			if (wallpaper.metadata.deletedAt) {
+			if (wallpaper.metadata?.deletedAt) {
 				updates.wallpaperUrl = null;
 			} else {
 				updates.wallpaperUrl = getDriveFileUrl(wallpaper);
-
-				if (wallpaper.metadata.properties.avgColor) {
-					updates.wallpaperColor = wallpaper.metadata.properties.avgColor;
-				}
 			}
 		}
 	}
@@ -362,7 +365,7 @@ export default define(meta, async (ps, user, app) => {
 	});
 
 	// Publish meUpdated event
-	publishMainStream(user._id, 'meUpdated', iObj);
+	publishMainStream(user._id, 'meUpdated', iObj!);
 
 	// 鍵垢を解除したとき、溜まっていたフォローリクエストがあるならすべて承認
 	if (user.isLocked && ps.isLocked === false) {

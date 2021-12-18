@@ -87,6 +87,7 @@
 								</router-link>
 								<mk-time :time="notification.createdAt"/>
 							</header>
+							<a @click="followRequests">{{ $t('@.follow-requests') }}</a>
 						</div>
 					</template>
 
@@ -171,6 +172,22 @@
 							</a>
 						</div>
 					</template>
+
+					<template v-if="notification.type == 'unreadMessagingMessage'">
+						<mk-avatar class="avatar" :user="notification.user"/>
+						<div class="text">
+							<header>
+								<fa :icon="['far', 'comment']" class="icon"/>
+								<router-link :to="notification.user | userPage" v-user-preview="notification.user.id" class="name">
+									<mk-user-name :user="notification.user"/>
+								</router-link>
+								<mk-time :time="notification.createdAt"/>
+							</header>
+							<a class="note-preview" @click="toChat(notification.user)">
+								<mfm :text="notification.message.text" :plain="true" :custom-emojis="notification.message.emojis"/>
+							</a>
+						</div>
+					</template>
 				</div>
 
 				<p class="date" v-if="i != notifications.length - 1 && notification && _notifications[i + 1] && notification._date != _notifications[i + 1]._date" :key="notification.id + '-time'">
@@ -192,6 +209,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import getNoteSummary from '../../../../../misc/get-note-summary';
 import * as config from '../../../config';
+import MkFollowRequestsWindow from './received-follow-requests-window.vue';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 
 export default Vue.extend({
@@ -309,7 +327,15 @@ export default Vue.extend({
 				sound.volume = this.$store.state.device.soundVolume;
 				sound.play();
 			}
-		}
+		},
+
+		followRequests() {
+			this.$root.new(MkFollowRequestsWindow);
+		},
+
+		toChat(user: any) {
+			import('./messaging-room-window.vue').then(m => this.$root.new(m.default, { user }));
+		},
 	}
 });
 </script>
@@ -414,7 +440,7 @@ export default Vue.extend({
 					.text header [data-icon]
 						color #888
 
-				&.reply, &.mention, &.highlight
+				&.reply, &.mention, &.highlight, &.unreadMessagingMessage
 					.text header [data-icon]
 						color #555
 

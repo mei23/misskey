@@ -5,6 +5,7 @@ import Resolver from '../resolver';
 import fetchMeta from '../../../misc/fetch-meta';
 import { apLogger } from '../logger';
 import { IObject, isDocument } from '../type';
+import { StatusError } from '../../../misc/fetch';
 
 const logger = apLogger;
 
@@ -35,14 +36,8 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
 		file = await uploadFromUrl(image.url, actor, null, image.url, !!image.sensitive, false, !cache);
 	} catch (e) {
 		// 4xxの場合は添付されてなかったことにする
-		if (e >= 400 && e < 500) {
-			logger.warn(`Ignored image: ${image.url} - ${e}`);
-			return null;
-		}
-
-		// misc
-		if (e.code === 'HPE_HEADER_OVERFLOW') {
-			logger.warn(`Ignored image: ${image.url} - ${e.code}`);
+		if (e instanceof StatusError && e.isClientError) {
+			logger.warn(`Ignored image: ${image.url} - ${e.statusCode}`);
 			return null;
 		}
 

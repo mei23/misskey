@@ -210,6 +210,12 @@ export default Vue.extend({
 		deleteFolder() {
 			this.$root.api('drive/folders/delete', {
 				folderId: this.folder.id
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					title: 'Error',
+					text: e.message || e
+				});
 			});
 		}
 	}

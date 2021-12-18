@@ -2,6 +2,7 @@ import $ from 'cafy';
 import Emoji from '../../../../../models/emoji';
 import define from '../../../define';
 import { escapeRegExp } from 'lodash';
+import { getEmojiUrl } from '../../../../../misc/pack-emojis';
 
 export const meta = {
 	desc: {
@@ -78,8 +79,9 @@ export default define(meta, async (ps) => {
 		category: e.category,
 		aliases: e.aliases,
 		host: e.host,
-		url: e.url,
+		url: getEmojiUrl(e),
 		type: e.type,
 		md5: e.md5,
+		direction: e.direction,
 	}));
 });

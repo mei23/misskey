@@ -55,7 +55,7 @@
 					{{ submitText }}
 				</ui-button>
 				<div ref="visibilityButton" :title="$t('visibility')">
-					<ui-button class="button ok" inline primary :disabled="!canPost" :shrink="1" @click="setVisibility">
+					<ui-button class="button ok" inline primary :shrink="1" @click="setVisibility">
 						<fa icon="angle-down" fixed-width/>
 					</ui-button>
 				</div>

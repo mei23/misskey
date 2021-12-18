@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  redistest:
+    image: redis:4.0-alpine
+    ports:
+      - "127.0.0.1:56310:6379"
+
+  mongotest:
+    image: mongo:4.4
+    ports:
+      - "127.0.0.1:57010:27017"

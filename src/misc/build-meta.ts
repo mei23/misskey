@@ -47,12 +47,20 @@ export async function buildMeta(instance: IMeta, detail = true) {
 		bannerUrl: instance.bannerUrl,
 		iconUrl: instance.iconUrl,
 		maxNoteTextLength: instance.maxNoteTextLength,
-		emojis: emojis.map(e => ({
-			aliases: e.aliases,
-			name: e.name,
-			category: e.category,
-			url: e.url,
-		})),
+		emojis: emojis.map(e => {
+			const r = {
+				aliases: e.aliases,
+				name: e.name,
+				category: e.category,
+				url: e.url,
+			} as any;
+
+			if (e.direction) {
+				r.direction = e.direction
+			}
+
+			return r;
+		}),
 
 		enableEmail: instance.enableEmail,
 
@@ -63,6 +71,8 @@ export async function buildMeta(instance: IMeta, detail = true) {
 		enableServiceWorker: instance.enableServiceWorker,
 
 		proxyAccountName: instance.proxyAccount || null,
+
+		minimumAge: config.minimumAge,
 	};
 
 	if (detail) {
@@ -70,7 +80,7 @@ export async function buildMeta(instance: IMeta, detail = true) {
 			registration: !instance.disableRegistration,
 			localTimeLine: !instance.disableLocalTimeline,
 			globalTimeLine: !instance.disableGlobalTimeline,
-			elasticsearch: config.elasticsearch ? true : false,
+			elasticsearch: false,
 			recaptcha: instance.enableRecaptcha,
 			objectStorage: config.drive && config.drive.storage === 'minio',
 			twitter: instance.enableTwitterIntegration,

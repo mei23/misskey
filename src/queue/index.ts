@@ -84,7 +84,10 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
 	if (content == null) return null;
 
 	const data = {
-		user,
+		user: {
+			_id: `${user._id}`,
+			keypair: user.keypair
+		},
 		content,
 		to,
 		inboxInfo
@@ -126,7 +129,7 @@ export function inbox(activity: IActivity, signature: httpSignature.IParsedSigna
 
 export function createDeleteNotesJob(user: IUser) {
 	return dbQueue.add('deleteNotes', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 3 * 60 * 60 * 1000,	// 3hour
 		removeOnComplete: true,
@@ -136,7 +139,7 @@ export function createDeleteNotesJob(user: IUser) {
 
 export function createDeleteDriveFilesJob(user: IUser) {
 	return dbQueue.add('deleteDriveFiles', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 3 * 60 * 60 * 1000,	// 3hour
 		removeOnComplete: true,
@@ -146,7 +149,7 @@ export function createDeleteDriveFilesJob(user: IUser) {
 
 export function createDeleteNoteJob(note: INote, delay: number) {
 	return dbQueue.add('deleteNote', {
-		noteId: note._id
+		noteId: `${note._id}`
 	}, {
 		delay,
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
@@ -187,7 +190,7 @@ export function createNotifyPollFinishedJob(note: INote, user: ILocalUser, expir
 
 export function createExportNotesJob(user: ILocalUser) {
 	return dbQueue.add('exportNotes', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -197,7 +200,7 @@ export function createExportNotesJob(user: ILocalUser) {
 
 export function createExportFollowingJob(user: ILocalUser) {
 	return dbQueue.add('exportFollowing', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -207,7 +210,7 @@ export function createExportFollowingJob(user: ILocalUser) {
 
 export function createExportMuteJob(user: ILocalUser) {
 	return dbQueue.add('exportMute', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -217,7 +220,7 @@ export function createExportMuteJob(user: ILocalUser) {
 
 export function createExportBlockingJob(user: ILocalUser) {
 	return dbQueue.add('exportBlocking', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -227,7 +230,7 @@ export function createExportBlockingJob(user: ILocalUser) {
 
 export function createExportUserListsJob(user: ILocalUser) {
 	return dbQueue.add('exportUserLists', {
-		user: user
+		user: { _id: `${user._id}` }
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -237,8 +240,8 @@ export function createExportUserListsJob(user: ILocalUser) {
 
 export function createImportFollowingJob(user: ILocalUser, fileId: IDriveFile['_id']) {
 	return dbQueue.add('importFollowing', {
-		user: user,
-		fileId: fileId
+		user: { _id: `${user._id}` },
+		fileId: `${fileId}`
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -248,8 +251,8 @@ export function createImportFollowingJob(user: ILocalUser, fileId: IDriveFile['_
 
 export function createImportBlockingJob(user: ILocalUser, fileId: IDriveFile['_id']) {
 	return dbQueue.add('importBlocking', {
-		user: user,
-		fileId: fileId
+		user: { _id: `${user._id}` },
+		fileId: `${fileId}`
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -259,8 +262,8 @@ export function createImportBlockingJob(user: ILocalUser, fileId: IDriveFile['_i
 
 export function createImportMuteJob(user: ILocalUser, fileId: IDriveFile['_id']) {
 	return dbQueue.add('importMute', {
-		user: user,
-		fileId: fileId
+		user: { _id: `${user._id}` },
+		fileId: `${fileId}`
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,
@@ -270,8 +273,8 @@ export function createImportMuteJob(user: ILocalUser, fileId: IDriveFile['_id'])
 
 export function createImportUserListsJob(user: ILocalUser, fileId: IDriveFile['_id']) {
 	return dbQueue.add('importUserLists', {
-		user: user,
-		fileId: fileId
+		user: { _id: `${user._id}` },
+		fileId: `${fileId}`
 	}, {
 		timeout: 1 * 60 * 60 * 1000,	// 1hour
 		removeOnComplete: true,

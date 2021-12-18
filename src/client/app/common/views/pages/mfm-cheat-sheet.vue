@@ -238,8 +238,8 @@
 
 	<section>
 		<header>fn系拡大</header>
-		<p><mfm :text="preview_x" :key="preview_x"/></p>
-		<ui-textarea :slim="false" class="text" v-model="preview_x"></ui-textarea>
+		<p><mfm :text="preview_fnX" :key="preview_fnX"/></p>
+		<ui-textarea :slim="false" class="text" v-model="preview_fnX"></ui-textarea>
 	</section>
 
 	<section>
@@ -291,27 +291,27 @@ export default Vue.extend({
 			preview_search: `MisskeyでFediverseの世界が広がります 検索`,
 			preview_title: `【タイトル】`,
 			preview_anime1: `<motion>モーション</motion>\n*** ビッグ＋ ***\n**** ビッグ＋＋ ****\n<jump>ジャンプ</jump>\n<blink>blink</blink> <twitch>twitch</twitch> <shake>shake</shake>`,
-			preview_x: `<x2>🍮</x2>\n<x3>🍮</x3>\n<x4>🍮</x4>\n`,
+			preview_x: `<x1>🍮</x1>\n<x2>🍮</x2>\n<x3>🍮</x3>\n<x4>🍮</x4>\n`,
 			preview_flip: '<flip>左右反転</flip>\n<vflip>上下反転</vflip>\n<flip><vflip>双方反転</vflip></flip>',
 			preview_spin: '<spin>回転</spin> <spin left>左回転</spin> <spin alternate>往復回転</spin>',
 			preview_xspin: '<xspin>回転</xspin> <xspin left>左回転</xspin> <xspin alternate>往復回転</xspin>',
 			preview_yspin: '<yspin>回転</yspin> <yspin left>左回転</yspin> <yspin alternate>往復回転</yspin>',
 			preview_rotate: '<rotate 30>指定角度回転</rotate>',
 			preview_marquee: '<marquee>マーキー (右から左へ)</marquee>\n<marquee reverse>マーキー (左から右へ)</marquee>\n<marquee alternate>マーキー (往復)</marquee>\n<marquee slide>マーキー (右から出てきて左で停止)</marquee>\n<marquee reverse-slide>マーキー (左から出てきて右で停止)</marquee>',
-			preview_fn1: '[jelly 🍣] びよんびよん motionに同じ\n'
-				+ '[tada 🍣] じゃーん 太字にならないビッグ＋に同じ\n'
-				+ '[jump 🍣] ジャンプ jump同じ\n'
-				+ '[bounce 🍣] バウンド\n'
-				+ '[shake 🍣] ぶるぶる\n'
-				+ '[twitch 🍣] ブレ',
-			preview_fnFlip: '[flip MisskeyでFediverseの世界が広がります]\n[flip.v MisskeyでFediverseの世界が広がります]\n[flip.h,v MisskeyでFediverseの世界が広がります]',
-			preview_fnSpin: '[spin あいう] [spin.left あいう] [spin.alternate あいう]\n[spin.x あいう] [spin.x,left あいう] [spin.x,alternate あいう]\n[spin.y あいう] [spin.y,left あいう] [spin.y,alternate あいう]',
-			preview_fnSpeed: '[spin.y,left,speed=1s あいう]\n[spin.y,left,speed=2s あいう]\n[spin.y,left,speed=3s あいう]',
-			preview_fnDelay: '[spin.y,left,speed=1s,delay=0.1s あいう]\n[spin.y,left,speed=1s,delay=0.2s あいう]\n[spin.y,left,speed=1s,delay=0.3s あいう]',
+			preview_fn1: '$[jelly 🍣] びよんびよん motionに同じ\n'
+				+ '$[tada 🍣] じゃーん 太字にならないビッグ＋に同じ\n'
+				+ '$[jump 🍣] ジャンプ jump同じ\n'
+				+ '$[bounce 🍣] バウンド\n'
+				+ '$[shake 🍣] ぶるぶる\n'
+				+ '$[twitch 🍣] ブレ',
+			preview_fnFlip: '$[flip MisskeyでFediverseの世界が広がります]\n$[flip.v MisskeyでFediverseの世界が広がります]\n$[flip.h,v MisskeyでFediverseの世界が広がります]',
+			preview_fnSpin: '$[spin あいう] $[spin.left あいう] $[spin.alternate あいう]\n$[spin.x あいう] $[spin.x,left あいう] $[spin.x,alternate あいう]\n$[spin.y あいう] $[spin.y,left あいう] $[spin.y,alternate あいう]',
+			preview_fnSpeed: '$[spin.y,left,speed=1s あいう]\n$[spin.y,left,speed=2s あいう]\n$[spin.y,left,speed=3s あいう]',
+			preview_fnDelay: '$[spin.y,left,speed=1s,delay=0.1s あいう]\n$[spin.y,left,speed=1s,delay=0.2s あいう]\n$[spin.y,left,speed=1s,delay=0.3s あいう]',
 			preview_rgbshift: '<rgbshift>色ずれアニメーション効果です</rgbshift>',
-			preview_x: '[x2 あいう]\n[x3 あいう]\n[x4 あいう]',
-			preview_blur: '[blur あいう]',
-			preview_font: '[font.serif serif]\n[font.monospace monospace]',
+			preview_fnX: '$[x1 あいう]\n$[x2 あいう]\n$[x3 あいう]\n$[x4 あいう]',
+			preview_blur: '$[blur あいう]',
+			preview_font: '$[font.serif serif]\n$[font.monospace monospace]',
 
 			faQuestionCircle
 		};

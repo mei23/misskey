@@ -4,6 +4,8 @@ import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
 import Following from '../../../../models/following';
 
+const nonnull = { $ne: null as any };
+
 export const meta = {
 	desc: {
 		'ja-JP': 'おすすめのユーザー一覧を取得します。'
@@ -24,6 +26,15 @@ export const meta = {
 		offset: {
 			validator: $.optional.num.min(0),
 			default: 0
+		},
+
+		origin: {
+			validator: $.optional.str.or([
+				'combined',
+				'local',
+				'remote',
+			]),
+			default: 'combined'
 		}
 	},
 
@@ -38,11 +49,6 @@ export const meta = {
 export default define(meta, async (ps, me) => {
 	// 未ログインはエラーにはしないが空を返す
 	if (me == null) {
-		return [];
-	}
-
-	// 登録直後のユーザーだとタイムアウトしたり人気のユーザーと同じになったりするので空を返す
-	if (!(me.notesCount > 10 && me.followingCount > 10)) {
 		return [];
 	}
 
@@ -68,6 +74,9 @@ export default define(meta, async (ps, me) => {
 			followerId: { $in: localIds },
 			followeeId: { $nin: followingIds.concat(hideUserIds) },
 		};
+
+		if (ps.origin === 'local') matchQuery['_followee.host'] = null;
+		if (ps.origin === 'remote') matchQuery['_followee.host'] = nonnull;
 	}
 
 	const followings = await Following.aggregate([{
@@ -92,7 +101,8 @@ export default define(meta, async (ps, me) => {
 		// ユーザーフィルタ
 		$match: {
 			'_user.updatedAt': { $gt: new Date(Date.now() - (1000 * 60 * 60 * 24 * 5)) },
-			'_user.isExplorable': true
+			'_user.isExplorable': true,
+			'_user.isLocked': { $ne: true },
 		}
 	}, {
 		// フォロワー多い順

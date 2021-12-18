@@ -8,6 +8,9 @@ async function main(days = 90) {
 	const limit = new Date(Date.now() - (days * 1000 * 86400));
 	const id = new ObjectID(genMeid7(limit));
 
+	const limit2 = new Date(Date.now() - (1 * 1000 * 86400));
+	const id2 = new ObjectID(genMeid7(limit2));
+
 	// remote users
 	const users = await User.find({
 		host: { $ne: null },
@@ -32,17 +35,33 @@ async function main(days = 90) {
 			$and: [
 				{ userId: user._id },
 				{ _id: { $lt: id } },
+				{ mecabWords: { $ne: null } },
 			],
 		}, {
 			$set: {
 				mecabWords: undefined,
+			}
+		}, {
+			multi: true
+		});
+
+		console.log(`  clear count mecab:${result.n}`);
+
+		const result2 = await Note.update({
+			$and: [
+				{ userId: user._id },
+				{ _id: { $lt: id2 } },
+				{ trendWords: { $exists: null } },
+			],
+		}, {
+			$set: {
 				trendWords: undefined,
 			}
 		}, {
 			multi: true
 		});
 
-		console.log(`  clear count:${result.n}`);
+		console.log(`  clear count trend:${result2.n}`);
 	}
 }
 

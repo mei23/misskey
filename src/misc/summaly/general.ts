@@ -4,25 +4,14 @@ import cleanupTitle from './utils/cleanup-title';
 import { decode } from 'html-entities';
 
 import Summary from './types';
-import { createInstance } from './client';
+import { scpaping } from './utils/got';
 
-export default async (url: URL): Promise<Summary> => {
-	const client = createInstance();
+export default async (url: URL, lang: string | null = null): Promise<Summary> => {
+	if (lang && !lang.match(/^[\w-]+(\s*,\s*[\w-]+)*$/)) lang = null;
 
-	const res = await client.fetch(url.href).catch((e: any) => {
-		throw `${e.statusCode || e.message}`;
-	});
-
-	const contentType = res.response.headers['content-type'];
-
-	// HTMLじゃなかった場合は中止
-	if (!contentType?.includes('text/html')) {
-		throw `not html ${contentType}`;
-	}
-
+	const res = await scpaping(url.href, { lang: lang || undefined });
 	const $ = res.$;
-
-	const landingUrl = new URL($.documentInfo().url);
+	const landingUrl = new URL(res.response.url);
 
 	const twitterCard = $('meta[property="twitter:card"]').attr('content');
 

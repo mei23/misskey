@@ -1,9 +1,11 @@
-import { getJson } from '../../misc/fetch';
+import { getJson, StatusError } from '../../misc/fetch';
 import { IObject, isCollection, isOrderedCollection, isCollectionPage, isOrderedCollectionPage } from './type';
 import { ILocalUser } from '../../models/user';
 import { getInstanceActor } from '../../services/instance-actor';
 import { signedGet } from './request';
 import config from '../../config';
+import { extractApHost } from '../../misc/convert-host';
+import { isBlockedHost } from '../../services/instance-moderation';
 
 export default class Resolver {
 	private history: Set<string>;
@@ -43,6 +45,16 @@ export default class Resolver {
 		}
 
 		this.history.add(value);
+
+		if (!value.match(/^https?:/)) {
+			throw new StatusError('Bad protocol', 400, 'Bad protocol');
+		}
+
+		const host = extractApHost(value);
+		// ブロックしてたら中断
+		if (await isBlockedHost(host)) {
+			throw new StatusError('Blocked instance', 451, 'Blocked instance');
+		}
 
 		if (config.signToActivityPubGet && !this.user) {
 			this.user = await getInstanceActor();

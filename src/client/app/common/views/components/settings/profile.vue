@@ -5,7 +5,7 @@
 
 		<section class="esokaraujimuwfttfzgocmutcihewscl">
 			<div class="header" :style="bannerStyle" @click.stop="updateBanner()" title="Update banner" style="cursor:pointer">
-				<mk-avatar class="avatar" :user="$store.state.i" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
+				<mk-avatar class="avatar" :user="$store.state.i" :key="$store.state.i.avatarId" :disable-preview="true" :disable-link="true" @click.stop="updateAvatar()" title="Update avatar" style="cursor:pointer"/>
 			</div>
 
 			<ui-form :disabled="saving">
@@ -28,7 +28,7 @@
 					<template #prefix><fa icon="birthday-cake"/></template>
 				</ui-input>
 
-				<ui-horizon-group inputs>
+				<ui-horizon-group inputsx>
 					<ui-input type="file" @change="onAvatarChange">
 						<span>{{ $t('avatar') }}</span>
 						<template #icon><fa icon="image"/></template>
@@ -221,8 +221,6 @@ export default Vue.extend({
 		this.location = this.$store.state.i.profile.location;
 		this.description = this.$store.state.i.description;
 		this.birthday = this.$store.state.i.profile.birthday;
-		this.avatarId = this.$store.state.i.avatarId;
-		this.bannerId = this.$store.state.i.bannerId;
 		this.isCat = this.$store.state.i.isCat;
 		this.isBot = this.$store.state.i.isBot;
 		this.isLocked = this.$store.state.i.isLocked;
@@ -484,6 +482,12 @@ export default Vue.extend({
 		},
 
 		async deleteAccount() {
+			const { canceled: canceled2 } = await this.$root.dialog({
+				title: this.$t('delete-account-confirm'),
+				showCancelButton: true
+			});
+			if (canceled2) return;
+
 			const { canceled: canceled, result: password } = await this.$root.dialog({
 				title: this.$t('enter-password'),
 				input: {
@@ -491,12 +495,6 @@ export default Vue.extend({
 				}
 			});
 			if (canceled) return;
-
-			const { canceled: canceled2 } = await this.$root.dialog({
-				title: this.$t('delete-account-confirm'),
-				showCancelButton: true
-			});
-			if (canceled2) return;
 
 			this.$root.api('i/delete-account', {
 				password

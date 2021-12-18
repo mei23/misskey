@@ -4,6 +4,7 @@ import db from '../db/mongodb';
 import isObjectId from '../misc/is-objectid';
 import { IUser, pack as packUser } from './user';
 import { pack as packNote } from './note';
+import { pack as packMessagingMessage } from './messaging-message';
 import { dbLogger } from '../db/logger';
 import { decodeReaction } from '../misc/reaction-lib';
 
@@ -46,7 +47,7 @@ export interface INotification {
 	 * reaction - (自分または自分がWatchしている)投稿にリアクションされた
 	 * poll_vote - (自分または自分がWatchしている)投稿の投票に投票された
 	 */
-	type: 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'poll_vote' | 'poll_finished' | 'highlight';
+	type: 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'poll_vote' | 'poll_finished' | 'highlight' | 'unreadMessagingMessage';
 
 	/**
 	 * 通知が読まれたかどうか
@@ -124,6 +125,18 @@ export const pack = async (notification: any) => {
 				delete _notification.noteId;
 				delete _notification.note;
 			}
+			break;
+		case 'unreadMessagingMessage':
+			_notification.message = await packMessagingMessage(_notification.messageId, me);
+
+			// (データベースの不具合などで)投稿が見つからなかったら
+			if (_notification.message == null) {
+				dbLogger.warn(`[DAMAGED DB] (missing) pkg: notification -> message :: ${_notification.id} (note ${_notification.messageId})`);
+				_notification.type = '_missing_';
+				delete _notification.messageId;
+				delete _notification.message;
+			}
+
 			break;
 		default:
 			dbLogger.error(`Unknown type: ${_notification.type}`);

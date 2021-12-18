@@ -5,6 +5,7 @@ import { IImage, convertToPng, convertToJpeg } from '../../services/drive/image-
 import { createTemp } from '../../misc/create-temp';
 import { downloadUrl } from '../../misc/download-url';
 import { detectType } from '../../misc/get-file-info';
+import { StatusError } from '../../misc/fetch';
 
 export async function proxyMedia(ctx: Router.RouterContext) {
 	const url = 'url' in ctx.query ? ctx.query.url : 'https://' + ctx.params.url;
@@ -39,8 +40,8 @@ export async function proxyMedia(ctx: Router.RouterContext) {
 	} catch (e) {
 		serverLogger.error(e);
 
-		if (typeof e == 'number' && e >= 400 && e < 500) {
-			ctx.status = e;
+		if (e instanceof StatusError && e.isClientError) {
+			ctx.status = e.statusCode;
 			ctx.set('Cache-Control', 'max-age=86400');
 		} else {
 			ctx.status = 500;

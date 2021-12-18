@@ -1,15 +1,12 @@
 import * as http from 'http';
 import * as https from 'https';
 import CacheableLookup from 'cacheable-lookup';
-import fetch from 'node-fetch';
+import got, * as Got from 'got';
 import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent';
 import config from '../config';
-import { AbortController } from 'abort-controller';
-import Logger from '../services/logger';
+import { checkPrivateIp } from './check-private-ip';
 
-const logger = new Logger('fetch');
-
-export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>) {
+export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>): Promise<any> {
 	const res = await getResponse({
 		url,
 		method: 'GET',
@@ -20,18 +17,10 @@ export async function getJson(url: string, accept = 'application/json, */*', tim
 		timeout
 	});
 
-	try {
-		return await res.json();
-	} catch (e) {
-		throw {
-			name: `JsonParseError`,
-			statusCode: 481,
-			message: `JSON parse error ${e.message || e}`
-		};
-	}
+	return await JSON.parse(res.body);
 }
 
-export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>) {
+export async function getHtml(url: string, accept = 'text/html, */*', timeout = 10000, headers?: Record<string, string>): Promise<string> {
 	const res = await getResponse({
 		url,
 		method: 'GET',
@@ -42,37 +31,79 @@ export async function getHtml(url: string, accept = 'text/html, */*', timeout = 
 		timeout
 	});
 
-	return await res.text();
+	return await res.body;
 }
 
-export async function getResponse(args: { url: string, method: string, body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
-	logger.debug(`${args.method.toUpperCase()} ${args.url}\nHeaders: ${JSON.stringify(args.headers, null, 2)}${args.body ? `\n${args.body}` : ''}`);
+const RESPONSE_TIMEOUT = 30 * 1000;
+const OPERATION_TIMEOUT = 60 * 1000;
+const MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
 
-	const timeout = args?.timeout || 10 * 1000;
+export async function getResponse(args: { url: string, method: 'GET' | 'POST', body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
+	const timeout = args.timeout || RESPONSE_TIMEOUT;
+	const operationTimeout = args.timeout ? args.timeout * 6 : OPERATION_TIMEOUT;
 
-	const controller = new AbortController();
-	setTimeout(() => {
-		controller.abort();
-	}, timeout * 6);
-
-	const res = await fetch(args.url, {
+	const req = got<string>(args.url, {
 		method: args.method,
 		headers: args.headers,
 		body: args.body,
-		timeout,
-		size: args?.size || 10 * 1024 * 1024,
-		agent: getAgentByUrl,
-		signal: controller.signal,
+		timeout: {
+			lookup: timeout,
+			connect: timeout,
+			secureConnect: timeout,
+			socket: timeout,	// read timeout
+			response: timeout,
+			send: timeout,
+			request: operationTimeout,	// whole operation timeout
+		},
+		agent: {
+			http: httpAgent,
+			https: httpsAgent,
+		},
+		http2: false,
+		retry: 0,
 	});
 
-	if (!res.ok) {
-		throw {
-			name: `StatusError`,
-			statusCode: res.status,
-			statusMessage: res.statusText,
-			message: `${res.status} ${res.statusText}`,
-		};
-	}
+	return await receiveResponce(req, args.size || MAX_RESPONSE_SIZE);
+}
+
+/**
+ * Receive response (with size limit)
+ * @param req Request
+ * @param maxSize size limit
+ */
+async function receiveResponce<T>(req: Got.CancelableRequest<Got.Response<T>>, maxSize: number) {
+	req.on('response', (res: Got.Response) => {
+		if (checkPrivateIp(res.ip)) {
+			req.cancel(`Blocked address: ${res.ip}`);
+		}
+	});
+
+	// 応答ヘッダでサイズチェック
+	req.on('response', (res: Got.Response) => {
+		const contentLength = res.headers['content-length'];
+		if (contentLength != null) {
+			const size = Number(contentLength);
+			if (size > maxSize) {
+				req.cancel(`maxSize exceeded (${size} > ${maxSize}) on response`);
+			}
+		}
+	});
+
+	// 受信中のデータでサイズチェック
+	req.on('downloadProgress', (progress: Got.Progress) => {
+		if (progress.transferred > maxSize && progress.percent !== 1) {
+			req.cancel(`maxSize exceeded (${progress.transferred} > ${maxSize}) on response`);
+		}
+	});
+
+	// 応答取得 with ステータスコードエラーの整形
+	const res = await req.catch(e => {
+		if (e instanceof Got.HTTPError) {
+			throw new StatusError(`${e.response.statusCode} ${e.response.statusMessage}`, e.response.statusCode, e.response.statusMessage);
+		} else {
+			throw e;
+		}
+	});
 
 	return res;
 }
@@ -155,3 +186,17 @@ export function getAgentByUrl(url: URL, bypassProxy = false): http.Agent | https
 	}
 }
 //#endregion Agent
+
+export class StatusError extends Error {
+	public statusCode: number;
+	public statusMessage?: string;
+	public isClientError: boolean;
+
+	constructor(message: string, statusCode: number, statusMessage?: string) {
+		super(message);
+		this.name = 'StatusError';
+		this.statusCode = statusCode;
+		this.statusMessage = statusMessage;
+		this.isClientError = typeof this.statusCode === 'number' && this.statusCode >= 400 && this.statusCode < 500;
+	}
+}

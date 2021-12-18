@@ -6,12 +6,23 @@ import User, { IUser, isLocalUser } from '../models/user';
 import Following from '../models/following';
 import deleteFollowing from '../services/following/delete';
 import rejectFollowing from '../services/following/requests/reject';
+import FollowRequest from '../models/follow-request';
+import Notification from '../models/notification';
 
 export async function doPostSuspend(user: IUser) {
 	await unFollowAll(user).catch(() => {});
 	await rejectFollowAll(user).catch(() => {});
+	await removeFollowingRequestAll(user).catch(() => {});
+	await removeFollowedRequestAll(user).catch(() => {});
 	await sendDeleteActivity(user).catch(() => {});
+
+	// アカウント削除時に受信したNotificationを削除するように
+	await Notification.remove({
+		notifieeId: user._id
+	}).catch(() => {});
 }
+
+
 
 export async function sendDeleteActivity(user: IUser) {
 	if (isLocalUser(user)) {
@@ -75,5 +86,39 @@ async function rejectFollowAll(followee: IUser) {
 		}
 
 		await rejectFollowing(followee, follower);
+	}
+}
+
+export async function removeFollowingRequestAll(follower: IUser) {
+	const reqs = await FollowRequest.find({
+		followerId: follower._id
+	});
+
+	for (const req of reqs) {
+		await FollowRequest.remove({ _id: req._id });
+
+		const followee = await User.findOne({
+			_id: req.followeeId
+		});
+
+		if (followee == null) {
+			continue;
+		}
+
+		await User.update({ _id: followee._id }, {
+			$inc: {
+				pendingReceivedFollowRequestsCount: -1
+			}
+		});
+	}
+}
+
+export async function removeFollowedRequestAll(followee: IUser) {
+	const reqs = await FollowRequest.find({
+		followeeId: followee._id
+	});
+
+	for (const req of reqs) {
+		await FollowRequest.remove({ _id: req._id });
 	}
 }

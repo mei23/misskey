@@ -78,6 +78,22 @@ router.get('/apple-touch-icon.png', async ctx => {
 	});
 });
 
+router.get('/twemoji/*', async ctx => {
+	const path = ctx.path.replace('/twemoji/', '');
+
+	if (!path.match(/^[0-9a-f-]+\.svg$/)) {
+		ctx.status = 404;
+		return;
+	}
+
+	ctx.set('Content-Security-Policy', `default-src 'none'; style-src 'unsafe-inline'`);
+
+	await send(ctx as any, path, {
+		root: `${__dirname}/../../../node_modules/@discordapp/twemoji/dist/svg/`,
+		maxage: ms('30 days'),
+	});
+});
+
 // ServiceWorker
 router.get(/^\/sw\.(.+?)\.js$/, async ctx => {
 	await send(ctx as any, `/assets/sw.${ctx.params[0]}.js`, {
@@ -160,7 +176,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 
 	if (user == null || user.isDeleted) {
 		ctx.status = 404;
-	} else if (user.isSuspended) {
+	} else if (user.isSuspended || user.host) {
 		// サスペンドユーザーのogは出さないがAPI経由でモデレータが閲覧できるように
 		await next();
 	} else {
@@ -212,66 +228,78 @@ router.get('/users/:user', async ctx => {
 });
 
 // Note
-router.get('/notes/:note', async ctx => {
-	if (ObjectID.isValid(ctx.params.note)) {
-		const note = await Note.findOne({ _id: ctx.params.note });
-
-		if (note) {
-			const _note = await packNote(note);
-			const meta = await fetchMeta();
-			const builded = await buildMeta(meta, false);
-
-			const video = _note.files
-				.filter((file: any) => file.type.match(/^video/) && !file.isSensitive)
-				.shift();
-
-			const audio = _note.files
-				.filter((file: any) => file.type.match(/^audio/) && !file.isSensitive)
-				.shift();
-
-			const image = _note.files
-				.filter((file: any) => file.type.match(/^image/) && !file.isSensitive)
-				.shift();
-
-			let imageUrl = video?.thumbnailUrl || image?.thumbnailUrl;
-
-			// or avatar
-			if (imageUrl == null || imageUrl === '') {
-				imageUrl = _note.user.avatarUrl;
-			}
-
-			const card = (video || audio) ? 'player' : 'summary';
-			const stream = video?.url || audio?.url;
-			const type = video?.type || audio?.type;
-			const player = (video || audio) ? `${config.url}/notes/${_note?.id}/embed` : null;
-			const width = 530;	// TODO: thumbnail width
-			const height = 255;
-
-			await ctx.render('note', {
-				initialMeta: htmlescape(builded),
-				note: _note,
-				summary: getNoteSummary(_note),
-				imageUrl,
-				instanceName: meta.name,
-				icon: config.icons?.favicon?.url,
-				iconType: config.icons?.favicon?.type,
-				appleTouchIcon: config.icons?.appleTouchIcon?.url,
-				noindex: _note.user.host || _note.user.avoidSearchIndex,
-				card,
-				player, width, height, stream, type,
-			});
-
-			if (['public', 'home'].includes(note.visibility)) {
-				ctx.set('Cache-Control', 'public, max-age=180');
-			} else {
-				ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
-			}
-
-			return;
-		}
+router.get('/notes/:note', async (ctx, next) => {
+	if (!ObjectID.isValid(ctx.params.note)) {
+		ctx.status = 404;
+		return;
 	}
 
-	ctx.status = 404;
+	const note = await Note.findOne({ _id: ctx.params.note });
+
+	if (!note) {
+		ctx.status = 404;
+		return;
+	}
+
+	const _note = await packNote(note);
+
+	if (!_note) {
+		ctx.status = 404;
+		return;
+	}
+
+	if (_note?.isHidden || _note?.user?.host || !['public', 'home'].includes(note.visibility)) {
+		await next();	// no og
+		return;
+	}
+
+	const meta = await fetchMeta();
+	const builded = await buildMeta(meta, false);
+
+	const video = _note.files
+		.filter((file: any) => file.type.match(/^video/) && !file.isSensitive)
+		.shift();
+
+	const audio = _note.files
+		.filter((file: any) => file.type.match(/^audio/) && !file.isSensitive)
+		.shift();
+
+	const image = _note.files
+		.filter((file: any) => file.type.match(/^image/) && !file.isSensitive)
+		.shift();
+
+	let imageUrl = video?.thumbnailUrl || image?.thumbnailUrl;
+
+	// or avatar
+	if (imageUrl == null || imageUrl === '') {
+		imageUrl = _note.user?.avatarUrl;
+	}
+
+	const card = (video || audio) ? 'player' : 'summary';
+	const stream = video?.url || audio?.url;
+	const type = video?.type || audio?.type;
+	const player = (video || audio) ? `${config.url}/notes/${_note?.id}/embed` : null;
+	const width = 530;	// TODO: thumbnail width
+	const height = 255;
+
+	await ctx.render('note', {
+		initialMeta: htmlescape(builded),
+		note: _note,
+		summary: getNoteSummary(_note),
+		imageUrl,
+		instanceName: meta.name,
+		icon: config.icons?.favicon?.url,
+		iconType: config.icons?.favicon?.type,
+		appleTouchIcon: config.icons?.appleTouchIcon?.url,
+		noindex: _note.user?.avoidSearchIndex,
+		card,
+		player, width, height, stream, type,
+	});
+
+	ctx.set('Cache-Control', 'public, max-age=180');
+
+
+	return;
 });
 
 router.get('/notes/:note/embed', async ctx => {

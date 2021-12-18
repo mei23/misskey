@@ -189,9 +189,9 @@ export default Vue.extend({
 		this.$root.api('notes/featured', {
 			fileType: image,
 			limit: 6,
-			days: 2,
+			days: 1,
 			excludeNsfw: true,
-		}, false, true).then((notes: any[]) => {
+		}, false, false).then((notes: any[]) => {
 			notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 			const files = concat(notes.map((n: any): any[] => n.files));
 			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);

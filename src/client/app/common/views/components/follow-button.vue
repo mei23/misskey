@@ -15,6 +15,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
+import { host, url } from '../../../config';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/follow-button.vue'),
@@ -57,6 +58,10 @@ export default Vue.extend({
 
 	computed: {
 		iconAndText(): any[] {
+			if (!this.$store.getters.isSignedIn) {
+				return [ 'plus', this.$t('remoteFollow') ];
+			}
+
 			return (
 				(this.hasPendingFollowRequestFromYou && this.user.isLocked) ? ['hourglass-half', this.$t('request-pending')] :
 				(this.hasPendingFollowRequestFromYou && !this.user.isLocked) ? ['spinner', this.$t('follow-processing')] :
@@ -91,6 +96,24 @@ export default Vue.extend({
 			this.wait = true;
 
 			try {
+				if (!this.$store.getters.isSignedIn) {
+					const { canceled, result: acct } = 	await this.$root.dialog({
+						type: 'info',
+						text: this.$t('remoteFollowMessage', { acct: `@${this.user.username}@${host}` }),
+						input: {
+							placeholder: 'user@example.com',
+						}
+					});
+
+					if (canceled || !acct) return;
+
+					const res = await this.$root.api('ap/interact', { acct });
+
+					const template = res.template as string;
+					location.href = template.replace('{uri}', `${url}/users/${this.user.id}`);
+					return;
+				}
+
 				if (this.isFollowing) {
 					const { canceled } = await this.$root.dialog({
 						type: 'warning',

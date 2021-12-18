@@ -55,6 +55,8 @@ export default define(meta, async (ps, me) => {
 	// Fetch recent notes
 	const recentNotes = await Note.find({
 		userId: user._id,
+		deletedAt: { $exists: false },
+		visibility: { $in: ['public', 'home'] },
 		replyId: {
 			$exists: true,
 			$ne: null
@@ -84,7 +86,9 @@ export default define(meta, async (ps, me) => {
 		},
 		userId: {
 			$nin: hideUserIds
-		}
+		},
+		deletedAt: { $exists: false },
+		visibility: { $in: ['public', 'home'] },
 	}, {
 		fields: {
 			_id: false,

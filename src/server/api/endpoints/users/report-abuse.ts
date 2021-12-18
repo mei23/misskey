@@ -26,6 +26,15 @@ export const meta = {
 			}
 		},
 
+		noteIds: {
+			validator: $.optional.arr($.type(ID)).unique().min(0),
+			transform: transform,
+			desc: {
+				'ja-JP': '対象の投稿ID一覧',
+				'en-US': 'Target note IDs'
+			}
+		},
+
 		comment: {
 			validator: $.str.range(1, 3000),
 			desc: {
@@ -74,6 +83,7 @@ export default define(meta, async (ps, me) => {
 		createdAt: new Date(),
 		userId: user._id,
 		reporterId: me._id,
+		noteIds: ps.noteIds,
 		comment: ps.comment
 	});
 
@@ -92,6 +102,7 @@ export default define(meta, async (ps, me) => {
 				id: report._id,
 				userId: report.userId,
 				reporterId: report.reporterId,
+				noteIds: report.noteIds,
 				comment: report.comment
 			});
 		}

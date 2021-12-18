@@ -31,6 +31,8 @@ import DbResolver from '../db-resolver';
 import resolveUser from '../../resolve-user';
 import { normalizeTag } from '../../../misc/normalize-tag';
 import { substr } from 'stringz';
+import { resolveAnotherUser } from '../misc/resolve-another-user';
+import { StatusError } from '../../../misc/fetch';
 const logger = apLogger;
 
 const MAX_NAME_LENGTH = 512;
@@ -110,6 +112,10 @@ export async function fetchPerson(uri: string): Promise<IUser | null> {
 export async function createPerson(uri: string, resolver?: Resolver): Promise<IRemoteUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
+	if (uri.startsWith(config.url)) {
+		throw new StatusError('cannot resolve local user', 400, 'cannot resolve local user');
+	}
+
 	if (resolver == null) resolver = new Resolver();
 
 	const object = await resolver.resolve(uri);
@@ -131,10 +137,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 64);
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
-	// const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
-	const alsoKnownAsUserIds: mongo.ObjectID[] = [];
 
-	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
+	const bday = person['vcard:bday']?.match(/^[0-9]{4,8}-\d{2}-\d{2}/);
 
 	// Create user
 	let user: IRemoteUser | undefined;
@@ -165,7 +169,6 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 			endpoints: person.endpoints,
 			uri: person.id,
 			movedToUserId,
-			alsoKnownAsUserIds,
 			url: getOneApHrefNullable(person.url),
 			fields,
 			...services,
@@ -240,8 +243,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 	const bannerId = banner ? banner._id : null;
 	const avatarUrl = getDriveFileUrl(avatar, true);
 	const bannerUrl = getDriveFileUrl(banner, false);
-	const avatarColor = avatar && avatar.metadata?.properties.avgColor ? avatar.metadata.properties.avgColor : null;
-	const bannerColor = banner && banner.metadata?.properties.avgColor ? banner.metadata.properties.avgColor : null;
+	const avatarColor = null;
+	const bannerColor = null;
 
 	await User.update({ _id: user._id }, {
 		$set: {
@@ -338,9 +341,8 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 64);
 
 	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
-	const alsoKnownAsUserIds = await resolveAnotherUsers(uri, person.alsoKnownAs);
 
-	const bday = person['vcard:bday']?.match(/^\d{4}-\d{2}-\d{2}/);
+	const bday = person['vcard:bday']?.match(/^[0-9]{4,8}-\d{2}-\d{2}/);
 
 	const updates = {
 		lastFetchedAt: new Date(),
@@ -355,7 +357,6 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 		notesCount,
 		name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
 		movedToUserId,
-		alsoKnownAsUserIds,
 		url: getOneApHrefNullable(person.url),
 		endpoints: person.endpoints,
 		fields,
@@ -380,13 +381,13 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 	if (avatar) {
 		updates.avatarId = avatar._id;
 		updates.avatarUrl = getDriveFileUrl(avatar, true);
-		updates.avatarColor = avatar.metadata?.properties.avgColor ? avatar.metadata.properties.avgColor : null;
+		updates.avatarColor = null;
 	}
 
 	if (banner) {
 		updates.bannerId = banner._id;
 		updates.bannerUrl = getDriveFileUrl(banner, true);
-		updates.bannerColor = banner.metadata?.properties.avgColor ? banner.metadata.properties.avgColor : null;
+		updates.bannerColor = null;
 	}
 
 	// Update user
@@ -421,7 +422,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
  * Misskeyに対象のPersonが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolvePerson(uri: string, verifier?: string | null, resolver?: Resolver): Promise<IUser> {
+export async function resolvePerson(uri: string, verifier?: string | null, resolver?: Resolver, noResolve = false): Promise<IUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	//#region このサーバーに既に登録されていたらそれを返す
@@ -431,6 +432,10 @@ export async function resolvePerson(uri: string, verifier?: string | null, resol
 		return exist;
 	}
 	//#endregion
+
+	if (noResolve) {
+		throw new StatusError('Resolve skipped', 400, 'Resolve skipped');
+	}
 
 	// リモートサーバーからフェッチしてきて登録
 	if (resolver == null) resolver = new Resolver();
@@ -600,17 +605,4 @@ export async function fetchOutbox(user: IUser) {
 			// skip Announce etc
 		}
 	}
-}
-
-async function resolveAnotherUser(selfUri: string, ids: ApObject | undefined) {
-	const users = await resolveAnotherUsers(selfUri, ids);
-	return users.length > 0 ? users[0] : undefined;
-}
-
-async function resolveAnotherUsers(selfUri: string, ids: ApObject | undefined) {
-	const users = await Promise.all(
-		getApIds(ids).map(uri => resolvePerson(uri).catch(() => null))
-	) as IRemoteUser[];
-
-	return users.filter(x => x != null && x.uri != selfUri).map(x => x._id);
 }

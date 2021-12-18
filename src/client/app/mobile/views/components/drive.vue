@@ -485,6 +485,12 @@ export default Vue.extend({
 				folderId: this.folder.id
 			}).then(folder => {
 				this.cd(this.folder.parentId);
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					title: 'Error',
+					text: e.message || e
+				});
 			});
 		}
 	}

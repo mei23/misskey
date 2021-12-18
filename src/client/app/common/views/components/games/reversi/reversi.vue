@@ -155,7 +155,7 @@ export default Vue.extend({
 <style lang="stylus" scoped>
 .vchtoekanapleubgzioubdtmlkribzfd
 	color var(--text)
-	background var(--bg)
+	background var(--face)
 
 	> .matching
 		> h1

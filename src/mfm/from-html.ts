@@ -104,58 +104,46 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 			}
 
-			case 'div': {
-				const align = node.attrs.find(x => x.name === 'align');
-				const center = align?.value === 'center';
-				if (center) text += '<center>';
-				appendChildren(node.childNodes);
-				if (center) text += '</center>';
-				break;
-			}
-
-			case 'p':
-				text += '\n\n';
-				appendChildren(node.childNodes);
-				break;
-
 			case 'h1':
+			{
 				text += '【';
 				appendChildren(node.childNodes);
 				text += '】\n';
 				break;
+			}
 
 			case 'b':
-				text += '**';
-				appendChildren(node.childNodes);
-				text += '**';
-				break;
-
 			case 'strong':
-				text += '***';
+			{
+				text += '**';
 				appendChildren(node.childNodes);
-				text += '***';
+				text += '**';
 				break;
+			}
 
 			case 'small':
+			{
 				text += '<small>';
 				appendChildren(node.childNodes);
 				text += '</small>';
 				break;
+			}
 
+			case 's':
 			case 'del':
+			{
 				text += '~~';
 				appendChildren(node.childNodes);
 				text += '~~';
 				break;
+			}
 
 			case 'i':
+			case 'em':
+			{
 				text += '<i>';
 				appendChildren(node.childNodes);
 				text += '</i>';
-				break;
-
-			case 'span': {
-				appendChildren(node.childNodes);
 				break;
 			}
 
@@ -188,12 +176,33 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 				break;
 			}
 
+			case 'p':
+			case 'h2':
+			case 'h3':
+			case 'h4':
+			case 'h5':
+			case 'h6':
+			{
+				text += '\n\n';
+				appendChildren(node.childNodes);
+				break;
+			}
+
+			case 'div':
+			case 'header':
+			case 'footer':
+			case 'article':
+			case 'li':
+			case 'dt':
+			case 'dd':
+			{
+				text += '\n';
+				appendChildren(node.childNodes);
+				break;
+			}
+
 			default:
-				if (node.childNodes) {
-					for (const n of node.childNodes) {
-						analyze(n);
-					}
-				}
+				appendChildren(node.childNodes);
 				break;
 		}
 	}

@@ -45,7 +45,6 @@
 				<ui-switch v-model="alwaysShowNsfw">{{ $t('@._settings.always-show-nsfw') }}</ui-switch>
 				<ui-switch v-model="alwaysOpenCw">{{ $t('@._settings.alwaysOpenCw') }}</ui-switch>
 				<ui-switch v-model="showReplyTarget">{{ $t('@._settings.show-reply-target') }}</ui-switch>
-				<ui-switch v-model="enableDecoratedMfm">{{ $t('@._settings.enable-decorated-mfm') }}</ui-switch>
 				<ui-switch v-model="disableAnimatedMfm">{{ $t('@._settings.disable-animated-mfm') }}</ui-switch>
 				<ui-switch v-model="disableShowingAnimatedImages">{{ $t('@._settings.disable-showing-animated-images') }}</ui-switch>
 				<ui-switch v-model="showInstanceInfo">{{ $t('@._settings.showInstanceInfo') }}</ui-switch>
@@ -639,11 +638,6 @@ export default Vue.extend({
 		games_reversi_useAvatarStones: {
 			get() { return this.$store.state.settings.games.reversi.useAvatarStones; },
 			set(value) { this.$store.dispatch('settings/set', { key: 'games.reversi.useAvatarStones', value }); }
-		},
-
-		enableDecoratedMfm: {
-			get() { return this.$store.state.settings.enableDecoratedMfm; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'enableDecoratedMfm', value }); }
 		},
 
 		disableAnimatedMfm: {

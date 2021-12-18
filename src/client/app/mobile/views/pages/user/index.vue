@@ -14,9 +14,9 @@
 					<a class="avatar" :href="user.avatarUrl">
 						<img :src="avator" alt="avatar"/>
 					</a>
-					<button class="menu" ref="menu" @click="menu"><fa icon="ellipsis-h"/></button>
-					<button class="listMenu" ref="listMenu" @click="listMenu"><fa :icon="['fas', 'list']"/></button>
-					<mk-follow-button v-if="$store.getters.isSignedIn && $store.state.i.id != user.id" :user="user" :key="user.id"/>
+					<button v-if="$store.getters.isSignedIn" class="menu" ref="menu" @click="menu"><fa icon="ellipsis-h"/></button>
+					<button v-if="$store.getters.isSignedIn" class="listMenu" ref="listMenu" @click="listMenu"><fa :icon="['fas', 'list']"/></button>
+					<mk-follow-button v-if="!$store.getters.isSignedIn || ($store.getters.isSignedIn && $store.state.i.id != user.id)" :user="user" :key="user.id"/>
 				</div>
 				<div class="title">
 					<h1><mk-user-name :user="user" :key="user.id" :nowrap="false"/></h1>
@@ -87,7 +87,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../../i18n';
-import * as age from 's-age';
+import { calcAge } from '../../../../../../misc/calc-age';
 import parseAcct from '../../../../../../misc/acct/parse';
 import Progress from '../../../../common/scripts/loading';
 import XUserMenu from '../../../../common/views/components/user-menu.vue';
@@ -113,7 +113,7 @@ export default Vue.extend({
 	},
 	computed: {
 		age(): number {
-			return age(this.user.profile.birthday);
+			return calcAge(this.user.profile.birthday);
 		},
 		avator(): string {
 			return this.$store.state.device.disableShowingAnimatedImages

@@ -7,7 +7,6 @@ export const meta = {
 	requireCredential: false,
 
 	allowGet: true,
-	cacheSec: 600,
 
 	desc: {
 		'en-US': 'Get the instance\'s statistics'
@@ -48,7 +47,14 @@ export const meta = {
 export default define(meta, async () => {
 	const instance = await fetchMeta();
 
-	const stats: any = instance.stats;
+	const stats: any = Object.assign({
+		notesCount: 0,
+		originalNotesCount: 0,
+		usersCount: 0,
+		originalUsersCount: 0,
+		reactionsCount: 0,
+		//originalReactionsCount: 0,
+	}, instance.stats || {});
 
 	const driveStats = await driveChart.getChart('hour', 1);
 	stats.driveUsageLocal = driveStats.local.totalSize[0];

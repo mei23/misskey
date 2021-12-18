@@ -9,6 +9,7 @@ import { getApLock } from '../../../../misc/app-lock';
 import { isBlockedHost } from '../../../../services/instance-moderation';
 import { parseAudience } from '../../audience';
 import { parseDateWithLimit } from '../../misc/date';
+import { StatusError } from '../../../../misc/fetch';
 
 const logger = apLogger;
 
@@ -41,7 +42,7 @@ export default async function(resolver: Resolver, actor: IRemoteUser, activity: 
 			renote = await resolveNote(targetUri, null, true);
 		} catch (e) {
 			// 対象が4xxならスキップ
-			if (e.statusCode >= 400 && e.statusCode < 500) {
+			if (e instanceof StatusError && e.isClientError) {
 				return `skip: Ignored announce target: ${uri} => ${targetUri} - ${e.statusCode}`;
 			}
 			throw `Error in announce target: ${uri} => ${targetUri} - ${e.statusCode || e}`;

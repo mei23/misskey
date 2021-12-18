@@ -1,6 +1,6 @@
 <template>
 <div class="ukygtjoj" :class="{ naked, inNakedDeckColumn, hideHeader: !showHeader }">
-	<header v-if="showHeader" @click="() => showBody = !showBody">
+	<header v-if="showHeader" @click="toggleContent(!showBody)">
 		<div class="title"><slot name="header"></slot></div>
 		<slot name="func"></slot>
 		<button v-if="bodyTogglable">
@@ -49,6 +49,7 @@ export default Vue.extend({
 		toggleContent(show: boolean) {
 			if (!this.bodyTogglable) return;
 			this.showBody = show;
+			this.$emit('toggle', show);
 		}
 	}
 });

@@ -3,11 +3,13 @@ import * as deepcopy from 'deepcopy';
 import db from '../db/mongodb';
 import isObjectId from '../misc/is-objectid';
 import { pack as packUser } from './user';
+import { packMany as packNoteMany } from './note';
 
 const AbuseUserReport = db.get<IAbuseUserReport>('abuseUserReports');
-AbuseUserReport.createIndex('userId');
-AbuseUserReport.createIndex('reporterId');
-AbuseUserReport.createIndex(['userId', 'reporterId'], { unique: true });
+AbuseUserReport.dropIndex('userId').catch(() => {});
+AbuseUserReport.dropIndex('reporterId').catch(() => {});
+AbuseUserReport.dropIndex(['userId', 'reporterId'], { unique: true }).catch(() => {});
+
 export default AbuseUserReport;
 
 export interface IAbuseUserReport {
@@ -15,6 +17,7 @@ export interface IAbuseUserReport {
 	createdAt: Date;
 	userId: mongo.ObjectID;
 	reporterId: mongo.ObjectID;
+	noteIds?: mongo.ObjectID[];
 	comment: string;
 }
 
@@ -47,6 +50,7 @@ export const pack = async (
 
 	_report.reporter = await packUser(_report.reporterId, null, { detail: true });
 	_report.user = await packUser(_report.userId, null, { detail: true });
+	_report.notes = _report.noteIds ? await packNoteMany(_report.noteIds, null, { skipHide: true }) : [];
 
 	return _report;
 };

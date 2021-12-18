@@ -3,7 +3,6 @@ import ID, { transform } from '../../../../misc/cafy-id';
 import { getFriendIds } from '../../common/get-friends';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
-import activeUsersChart from '../../../../services/chart/active-users';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
 import UserList from '../../../../models/user-list';
@@ -117,6 +116,14 @@ export const meta = {
 			default: false,
 			desc: {
 				'ja-JP': 'true にすると、NSFW指定されてないファイルを除外します(fileTypeが指定されている場合のみ有効)'
+			}
+		},
+
+		excludeRenote: {
+			validator: $.optional.bool,
+			default: false,
+			desc: {
+				'ja-JP': 'Renoteを含めない'
 			}
 		},
 
@@ -244,11 +251,9 @@ export default define(meta, async (ps, user) => {
 		});
 	}
 
-	if (hideRenoteUserIds.length > 0) {
+	if (ps.excludeRenote) {
 		query.$and.push({
 			$or: [{
-				userId: { $nin: hideRenoteUserIds }
-			}, {
 				renoteId: null
 			}, {
 				text: { $ne: null }
@@ -258,54 +263,70 @@ export default define(meta, async (ps, user) => {
 				poll: { $ne: null }
 			}]
 		});
-	}
+	} else {
+		if (hideRenoteUserIds.length > 0) {
+			query.$and.push({
+				$or: [{
+					userId: { $nin: hideRenoteUserIds }
+				}, {
+					renoteId: null
+				}, {
+					text: { $ne: null }
+				}, {
+					fileIds: { $ne: [] }
+				}, {
+					poll: { $ne: null }
+				}]
+			});
+		}
 
-	if (ps.includeMyRenotes === false) {
-		query.$and.push({
-			$or: [{
-				userId: { $ne: user._id }
-			}, {
-				renoteId: null
-			}, {
-				text: { $ne: null }
-			}, {
-				fileIds: { $ne: [] }
-			}, {
-				poll: { $ne: null }
-			}]
-		});
-	}
+		if (ps.includeMyRenotes === false) {
+			query.$and.push({
+				$or: [{
+					userId: { $ne: user._id }
+				}, {
+					renoteId: null
+				}, {
+					text: { $ne: null }
+				}, {
+					fileIds: { $ne: [] }
+				}, {
+					poll: { $ne: null }
+				}]
+			});
+		}
 
-	if (ps.includeRenotedMyNotes === false) {
-		query.$and.push({
-			$or: [{
-				'_renote.userId': { $ne: user._id }
-			}, {
-				renoteId: null
-			}, {
-				text: { $ne: null }
-			}, {
-				fileIds: { $ne: [] }
-			}, {
-				poll: { $ne: null }
-			}]
-		});
-	}
+		if (ps.includeRenotedMyNotes === false) {
+			query.$and.push({
+				$or: [{
+					'_renote.userId': { $ne: user._id }
+				}, {
+					renoteId: null
+				}, {
+					text: { $ne: null }
+				}, {
+					fileIds: { $ne: [] }
+				}, {
+					poll: { $ne: null }
+				}]
+			});
+		}
 
-	if (ps.includeLocalRenotes === false) {
-		query.$and.push({
-			$or: [{
-				'_renote.user.host': { $ne: null }
-			}, {
-				renoteId: null
-			}, {
-				text: { $ne: null }
-			}, {
-				fileIds: { $ne: [] }
-			}, {
-				poll: { $ne: null }
-			}]
-		});
+		if (ps.includeLocalRenotes === false) {
+			query.$and.push({
+				$or: [{
+					'_renote.user.host': { $ne: null }
+				}, {
+					renoteId: null
+				}, {
+					text: { $ne: null }
+				}, {
+					fileIds: { $ne: [] }
+				}, {
+					poll: { $ne: null }
+				}]
+			});
+		}
 	}
 
 	if (ps.withFiles || ps.mediaOnly) {
@@ -353,8 +374,6 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 	//#endregion
-
-	activeUsersChart.update(user);
 
 	return await getPackedTimeline(user, query, sort, ps.limit!);
 });

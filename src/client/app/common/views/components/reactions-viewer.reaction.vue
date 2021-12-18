@@ -58,14 +58,14 @@ export default Vue.extend({
 					if (oldReaction !== this.reaction) {
 						this.$root.api('notes/reactions/create', {
 							noteId: this.note.id,
-							reaction: this.reaction
+							reaction: this.reaction,
 						});
 					}
 				});
 			} else {
 				this.$root.api('notes/reactions/create', {
 					noteId: this.note.id,
-					reaction: this.reaction
+					reaction: this.reaction,
 				});
 			}
 		},

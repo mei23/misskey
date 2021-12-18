@@ -1,6 +1,6 @@
 import User, { IUser, isLocalUser, isRemoteUser } from '../../../models/user';
 import Note, { INote, pack } from '../../../models/note';
-import NoteReaction from '../../../models/note-reaction';
+import NoteReaction, { INoteReaction } from '../../../models/note-reaction';
 import { publishNoteStream, publishHotStream } from '../../stream';
 import { createNotification } from '../../create-notification';
 import NoteWatching from '../../../models/note-watching';
@@ -12,8 +12,9 @@ import perUserReactionsChart from '../../../services/chart/per-user-reactions';
 import { toDbReaction, decodeReaction } from '../../../misc/reaction-lib';
 import deleteReaction from './delete';
 import { packEmojis } from '../../../misc/pack-emojis';
+import Meta from '../../../models/meta';
 
-export default async (user: IUser, note: INote, reaction?: string, dislike = false) => {
+export default async (user: IUser, note: INote, reaction?: string, dislike = false): Promise<INoteReaction> => {
 	reaction = await toDbReaction(reaction, true, user.host);
 
 	const exist = await NoteReaction.findOne({
@@ -26,7 +27,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 		if (exist.reaction !== reaction) {
 			await deleteReaction(user, note);
 		} else {
-			return;
+			return exist;
 		}
 	}
 
@@ -48,11 +49,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 
 	perUserReactionsChart.update(user, note);
 
-	User.update({ _id: user._id }, {
-		$set: {
-			lastActivityAt: new Date()
-		}
-	});
+	incReactionsCount(user);
 
 	const decodedReaction = decodeReaction(reaction);
 	const emoji = (await packEmojis([decodedReaction.replace(/:/g, '')], note._user.host))[0];
@@ -111,5 +108,24 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 	}
 	//#endregion
 
-	return;
+	return inserted;
 };
+
+function incReactionsCount(user: IUser) {
+	if (isLocalUser(user)) {
+		Meta.update({}, {
+			$inc: {
+				'stats.reactionsCount': 1,
+				//'stats.originalReactionsCount': 1
+			}
+		}, { upsert: true });
+	} else {
+		/*
+		Meta.update({}, {
+			$inc: {
+				'stats.originalReactionsCount': 1
+			}
+		}, { upsert: true });
+		*/
+	}
+}

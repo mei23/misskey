@@ -8,6 +8,7 @@ import renderNote from '../../remote/activitypub/renderer/note';
 import renderCreate from '../../remote/activitypub/renderer/create';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import { deliver } from '../../queue';
+import { createNotification } from '../create-notification';
 
 export async function createMessage(user: IUser, recipient: IUser, text: string | null, file: IDriveFile | undefined, uri?: string) {
 	const message = await MessagingMessage.insert({
@@ -54,6 +55,7 @@ export async function createMessage(user: IUser, recipient: IUser, text: string 
 
 				publishMainStream(message.recipientId, 'unreadMessagingMessage', messageObj);
 				pushNotification(message.recipientId, 'unreadMessagingMessage', messageObj);
+				createNotification(message.recipientId, message.userId, 'unreadMessagingMessage', { messageId: freshMessage._id });
 			}
 		}, 2000);
 	}

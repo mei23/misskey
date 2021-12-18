@@ -19,6 +19,9 @@
 			<button @click="listMenu" class="listMenu" ref="listMenu"><fa :icon="['fas', 'list']"/></button>
 			<mk-follow-button v-if="$store.state.i.id != user.id" :user="user" :inline="true" :transparent="false" class="follow"/>
 		</div>
+		<div class="actions" v-else>
+			<mk-follow-button :user="user" :inline="true" :transparent="false" class="follow"/>
+		</div>
 	</div>
 	<mk-avatar class="avatar" :user="user" :disable-preview="true" :disable-link="true" @click="onAvatarClick()" style="cursor: pointer"/>
 	<div class="body">
@@ -57,7 +60,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../../i18n';
-import * as age from 's-age';
+import { calcAge } from '../../../../../../misc/calc-age';
 import XUserMenu from '../../../../common/views/components/user-menu.vue';
 import XListMenu from '../../../../common/views/components/list-menu.vue';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
@@ -88,7 +91,7 @@ export default Vue.extend({
 		},
 
 		age(): number {
-			return age(this.user.profile.birthday);
+			return calcAge(this.user.profile.birthday);
 		}
 	},
 	mounted() {

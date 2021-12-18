@@ -1,6 +1,7 @@
 import getNoteSummary from '../../../../misc/get-note-summary';
 import getReactionEmoji from '../../../../misc/get-reaction-emoji';
 import getUserName from '../../../../misc/get-user-name';
+import { PackedNotification } from '../../../../models/packed-schemas';
 
 type Notification = {
 	title: string;
@@ -23,7 +24,7 @@ export default function(type, data): Notification {
 		case 'unreadMessagingMessage':
 			return {
 				title: `New message from ${getUserName(data.user)}`,
-				body: data.text, // TODO: getMessagingMessageSummary(data),
+				body: data.text,
 				icon: data.user.avatarUrl
 			};
 
@@ -35,40 +36,76 @@ export default function(type, data): Notification {
 			};
 
 		case 'notification':
-			switch (data.type) {
+			const notification = data as PackedNotification;
+			switch (notification.type) {
+				case 'follow':
+					return {
+						title: `Followed by ${getUserName(notification.user)}`,
+						body: '',
+						icon: notification.user.avatarUrl
+					};
+
 				case 'mention':
 					return {
-						title: `${getUserName(data.user)}:`,
-						body: getNoteSummary(data),
-						icon: data.user.avatarUrl
+						title: `Mention from ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
 					};
 
 				case 'reply':
 					return {
-						title: `You got reply from ${getUserName(data.user)}:`,
-						body: getNoteSummary(data),
-						icon: data.user.avatarUrl
+						title: `Reply from ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
+					};
+
+				case 'renote':
+					return {
+						title: `Renoted by ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note.renote),
+						icon: notification.user.avatarUrl
 					};
 
 				case 'quote':
 					return {
-						title: `${getUserName(data.user)}:`,
-						body: getNoteSummary(data),
-						icon: data.user.avatarUrl
+						title: `Quoted by ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
 					};
 
 				case 'reaction':
 					return {
-						title: `${getUserName(data.user)}: ${getReactionEmoji(data.reaction)}:`,
-						body: getNoteSummary(data.note),
-						icon: data.user.avatarUrl
+						title: `${getReactionEmoji(notification.reaction)} from ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
+					};
+
+				case 'poll_vote':
+					return {
+						title: `Voted by ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
+					};
+
+				case 'poll_finished':
+					return {
+						title: `Poll finished`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
+					};
+
+				case 'receiveFollowRequest':
+					return {
+						title: `Follow request from ${getUserName(notification.user)}`,
+						body: '',
+						icon: notification.user.avatarUrl
 					};
 
 				case 'highlight':
 					return {
-						title: `${getUserName(data.user)}:`,
-						body: getNoteSummary(data),
-						icon: data.user.avatarUrl
+						title: `Highlighte: ${getUserName(notification.user)}`,
+						body: getNoteSummary(notification.note),
+						icon: notification.user.avatarUrl
 					};
 
 				default:

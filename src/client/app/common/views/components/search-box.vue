@@ -41,9 +41,15 @@ export default Vue.extend({
 						uri: q
 					});
 					if (res.type == 'User') {
-						this.$router.push(`/@${res.object.username}@${res.object.host}`);
+						this.$router.push(`/@${res.object.username}${ res.object.host ? `@${res.object.host}` : '' }`);
 					} else if (res.type == 'Note') {
 						this.$router.push(`/notes/${res.object.id}`);
+					} else if (res.type == 'Emoji') {
+						this.$root.dialog({
+							type: 'success',
+							text: `:${res.object.name}:`,
+							mfmCustomEmojis: [ res.object ]
+						});
 					}
 				} catch (e) {
 					// TODO

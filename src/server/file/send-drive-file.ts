@@ -15,6 +15,7 @@ import { contentDisposition } from '../../misc/content-disposition';
 import { detectType } from '../../misc/get-file-info';
 import { downloadUrl } from '../../misc/download-url';
 import { InternalStorage } from '../../services/drive/internal-storage';
+import { StatusError } from '../../misc/fetch';
 
 const commonReadableHandlerGenerator = (ctx: Router.RouterContext) => (e: Error): void => {
 	serverLogger.error(e);
@@ -81,7 +82,7 @@ export default async function(ctx: Router.RouterContext) {
 			return await sendNormal(ctx, file.data, file.type);
 		} catch (e) {
 			serverLogger.error(e);
-			return await sendError(ctx, typeof e === 'number' && e >= 400 && e < 500 ? e : 500);
+			return await sendError(ctx, (e instanceof StatusError && e.isClientError) ? e.statusCode : 500);
 		} finally {
 			cleanup();
 		}

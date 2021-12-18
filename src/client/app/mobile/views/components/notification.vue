@@ -51,6 +51,7 @@
 				<router-link class="name" :to="notification.user | userPage"><mk-user-name :user="notification.user"/></router-link>
 				<mk-time :time="notification.createdAt"/>
 			</header>
+			<a @click="followRequests">{{ $t('@.follow-requests') }}</a>
 		</div>
 	</div>
 
@@ -113,21 +114,48 @@
 	<template v-if="notification.type == 'mention'">
 		<mk-note :note="notification.note"/>
 	</template>
+
+	<div class="notification unreadMessagingMessage" v-if="notification.type == 'unreadMessagingMessage'">
+		<mk-avatar class="avatar" :user="notification.user"/>
+		<div>
+			<header>
+				<fa icon="user-clock"/>
+				<router-link class="name" :to="notification.user | userPage"><mk-user-name :user="notification.user"/></router-link>
+				<mk-time :time="notification.createdAt"/>
+			</header>
+			<a class="note-ref" @click="toChat(notification.user)">
+				<mfm :text="notification.message.text" :plain="true" :custom-emojis="notification.message.emojis"/>
+			</a>
+		</div>
+	</div>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import i18n from '../../../i18n';
 import getNoteSummary from '../../../../../misc/get-note-summary';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
+import getAcct from '../../../../../misc/acct/render';
 
 export default Vue.extend({
+	i18n: i18n(),
 	props: ['notification'],
 	data() {
 		return {
 			getNoteSummary,
 			faLightbulb,
 		};
+	},
+
+	methods: {
+		followRequests() {
+			this.$router.push('/i/received-follow-requests');
+		},
+
+		toChat(user: any) {
+			this.$router.push(`/i/messaging/${getAcct(user)}`); 
+		},
 	},
 });
 </script>
@@ -210,7 +238,7 @@ export default Vue.extend({
 			> div > header [data-icon]
 				color #888
 
-		&.reply, &.mention, &.highlight
+		&.reply, &.mention, &.highlight, &.unreadMessagingMessage
 			> div > header [data-icon]
 				color #555
 

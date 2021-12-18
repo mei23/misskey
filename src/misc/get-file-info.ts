@@ -5,6 +5,7 @@ import * as util from 'util';
 import * as FileType from 'file-type';
 import isSvg from 'is-svg';
 import * as probeImageSize from 'probe-image-size';
+import * as FFmpeg from 'fluent-ffmpeg';
 
 const pipeline = util.promisify(stream.pipeline);
 
@@ -17,6 +18,7 @@ export type FileInfo = {
 	};
 	width?: number;
 	height?: number;
+	//videoProps?: FFmpeg.FfprobeData | null;
 	warnings: string[];
 };
 
@@ -28,6 +30,11 @@ const TYPE_OCTET_STREAM = {
 const TYPE_SVG = {
 	mime: 'image/svg+xml',
 	ext: 'svg'
+};
+
+const TYPE_MP4 = {
+	mime: 'video/mp4',
+	ext: 'mp4'
 };
 
 /**
@@ -69,12 +76,20 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 		}
 	}
 
+	/*
+	let videoProps: FFmpeg.FfprobeData | null | undefined;
+	if (type.mime.startsWith('video/')) {
+		videoProps = await getVideoProps(path).catch(() => null);
+	}
+	*/
+
 	return {
 		size,
 		md5,
 		type,
 		width,
 		height,
+		//videoProps,
 		warnings: warnings,
 	};
 }
@@ -95,6 +110,14 @@ export async function detectType(path: string) {
 		// XMLはSVGかもしれない
 		if (type.mime === 'application/xml' && await checkSvg(path)) {
 			return TYPE_SVG;
+		}
+
+		if (type.mime === 'video/quicktime') {
+			const props = await getVideoProps(path);
+			if (props.streams.filter(s => s.codec_type === 'video').every(s => s.codec_name === 'h264')
+				&& (props.streams.filter(s => s.codec_type === 'audio').length === 0 || props.streams.filter(s => s.codec_type === 'audio').every(s => s.codec_name === 'aac'))) {
+				return TYPE_MP4;
+			}
 		}
 
 		return {
@@ -155,4 +178,16 @@ async function detectImageSize(path: string): Promise<{
 	const imageSize = await probeImageSize(readable);
 	readable.destroy();
 	return imageSize;
+}
+
+export async function getVideoProps(path: string): Promise<FFmpeg.FfprobeData> {
+	return new Promise((res, rej) => {
+		FFmpeg({
+			source: path
+		})
+		.ffprobe((err, data) => {
+			if (err) return rej(err);
+			res(data);
+		});
+	});
 }

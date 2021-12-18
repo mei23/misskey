@@ -8,6 +8,4 @@ mongodb:
 
 redis:
   host: localhost
-  port: 6379
-
-# docker run --rm -p 57010:27017 --name mongotest mongo:4.4-bionic
+  port: 56310

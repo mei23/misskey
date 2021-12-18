@@ -53,7 +53,7 @@ export default define(meta, async (ps, user) => {
 	});
 
 	// Publish meUpdated event
-	publishMainStream(user._id, 'meUpdated', iObj);
+	publishMainStream(user._id, 'meUpdated', iObj!);
 
 	if (ps.email != null) {
 		const code = rndstr('a-z0-9', 16);

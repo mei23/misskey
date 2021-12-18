@@ -1,4 +1,3 @@
-import es from '../../db/elasticsearch';
 import Note, { pack, INote, IChoice } from '../../models/note';
 import User, { isLocalUser, IUser, isRemoteUser, IRemoteUser, ILocalUser, getMute } from '../../models/user';
 import { publishMainStream, publishNotesStream } from '../stream';
@@ -20,14 +19,12 @@ import { updateHashtags } from '../update-hashtag';
 import isQuote from '../../misc/is-quote';
 import notesChart from '../../services/chart/notes';
 import perUserNotesChart from '../../services/chart/per-user-notes';
-import activeUsersChart from '../../services/chart/active-users';
 import instanceChart from '../../services/chart/instance';
 
 import { erase, concat, unique } from '../../prelude/array';
 import insertNoteUnread from './unread';
 import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
-import { toASCII } from 'punycode/';
 import { extractMentions } from '../../mfm/extract-mentions';
 import { extractEmojis } from '../../mfm/extract-emojis';
 import { extractHashtags } from '../../mfm/extract-hashtags';
@@ -170,7 +167,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 	}
 
 	// Renote/Quote対象がホームだったらホームに
-	if (data.renote && data.renote.visibility === 'home') {
+	if (data.renote && data.visibility === 'public' && data.renote.visibility === 'home') {
 		data.visibility = 'home';
 	}
 
@@ -222,14 +219,6 @@ export default async (user: IUser, data: Option, silent = false) => {
 
 	tags = tags.filter(tag => Array.from(tag || '').length <= 128).splice(0, 64);
 
-	const normalizeAsciiHost = (host: string) => {
-		if (host == null) return null;
-		return toASCII(host.toLowerCase());
-	};
-
-	const mentionEmojis = mentionedUsers.map(user => `@${user.usernameLower}` + (user.host != null ? `@${normalizeAsciiHost(user.host)}` : ''));
-	emojis = emojis.concat(mentionEmojis);
-
 	if (data.reply && !user._id.equals(data.reply.userId) && !mentionedUsers.some(u => u._id.equals(data.reply.userId))) {
 		mentionedUsers.push(await User.findOne({ _id: data.reply.userId }));
 	}
@@ -264,8 +253,6 @@ export default async (user: IUser, data: Option, silent = false) => {
 		// 統計を更新
 		notesChart.update(note, true);
 		perUserNotesChart.update(user, note, true);
-		// ローカルユーザーのチャートはタイムライン取得時に更新しているのでリモートユーザーの場合だけでよい
-		if (isRemoteUser(user)) activeUsersChart.update(user);
 
 		// Register host
 		if (isRemoteUser(user)) {
@@ -331,7 +318,9 @@ export default async (user: IUser, data: Option, silent = false) => {
 			(noteObj as any).isFirstNote = true;
 		}
 
-		publishNotesStream(noteObj);
+		if (note.createdAt.getTime() > new Date().getTime() - 1000 * 60 * 10) {
+			publishNotesStream(noteObj);
+		}
 		//publishHotStream(noteObj);
 
 		const nm = new NotificationManager(user, note);
@@ -596,19 +585,6 @@ function index(note: INote) {
 			});
 		}
 	}
-
-	if (!note.text || !config.elasticsearch) return;
-
-	if (es) {
-		es.index({
-			index: 'misskey',
-			type: 'note',
-			id: note._id.toString(),
-			body: {
-				text: note.text
-			}
-		});
-	}
 }
 
 async function notifyToWatchersOfRenotee(renote: INote, user: IUser, nm: NotificationManager, type: NotificationType) {
@@ -682,7 +658,7 @@ async function createMentionedEvents(mentionedUsers: IUser[], note: INote, nm: N
 			detail: true
 		});
 
-		publishMainStream(u._id, 'mention', detailPackedNote);
+		publishMainStream(u._id, 'mention', detailPackedNote!);
 
 		// Create notification
 		nm.push(u._id, 'mention');
@@ -708,8 +684,7 @@ function saveReply(reply: INote, note: INote) {
 function incNotesCountOfUser(user: IUser) {
 	User.update({ _id: user._id }, {
 		$set: {
-			updatedAt: new Date(),
-			lastActivityAt: new Date()
+			updatedAt: new Date()
 		},
 		$inc: {
 			notesCount: 1

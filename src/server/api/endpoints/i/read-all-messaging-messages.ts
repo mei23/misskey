@@ -5,7 +5,7 @@ import define from '../../define';
 
 export const meta = {
 	desc: {
-		'ja-JP': 'トークメッセージをすべて既読にします。',
+		'ja-JP': 'チャットメッセージをすべて既読にします。',
 		'en-US': 'Mark all talk messages as read.'
 	},
 

@@ -1,10 +1,11 @@
 import User from '../models/user';
-import Emoji from '../models/emoji';
+import Emoji, { IEmoji } from '../models/emoji';
 import { toUnicode, toASCII } from 'punycode/';
 import config from '../config';
 import { isSelfHost } from './convert-host';
 import getDriveFileUrl from './get-drive-file-url';
 import DriveFile from '../models/drive-file';
+import { query } from '../prelude/url';
 
 type IREmoji = {
 	/**
@@ -17,6 +18,7 @@ type IREmoji = {
 	 */
 	host: string,
 	resolvable: string,
+	direction?: string;
 };
 
 const SELF_HOST = null;
@@ -96,12 +98,18 @@ export async function packCustomEmoji(str: string, ownerHost: string | null): Pr
 
 	if (emoji == null) return null;
 
-	return {
+	const e = {
 		name: str,
-		url: (host && emoji.saved) ? `${config.url}/files/${emoji.name}@${emoji.host}/${emoji.updatedAt ? emoji.updatedAt.getTime().toString(16) : '0'}.png` : emoji.url,
+		url: getEmojiUrl(emoji),
 		host: host,
 		resolvable: resolvable,
 	} as IREmoji;
+
+	if (emoji.direction) {
+		e.direction = emoji.direction
+	}
+
+	return e;
 }
 
 /**
@@ -124,3 +132,7 @@ const normalizeAsciiHost = (host: string | null) => {
 	if (host == null) return null;
 	return toASCII(host.toLowerCase());
 };
+
+export function getEmojiUrl(emoji: IEmoji) {
+	return (emoji.host && !emoji.saved) ? `${config.url}/proxy/image.png?${query({url: emoji.url})}` : emoji.url;
+}

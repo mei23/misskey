@@ -7,6 +7,15 @@
 		<fa :icon="faSearch" fixed-width/>{{ query }}
 	</mk-user-list>
 
+	<ui-container :body-togglable="true" :expanded="false" ref="tags">
+		<template #header><fa :icon="faHashtag" fixed-width/>{{ $t('popular-tags') }}</template>
+
+		<div class="vxjfqztj">
+			<router-link v-for="tag in tagsLocal" :to="`/explore/tags/${tag.tag}`" :key="'local:' + tag.tag" class="local">{{ tag.tag }}</router-link>
+			<router-link v-for="tag in tagsRemote" :to="`/explore/tags/${tag.tag}`" :key="'remote:' + tag.tag">{{ tag.tag }}</router-link>
+		</div>
+	</ui-container>
+
 	<div class="localfedi7" v-if="meta && stats && tag == null" :style="{ backgroundImage: meta.bannerUrl ? `url(${meta.bannerUrl})` : null }">
 		<header>{{ $t('explore', { host: meta.name }) }}</header>
 		<div>{{ $t('users-info', { users: num(stats.originalUsersCount) }) }}</div>
@@ -18,6 +27,9 @@
 		</mk-user-list>
 		<mk-user-list :make-promise="popularUsers" :expanded="false">
 			<fa :icon="faChartLine" fixed-width/>{{ $t('popular-users') }}
+		</mk-user-list>
+		<mk-user-list :make-promise="recommendedUsers" :expanded="false">
+			<fa icon="users" fixed-width/>{{ $t('recommended-users') }}
 		</mk-user-list>
 		<mk-user-list :make-promise="recentlyUpdatedUsers" :expanded="false">
 			<fa :icon="faCommentAlt" fixed-width/>{{ $t('recently-updated-users') }}
@@ -31,21 +43,12 @@
 		<header>{{ $t('explore-fediverse') }}</header>
 	</div>
 
-	<ui-container :body-togglable="true" :expanded="false" ref="tags">
-		<template #header><fa :icon="faHashtag" fixed-width/>{{ $t('popular-tags') }}</template>
-
-		<div class="vxjfqztj">
-			<router-link v-for="tag in tagsLocal" :to="`/explore/tags/${tag.tag}`" :key="'local:' + tag.tag" class="local">{{ tag.tag }}</router-link>
-			<router-link v-for="tag in tagsRemote" :to="`/explore/tags/${tag.tag}`" :key="'remote:' + tag.tag">{{ tag.tag }}</router-link>
-		</div>
-	</ui-container>
-
 	<mk-user-list v-if="tag != null" :make-promise="tagUsers" :key="`${tag}`">
 		<fa :icon="faHashtag" fixed-width/>{{ tag }}
 	</mk-user-list>
 
 	<template v-if="tag == null">
-		<mk-user-list :make-promise="recommendedUsers" :expanded="false">
+		<mk-user-list :make-promise="recommendedUsersF" :expanded="false">
 			<fa icon="users" fixed-width/>{{ $t('recommended-users') }}
 		</mk-user-list>
 		<mk-user-list :make-promise="recentlyUpdatedUsersF" :expanded="false">
@@ -102,6 +105,7 @@ export default Vue.extend({
 				};
 			}),
 			recommendedUsers: (offset: number) => this.$root.api('users/recommendation', {
+				'origin': 'local',
 				offset,
 				limit: limit + 1
 			}).then((x: any[]) => {
@@ -113,6 +117,21 @@ export default Vue.extend({
 				return {
 						users: x.splice(0, limit),
 						cursor: this.cursors.recommendedUsers
+				};
+			}),
+			recommendedUsersF: (offset: number) => this.$root.api('users/recommendation', {
+				'origin': 'remote',
+				offset,
+				limit: limit + 1
+			}).then((x: any[]) => {
+				if (x.length === limit + 1) {
+					this.cursors.recommendedUsersF += limit;
+				} else {
+					this.cursors.recommendedUsersF = undefined;
+				}
+				return {
+					users: x.splice(0, limit),
+					cursor: this.cursors.recommendedUsersF
 				};
 			}),
 			popularUsers: (offset: number) => this.$root.api('users', {
@@ -200,6 +219,7 @@ export default Vue.extend({
 			cursors: {
 				verifiedUsers: 0,
 				recommendedUsers: 0,
+				recommendedUsersF: 0,
 				popularUsers: 0,
 				recentlyUpdatedUsers: 0,
 				recentlyRegisteredUsers: 0,

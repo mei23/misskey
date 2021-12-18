@@ -55,6 +55,7 @@ common:
     mention: "メンション"
     reaction: "リアクション"
     highlight: "ハイライト"
+    unreadMessagingMessage: "チャットメッセージ"
   got-it: "わかった"
   customization-tips:
     title: "カスタマイズのヒント"
@@ -84,7 +85,7 @@ common:
   trash: "ゴミ箱"
   drive: "ドライブ"
   pages: "ページ"
-  messaging: "トーク"
+  messaging: "チャット"
   home: "ホーム"
   deck: "デッキ"
   undeck: "デッキ解除"
@@ -109,6 +110,7 @@ common:
   aboutInstance: "このインスタンスについて"
   favoriteReactions: "よくするリアクション"
   mostReacteds: "よくされるリアクション"
+  frequently-replied-users: "よく話すユーザー"
 
   favorites: "お気に入り"
   noteReactions: "リアクションした投稿"
@@ -150,8 +152,8 @@ common:
     "favorite-write": "お気に入りを操作する"
     "following-read": "フォローの情報を見る"
     "following-write": "フォロー・フォロー解除する"
-    "messaging-read": "トークを見る"
-    "messaging-write": "トークを操作する"
+    "messaging-read": "チャットを見る"
+    "messaging-write": "チャットを操作する"
     "note-write": "投稿を作成・削除する"
     "notification-read": "通知を見る"
     "notification-write": "通知を操作する"
@@ -265,7 +267,6 @@ common:
     i-like-sushi: "私は(プリンよりむしろ)寿司が好き"
     show-reversi-board-labels: "リバーシのボードの行と列のラベルを表示"
     use-avatar-reversi-stones: "リバーシの石にアバターを使う"
-    enable-decorated-mfm: "装飾系のMFM構文を有効にする"
     disable-animated-mfm: "投稿内の動きのあるテキストを無効にする"
     disable-showing-animated-images: "アニメーション画像を再生しない"
     showInstanceInfo: "インスタンス情報を表示する"
@@ -274,7 +275,7 @@ common:
     suggest-recent-hashtags: "最近のハッシュタグを投稿フォームに表示する"
     always-show-nsfw: "常に閲覧注意のメディアを表示する"
     alwaysOpenCw: "最初からCW/閲覧注意のコンテンツを表示する"
-    always-mark-nsfw: "常にメディアを閲覧注意として投稿"
+    always-mark-nsfw: "デフォルトでファイルを閲覧注意にする"
     show-full-acct: "ユーザー名のホストを省略しない"
     show-via: "viaを表示する"
     reduce-motion: "UIの動きを減らす"
@@ -450,6 +451,7 @@ common:
   dev: "アプリの作成に失敗しました。再度お試しください。"
   ai-chan-kawaii: "藍ちゃかわいい"
   you: "あなた"
+  startTalk: "チャットを開始"
   addUsertag: "ユーザータグを追加"
   addUsertagDetail: "ユーザータグは他のユーザーは見れません, @タグでサジェストすることが出来ます"
   removeUsertagConfirm: "このユーザータグを削除しますか？"
@@ -700,6 +702,9 @@ common/views/components/note-menu.vue:
   delete-and-edit-confirm: "この投稿を削除してもう一度編集しますか？この投稿へのリアクション、リノート、返信も全て削除されます。"
   remote: "投稿元で見る"
   pin-limit-exceeded: "これ以上ピン留めできません。"
+  report: "通報"
+  report-abuse-detail: "どのような迷惑行為を行っていますか？"
+  report-abuse-reported: "管理者に報告されました。ご協力ありがとうございました。"
 
 common/views/components/user-menu.vue:
   mention: "メンション"
@@ -713,7 +718,7 @@ common/views/components/user-menu.vue:
   unblock-confirm: "このユーザーをブロック解除しますか？"
   push-to-list: "リストに追加"
   select-list: "リストを選択してください"
-  report-abuse: "スパムを報告"
+  report-abuse: "通報"
   report-abuse-detail: "どのような迷惑行為を行っていますか？"
   report-abuse-reported: "管理者に報告されました。ご協力ありがとうございました。"
   silence: "サイレンス"
@@ -870,6 +875,7 @@ common/views/components/notification-settings.vue:
   poll_vote: "投票"
   poll_finished: "アンケート完了"
   highlight: "ハイライトワード"
+  unreadMessagingMessage: "チャットメッセージ"
   mark-as-read-all-notifications: "すべての通知を既読にする"
   mark-as-read-all-unread-notes: "すべての投稿を既読にする"
   mark-as-read-all-talk-messages: "すべてのトークを既読にする"
@@ -1463,6 +1469,7 @@ desktop/views/components/users-list-item.vue:
 
 desktop/views/components/window.vue:
   popout: "ポップアウト"
+  transparent: "透過"
   close: "閉じる"
 
 desktop/views/home/featured.vue:
@@ -1525,7 +1532,8 @@ admin/views/abuse.vue:
   target: "対象"
   reporter: "報告者"
   details: "詳細"
-  remove-report: "削除"
+  notes: "投稿"
+  remove-report: "通報を削除"
 
 admin/views/instance.vue:
   instance: "インスタンス"
@@ -1736,6 +1744,7 @@ admin/views/emoji.vue:
     add: "追加"
     info: "50KB以下のPNG画像をおすすめします。"
     added: "絵文字を登録しました"
+    direction: "顔の方向"
   emojis:
     title: "絵文字一覧"
     update: "更新"
@@ -1754,6 +1763,9 @@ admin/views/emoji.vue:
   origin: "対象"
   all: "全て"
   newer: "未追加"
+  none: "不定"
+  left: "向かって左"
+  right: "向かって右"
 
 admin/views/announcements.vue:
   announcements: "お知らせ"
@@ -1979,6 +1991,8 @@ common/views/components/follow-button.vue:
   request-pending: "フォロー許可待ち"
   follow-processing: "フォロー処理中"
   follow-request: "フォロー申請"
+  remoteFollow: "リモートフォロー"
+  remoteFollowMessage: "以下のアカウントをフォローしたいインスタンスの検索ボックスに入れてフォローして下さい。\n```\n{acct}\n```\n\n\nまたは、以下にフォローしたいアカウントを入力して下さい。"
 
 mobile/views/components/note.vue:
   private: "この投稿は非公開です"
@@ -2182,6 +2196,7 @@ deck/deck.tl-column.vue:
   is-media-only: "メディア投稿のみ"
   is-sfw-media-only: "SFWメディア投稿のみ"
   is-nsfw-media-only: "NSFWメディア投稿のみ"
+  excludeRenote: "Renoteを含めない"
   edit: "オプション"
 
 deck/deck.user-column.vue:
@@ -2194,6 +2209,10 @@ deck/deck.user-column.vue:
   timeline: "タイムライン"
   pinned-notes: "ピン留めされた投稿"
   fetch-posts: 投稿を取得
+  years-old: "{age}歳"
+  year: "年"
+  month: "月"
+  day: "日"
 
 docs:
   edit-this-page-on-github: "間違いや改善点を見つけましたか？"

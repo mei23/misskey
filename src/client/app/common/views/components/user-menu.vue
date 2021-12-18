@@ -10,6 +10,7 @@ import i18n from '../../../i18n';
 import { faExclamationCircle, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons';
 import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
 import { faUserTag } from '@fortawesome/free-solid-svg-icons';
+import getAcct from '../../../../../misc/acct/render';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/user-menu.vue'),
@@ -28,6 +29,11 @@ export default Vue.extend({
 		// ログインユーザー
 		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
 			menu = menu.concat([
+				{
+					icon: 'comments',
+					text: this.$t('@.startTalk'),
+					action: this.startTalk
+				},
 				null,
 				{
 					icon: faUserTag,
@@ -81,6 +87,16 @@ export default Vue.extend({
 			this.$nextTick(() => {
 				this.destroyDom();
 			});
+		},
+
+		startTalk() {
+			if (this.$root.isMobile) {
+				this.$router.push(`/i/messaging/${getAcct(this.user)}`); 
+			} else {
+				import('../../../desktop/views/components/messaging-room-window.vue').then(m => this.$root.new(m.default, {
+					user: this.user
+				}));
+			}
 		},
 
 		async addUsertag() {

@@ -18,6 +18,8 @@
 	</ui-container>
 	<!-- リアクション -->
 	<x-reactions :user="user" :key="user.id" :deck="true"/>
+	<!-- よく話すユーザー -->
+	<mk-user-list :make-promise="makeFrequentlyRepliedUsersPromise" :icon-only="true" :key="user.id"><fa icon="users"/> {{ $t('@.frequently-replied-users') }}</mk-user-list>
 	<!-- フォト -->
 	<ui-container v-if="images.length > 0" :body-togglable="true"
 		:expanded="$store.state.device.expandUsersPhotos"
@@ -69,12 +71,15 @@ export default Vue.extend({
 			required: true
 		}
 	},
-
 	data() {
 		return {
 			withFiles: false,
 			images: [],
 			makePromise: null,
+			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get_frequently_replied_users', {
+				userId: this.user.id,
+				limit: 5,
+			}).then(res => res.map(x => x.user)),
 			chart: null as ApexCharts
 		};
 	},

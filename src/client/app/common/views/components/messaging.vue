@@ -1,3 +1,4 @@
+<!-- ユーザー履歴 -->
 <template>
 <div class="mk-messaging" :data-compact="compact">
 	<div class="search" v-if="!compact" :style="{ top: headerTop + 'px' }">
@@ -21,6 +22,7 @@
 		</div>
 	</div>
 	<div class="history" v-if="messages.length > 0">
+		最近やりとりしたユーザー
 		<template>
 			<a v-for="message in messages"
 				class="user"
@@ -38,7 +40,9 @@
 						<mk-time :time="message.createdAt"/>
 					</header>
 					<div class="body">
-						<p class="text"><span class="me" v-if="isMe(message)">{{ $t('you') }}:</span>{{ message.text }}</p>
+						<p class="text"><span class="me" v-if="isMe(message)">{{ $t('you') }}:</span>
+							<mfm :text="message.text" :custom-emojis="message.emojis"/>
+						</p>
 					</div>
 				</div>
 			</a>
@@ -311,11 +315,13 @@ export default Vue.extend({
 						color rgba(#000, 0.3)
 
 	> .history
+		background var(--face)
+		color var(--text)
+		padding 1em
 
 		> a
 			display block
 			text-decoration none
-			background var(--face)
 			border-bottom solid 1px var(--faceDivider)
 
 			*

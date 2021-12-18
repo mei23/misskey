@@ -21,6 +21,7 @@ import { deliverToRelays } from '../relay';
 import Notification from '../../models/notification';
 import { deleteUnusedFile } from '../drive/delete-unused-file';
 import isQuote from '../../misc/is-quote';
+import NoteReaction from '../../models/note-reaction';
 
 /**
  * 投稿を削除します。
@@ -76,6 +77,10 @@ export default async function(user: IUser, note: INote, quiet = false) {
 	});
 
 	Notification.remove({
+		noteId: note._id
+	});
+
+	NoteReaction.remove({
 		noteId: note._id
 	});
 

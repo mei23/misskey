@@ -7,7 +7,7 @@ import { queueLogger } from '../../logger';
 import Note, { INote } from '../../../models/note';
 import { addFile } from '../../../services/drive/add-file';
 import User from '../../../models/user';
-import dateFormat = require('dateformat');
+import { format } from 'date-fns';
 import { DbUserJobData } from '../../types';
 
 const logger = queueLogger.createSubLogger('export-notes');
@@ -103,7 +103,7 @@ export async function exportNotes(job: Bull.Job<DbUserJobData>): Promise<string>
 	stream.end();
 	logger.succ(`Exported to: ${path}`);
 
-	const fileName = 'notes-' + dateFormat(new Date(), 'yyyy-mm-dd-HH-MM-ss') + '.json';
+	const fileName = 'notes-' + format(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
 	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
 
 	cleanup();

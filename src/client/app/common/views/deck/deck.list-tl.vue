@@ -33,6 +33,11 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
+		excludeRenote: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 
 	data() {
@@ -46,6 +51,7 @@ export default Vue.extend({
 				fileType: (this.sfwMediaOnly || this.nsfwMediaOnly) ? ['image/jpeg','image/png','image/apng','image/gif','image/webp','video/mp4','video/webm'] : undefined,
 				excludeNsfw: this.sfwMediaOnly,
 				excludeSfw: this.nsfwMediaOnly,
+				excludeRenote: this.excludeRenote,
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes
@@ -76,6 +82,9 @@ export default Vue.extend({
 		nsfwMediaOnly() {
 			(this.$refs.timeline as any).reload();
 		},
+		excludeRenote() {
+			(this.$refs.timeline as any).reload();
+		},
 	},
 
 	mounted() {
@@ -101,6 +110,7 @@ export default Vue.extend({
 			if (this.mediaOnly && note.files.length == 0) return;
 			if (this.sfwMediaOnly && (note.files.length == 0 || note.files.some((x: any) => x.isSensitive))) return;
 			if (this.nsfwMediaOnly && (note.files.length == 0 || note.files.every((x: any) => !x.isSensitive))) return;
+			if (this.excludeRenote && note.text == null && note.files.length === 0 && note.poll == null) return;
 			(this.$refs.timeline as any).prepend(note);
 		},
 

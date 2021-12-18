@@ -49,7 +49,7 @@
 		</div>
 	</div>
 
-	<div class="notification followRequest" v-if="notification.type == 'receiveFollowRequest'">
+	<div class="notification receiveFollowRequest" v-if="notification.type == 'receiveFollowRequest'">
 		<mk-avatar class="avatar" :user="notification.user"/>
 		<div>
 			<header>
@@ -59,6 +59,7 @@
 				</router-link>
 				<mk-time :time="notification.createdAt"/>
 			</header>
+			<a @click="followRequests">{{ $t('@.follow-requests') }}</a>
 		</div>
 	</div>
 
@@ -123,21 +124,58 @@
 	<template v-if="notification.type == 'mention'">
 		<mk-note :note="notification.note"/>
 	</template>
+
+	<div class="notification unreadMessagingMessage" v-if="notification.type == 'unreadMessagingMessage'">
+		<mk-avatar class="avatar" :user="notification.user"/>
+		<div>
+			<header>
+				<fa :icon="['far', 'comment']" class="icon"/>
+				<router-link :to="notification.user | userPage" class="name">
+					<mk-user-name :user="notification.user"/>
+				</router-link>
+				<mk-time :time="notification.createdAt"/>
+			</header>
+			<a class="note-ref" @click="toChat(notification.user)">
+				<mfm :text="notification.message.text" :plain="true" :custom-emojis="notification.message.emojis"/>
+			</a>
+		</div>
+	</div>
 </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import i18n from '../../../i18n';
 import getNoteSummary from '../../../../../misc/get-note-summary';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
+import getAcct from '../../../../../misc/acct/render';
 
 export default Vue.extend({
+	i18n: i18n(),
 	props: ['notification'],
 	data() {
 		return {
 			getNoteSummary,
 			faLightbulb,
 		};
+	},
+
+	methods: {
+		followRequests() {
+			if (this.$root.isMobile) {
+				this.$router.push('/i/received-follow-requests');
+			} else {
+				import('../../../desktop/views/components/received-follow-requests-window.vue').then(m => this.$root.new(m.default));
+			}
+		},
+
+		toChat(user: any) {
+			if (this.$root.isMobile) {
+				this.$router.push(`/i/messaging/${getAcct(user)}`); 
+			} else {
+				import('../../../desktop/views/components/messaging-room-window.vue').then(m => this.$root.new(m.default, { user }));
+			}
+		},
 	},
 });
 </script>
@@ -218,7 +256,7 @@ export default Vue.extend({
 			> div > header [data-icon]
 				color #888
 
-		&.reply, &.mention, &.highlight
+		&.reply, &.mention, &.highlight, &.unreadMessagingMessage
 			> div > header [data-icon]
 				color #555
 

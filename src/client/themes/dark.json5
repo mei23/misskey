@@ -157,7 +157,7 @@
 		messagingRoomDateDividerLine: 'rgba(255, 255, 255, 0.1)',
 		messagingRoomDateDividerText: 'rgba(255, 255, 255, 0.3)',
 		messagingRoomMessageInfo: 'rgba(255, 255, 255, 0.4)',
-		messagingRoomMessageBg: '$secondary',
+		messagingRoomMessageBg: ':lighten<5<$secondary',
 		messagingRoomMessageFg: '#fff',
 
 		driveFileIcon: '$text',

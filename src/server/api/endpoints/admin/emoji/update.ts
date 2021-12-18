@@ -33,6 +33,10 @@ export const meta = {
 
 		aliases: {
 			validator: $.arr($.str)
+		},
+
+		direction: {
+			validator: $.optional.str.or(['left', 'right'])
 		}
 	}
 };
@@ -55,6 +59,7 @@ export default define(meta, async (ps) => {
 			url: ps.url,
 			type: mime,
 			md5,
+			direction: ps.direction
 		}
 	});
 

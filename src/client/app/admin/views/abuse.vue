@@ -5,15 +5,14 @@
 		<section class="fit-top">
 			<sequential-entrance animation="entranceFromTop" delay="25">
 				<div v-for="report in userReports" :key="report.id" class="haexwsjc">
-					<ui-horizon-group inputs>
-						<ui-input :value="report.user | acct" type="text" readonly>
-							<span>{{ $t('target') }}</span>
-						</ui-input>
-						<ui-input :value="report.reporter | acct" type="text" readonly>
-							<span>{{ $t('reporter') }}</span>
-						</ui-input>
-					</ui-horizon-group>
-					<ui-textarea :value="report.comment" readonly>
+					<div>{{ $t('target') }}: <a :href="report.user | userPage(null, true)"><mk-acct :user="report.user" :simple="true"/></a></div>
+					<div>{{ $t('reporter') }}: <a :href="report.reporter | userPage(null, true)"><mk-acct :user="report.reporter" :simple="true"/></a></div>
+					<div v-if="(report.notes || []).length > 0">{{ $t('notes') }}: 
+						<span v-for="note in report.notes || []" :key="note.id" style="margin-right: 1em">
+							<a :href="`/notes/${note.id}`">{{ note.id }}</a>
+						</span>
+					</div>
+					<ui-textarea :value="report.comment" :slim="true" readonly>
 						<span>{{ $t('details') }}</span>
 					</ui-textarea>
 					<ui-button @click="removeReport(report)">{{ $t('remove-report') }}</ui-button>
@@ -77,6 +76,7 @@ export default Vue.extend({
 
 <style lang="stylus" scoped>
 .haexwsjc
+	padding-top 16px
 	padding-bottom 16px
 	border-bottom solid 1px var(--faceDivider)
 
