@@ -16,6 +16,8 @@ RUN yarn build
 
 FROM node:16.13.1-bullseye-slim AS runner
 
+WORKDIR /misskey
+
 RUN apt-get update
 RUN apt-get install -y ffmpeg mecab mecab-ipadic-utf8
 
