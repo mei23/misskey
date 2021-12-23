@@ -1,10 +1,7 @@
-FROM node:16.13.1-bullseye AS base
+FROM node:16.13.1-bullseye AS builder
 
 ENV NODE_ENV=production
-
 WORKDIR /misskey
-
-FROM base AS builder
 
 RUN apt-get update
 RUN apt-get install -y build-essential
@@ -16,6 +13,7 @@ RUN yarn build
 
 FROM node:16.13.1-bullseye-slim AS runner
 
+ENV NODE_ENV=production
 WORKDIR /misskey
 
 RUN apt-get update
