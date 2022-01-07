@@ -124,7 +124,7 @@
 		"gulp-terser": "2.1.0",
 		"gulp-tslint": "8.1.4",
 		"gulp-typescript": "5.0.1",
-		"highlight.js": "10.6.0",
+		"highlight.js": "11.4.0",
 		"hpagent": "0.1.2",
 		"html-entities": "2.3.2",
 		"htmlescape": "1.1.1",
