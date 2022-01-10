@@ -34,7 +34,7 @@ export async function tryStockEmoji(emoji: IEmoji) {
 
 export async function stockEmoji(emoji: IEmoji) {
 	const user = await getSystem1();
-	const file = await uploadFromUrl(emoji.url, user, null, emoji.url, false, true);
+	const file = await uploadFromUrl(emoji.url, user, null, null, false, true);
 
 	const url = getDriveFileUrl(file);
 

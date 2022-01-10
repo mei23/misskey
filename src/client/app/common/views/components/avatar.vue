@@ -5,17 +5,27 @@
 	<span class="mk-avatar" :style="style" :class="{ cat }" :title="user | acct" v-else-if="disableLink && disablePreview" @click="onClick" v-once>
 		<span class="inner" :style="icon"></span>
 	</span>
-	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="user | userPage" :title="user | acct" :target="target" v-else-if="!disableLink && !disablePreview" v-user-preview="user.id" v-once>
+
+	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="userUrl" :title="user | acct" :target="target" v-else-if="!disableLink && !disablePreview && userUrl.startsWith('/')" v-user-preview="user.id" v-once>
 		<span class="inner" :style="icon"></span>
 	</router-link>
-	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="user | userPage" :title="user | acct" :target="target" v-else-if="!disableLink && disablePreview" v-once>
+	<a class="mk-avatar" :style="style" :class="{ cat }" :href="userUrl" :title="user | acct" :target="target" v-else-if="!disableLink && !disablePreview" v-user-preview="user.id" v-once>
+		<span class="inner" :style="icon"></span>
+	</a>
+
+	<router-link class="mk-avatar" :style="style" :class="{ cat }" :to="userUrl" :title="user | acct" :target="target" v-else-if="!disableLink && disablePreview && userUrl.startsWith('/')" v-once>
 		<span class="inner" :style="icon"></span>
 	</router-link>
+	<a class="mk-avatar" :style="style" :class="{ cat }" :href="userUrl" :title="user | acct" :target="target" v-else-if="!disableLink && disablePreview" v-once>
+		<span class="inner" :style="icon"></span>
+	</a>
+
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
+import getAcct from '../../../../../misc/acct/render';
 
 export default Vue.extend({
 	props: {
@@ -37,6 +47,9 @@ export default Vue.extend({
 		}
 	},
 	computed: {
+		userUrl(): string {
+			return this.$store.getters.isSignedIn ? `/@${getAcct(this.user)}` : this.user.url || this.user.uri || `/@${getAcct(this.user)}`;
+		},
 		cat(): boolean {
 			return this.user.isCat && this.$store.state.settings.circleIcons;
 		},

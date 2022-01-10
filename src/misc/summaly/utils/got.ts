@@ -9,14 +9,18 @@ const OPERATION_TIMEOUT = 60 * 1000;
 const MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
 const BOT_UA = `Twitterbot/1.0`;
 
-export async function scpaping(url: string) {
+export async function scpaping(url: string, opts?: { lang?: string; }) {
+	const headers = {
+		'accept': 'text/html',
+		'user-agent': BOT_UA,
+	} as Record<string, string>;
+
+	if (opts?.lang) headers['accept-language'] = opts.lang;
+
 	const response = await getResponse({
 		url,
 		method: 'GET',
-		headers: {
-			'accept': 'text/html',
-			'user-agent': BOT_UA,
-		},
+		headers,
 		typeFilter: /^text\/html/,
 	});
 

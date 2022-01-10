@@ -2,6 +2,7 @@ import Emoji, { IEmoji } from '../../../models/emoji';
 import Resolver from '../resolver';
 import { isEmoji } from '../type';
 import { toSingle } from '../../../prelude/array';
+import { tryStockEmoji } from '../../../services/emoji-store';
 
 export async function resyncEmoji(emoji: IEmoji, force = false) {
 	// skip local
@@ -13,17 +14,21 @@ export async function resyncEmoji(emoji: IEmoji, force = false) {
 
 	if (!isEmoji(apEmoji)) throw new Error(`Object type is not an Emoji`);
 
-	apEmoji.icon = toSingle(apEmoji.icon);
+	apEmoji.icon = toSingle(apEmoji.icon)!;
 
 	if (force || emoji.url !== apEmoji.icon.url) {
 		console.log(`update emoji url ${emoji.uri} ${emoji.url} => ${apEmoji.icon.url}`);
-		await Emoji.findOneAndUpdate({
+		const updated = await Emoji.findOneAndUpdate({
 			_id: emoji._id
 		}, {
 			$set: {
 				url: apEmoji.icon.url,
+				//uri: apEmoji.id,
+				saved: false,
 				updatedAt: new Date(),
 			}
 		});
+
+		await tryStockEmoji(updated!);
 	}
 }

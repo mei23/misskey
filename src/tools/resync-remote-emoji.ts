@@ -1,3 +1,5 @@
+// Usage: ... <name@host>
+
 import Emoji from '../models/emoji';
 import { resyncEmoji } from '../remote/activitypub/models/emoji';
 import { toDbHost } from '../misc/convert-host';
@@ -34,7 +36,7 @@ async function resync(x: string): Promise<any> {
 const args = process.argv.slice(2);
 
 main(args).then(() => {
-	console.log('Done');
+	setTimeout(() => { console.log('\n======\n Done\n======'); }, 2 * 1000);
 }).catch(e => {
 	console.warn(e);
 });

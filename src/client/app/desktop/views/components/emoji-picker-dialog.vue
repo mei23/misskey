@@ -14,11 +14,6 @@ export default Vue.extend({
 	},
 
 	props: {
-		includeRemote: {
-			type: Boolean,
-			required: false,
-			default: false
-		},
 		reaction: {
 			type: Boolean,
 			required: false,

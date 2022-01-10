@@ -6,8 +6,10 @@ import { decode } from 'html-entities';
 import Summary from './types';
 import { scpaping } from './utils/got';
 
-export default async (url: URL): Promise<Summary> => {
-	const res = await scpaping(url.href);
+export default async (url: URL, lang: string | null = null): Promise<Summary> => {
+	if (lang && !lang.match(/^[\w-]+(\s*,\s*[\w-]+)*$/)) lang = null;
+
+	const res = await scpaping(url.href, { lang: lang || undefined });
 	const $ = res.$;
 	const landingUrl = new URL(res.response.url);
 

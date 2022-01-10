@@ -451,6 +451,9 @@ export async function pack(
 		avoidSearchIndex: !!db.avoidSearchIndex,
 		tags: db.tags || [],
 
+		url: isRemoteUser(db) ? db.url || null : null,
+		uri: isRemoteUser(db) ? db.uri || null : null,
+
 		...(opts.detail ? {
 			createdAt: toISODateOrNull(db.createdAt),
 			updatedAt: toISODateOrNull(db.updatedAt),
@@ -499,12 +502,6 @@ export async function pack(
 					discriminator: db.discord?.discriminator,
 				} : undefined,
 			}: {}),
-
-			...(isRemoteUser(db) ? {
-				url: db.url || null,
-				uri: db.uri || null,
-			}: {}),
-
 		} : {}),
 
 		// detail && 自分を見てる

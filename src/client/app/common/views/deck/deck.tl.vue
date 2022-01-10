@@ -141,7 +141,7 @@ export default Vue.extend({
 
 		this.$root.getMeta().then(meta => {
 			this.disabled = (
-				meta.disableLocalTimeline && ['local', 'hybrid'].includes(this.src) ||
+				meta.disableLocalTimeline && ['local', 'locao', 'hybrid'].includes(this.src) ||
 				meta.disableGlobalTimeline && ['global'].includes(this.src));
 		});
 	},

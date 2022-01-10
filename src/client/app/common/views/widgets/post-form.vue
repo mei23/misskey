@@ -197,7 +197,6 @@ export default define({
 			const button = this.$refs.emoji;
 			const rect = button.getBoundingClientRect();
 			const vm = this.$root.new(Picker, {
-				includeRemote: true,
 				x: button.offsetWidth + rect.left + window.pageXOffset,
 				y: rect.top + window.pageYOffset
 			});

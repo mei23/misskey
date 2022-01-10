@@ -7,6 +7,88 @@ import isSvg from 'is-svg';
 import * as probeImageSize from 'probe-image-size';
 import * as FFmpeg from 'fluent-ffmpeg';
 
+// file-typeの出力のフィルタ用
+const FILE_TYPE_DETECTS = [
+	// Images
+	'image/png',
+	'image/gif',
+	'image/jpeg',
+	'image/webp',
+	'image/apng',
+	'image/bmp',
+	'image/tiff',
+	'image/x-icon',
+	'image/svg+xml',
+
+	// OggS
+	'audio/opus',
+	'video/ogg',
+	'audio/ogg',
+	'application/ogg',
+
+	// ISO/IEC base media file format
+	'video/quicktime',
+	'video/mp4',
+	'audio/mp4',
+	'video/x-m4v',
+	'audio/x-m4a',
+	'video/3gpp',
+	'video/3gpp2',
+
+	'video/mpeg',
+	'audio/mpeg',
+
+	'video/webm',
+	'audio/webm',
+
+	'audio/aac',
+	'audio/x-flac',
+	'audio/vnd.wave',
+];
+/*
+https://github.com/sindresorhus/file-type/blob/main/supported.js
+https://github.com/sindresorhus/file-type/blob/main/core.js
+https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers
+*/
+
+export const FILE_TYPE_BROWSERSAFE = [
+	// Images
+	'image/png',
+	'image/gif',
+	'image/jpeg',
+	'image/webp',
+	'image/apng',
+	'image/bmp',
+	'image/tiff',
+	'image/x-icon',
+	// no SVG
+
+	// OggS
+	'audio/opus',
+	'video/ogg',
+	'audio/ogg',
+	'application/ogg',
+
+	// ISO/IEC base media file format
+	'video/quicktime',
+	'video/mp4',
+	'audio/mp4',
+	'video/x-m4v',
+	'audio/x-m4a',
+	'video/3gpp',
+	'video/3gpp2',
+
+	'video/mpeg',
+	'audio/mpeg',
+
+	'video/webm',
+	'audio/webm',
+
+	'audio/aac',
+	'audio/x-flac',
+	'audio/vnd.wave',
+];
+
 const pipeline = util.promisify(stream.pipeline);
 
 export type FileInfo = {
@@ -18,7 +100,6 @@ export type FileInfo = {
 	};
 	width?: number;
 	height?: number;
-	//videoProps?: FFmpeg.FfprobeData | null;
 	warnings: string[];
 };
 
@@ -37,60 +118,26 @@ const TYPE_MP4 = {
 	ext: 'mp4'
 };
 
+const TYPE_MP4_AS_AUDIO = {
+	mime: 'audio/mp4',
+	ext: 'mp4'
+};
+
 /**
  * Get file information
  */
 export async function getFileInfo(path: string): Promise<FileInfo> {
-	const warnings = [] as string[];
-
 	const size = await getFileSize(path);
 	const md5 = await calcHash(path);
-
-	let type = await detectType(path);
-
-	// image dimensions
-	let width: number | undefined;
-	let height: number | undefined;
-
-	if (['image/jpeg', 'image/gif', 'image/png', 'image/apng', 'image/webp', 'image/bmp', 'image/tiff', 'image/svg+xml', 'image/vnd.adobe.photoshop'].includes(type.mime)) {
-		const imageSize = await detectImageSize(path).catch(e => {
-			warnings.push(`detectImageSize failed: ${e}`);
-			return undefined;
-		});
-
-		// うまく判定できない画像は octet-stream にする
-		if (!imageSize) {
-			warnings.push(`cannot detect image dimensions`);
-			type = TYPE_OCTET_STREAM;
-		} else if (imageSize.wUnits === 'px') {
-			width = imageSize.width;
-			height = imageSize.height;
-
-			// 制限を超えている画像は octet-stream にする
-			if (imageSize.width > 16383 || imageSize.height > 16383) {
-				warnings.push(`image dimensions exceeds limits`);
-				type = TYPE_OCTET_STREAM;
-			}
-		} else {
-			warnings.push(`unsupported unit type: ${imageSize.wUnits}`);
-		}
-	}
-
-	/*
-	let videoProps: FFmpeg.FfprobeData | null | undefined;
-	if (type.mime.startsWith('video/')) {
-		videoProps = await getVideoProps(path).catch(() => null);
-	}
-	*/
+	const r = await detectTypeWithCheck(path);
 
 	return {
 		size,
 		md5,
-		type,
-		width,
-		height,
-		//videoProps,
-		warnings: warnings,
+		type: { mime: r.mime, ext: r.ext },
+		width: r.width,
+		height: r.height,
+		warnings: [],
 	};
 }
 
@@ -112,14 +159,6 @@ export async function detectType(path: string) {
 			return TYPE_SVG;
 		}
 
-		if (type.mime === 'video/quicktime') {
-			const props = await getVideoProps(path);
-			if (props.streams.filter(s => s.codec_type === 'video').every(s => s.codec_name === 'h264')
-				&& (props.streams.filter(s => s.codec_type === 'audio').length === 0 || props.streams.filter(s => s.codec_type === 'audio').every(s => s.codec_name === 'aac'))) {
-				return TYPE_MP4;
-			}
-		}
-
 		return {
 			mime: type.mime,
 			ext: type.ext
@@ -133,6 +172,65 @@ export async function detectType(path: string) {
 
 	// それでも種類が不明なら application/octet-stream にする
 	return TYPE_OCTET_STREAM;
+}
+
+export async function detectTypeWithCheck(path: string) {
+	let type = await detectType(path);
+
+	// check type
+	if (!FILE_TYPE_DETECTS.includes(type.mime)) {
+		type = TYPE_OCTET_STREAM;
+	}
+
+	// image dimensions
+	let width: number | undefined;
+	let height: number | undefined;
+
+	if (type.mime.startsWith('image/')) {
+		const imageSize = await detectImageSize(path).catch(e => {
+			return undefined;
+		});
+
+		// うまく判定できない画像は octet-stream にする
+		if (!imageSize) {
+			type = TYPE_OCTET_STREAM;
+		} else if (imageSize.wUnits === 'px') {
+			width = imageSize.width;
+			height = imageSize.height;
+
+			// 制限を超えている画像は octet-stream にする
+			if (imageSize.width > 16383 || imageSize.height > 16383) {
+				type = TYPE_OCTET_STREAM;
+			}
+		}
+	}
+
+	// videoを持たないmp4 videoはaudio扱いにしてしまう
+	if (type.mime === 'video/mp4') {
+		const props = await getVideoProps(path);
+		if (props.streams.filter(s => s.codec_type === 'video').length === 0
+			&& props.streams.filter(s => s.codec_type === 'audio').length > 0
+		) {
+			type = TYPE_MP4_AS_AUDIO;
+		}
+	}
+
+	// quicktime だけど h264 と aac で構成されているのは、実際はSafari以外でも再生できちゃうのでmp4扱いにしてしまう
+	if (type.mime === 'video/quicktime') {
+		const props = await getVideoProps(path);
+		if (props.streams.filter(s => s.codec_type === 'video').every(s => s.codec_name === 'h264')
+			&& (props.streams.filter(s => s.codec_type === 'audio').length === 0 || props.streams.filter(s => s.codec_type === 'audio').every(s => s.codec_name === 'aac'))
+		) {
+			type = TYPE_MP4;
+		}
+	}
+
+	return {
+		mime: type.mime,
+		ext: type.ext,
+		width,
+		height,
+	};
 }
 
 /**

@@ -51,3 +51,11 @@ node built/tools/clean-unused-files.js
 ```sh
 node built/tools/recount-stats.js
 ```
+
+## リモートカスタム絵文字を再同期
+
+リモートカスタム絵文字のURLの更新と再保存を行います
+
+```sh
+node built/tools/resync-remote-emoji.js name@host
+```

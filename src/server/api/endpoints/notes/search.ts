@@ -12,7 +12,6 @@ import { getFriends, getFriendIds } from '../../common/get-friends';
 import NoteWatching from '../../../../models/note-watching';
 import config from '../../../../config';
 import { getIndexer } from '../../../../misc/mecab';
-const escapeRegexp = require('escape-regexp');
 
 export const meta = {
 	desc: {
@@ -78,7 +77,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 	let withFiles = false;
 	let host: string | null | undefined;	// = undefined
 	let sensitive: 'all' | 'sfw' | 'nsfw' = 'all';
-	let filtered = false;
 	let withPolls = false;
 
 	for (const token of tokens) {
@@ -93,7 +91,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 			if (user == null) return [];	// fromが存在しないユーザーならno match
 			from = user;
 
-			filtered = true;
 			continue;
 		}
 
@@ -171,7 +168,6 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		if (matchSensitive) {
 			sensitive = matchSensitive[1] as 'all' | 'sfw' | 'nsfw';
 
-			// filteredにしない
 			continue;
 		}
 
@@ -200,8 +196,8 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 		sort.createdAt = 1;
 	}
 
-	// フィルタ系が指定されていないワード検索の場合
-	if (!filtered && words.length > 0) {
+	// ワード検索の場合
+	if (words.length > 0) {
 		// meCabしてなければESに回す
 		if (!config.mecabSearch) return null;
 	}
@@ -356,23 +352,11 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 	}
 
 	if (words.length > 0) {
-		if (filtered) {
-			const texts = words.map(word => ({ text: new RegExp(escapeRegexp(word), 'i') }));
-			const cws = words.map(word => ({ cw: new RegExp(escapeRegexp(word), 'i') }));
-
-			noteQuery.$and.push({
-				$or: [
-					{ $and: texts },
-					{ $and: cws }
-				]
-			});
-		} else {
-			const ws = await getIndexer({ text: words.join(' ') });
-			if (!ws.length) return [];
-			noteQuery.$and.push({
-				mecabWords: { $all: ws }
-			});
-		}
+		const ws = await getIndexer({ text: words.join(' ') });
+		if (!ws.length) return [];
+		noteQuery.$and.push({
+			mecabWords: { $all: ws }
+		});
 	}
 
 	const notes = await Note.find(noteQuery, {

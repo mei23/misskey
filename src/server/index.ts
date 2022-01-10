@@ -59,6 +59,7 @@ if (config.url.startsWith('https') && !config.disableHsts) {
 
 app.use(async (ctx, next) => {
 	ctx.set('Permissions-Policy', 'interest-cohort=()');
+	ctx.set('X-Content-Type-Options', 'nosniff');
 	await next();
 });
 

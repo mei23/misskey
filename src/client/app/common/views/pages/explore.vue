@@ -153,6 +153,7 @@ export default Vue.extend({
 			}),
 			recentlyUpdatedUsers: (offset: number) => this.$root.api('users', {
 				origin: 'local',
+				state: 'alive',
 				sort: '+updatedAt',
 				offset,
 				limit: limit + 1

@@ -61,6 +61,8 @@ export type ThinPackedUser = {
 	instance: any;	// TODO
 	avoidSearchIndex?: boolean;
 	tags: string[];
+	url?: string | null;
+	uri?: string | null;
 	emojis: {
 		name: string;
 		url: string;
@@ -110,10 +112,6 @@ export type PackedUser = ThinPackedUser & {
 		username: string;
 		discriminator: string;
 	};
-
-	// remote
-	url?: string | null;
-	uri?: string | null;
 
 	// my
 	avatarId?: string | null;

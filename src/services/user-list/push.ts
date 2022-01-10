@@ -31,12 +31,14 @@ async function tryProxyFollow(target: IRemoteUser, userId: mongo.ObjectID) {
 	}
 
 	// 誰かがフォローしていればスキップ
-	const count = await Following.count({
+	const exist = await Following.count({
 		followeeId: target._id,
 		'_follower.host': null
+	}, {
+		limit: 1
 	});
 
-	if (count > 0) {
+	if (exist > 0) {
 		return;
 	}
 
