@@ -30,12 +30,6 @@ import { InternalStorage } from './internal-storage';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
-export type ProcessOptions = {
-	isWebpublic?: boolean;
-	useJpegForWeb?: boolean;
-	webSize?: number;
-};
-
 /***
  * Save file
  * @param path Path for original
@@ -43,11 +37,11 @@ export type ProcessOptions = {
  * @param info FileInfo
  * @param metadata
  */
-async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig, prsOpts: ProcessOptions = {}): Promise<IDriveFile> {
+async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig): Promise<IDriveFile> {
 	// thunbnail, webpublic を必要なら生成
 	let animation = info.type.mime === 'image/apng' ? 'yes' : info.type.mime === 'image/png' ? 'no' : undefined;
 
-	const alts = await generateAlts(path, info.type.mime, !metadata.uri, prsOpts).catch(err => {
+	const alts = await generateAlts(path, info.type.mime, !metadata.uri).catch(err => {
 		if (err === 'ANIMATED') {
 			animation = 'yes';
 		} else {
@@ -213,7 +207,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
  * @param type Content-Type for original
  * @param generateWeb Generate webpublic or not
  */
-export async function generateAlts(path: string, type: string, generateWeb: boolean, prsOpts?: ProcessOptions) {
+export async function generateAlts(path: string, type: string, generateWeb: boolean) {
 	// video
 	if (type.startsWith('video/')) {
 		const thumbnail = await generateVideoThumbnail(path);
@@ -241,8 +235,6 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	}
 
 	// #region webpublic
-	let webSize = prsOpts?.webSize || 2048;
-	if (webSize > 16383) webSize = 16383;
 	let webpublic: IImage | null = null;
 
 	const webpulicSafe = !metadata.exif && !metadata.icc && !metadata.iptc && !metadata.xmp && !metadata.tifftagPhotoshop	// has meta
@@ -270,8 +262,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #region thumbnail
 	let thumbnail: IImage | null = null;
 
-	if (['image/jpeg', 'image/webp'].includes(type)
-		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
+	if (['image/jpeg', 'image/webp'].includes(type)) {
 		thumbnail = await convertSharpToJpeg(img, 530, 255);
 	} else if (['image/png', 'image/svg+xml'].includes(type)) {
 		thumbnail = await convertSharpToPngOrJpeg(img, 530, 255);
@@ -389,7 +380,6 @@ export async function addFile(
 	url: string | null = null,
 	uri: string | null = null,
 	sensitive: boolean = false,
-	prsOpts?: ProcessOptions,
 ): Promise<IDriveFile> {
 	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
@@ -530,7 +520,7 @@ export async function addFile(
 		}
 	} else {
 		const drive = getDriveConfig(uri != null);
-		driveFile = await (save(path, detectedName, info, metadata, drive, prsOpts));
+		driveFile = await (save(path, detectedName, info, metadata, drive));
 	}
 
 	if (!driveFile) throw 'Failed to create drivefile ${e}';
