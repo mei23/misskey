@@ -248,16 +248,17 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	const webpulicSafe = !metadata.exif && !metadata.icc && !metadata.iptc && !metadata.xmp && !metadata.tifftagPhotoshop	// has meta
 		&& metadata.width && metadata.width <= 2048 && metadata.height && metadata.height <= 2048;	// or over 2048
 
-	if (generateWeb && !webpulicSafe) {
+	if (generateWeb) {
 		logger.debug(`creating web image`);
 
-		if (['image/jpeg'].includes(type)
-			|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
-			webpublic = await convertSharpToJpeg(img, webSize, webSize);
-		} else if (['image/webp'].includes(type)) {
-			webpublic = await convertSharpToWebp(img, webSize, webSize);
-		} else if (['image/png', 'image/svg+xml'].includes(type)) {
-			webpublic = await convertSharpToPng(img, webSize, webSize);
+		if (['image/jpeg'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToJpeg(img, 2048, 2048);
+		} else if (['image/webp'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToWebp(img, 2048, 2048);
+		} else if (['image/png'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToPng(img, 2048, 2048);
+		} else if (['image/svg+xml'].includes(type)) {
+			webpublic = await convertSharpToPng(img, 2048, 2048);
 		} else {
 			logger.debug(`web image not created (not an image)`);
 		}
