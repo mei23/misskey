@@ -245,7 +245,10 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	if (webSize > 16383) webSize = 16383;
 	let webpublic: IImage | null = null;
 
-	if (generateWeb && !prsOpts?.isWebpublic) {
+	const webpulicSafe = !metadata.exif && !metadata.icc && !metadata.iptc && !metadata.xmp && !metadata.tifftagPhotoshop	// has meta
+		&& metadata.width && metadata.width <= 2048 && metadata.height && metadata.height <= 2048;	// or over 2048
+
+	if (generateWeb && !webpulicSafe) {
 		logger.debug(`creating web image`);
 
 		if (['image/jpeg'].includes(type)
