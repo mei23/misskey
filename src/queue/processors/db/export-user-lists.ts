@@ -70,7 +70,7 @@ export async function exportUserLists(job: Bull.Job<DbUserJobData>): Promise<str
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'user-lists-' + format(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
-	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
+	const driveFile = await addFile({ user, path, name: fileName, force: true });
 
 	cleanup();
 	return `Exported to: ${driveFile._id}`;

@@ -85,7 +85,7 @@ export async function exportBlocking(job: Bull.Job<DbUserJobData>): Promise<stri
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'blocking-' + format(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
-	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
+	const driveFile = await addFile({ user, path, name: fileName, force: true });
 
 	cleanup();
 	return `ok: Exported to: ${driveFile._id}`;

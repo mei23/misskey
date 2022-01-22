@@ -354,33 +354,45 @@ async function deleteOldFile(user: IRemoteUser) {
 	}
 }
 
+type AddFileArgs = {
+	/** User who wish to add file */
+	user: IUser;
+	/**  File path */
+	path: string;
+	/** Name */
+	name?: string | null;
+	/** Comment */
+	comment?: string | null;
+	/** Folder ID */
+	folderId?: mongodb.ObjectID | null;
+	/** If set to true, forcibly upload the file even if there is a file with the same hash. */
+	force?: boolean;
+	/** Do not save file to local */
+	isLink?: boolean;
+	/** URL of source (URLからアップロードされた場合(ローカル/リモート)の元URL) */
+	url?: string | null;
+	/** URL of source (リモートインスタンスのURLからアップロードされた場合の元URL) */
+	uri?: string | null;
+	/** CommMark file as sensitiveent */
+	sensitive?: boolean;
+}
+
 /**
  * Add file to drive
  *
- * @param user User who wish to add file
- * @param path File path
- * @param name Name
- * @param comment Comment
- * @param folderId Folder ID
- * @param force If set to true, forcibly upload the file even if there is a file with the same hash.
- * @param isLink Do not save file to local
- * @param url URL of source (URLからアップロードされた場合(ローカル/リモート)の元URL)
- * @param uri URL of source (リモートインスタンスのURLからアップロードされた場合の元URL)
- * @param sensitive Mark file as sensitive
- * @return Created drive file
  */
-export async function addFile(
-	user: IUser,
-	path: string,
-	name: string | null = null,
-	comment: string | null = null,
-	folderId: mongodb.ObjectID | null = null,
-	force: boolean = false,
-	isLink: boolean = false,
-	url: string | null = null,
-	uri: string | null = null,
-	sensitive: boolean = false,
-): Promise<IDriveFile> {
+export async function addFile({
+	user,
+	path,
+	name = null,
+	comment = null,
+	folderId = null,
+	force = false,
+	isLink = false,
+	url = null,
+	uri = null,
+	sensitive = false,
+}: AddFileArgs): Promise<IDriveFile> {
 	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
 
