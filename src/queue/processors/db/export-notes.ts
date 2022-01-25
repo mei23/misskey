@@ -104,7 +104,7 @@ export async function exportNotes(job: Bull.Job<DbUserJobData>): Promise<string>
 	logger.succ(`Exported to: ${path}`);
 
 	const fileName = 'notes-' + format(new Date(), 'yyyy-MM-dd-HH-mm-ss') + '.csv';
-	const driveFile = await addFile(user, path, fileName, undefined, undefined, true);
+	const driveFile = await addFile({ user, path, name: fileName, force: true });
 
 	cleanup();
 	return `Exported to: ${driveFile._id}`;

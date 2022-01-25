@@ -86,7 +86,7 @@ router.get('/twemoji/*', async ctx => {
 		return;
 	}
 
-	ctx.set('Content-Security-Policy', `default-src 'none'; style-src 'unsafe-inline'`);
+	ctx.set('Content-Security-Policy', `default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; media-src 'self';`);
 
 	await send(ctx as any, path, {
 		root: `${__dirname}/../../../node_modules/@discordapp/twemoji/dist/svg/`,

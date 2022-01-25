@@ -16,13 +16,15 @@ export async function doPostSuspend(user: IUser) {
 	await removeFollowedRequestAll(user).catch(() => {});
 	await sendDeleteActivity(user).catch(() => {});
 
-	// アカウント削除時に受信したNotificationを削除するように
+	// アカウント削除時に送受信したNotificationを削除するように
 	await Notification.remove({
 		notifieeId: user._id
 	}).catch(() => {});
+
+	await Notification.remove({
+		notifierId: user._id
+	}).catch(() => {});
 }
-
-
 
 export async function sendDeleteActivity(user: IUser) {
 	if (isLocalUser(user)) {

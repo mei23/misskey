@@ -12,7 +12,7 @@ const logger = apLogger;
 /**
  * Imageを作成します。
  */
-export async function createImage(actor: IRemoteUser, value: IObject): Promise<IDriveFile> {
+export async function createImage(actor: IRemoteUser, value: IObject): Promise<IDriveFile | null | undefined> {
 	// 投稿者が凍結か削除されていたらスキップ
 	if (actor.isSuspended || actor.isDeleted) {
 		return null;
@@ -22,7 +22,7 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
 
 	if (!isDocument(image)) return null;
 
-	if (image.url == null) {
+	if (typeof image.url !== 'string') {
 		throw new Error('invalid image: url not privided');
 	}
 
@@ -33,7 +33,7 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
 
 	let file;
 	try {
-		file = await uploadFromUrl(image.url, actor, null, image.url, !!image.sensitive, false, !cache);
+		file = await uploadFromUrl({ url: image.url, user: actor, uri: image.url, sensitive: !!image.sensitive, isLink: !cache });
 	} catch (e) {
 		// 4xxの場合は添付されてなかったことにする
 		if (e instanceof StatusError && e.isClientError) {
@@ -44,7 +44,7 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
 		throw e;
 	}
 
-	if (file.metadata.isRemote) {
+	if (file.metadata?.isRemote) {
 		// URLが異なっている場合、同じ画像が以前に異なるURLで登録されていたということなので、
 		// URLを更新する
 		if (file.metadata.url !== image.url) {

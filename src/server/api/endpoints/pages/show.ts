@@ -4,6 +4,7 @@ import { ApiError } from '../../error';
 import ID from '../../../../misc/cafy-id';
 import Page, { IPage, packPage } from '../../../../models/page';
 import User from '../../../../models/user';
+import { getUser } from '../../common/getters';
 
 export const meta = {
 	desc: {
@@ -68,6 +69,9 @@ export default define(meta, async (ps, user) => {
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}
+
+	const u = await getUser(page.userId);
+	if (u.isDeleted || u.isSuspended) throw new ApiError(meta.errors.noSuchPage);
 
 	return await packPage(page, user?._id);
 });

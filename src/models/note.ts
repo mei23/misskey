@@ -452,13 +452,11 @@ export const pack = async (
 
 	if (opts.detail) {
 		if (packed.replyId != null && packed.reply == null) {
-			dbLogger.warn(`[DAMAGED DB] (missing) pkg: note -> reply :: ${packed.id} (reply ${packed.replyId})`);
-			return null;
+			packed.replyId = null;
 		}
 
 		if (packed.renoteId != null && packed.renote == null) {
-			dbLogger.warn(`[DAMAGED DB] (missing) pkg: note -> renote :: ${packed.id} (renote ${packed.renoteId})`);
-			return null;
+			packed.renoteId = null;
 		}
 	}
 	//#endregion

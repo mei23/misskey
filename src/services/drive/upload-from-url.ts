@@ -8,15 +8,25 @@ import { downloadUrl } from '../../misc/download-url';
 
 const logger = driveLogger.createSubLogger('downloader');
 
-export const uploadFromUrl = async (
-	url: string,
-	user: IUser,
-	folderId: mongodb.ObjectID | null = null,
-	uri: string | null = null,
+type Args = {
+	url: string;
+	user: IUser;
+	folderId?: mongodb.ObjectID | null;
+	uri?: string | null;
+	sensitive?: boolean;
+	force?: boolean;
+	isLink?: boolean;
+}
+
+export async function uploadFromUrl({
+	url,
+	user,
+	folderId = null,
+	uri = null,
 	sensitive = false,
 	force = false,
-	link = false
-): Promise<IDriveFile> => {
+	isLink = false
+}: Args): Promise<IDriveFile> {
 	// Create temp file
 	const [path, cleanup] = await createTemp();
 
@@ -35,7 +45,7 @@ export const uploadFromUrl = async (
 	let error;
 
 	try {
-		driveFile = await addFile(user, path, name, null, folderId, force, link, url, uri, sensitive);
+		driveFile = await addFile({ user, path, name, folderId, force, isLink, url, uri, sensitive });
 		logger.succ(`Got: ${driveFile._id}`);
 	} catch (e) {
 		error = e;
@@ -53,4 +63,4 @@ export const uploadFromUrl = async (
 	} else {
 		return driveFile;
 	}
-};
+}

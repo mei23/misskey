@@ -30,12 +30,6 @@ import { InternalStorage } from './internal-storage';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
-export type ProcessOptions = {
-	isWebpublic?: boolean;
-	useJpegForWeb?: boolean;
-	webSize?: number;
-};
-
 /***
  * Save file
  * @param path Path for original
@@ -43,11 +37,11 @@ export type ProcessOptions = {
  * @param info FileInfo
  * @param metadata
  */
-async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig, prsOpts: ProcessOptions = {}): Promise<IDriveFile> {
+async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig): Promise<IDriveFile> {
 	// thunbnail, webpublic を必要なら生成
 	let animation = info.type.mime === 'image/apng' ? 'yes' : info.type.mime === 'image/png' ? 'no' : undefined;
 
-	const alts = await generateAlts(path, info.type.mime, !metadata.uri, prsOpts).catch(err => {
+	const alts = await generateAlts(path, info.type.mime, !metadata.uri).catch(err => {
 		if (err === 'ANIMATED') {
 			animation = 'yes';
 		} else {
@@ -213,7 +207,7 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
  * @param type Content-Type for original
  * @param generateWeb Generate webpublic or not
  */
-export async function generateAlts(path: string, type: string, generateWeb: boolean, prsOpts?: ProcessOptions) {
+export async function generateAlts(path: string, type: string, generateWeb: boolean) {
 	// video
 	if (type.startsWith('video/')) {
 		const thumbnail = await generateVideoThumbnail(path);
@@ -241,20 +235,22 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	}
 
 	// #region webpublic
-	let webSize = prsOpts?.webSize || 2048;
-	if (webSize > 16383) webSize = 16383;
 	let webpublic: IImage | null = null;
 
-	if (generateWeb && !prsOpts?.isWebpublic) {
+	const webpulicSafe = !metadata.exif && !metadata.iptc && !metadata.xmp && !metadata.tifftagPhotoshop	// has meta
+		&& metadata.width && metadata.width <= 2048 && metadata.height && metadata.height <= 2048;	// or over 2048
+
+	if (generateWeb) {
 		logger.debug(`creating web image`);
 
-		if (['image/jpeg'].includes(type)
-			|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
-			webpublic = await convertSharpToJpeg(img, webSize, webSize);
-		} else if (['image/webp'].includes(type)) {
-			webpublic = await convertSharpToWebp(img, webSize, webSize);
-		} else if (['image/png', 'image/svg+xml'].includes(type)) {
-			webpublic = await convertSharpToPng(img, webSize, webSize);
+		if (['image/jpeg'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToJpeg(img, 2048, 2048);
+		} else if (['image/webp'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToWebp(img, 2048, 2048);
+		} else if (['image/png'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToPng(img, 2048, 2048);
+		} else if (['image/svg+xml'].includes(type)) {
+			webpublic = await convertSharpToPng(img, 2048, 2048);
 		} else {
 			logger.debug(`web image not created (not an image)`);
 		}
@@ -266,8 +262,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #region thumbnail
 	let thumbnail: IImage | null = null;
 
-	if (['image/jpeg', 'image/webp'].includes(type)
-		|| (prsOpts?.useJpegForWeb && ['image/png'].includes(type))) {
+	if (['image/jpeg', 'image/webp'].includes(type)) {
 		thumbnail = await convertSharpToJpeg(img, 530, 255);
 	} else if (['image/png', 'image/svg+xml'].includes(type)) {
 		thumbnail = await convertSharpToPngOrJpeg(img, 530, 255);
@@ -359,34 +354,45 @@ async function deleteOldFile(user: IRemoteUser) {
 	}
 }
 
+type AddFileArgs = {
+	/** User who wish to add file */
+	user: IUser;
+	/**  File path */
+	path: string;
+	/** Name */
+	name?: string | null;
+	/** Comment */
+	comment?: string | null;
+	/** Folder ID */
+	folderId?: mongodb.ObjectID | null;
+	/** If set to true, forcibly upload the file even if there is a file with the same hash. */
+	force?: boolean;
+	/** Do not save file to local */
+	isLink?: boolean;
+	/** URL of source (URLからアップロードされた場合(ローカル/リモート)の元URL) */
+	url?: string | null;
+	/** URL of source (リモートインスタンスのURLからアップロードされた場合の元URL) */
+	uri?: string | null;
+	/** CommMark file as sensitiveent */
+	sensitive?: boolean;
+}
+
 /**
  * Add file to drive
  *
- * @param user User who wish to add file
- * @param path File path
- * @param name Name
- * @param comment Comment
- * @param folderId Folder ID
- * @param force If set to true, forcibly upload the file even if there is a file with the same hash.
- * @param isLink Do not save file to local
- * @param url URL of source (URLからアップロードされた場合(ローカル/リモート)の元URL)
- * @param uri URL of source (リモートインスタンスのURLからアップロードされた場合の元URL)
- * @param sensitive Mark file as sensitive
- * @return Created drive file
  */
-export async function addFile(
-	user: IUser,
-	path: string,
-	name: string | null = null,
-	comment: string | null = null,
-	folderId: mongodb.ObjectID | null = null,
-	force: boolean = false,
-	isLink: boolean = false,
-	url: string | null = null,
-	uri: string | null = null,
-	sensitive: boolean = false,
-	prsOpts?: ProcessOptions,
-): Promise<IDriveFile> {
+export async function addFile({
+	user,
+	path,
+	name = null,
+	comment = null,
+	folderId = null,
+	force = false,
+	isLink = false,
+	url = null,
+	uri = null,
+	sensitive = false,
+}: AddFileArgs): Promise<IDriveFile> {
 	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
 
@@ -526,7 +532,7 @@ export async function addFile(
 		}
 	} else {
 		const drive = getDriveConfig(uri != null);
-		driveFile = await (save(path, detectedName, info, metadata, drive, prsOpts));
+		driveFile = await (save(path, detectedName, info, metadata, drive));
 	}
 
 	if (!driveFile) throw 'Failed to create drivefile ${e}';

@@ -39,6 +39,14 @@ export interface IReversiGame {
 		canPutEverywhere: boolean;
 		loopedBoard: boolean;
 	};
+
+	// v11 compatible
+	map: string[];
+	bw: string | number;
+	isLlotheo: boolean;
+	canPutEverywhere: boolean;
+	loopedBoard: boolean;
+
 	form1: any;
 	form2: any;
 
@@ -97,6 +105,13 @@ export const pack = (
 			_game.settings.map = _game.settings.map.data.match(new RegExp(`.{1,${_game.settings.map.size}}`, 'g'));
 		}
 	}
+
+	// v11 compatible
+	_game.map = _game.settings.map;
+	_game.bw = _game.settings.bw;
+	_game.isLlotheo = _game.settings.isLlotheo;
+	_game.canPutEverywhere = _game.settings.canPutEverywhere;
+	_game.loopedBoard = _game.settings.loopedBoard;
 
 	// Populate user
 	_game.user1 = await packUser(_game.user1Id, meId);

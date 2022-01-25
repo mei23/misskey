@@ -43,7 +43,10 @@ export const meta = {
 
 export default define(meta, async (ps, me) => {
 	const suspended = await User.find({
-		isSuspended: true
+		$or: [
+			{ isSuspended: true },
+			{ isDeleted: true },
+		],
 	}, {
 		fields: {
 			_id: true
