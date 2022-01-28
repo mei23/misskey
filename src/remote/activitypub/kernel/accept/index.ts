@@ -33,12 +33,11 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<string> =>
 			if (u) {
 				object = renderFollow(u as ILocalUser, actor);
 			} else {
-				return `a: ${inspect(activity.object)}`;
+				return `skip: local actor not found. ${inspect(activity.object)}`;
 			}
 		} else {
-			return `b: ${inspect(activity.object)}`;
+			return `skip: not a local actor ${inspect(activity.object)}`;
 		}
-
 	}
 
 	if (isFollow(object)) return await acceptFollow(actor, object);
