@@ -23,6 +23,7 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<string> =>
 	} else {
 		// stringで返されたら困ってしまうが、FollowオブジェクトのIDは https://local/followings-from/:id で送ることにしてでっち上げてしまう
 		const match = activity.object.match(new RegExp('^' + escapeRegexp(config.url) + '/' + '(\\w+)' + '/' + '(\\w+)'));
+		console.log(inspect(match));
 		if (match && match[1] === 'followings-from') {
 			const u = await  User.findOne({
 				_id: new mongo.ObjectID(match[2]),
