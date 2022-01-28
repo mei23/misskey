@@ -6,7 +6,6 @@ import * as escapeRegexp from 'escape-regexp';
 import config from '../../../../config';
 import * as mongo from 'mongodb';
 import renderFollow from '../../renderer/follow';
-import { inspect } from 'util';
 
 const logger = apLogger;
 
@@ -24,7 +23,7 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<string> =>
 		// stringで返されたら困ってしまうが、FollowオブジェクトのIDは https://local/followings-from/:id で送ることにしてでっち上げてしまう
 		const match = activity.object.match(new RegExp('^' + escapeRegexp(config.url) + '/' + '(\\w+)' + '/' + '(\\w+)'));
 		if (match && match[1] === 'followings_from') {
-			const u = await  User.findOne({
+			const u = await User.findOne({
 				_id: new mongo.ObjectID(match[2]),
 				deletedAt: { $exists: false },
 				host: null
@@ -33,10 +32,10 @@ export default async (actor: IRemoteUser, activity: IAccept): Promise<string> =>
 			if (u) {
 				object = renderFollow(u as ILocalUser, actor);
 			} else {
-				return `skip: local actor not found. ${inspect(activity.object)}`;
+				return `skip: Local actor not found. (${activity.object})}`;
 			}
 		} else {
-			return `skip: not a local actor ${inspect(activity.object)}`;
+			return `skip: Not a local actor (${activity.object})`;
 		}
 	}
 
