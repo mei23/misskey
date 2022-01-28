@@ -11,7 +11,7 @@ export default (follower: IUser, followee: IUser, requestId?: string) => {
 	if (requestId) {
 		follow.id = requestId;
 	} else if (isLocalUser(follower) && isRemoteUser(followee)) {
-		follow.id = `${config.url}/followings-from/${follower._id}`;
+		follow.id = `${config.url}/followings_from/${follower._id}`;
 	}
 
 	return follow;
