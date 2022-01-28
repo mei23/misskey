@@ -60,8 +60,6 @@ export default class Resolver {
 			this.user = await getInstanceActor();
 		}
 
-		console.log(`resolve: ${value}`);
-
 		const object = this.user
 			? await signedGet(value, this.user)
 			: await getJson(value, 'application/activity+json, application/ld+json');
