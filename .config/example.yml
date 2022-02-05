@@ -188,4 +188,7 @@ themeColor: '#fb4e4e'
 #hideServerInfo: true
 
 # 設定できる最低年齢
-# minimumAge: 13
+#minimumAge: 13
+
+# ホーム/ハイブリッドタイムラインでこの日数以内に投稿していない場合はAPI pullではクエリ対象にしない
+#homeTlActiveLimitDays: 3

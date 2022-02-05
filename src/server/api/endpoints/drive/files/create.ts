@@ -45,9 +45,8 @@ export const meta = {
 		},
 
 		isSensitive: {
-			validator: $.optional.either($.bool, $.str),
+			validator: $.optional.bool,
 			default: false,
-			transform: (v: any): boolean => v === true || v === 'true',
 			desc: {
 				'ja-JP': 'このメディアが「閲覧注意」(NSFW)かどうか',
 				'en-US': 'Whether this media is NSFW'
@@ -55,9 +54,8 @@ export const meta = {
 		},
 
 		force: {
-			validator: $.optional.either($.bool, $.str),
+			validator: $.optional.bool,
 			default: false,
-			transform: (v: any): boolean => v === true || v === 'true',
 			desc: {
 				'ja-JP': 'true にすると、同じハッシュを持つファイルが既にアップロードされていても強制的にファイルを作成します。',
 			}

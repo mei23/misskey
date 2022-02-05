@@ -8,6 +8,7 @@ import deleteFollowing from '../services/following/delete';
 import rejectFollowing from '../services/following/requests/reject';
 import FollowRequest from '../models/follow-request';
 import Notification from '../models/notification';
+import NoteReaction from '../models/note-reaction';
 
 export async function doPostSuspend(user: IUser) {
 	await unFollowAll(user).catch(() => {});
@@ -23,6 +24,10 @@ export async function doPostSuspend(user: IUser) {
 
 	await Notification.remove({
 		notifierId: user._id
+	}).catch(() => {});
+
+	await NoteReaction.remove({
+		userId: user._id
 	}).catch(() => {});
 }
 

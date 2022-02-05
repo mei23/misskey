@@ -3,6 +3,7 @@ import User, { IUser } from '../models/user';
 import Notification from '../models/notification';
 import FollowRequest from '../models/follow-request';
 import Following from '../models/following';
+import NoteReaction from '../models/note-reaction';
 
 async function main() {
 	const users = await User.find({
@@ -56,6 +57,13 @@ async function main() {
 			followerId: user._id
 		});
 		console.log(`  follows:${follows.deletedCount}`);
+
+		const reactions = await NoteReaction.remove({
+			userId: user._id
+		});
+
+		console.log(`  reactions:${reactions.deletedCount}`);
+
 	}
 }
 

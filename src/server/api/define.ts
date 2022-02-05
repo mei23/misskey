@@ -40,17 +40,6 @@ function getParams<T extends IEndpointMeta>(defs: T, params: any): [Params<T>, A
 	const x: any = {};
 	let err: ApiError | null = null;
 	Object.entries(defs.params).some(([k, def]) => {
-
-		if (def.validator.name === 'Boolean') {
-			if (params[k] === 'true' || params[k] === 'false') {
-				params[k] = JSON.parse(params[k]);
-			}
-		} else if (def.validator.name === 'Number') {
-			if (typeof params[k] === 'string' && params[k].match(/^[+-]?\d+(?:\.\d+)?$/)) {
-				params[k] = JSON.parse(params[k]);
-			}
-		}
-
 		const [v, e] = def.validator.get(params[k]);
 		if (e) {
 			err = new ApiError({

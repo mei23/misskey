@@ -86,7 +86,7 @@ router.get('/twemoji/*', async ctx => {
 		return;
 	}
 
-	ctx.set('Content-Security-Policy', `default-src 'none'; style-src 'unsafe-inline'; img-src 'self'; media-src 'self';`);
+	ctx.set('Content-Security-Policy', `default-src 'none'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'`);
 
 	await send(ctx as any, path, {
 		root: `${__dirname}/../../../node_modules/@discordapp/twemoji/dist/svg/`,
@@ -275,7 +275,6 @@ router.get('/notes/:note', async (ctx, next) => {
 		imageUrl = _note.user?.avatarUrl;
 	}
 
-	const card = (video || audio) ? 'player' : 'summary';
 	const stream = video?.url || audio?.url;
 	const type = video?.type || audio?.type;
 	const player = (video || audio) ? `${config.url}/notes/${_note?.id}/embed` : null;
@@ -292,7 +291,6 @@ router.get('/notes/:note', async (ctx, next) => {
 		iconType: config.icons?.favicon?.type,
 		appleTouchIcon: config.icons?.appleTouchIcon?.url,
 		noindex: _note.user?.avoidSearchIndex,
-		card,
 		player, width, height, stream, type,
 	});
 

@@ -1,7 +1,8 @@
 import * as mongodb from 'mongodb';
 import Following from '../../../models/following';
+import User from '../../../models/user';
 
-export const getFriendIds = async (me: mongodb.ObjectID, includeMe = true) => {
+export const getFriendIds = async (me: mongodb.ObjectID, includeMe = true, activeDays = -1) => {
 	// Fetch relation to other users who the I follows
 	// SELECT followee
 	const followings = await Following
@@ -14,7 +15,20 @@ export const getFriendIds = async (me: mongodb.ObjectID, includeMe = true) => {
 		});
 
 	// ID list of other users who the I follows
-	const myfollowingIds = followings.map(following => following.followeeId);
+	let myfollowingIds = followings.map(following => following.followeeId);
+
+	if (activeDays > 0) {
+		const us = await User.find({
+			_id: { $in: myfollowingIds },
+			updatedAt: { $gt: new Date(Date.now() - activeDays * 1000 * 86400) },
+		}, {
+			fields: {
+				_id: true
+			}
+		});
+
+		myfollowingIds = us.map(u => u._id);
+	}
 
 	if (includeMe) {
 		myfollowingIds.push(me);

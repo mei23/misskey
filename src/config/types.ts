@@ -79,6 +79,7 @@ export type Source = {
 
 	hideServerInfo?: boolean;
 	minimumAge?: number;
+	homeTlActiveLimitDays?: number;
 };
 
 export type DriveConfig = {

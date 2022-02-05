@@ -10,6 +10,7 @@ import { concat } from '../../../../prelude/array';
 import { isSelfHost } from '../../../../misc/convert-host';
 import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
 import { getPackedTimeline } from '../../common/get-timeline';
+import config from '../../../../config';
 
 export const meta = {
 	desc: {
@@ -161,7 +162,7 @@ export default define(meta, async (ps, user) => {
 	const [followingIds, hideUserIds, hideFromHomeLists, hideRenoteUserIds] = await Promise.all([
 		// フォローを取得
 		// Fetch following
-		getFriendIds(user._id, true),
+		getFriendIds(user._id, true, config.homeTlActiveLimitDays || -1),
 
 		// 隠すユーザーを取得
 		getHideUserIds(user),

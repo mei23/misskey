@@ -1,5 +1,6 @@
+import rndstr from 'rndstr';
 import config from '../../../config';
-import { IUser, isLocalUser } from '../../../models/user';
+import { IUser, isLocalUser, isRemoteUser } from '../../../models/user';
 
 export default (follower: IUser, followee: IUser, requestId?: string) => {
 	const follow = {
@@ -8,7 +9,11 @@ export default (follower: IUser, followee: IUser, requestId?: string) => {
 		object: isLocalUser(followee) ? `${config.url}/users/${followee._id}` : followee.uri
 	} as any;
 
-	if (requestId) follow.id = requestId;
+	if (requestId) {
+		follow.id = requestId;
+	} else if (isLocalUser(follower) && isRemoteUser(followee)) {
+		follow.id = `${config.url}/followings_from/${follower._id}/${rndstr(8)}`;
+	}
 
 	return follow;
 };

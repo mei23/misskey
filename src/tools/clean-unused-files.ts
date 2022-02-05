@@ -24,6 +24,7 @@ async function main() {
 		console.log(`user(${prs}/${users.length}): ${user.username}@${user.host}`);
 
 		const files = await DriveFile.find({
+			deletedAt: { $exists: false },
 			'metadata.userId': user._id,
 			'metadata.attachedNoteIds.0': { $exists: false }
 		});

@@ -23,11 +23,11 @@ export const links = [/* (awaiting release) {
 const nodeinfo2 = async () => {
 	const meta = await fetchMeta();
 
-	//const total = await User.count({ host: null });
-	//const activeHalfyear = await User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 15552000000) } });
-	//const activeMonth = await User.count({ host: null, updatedAt: { $gt: new Date(Date.now() - 2592000000) } });
-	//const localPosts = await Note.count({ '_user.host': null, replyId: null });
-	//const localComments = await Note.count({ '_user.host': null, replyId: { $ne: null } });
+	const total = meta.stats?.originalUsersCount || 0;
+	const activeHalfyear = await User.count({ host: null, lastActivityAt: { $gt: new Date(Date.now() - 15552000000) } });
+	const activeMonth = await User.count({ host: null, lastActivityAt: { $gt: new Date(Date.now() - 2592000000) } });
+	const localPosts = meta.stats?.originalNotesCount;
+	const localComments = 0;
 
 	const relayActor = await User.findOne({ host: null, username: 'relay.actor' });
 
@@ -56,6 +56,9 @@ const nodeinfo2 = async () => {
 		},
 		openRegistrations: !meta.disableRegistration,
 		usage: {
+			users: { total, activeHalfyear, activeMonth },
+			localPosts,
+			localComments
 		},
 		metadata: {
 			nodeName,
@@ -96,10 +99,10 @@ router.get(nodeinfo2_0path, async ctx => {
 
 	const base = await nodeinfo2();
 
-	delete base.software.repository;
+	delete (base.software as any).repository;
 
 	ctx.body = { version: '2.0', ...base };
-	ctx.set('Cache-Control', 'public, max-age=600');
+	ctx.set('Cache-Control', 'public, max-age=3600');
 });
 
 export default router;
