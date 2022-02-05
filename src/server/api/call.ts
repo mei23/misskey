@@ -79,12 +79,22 @@ export default async (endpoint: string, user: IUser | null | undefined, app: IAp
 	}
 
 	// Cast non JSON input
-	if (ep.meta.requireFile && ep.meta.params) {
-		const body = (ctx!.request as any).body;
+	if ((ep.meta.requireFile || ctx?.method === 'GET') && ep.meta.params) {
 		for (const k of Object.keys(ep.meta.params)) {
 			const param = ep.meta.params[k];
-			if (['Boolean', 'Number'].includes(param.validator.name) && typeof body[k] === 'string') {
-				body[k] = JSON.parse(body[k]);
+			if (['Boolean', 'Number'].includes(param.validator.name) && typeof data[k] === 'string') {
+				try {
+					data[k] = JSON.parse(data[k]);
+				} catch (e) {
+					throw	new ApiError({
+						message: 'Invalid param.',
+						code: 'INVALID_PARAM',
+						id: '0b5f1631-7c1a-41a6-b399-cce335f34d85',
+					}, {
+						param: k,
+						reason: `cannot cast to ${param.validator.name}`,
+					})
+				}
 			}
 		}
 	}
