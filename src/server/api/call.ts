@@ -1,3 +1,4 @@
+import * as Router from '@koa/router';
 import { performance } from 'perf_hooks';
 import limiter from './limiter';
 import { IUser } from '../../models/user';
@@ -14,7 +15,7 @@ const accessDenied = {
 	id: '56f35758-7dd5-468b-8439-5d6fb8ec9b8e'
 };
 
-export default async (endpoint: string, user: IUser | null | undefined, app: IApp | null | undefined, data: any, file?: any, ip?: string) => {
+export default async (endpoint: string, user: IUser | null | undefined, app: IApp | null | undefined, data: any, ctx?: Router.RouterContext) => {
 	const isSecure = user != null && app == null;
 
 	const ep = endpoints.find(e => e.name === endpoint);
@@ -67,7 +68,7 @@ export default async (endpoint: string, user: IUser | null | undefined, app: IAp
 
 	if (ep.meta.limit) {
 		// Rate limit
-		await limiter(ep, user, ip).catch(e => {
+		await limiter(ep, user, ctx?.ip).catch(e => {
 			throw new ApiError({
 				message: 'Rate limit exceeded. Please try again later.',
 				code: 'RATE_LIMIT_EXCEEDED',
@@ -77,9 +78,20 @@ export default async (endpoint: string, user: IUser | null | undefined, app: IAp
 		});
 	}
 
+	// Cast non JSON input
+	if (ep.meta.requireFile && ep.meta.params) {
+		const body = (ctx!.request as any).body;
+		for (const k of Object.keys(ep.meta.params)) {
+			const param = ep.meta.params[k];
+			if (['Boolean', 'Number'].includes(param.validator.name) && typeof body[k] === 'string') {
+				body[k] = JSON.parse(body[k]);
+			}
+		}
+	}
+
 	// API invoking
 	const before = performance.now();
-	return await ep.exec(data, user, app, file).catch((e: Error) => {
+	return await ep.exec(data, user, app, ctx?.file).catch((e: Error) => {
 		if (e instanceof ApiError) {
 			throw e;
 		} else {
