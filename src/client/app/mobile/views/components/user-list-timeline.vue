@@ -22,7 +22,7 @@ export default Vue.extend({
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes,
-				excludeForeignReply: this.$store.state.settings.excludeForeignReply,
+				includeForeignReply: this.$store.state.settings.includeForeignReply,
 			}).then(notes => {
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
@@ -57,7 +57,7 @@ export default Vue.extend({
 			if (this.connection) this.connection.dispose();
 			this.connection = this.$root.stream.connectToChannel('userList', {
 				listId: this.list.id,
-				excludeForeignReply: this.$store.state.settings.excludeForeignReply,
+				includeForeignReply: this.$store.state.settings.includeForeignReply,
 			});
 			this.connection.on('note', this.onNote);
 			this.connection.on('userAdded', this.onUserAdded);

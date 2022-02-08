@@ -18,7 +18,7 @@ export default class extends Channel {
 	private hideFromHosts: (string | null)[] = [];
 	private hideRenoteUsers: string[] = [];
 	private followingIds: string[] = [];
-	private excludeForeignReply = false;
+	private includeForeignReply = false;
 
 	@autobind
 	public async init(params: any) {
@@ -28,7 +28,7 @@ export default class extends Channel {
 		await this.updateFollowing();
 		await this.updateFilter();
 
-		this.excludeForeignReply = !!params?.excludeForeignReply;
+		this.includeForeignReply = !!params?.includeForeignReply;
 
 		// Subscribe events
 		this.subscriber.on('notesStream', this.onNewNote);
@@ -114,11 +114,11 @@ export default class extends Channel {
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
 		}
 
-		if (this.excludeForeignReply && note.replyId) {
+		if (!this.includeForeignReply && note.replyId) {
 			if (!(
-				oidIncludes(this.followingIds, note.reply.userId)
-				|| oidEquals(this.user!._id, note.reply.userId)
-				|| oidEquals(this.user!._id, note.userId)
+				oidEquals(note.userId, note.reply!.userId)
+				|| oidEquals(this.user!._id, note.reply!.userId)	// to me
+				|| oidEquals(this.user!._id, note.userId)	// my post
 			)) return;
 		}
 

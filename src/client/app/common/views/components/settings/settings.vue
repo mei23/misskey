@@ -154,7 +154,7 @@
 				<ui-switch v-if="isAdvanced" v-model="showMyRenotes">{{ $t('@._settings.show-my-renotes') }}</ui-switch>
 				<ui-switch v-if="isAdvanced"  v-model="showRenotedMyNotes">{{ $t('@._settings.show-renoted-my-notes') }}</ui-switch>
 				<ui-switch v-if="isAdvanced"  v-model="showLocalRenotes">{{ $t('@._settings.show-local-renotes') }}</ui-switch>
-				<ui-switch v-model="excludeForeignReply">{{ $t('@._settings.excludeForeignReply') }}</ui-switch>
+				<ui-switch v-model="includeForeignReply">{{ $t('@._settings.includeForeignReply') }}</ui-switch>
 			</section>
 
 			<section>
@@ -564,9 +564,9 @@ export default Vue.extend({
 			set(value) { this.$store.dispatch('settings/set', { key: 'showLocalRenotes', value }); }
 		},
 
-		excludeForeignReply: {
-			get() { return this.$store.state.settings.excludeForeignReply; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'excludeForeignReply', value }); }
+		includeForeignReply: {
+			get() { return this.$store.state.settings.includeForeignReply; },
+			set(value) { this.$store.dispatch('settings/set', { key: 'includeForeignReply', value }); }
 		},
 
 		showPostFormOnTopOfTl: {

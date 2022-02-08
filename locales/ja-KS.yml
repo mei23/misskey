@@ -336,8 +336,6 @@ common/views/components/note-menu.vue:
   unpin: "ピン留めやめる"
   delete: "ほかす"
   delete-confirm: "この投稿を削除してもええか？"
-  delete-and-edit: "削除して編集"
-  delete-and-edit-confirm: "この投稿を削除してもっぺん編集するか？この投稿へのリアクション、リノート、返信も全て削除されんで。"
   remote: "投稿元に行ってみよか"
 common/views/components/user-menu.vue:
   mute: "ミュート"

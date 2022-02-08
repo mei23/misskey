@@ -91,7 +91,7 @@ export default Vue.extend({
 		if (this.connection) this.connection.dispose();
 		this.connection = this.$root.stream.connectToChannel('userList', {
 			listId: this.list.id,
-			excludeForeignReply: this.$store.state.settings.excludeForeignReply,
+			includeForeignReply: this.$store.state.settings.includeForeignReply,
 		});
 		this.connection.on('note', this.onNote);
 		this.connection.on('userAdded', this.onUserAdded);

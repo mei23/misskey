@@ -139,6 +139,8 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 
+	query['_renote.user.host'] = null;
+
 	const withFiles = ps.withFiles != null ? ps.withFiles : ps.mediaOnly;
 
 	if (withFiles) {

@@ -38,6 +38,8 @@ export default class extends Channel {
 			});
 		}
 
+		if (note.renote?.user?.host) return;
+
 		// 流れてきたNoteがミュートしているユーザーが関わるものだったら無視する
 		if (shouldMuteThisNote(note, this.mutedUserIds)) return;
 

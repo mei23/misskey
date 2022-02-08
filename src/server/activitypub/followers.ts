@@ -49,6 +49,11 @@ export default async (ctx: Router.RouterContext) => {
 		return;
 	}
 
+	if (user.hideFollows === 'always' || user.hideFollows === 'follower') {
+		ctx.status = 403;
+		return;
+	}
+
 	const limit = 10;
 	const partOf = `${config.url}/users/${userId}/followers`;
 

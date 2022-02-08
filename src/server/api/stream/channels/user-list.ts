@@ -17,7 +17,7 @@ export default class extends Channel {
 
 	private hideRenoteUsers: string[] = [];
 	private followingIds: string[] = [];
-	private excludeForeignReply = false;
+	private includeForeignReply = false;
 
 	private refreshClock: NodeJS.Timer;
 
@@ -33,7 +33,7 @@ export default class extends Channel {
 
 		this.followingIds = followings.map(x => `${x.followeeId}`);
 
-		this.excludeForeignReply = !!params?.excludeForeignReply;
+		this.includeForeignReply = !!params?.includeForeignReply;
 
 		// Subscribe stream
 		if (this.list) {
@@ -104,11 +104,11 @@ export default class extends Channel {
 			if (oidIncludes(this.hideRenoteUsers, note.userId)) return;
 		}
 
-		if (this.excludeForeignReply && note.replyId) {
+		if (!this.includeForeignReply && note.replyId) {
 			if (!(
-				oidIncludes(this.followingIds, note.reply.userId)
-				|| oidEquals(this.user._id, note.reply.userId)
-				|| oidEquals(this.user._id, note.userId)
+				oidEquals(note.userId, note.reply!.userId)
+				|| oidEquals(this.user!._id, note.reply!.userId)	// to me
+				|| oidEquals(this.user!._id, note.userId)	// my post
 			)) return;
 		}
 

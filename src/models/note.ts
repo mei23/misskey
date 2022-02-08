@@ -120,9 +120,15 @@ export type INote = {
 	// 非正規化
 	_reply?: {
 		userId: mongo.ObjectID;
+		user: {
+			host: string;
+		};
 	};
 	_renote?: {
 		userId: mongo.ObjectID;
+		user: {
+			host: string;
+		};
 	};
 	_user: {
 		host: string;

@@ -278,27 +278,27 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 		Following.count({
 			followerId: me,
 			followeeId: target
-		}),
+		}, { limit: 1 }),
 		Following.count({
 			followerId: target,
 			followeeId: me
-		}),
+		}, { limit: 1 }),
 		FollowRequest.count({
 			followerId: me,
 			followeeId: target
-		}),
+		}, { limit: 1 }),
 		FollowRequest.count({
 			followerId: target,
 			followeeId: me
-		}),
+		}, { limit: 1 }),
 		Blocking.count({
 			blockerId: me,
 			blockeeId: target
-		}),
+		}, { limit: 1 }),
 		Blocking.count({
 			blockerId: target,
 			blockeeId: me
-		}),
+		}, { limit: 1 }),
 		Mute.count({
 			muterId: me,
 			muteeId: target,
@@ -306,7 +306,7 @@ export async function getRelation(me: mongo.ObjectId, target: mongo.ObjectId) {
 				{ expiresAt: null },
 				{ expiresAt: { $gt: new Date() }}
 			]
-		}),
+		}, { limit: 1 }),
 		UserFilter.findOne({
 			ownerId: me,
 			targetId: target
@@ -390,7 +390,7 @@ export async function pack(
 				: (me as IUser)._id
 		: null;
 
-		const fetchInstance = async () => {
+	const fetchInstance = async () => {
 		if (db!.host == null) return null;
 
 		const info = {
@@ -413,6 +413,14 @@ export async function pack(
 	};
 
 	const relation = (meId && !oidEquals(meId, db._id) && opts.detail) ? await getRelation(meId, db._id) : null;	// TODO
+
+	const visibleFollowers = (() => {
+		if (meId && oidEquals(meId, db._id)) return true;
+		if (db.hideFollows === '') return true;
+		if (db.hideFollows === 'always') return false;
+		if (relation?.isFollowing) return true;
+		return false;
+	})();
 
 	const populateUserTags = async () => {
 		if (!meId) return undefined;
@@ -472,8 +480,8 @@ export async function pack(
 				location: db.profile?.location || null,
 			},
 			fields: db.fields || [],
-			followersCount: db.followersCount,
-			followingCount: db.followingCount,
+			followersCount: visibleFollowers ? db.followersCount : null,
+			followingCount: visibleFollowers ? db.followingCount : null,
 			notesCount: db.notesCount,
 			pinnedNoteIds: db.pinnedNoteIds ? db.pinnedNoteIds.map(toOidString) : [],
 			pinnedNotes: packNoteMany(db.pinnedNoteIds || [], meId, {
