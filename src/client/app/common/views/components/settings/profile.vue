@@ -62,6 +62,10 @@
 					</ui-horizon-group>
 				</details>
 
+				<ui-input v-if="$store.state.i.isVerified" v-model="borderColor">
+					<template #title>{{ $t('borderColor') }}</template>
+				</ui-input>
+
 				<ui-button primary @click="save(true)"><fa :icon="faSave"/> {{ $t('save') }}</ui-button>
 			</ui-form>
 		</section>
@@ -166,6 +170,7 @@ export default Vue.extend({
 			location: null,
 			description: null,
 			birthday: null,
+			borderColor: null,
 			avatarId: null,
 			bannerId: null,
 			isCat: false,
@@ -221,6 +226,7 @@ export default Vue.extend({
 		this.location = this.$store.state.i.profile.location;
 		this.description = this.$store.state.i.description;
 		this.birthday = this.$store.state.i.profile.birthday;
+		this.borderColor = this.$store.state.i.borderColor;
 		this.isCat = this.$store.state.i.isCat;
 		this.isBot = this.$store.state.i.isBot;
 		this.isLocked = this.$store.state.i.isLocked;
@@ -319,6 +325,7 @@ export default Vue.extend({
 				location: this.location || null,
 				description: this.description || null,
 				birthday: this.birthday || null,
+				borderColor: this.borderColor || null,
 				avatarId: this.avatarId || undefined,
 				bannerId: this.bannerId || undefined,
 				isCat: !!this.isCat,

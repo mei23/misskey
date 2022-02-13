@@ -59,6 +59,13 @@ export const meta = {
 			}
 		},
 
+		borderColor: {
+			validator: $.optional.nullable.str,
+			desc: {
+				'ja-JP': 'borderColor'
+			}
+		},
+
 		avatarId: {
 			validator: $.optional.nullable.type(ID),
 			transform: transform,
@@ -255,6 +262,15 @@ export default define(meta, async (ps, user, app) => {
 
 		updates['profile.birthday'] = ps.birthday;
 	}
+
+	if (ps.borderColor !== undefined) {
+		if (typeof ps.borderColor === 'string' && user.isVerified && ps.borderColor.match(/^#[0-9A-Fa-f]{6,8}$/)) {
+			updates.borderColor = ps.borderColor;
+		} else {
+			updates.borderColor = null;
+		}
+	}
+
 	if (ps.avatarId !== undefined) updates.avatarId = ps.avatarId;
 	if (ps.bannerId !== undefined) updates.bannerId = ps.bannerId;
 	if (ps.wallpaperId !== undefined) updates.wallpaperId = ps.wallpaperId;

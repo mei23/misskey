@@ -1,7 +1,9 @@
 <template>
 <div class="mk-google">
 	<input type="search" v-model="query" :placeholder="q" readonly>
-	<button @click="search"><fa icon="search"/> {{ $t('@.search') }}</button>
+	<button @click="search">
+		<span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc05">o</span><span style="color:#ea4335">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span><span>検索</span>
+	</button>
 </div>
 </template>
 
@@ -55,6 +57,9 @@ export default Vue.extend({
 		border solid 1px var(--googleSearchBorder)
 		border-left none
 		border-radius 0 4px 4px 0
+		display flex
+		align-items center
+		text-shadow 2px 0px 2px #77777777
 
 		&:hover
 			background-color var(--googleSearchHoverButton)

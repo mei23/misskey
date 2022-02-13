@@ -34,6 +34,7 @@
 			'coloring-bg': $store.state.device.visibilityColoring === 'bg',
 			'coloring-left': $store.state.device.visibilityColoring === 'left',
 		}"
+		:style="{ boxShadow: `inset 0 0 3px 3px ${appearNote.user.borderColor || 'transparent'}` }"
 	>
 		<mk-avatar class="avatar" :user="appearNote.user" v-if="$store.state.device.postStyle != 'smart'"/>
 		<div class="main">
