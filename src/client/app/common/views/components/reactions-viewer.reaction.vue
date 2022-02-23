@@ -60,6 +60,10 @@ export default Vue.extend({
 							noteId: this.note.id,
 							reaction: this.reaction,
 						});
+					} else {
+						this.isHovering = false;
+						clearTimeout(this.detailsTimeoutId);
+						this.closeDetails();
 					}
 				});
 			} else {

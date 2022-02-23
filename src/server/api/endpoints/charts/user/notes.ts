@@ -13,6 +13,9 @@ export const meta = {
 
 	tags: ['charts', 'users', 'notes'],
 
+	allowGet: true,
+	cacheSec: 600,
+
 	params: {
 		span: {
 			validator: $.str.or(['day', 'hour']),

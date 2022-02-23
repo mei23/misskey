@@ -34,6 +34,7 @@ export type ThinPackedNote = {
 
 	visibleUserIds: string[];
 	mentions: string[];
+	hasRemoteMentions: boolean;
 
 	notHaveDecorationMfm?: boolean;
 

@@ -115,6 +115,8 @@ export default define(meta, async (ps, user) => {
 
 		deletedAt: null,
 
+		'mentionedRemoteUsers.0': { $exists: false },
+
 		$and: [ {} ]
 	} as any;
 

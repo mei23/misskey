@@ -57,7 +57,7 @@ export const meta = {
 
 	requireCredential: false,
 	allowGet: true,
-	cacheSec: 3600 * 3,
+	cacheSec: 3600 * 24,
 };
 
 type ReactionStat = {

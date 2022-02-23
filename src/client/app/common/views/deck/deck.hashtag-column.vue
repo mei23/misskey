@@ -49,7 +49,7 @@ export default Vue.extend({
 				tag: this.tag,
 				span: 'hour',
 				limit: 24
-			}).then(stats => {
+			}, false, true).then(stats => {
 				const local = [];
 				const remote = [];
 

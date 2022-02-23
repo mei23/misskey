@@ -48,7 +48,8 @@ type PerUserNotesLog = SchemaType<typeof perUserNotesLogSchema>;
 
 class PerUserNotesChart extends Chart<PerUserNotesLog> {
 	constructor() {
-		super('perUserNotes', true);
+		super('perUserNotes', true, 150);
+		// リモートユーザーは50くらい、ローカルユーザーは150くらいアクティビティウィジットで参照される
 	}
 
 	@autobind

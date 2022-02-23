@@ -117,21 +117,21 @@ export default Vue.extend({
 		this.now = new Date();
 
 		const [perHour, perDay] = await Promise.all([Promise.all([
-			this.$root.api('charts/federation', { limit: limit, span: 'hour' }),
-			this.$root.api('charts/users', { limit: limit, span: 'hour' }),
-			this.$root.api('charts/active-users', { limit: limit, span: 'hour' }),
-			this.$root.api('charts/notes', { limit: limit, span: 'hour' }),
-			this.$root.api('charts/drive', { limit: limit, span: 'hour' }),
-			this.$root.api('charts/queue', { limit: limit, span: 'hour' }),
-			this.$root.api('charts/network', { limit: limit, span: 'hour' })
+			this.$root.api('charts/federation', { limit: limit, span: 'hour' }, false, true),
+			this.$root.api('charts/users', { limit: limit, span: 'hour' }, false, true),
+			this.$root.api('charts/active-users', { limit: limit, span: 'hour' }, false, true),
+			this.$root.api('charts/notes', { limit: limit, span: 'hour' }, false, true),
+			this.$root.api('charts/drive', { limit: limit, span: 'hour' }, false, true),
+			this.$root.api('charts/queue', { limit: limit, span: 'hour' }, false, true),
+			this.$root.api('charts/network', { limit: limit, span: 'hour' }, false, true),
 		]), Promise.all([
-			this.$root.api('charts/federation', { limit: limit, span: 'day' }),
-			this.$root.api('charts/users', { limit: limit, span: 'day' }),
-			this.$root.api('charts/active-users', { limit: limit, span: 'day' }),
-			this.$root.api('charts/notes', { limit: limit, span: 'day' }),
-			this.$root.api('charts/drive', { limit: limit, span: 'day' }),
-			this.$root.api('charts/queue', { limit: limit, span: 'day' }),
-			this.$root.api('charts/network', { limit: limit, span: 'day' })
+			this.$root.api('charts/federation', { limit: limit, span: 'day' }, false, true),
+			this.$root.api('charts/users', { limit: limit, span: 'day' }, false, true),
+			this.$root.api('charts/active-users', { limit: limit, span: 'day' }, false, true),
+			this.$root.api('charts/notes', { limit: limit, span: 'day' }, false, true),
+			this.$root.api('charts/drive', { limit: limit, span: 'day' }, false, true),
+			this.$root.api('charts/queue', { limit: limit, span: 'day' }, false, true),
+			this.$root.api('charts/network', { limit: limit, span: 'day' }, false, true),
 		])]);
 
 		const chart = {

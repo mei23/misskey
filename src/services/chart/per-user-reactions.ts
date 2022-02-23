@@ -19,7 +19,7 @@ type PerUserReactionsLog = {
 
 class PerUserReactionsChart extends Chart<PerUserReactionsLog> {
 	constructor() {
-		super('perUserReaction', true);
+		super('perUserReaction', true, 50);
 	}
 
 	@autobind

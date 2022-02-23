@@ -153,7 +153,7 @@ export default Vue.extend({
 				userId: this.user.id,
 				span: 'day',
 				limit: 21
-			}).then(stats => {
+			}, false, true).then(stats => {
 				const normal = [];
 				const reply = [];
 				const renote = [];

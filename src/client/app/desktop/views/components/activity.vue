@@ -49,7 +49,7 @@ export default Vue.extend({
 			userId: this.user.id,
 			span: 'day',
 			limit: 7 * 21
-		}).then(activity => {
+		}, false, true).then(activity => {
 			this.activity = activity.diffs.normal.map((_, i) => ({
 				total: activity.diffs.normal[i] + activity.diffs.reply[i] + activity.diffs.renote[i],
 				notes: activity.diffs.normal[i],

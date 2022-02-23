@@ -63,9 +63,11 @@ export default abstract class Chart<T extends Obj> {
 	protected collection: ICollection<Log<T>>;
 	protected abstract async getTemplate(init: boolean, latest?: T | null, group?: any): Promise<T>;
 	private name: string;
+	private samples: number;
 
-	constructor(name: string, grouped = false) {
+	constructor(name: string, grouped = false, samples = 500) {
 		this.name = name;
+		this.samples = samples;
 		this.collection = db.get<Log<T>>(`chart.${name}`);
 
 		const keys = {
@@ -189,7 +191,7 @@ export default abstract class Chart<T extends Obj> {
 			}
 		}
 
-		const dateExpire = new Date(Date.now() - (span === 'hour' ? 1000 * 60 * 60 * 500 : 1000 * 60 * 60 * 24 * 500));
+		const dateExpire = new Date(Date.now() - (span === 'hour' ? 1000 * 60 * 60 * this.samples : 1000 * 60 * 60 * 24 * this.samples));
 		const deleted = await this.collection.remove({
 			span: span,
 			date: { $lt: dateExpire }

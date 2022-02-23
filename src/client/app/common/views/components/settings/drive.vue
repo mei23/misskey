@@ -61,7 +61,7 @@ export default Vue.extend({
 				userId: this.$store.state.i.id,
 				span: 'day',
 				limit: 21
-			}).then(stats => {
+			}, false, true).then(stats => {
 				const addition = [];
 				const deletion = [];
 

@@ -88,7 +88,7 @@ type PerUserFollowingLog = SchemaType<typeof perUserFollowingLogSchema>;
 
 class PerUserFollowingChart extends Chart<PerUserFollowingLog> {
 	constructor() {
-		super('perUserFollowing', true);
+		super('perUserFollowing', true, 50);
 	}
 
 	@autobind

@@ -265,8 +265,8 @@ export default Vue.extend({
 			this.now = new Date();
 
 			const [perHour, perDay] = await Promise.all([
-				this.$root.api('charts/instance', { host: this.instance.host, limit: chartLimit, span: 'hour' }),
-				this.$root.api('charts/instance', { host: this.instance.host, limit: chartLimit, span: 'day' }),
+				this.$root.api('charts/instance', { host: this.instance.host, limit: chartLimit, span: 'hour' }, false, true),
+				this.$root.api('charts/instance', { host: this.instance.host, limit: chartLimit, span: 'day' }, false, true),
 			]);
 
 			const chart = {

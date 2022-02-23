@@ -12,6 +12,9 @@ export const meta = {
 
 	tags: ['charts', 'drive'],
 
+	allowGet: true,
+	cacheSec: 600,
+
 	params: {
 		span: {
 			validator: $.str.or(['day', 'hour']),
