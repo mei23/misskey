@@ -8,8 +8,6 @@ import renderAnnounce from '../../remote/activitypub/renderer/announce';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import DriveFile, { IDriveFile } from '../../models/drive-file';
 import { createNotification } from '../../services/create-notification';
-import NoteWatching from '../../models/note-watching';
-import watch from './watch';
 import { parseBasic } from '../../mfm/parse';
 import { IApp } from '../../models/app';
 import resolveUser from '../../remote/resolve-user';
@@ -333,14 +331,6 @@ export default async (user: IUser, data: Option, silent = false) => {
 
 		// If has in reply to note
 		if (data.reply) {
-			// Fetch watchers
-			nmRelatedPromises.push(notifyToWatchersOfReplyee(data.reply, user, nm));
-
-			// この投稿をWatchする
-			if (isLocalUser(user) && user.settings.autoWatch !== false) {
-				watch(user._id, data.reply);
-			}
-
 			// 通知
 			if (isLocalUser(data.reply._user)) {
 				nm.push(data.reply.userId, 'reply');
@@ -358,14 +348,6 @@ export default async (user: IUser, data: Option, silent = false) => {
 			// Notify
 			if (isLocalUser(data.renote._user)) {
 				nm.push(data.renote.userId, type);
-			}
-
-			// Fetch watchers
-			nmRelatedPromises.push(notifyToWatchersOfRenotee(data.renote, user, nm, type));
-
-			// この投稿をWatchする
-			if (isLocalUser(user) && user.settings.autoWatch !== false) {
-				watch(user._id, data.renote);
 			}
 
 			// Publish event
@@ -584,36 +566,6 @@ function index(note: INote) {
 				});
 			});
 		}
-	}
-}
-
-async function notifyToWatchersOfRenotee(renote: INote, user: IUser, nm: NotificationManager, type: NotificationType) {
-	const watchers = await NoteWatching.find({
-		noteId: renote._id,
-		userId: { $ne: user._id }
-	}, {
-			fields: {
-				userId: true
-			}
-		});
-
-	for (const watcher of watchers) {
-		nm.push(watcher.userId, type);
-	}
-}
-
-async function notifyToWatchersOfReplyee(reply: INote, user: IUser, nm: NotificationManager) {
-	const watchers = await NoteWatching.find({
-		noteId: reply._id,
-		userId: { $ne: user._id }
-	}, {
-			fields: {
-				userId: true
-			}
-		});
-
-	for (const watcher of watchers) {
-		nm.push(watcher.userId, 'reply');
 	}
 }
 

@@ -539,15 +539,21 @@ export async function addFile({
 
 	logger.succ(`drive file has been created ${driveFile._id}`);
 
-	pack(driveFile, { self: true }).then(packedFile => {
-		// Publish driveFileCreated event
-		publishMainStream(user._id, 'driveFileCreated', packedFile);
-		publishDriveStream(user._id, 'fileCreated', packedFile);
-	});
+	if (isLocalUser(driveFile?.metadata?._user)) {
+		pack(driveFile, { self: true }).then(packedFile => {
+			// Publish driveFileCreated event
+			publishMainStream(user._id, 'driveFileCreated', packedFile);
+			publishDriveStream(user._id, 'fileCreated', packedFile);
+		});
+	}
 
 	// 統計を更新
 	driveChart.update(driveFile, true);
-	perUserDriveChart.update(driveFile, true);
+
+	if (isLocalUser(driveFile.metadata?._user)) {
+		perUserDriveChart.update(driveFile, true);
+	}
+
 	if (isRemoteUser(driveFile.metadata?._user)) {
 		instanceChart.updateDrive(driveFile, true);
 		Instance.update({ host: driveFile.metadata!._user.host }, {

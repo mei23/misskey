@@ -109,6 +109,7 @@ common:
   favoriteReactions: "Favorite reactions"
   mostReacteds: "Most reacteds"
   frequently-replied-users: "Frequent mentions"
+  host: "Host"
 
   favorites: "Favorites"
   noteReactions: "Reacted notes"
@@ -1501,9 +1502,10 @@ admin/views/drive.vue:
     sizeDesc: "Size - Largest First"
   origin:
     title: "Origin"
-    combined: "Local + Remote"
+    combined: "All"
     local: "Local"
     remote: "Remote"
+    system: "System"
   delete: "Delete"
   deleted: "Deleted successfully"
   mark-as-sensitive: "Mark as 'sensitive'"

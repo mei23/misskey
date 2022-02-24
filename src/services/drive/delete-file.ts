@@ -5,7 +5,7 @@ import perUserDriveChart from '../../services/chart/per-user-drive';
 import instanceChart from '../../services/chart/instance';
 import DriveFileWebpublic, { DriveFileWebpublicChunk } from '../../models/drive-file-webpublic';
 import Instance from '../../models/instance';
-import { isRemoteUser } from '../../models/user';
+import { isLocalUser, isRemoteUser } from '../../models/user';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import { getS3 } from './s3';
 import { InternalStorage } from './internal-storage';
@@ -111,7 +111,11 @@ export default async function(file: IDriveFile, isExpired = false) {
 
 	// 統計を更新
 	driveChart.update(file, false);
-	perUserDriveChart.update(file, false);
+
+	if (isLocalUser(file.metadata?._user)) {
+		perUserDriveChart.update(file, false);
+	}
+
 	if (file.metadata && isRemoteUser(file.metadata._user)) {
 		instanceChart.updateDrive(file, false);
 		Instance.update({ host: file.metadata._user.host }, {

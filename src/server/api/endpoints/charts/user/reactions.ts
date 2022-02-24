@@ -7,7 +7,7 @@ export const meta = {
 	stability: 'stable',
 
 	desc: {
-		'ja-JP': 'ユーザーごとの被リアクション数のチャートを取得します。'
+		'ja-JP': 'ユーザーごとの被リアクション数のチャートを取得します。動きません。'
 	},
 
 	tags: ['charts', 'users', 'reactions'],
