@@ -96,6 +96,16 @@
 	{ "category": "face", "char": "\uD83D\uDE36\u200D\uD83C\uDF2B\uFE0F", "name": "face_in_clouds", "keywords": [] },
 	{ "category": "face", "char": "\uD83D\uDE2E\u200D\uD83D\uDCA8", "name": "face_exhaling", "keywords": [] },
 	{ "category": "face", "char": "\uD83D\uDE35\u200D\uD83D\uDCAB", "name": "face_with_spiral_eyes", "keywords": [] },
+
+	{ "local": true, "category": "face", "char": "\uD83E\uDEE0", "name": "melting_face", "keywords": ["disappear", "dissolve", "liquid", "melt", "toketa"] },
+	{ "local": true, "category": "face", "char": "\uD83E\uDEE2", "name": "face_with_open_eyes_and_hand_over_mouth", "keywords": ["amazement", "awe", "disbelief", "embarrass", "scared", "surprise", "ohoho"] },
+	{ "local": true, "category": "face", "char": "\uD83E\uDEE3", "name": "face_with_peeking_eye", "keywords": ["captivated", "peep", "stare", "chunibyo"] },
+	{ "local": true, "category": "face", "char": "\uD83E\uDEE1", "name": "saluting_face", "keywords": ["ok", "salute", "sunny", "troops", "yes", "raja"] },
+	{ "local": true, "category": "face", "char": "\uD83E\uDEE5", "name": "dotted_line_face", "keywords": ["depressed", "disappear", "hide", "introvert", "invisible", "tensen"] },
+	{ "local": true, "category": "face", "char": "\uD83E\uDEE4", "name": "face_with_diagonal_mouth", "keywords": ["disappointed", "meh", "skeptical", "unsure"] },
+	{ "local": true, "category": "face", "char": "\uD83E\uDD79", "name": "face_holding_back_tears", "keywords": ["angry", "cry", "proud", "resist", "sad"] },
+
+
 	{ "category": "face", "char": "💩", "name": "poop", "keywords": ["hankey", "shitface", "fail", "turd", "shit"] },
 	{ "category": "face", "char": "😈", "name": "smiling_imp", "keywords": ["devil", "horns"] },
 	{ "category": "face", "char": "👿", "name": "imp", "keywords": ["devil", "angry", "horns"] },
@@ -149,11 +159,23 @@
 	{ "category": "people", "char": "🤞", "name": "crossed_fingers", "st": 1, "keywords": ["good", "lucky"] },
 	{ "category": "people", "char": "🖖", "name": "vulcan_salute", "st": 1, "keywords": ["hand", "fingers", "spock", "star trek"] },
 	{ "category": "people", "char": "✍", "name": "writing_hand", "st": 1, "keywords": ["lower_left_ballpoint_pen", "stationery", "write", "compose"] },
+
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF0", "name": "hand_with_index_finger_and_thumb_crossed", "st": 1, "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF1", "name": "rightwards_hand", "st": 1, "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF2", "name": "leftwards_hand", "st": 1, "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF3", "name": "palm_down_hand", "st": 1, "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF4", "name": "palm_up_hand", "st": 1, "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF5", "name": "index_pointing_at_the_viewer", "st": 1, "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEF6", "name": "heart_hands", "st": 1, "keywords": ["moemoekyun"] },
+
 	{ "category": "people", "char": "🤏", "name": "pinching_hand", "st": 1, "keywords": ["hand", "fingers"] },
 	{ "category": "people", "char": "🤌", "name": "pinched_fingers", "st": 1, "keywords": ["hand", "fingers"] },
 	{ "category": "people", "char": "🤳", "name": "selfie", "st": 1, "keywords": ["camera", "phone"] },
 	{ "category": "people", "char": "💅", "name": "nail_care", "st": 1, "keywords": ["beauty", "manicure", "finger", "fashion", "nail"] },
 	{ "category": "people", "char": "👄", "name": "lips", "keywords": ["mouth", "kiss"] },
+
+	{ "local": true, "category": "people", "char": "\uD83E\uDEE6", "name": "biting_lip", "keywords": [] },
+
 	{ "category": "people", "char": "🦷", "name": "tooth", "keywords": ["teeth", "dentist"] },
 	{ "category": "people", "char": "👅", "name": "tongue", "keywords": ["mouth", "playful"] },
 	{ "category": "people", "char": "👂", "name": "ear", "st": 1, "keywords": ["face", "hear", "sound", "listen"] },
@@ -286,6 +308,11 @@
 	{ "category": "people", "char": "👰", "name": "bride_with_veil", "st": 1, "keywords": ["couple", "marriage", "wedding", "woman", "bride"] },
 	{ "category": "people", "char": "🤵", "name": "person_in_tuxedo", "st": 1, "keywords": ["couple", "marriage", "wedding", "groom"] },
 	{ "category": "people", "char": "🤵", "name": "man_in_tuxedo", "st": 1, "keywords": ["couple", "marriage", "wedding", "groom"] },
+
+	{ "local": true, "category": "people", "char": "\uD83E\uDEC3", "name": "pregnant_man", "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEC4", "name": "pregnant_person", "keywords": [] },
+	{ "local": true, "category": "people", "char": "\uD83E\uDEC5", "name": "person_with_crown", "keywords": [] },
+
 	{ "category": "people", "char": "🏃‍♀️", "name": "running_woman", "st": 1, "keywords": ["woman", "walking", "exercise", "race", "running", "female"] },
 	{ "category": "people", "char": "🏃", "name": "running_man", "st": 1, "keywords": ["man", "walking", "exercise", "race", "running"] },
 	{ "category": "people", "char": "🚶‍♀️", "name": "walking_woman", "st": 1, "keywords": ["human", "feet", "steps", "woman", "female"] },

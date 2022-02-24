@@ -1,5 +1,5 @@
 import Emoji from '../models/emoji';
-import { emojiRegex, vendorEmojiRegex } from './emoji-regex';
+import { emojiRegex, vendorEmojiRegex, localEmojiRegex } from './emoji-regex';
 import { toApHost, toDbHost } from './convert-host';
 
 const basic10: Record<string, string> = {
@@ -40,7 +40,7 @@ export async function toDbReaction(reaction: string | undefined | null, enableEm
 	if (!enableEmoji) return REACTION_STAR;
 
 	// Unicode絵文字
-	const match = vendorEmojiRegex.exec(reaction) || emojiRegex.exec(reaction);
+	const match = vendorEmojiRegex.exec(reaction) || localEmojiRegex.exec(reaction) || emojiRegex.exec(reaction);
 	if (match) {
 		// 合字を含む1つの絵文字
 		const unicode = match[0];
@@ -97,7 +97,7 @@ export async function toDbReactionNoResolve(reaction: string): Promise<string> {
 	if (Object.values(basic10).includes(reaction)) return reaction;
 
 	// Unicode絵文字
-	const match = vendorEmojiRegex.exec(reaction) || emojiRegex.exec(reaction);
+	const match = vendorEmojiRegex.exec(reaction) || localEmojiRegex.exec(reaction) || emojiRegex.exec(reaction);
 	if (match) {
 		// 合字を含む1つの絵文字
 		const unicode = match[0];
