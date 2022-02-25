@@ -66,11 +66,11 @@ export const schemas = {
 			},
 			followersCount: {
 				type: 'number',
-				description: 'The number of followers this account currently has.'
+				description: 'あてにならない！使うな！'
 			},
 			followingCount: {
 				type: 'number',
-				description: 'The number of users this account is following.'
+				description: 'あてにならない！使うな！'
 			},
 			notesCount: {
 				type: 'number',
@@ -421,19 +421,19 @@ export const schemas = {
 			},
 			type: {
 				type: 'string',
-				description: 'The MIME type of this Drive file.',
+				description: 'あてにならない',
 				example: 'image/jpeg'
 			},
 			md5: {
 				type: 'string',
 				format: 'md5',
-				description: 'The MD5 hash of this Drive file.',
+				description: '間違ってる！使うな！参考にもするな！',
 				example: '15eca7fba0480996e2245f5185bf39f2'
 			},
 			datasize: {
 				type: 'number',
-				description: 'The size of this Drive file. (bytes)',
-				example: 51469
+				description: '間違ってる！使うな！参考にもするな！',
+				example: 0
 			},
 			folderId: {
 				type: 'string',

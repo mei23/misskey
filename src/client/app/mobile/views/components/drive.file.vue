@@ -10,8 +10,6 @@
 			<footer>
 				<span class="type"><mk-file-type-icon :type="file.type"/>{{ file.type }}</span>
 				<span class="separator"></span>
-				<span class="data-size">{{ file.datasize | bytes }}</span>
-				<span class="separator"></span>
 				<span class="created-at"><fa :icon="['far', 'clock']"/><mk-time :time="file.createdAt"/></span>
 				<template v-if="file.isSensitive">
 					<span class="separator"></span>

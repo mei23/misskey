@@ -5,7 +5,6 @@
 		<router-link to="/i/settings/appearance" active-class="active"><fa icon="palette" fixed-width/>{{ $t('@._settings.appearance') }}</router-link>
 		<router-link to="/i/settings/behavior" active-class="active"><fa icon="desktop" fixed-width/>{{ $t('@._settings.behavior') }}</router-link>
 		<router-link to="/i/settings/notification" active-class="active"><fa :icon="['far', 'bell']" fixed-width/>{{ $t('@._settings.notification') }}</router-link>
-		<router-link to="/i/settings/drive" active-class="active"><fa icon="cloud" fixed-width/>{{ $t('@.drive') }}</router-link>
 		<router-link to="/i/settings/hashtags" active-class="active"><fa icon="hashtag" fixed-width/>{{ $t('@._settings.tags') }}</router-link>
 		<router-link to="/i/settings/muteAndBlock" active-class="active"><fa icon="ban" fixed-width/>{{ $t('@._settings.mute-and-block') }}</router-link>
 		<router-link to="/i/settings/extendedNotification" active-class="active"><fa :icon="faLightbulb" fixed-width/>{{ $t('@._settings.extended-notification') }}</router-link>

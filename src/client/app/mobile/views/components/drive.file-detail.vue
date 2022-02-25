@@ -3,20 +3,10 @@
 	<div class="preview">
 		<x-file-thumbnail class="preview" :file="file" :detail="true"/>
 		<template v-if="kind != 'image'"><fa icon="file"/></template>
-		<footer v-if="kind == 'image' && file.properties && file.properties.width && file.properties.height">
-			<span class="size">
-				<span class="width">{{ file.properties.width }}</span>
-				<span class="time">×</span>
-				<span class="height">{{ file.properties.height }}</span>
-				<span class="px">px</span>
-			</span>
-		</footer>
 	</div>
 	<div class="info">
 		<div>
 			<span class="type"><mk-file-type-icon :type="file.type"/> {{ file.type }}</span>
-			<span class="separator"></span>
-			<span class="data-size">{{ file.datasize | bytes }}</span>
 			<span class="separator"></span>
 			<span class="created-at" @click="showCreatedAt"><fa :icon="['far', 'clock']"/><mk-time :time="file.createdAt"/></span>
 			<template v-if="file.isSensitive">

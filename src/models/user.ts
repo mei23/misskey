@@ -483,8 +483,8 @@ export async function pack(
 				location: db.profile?.location || null,
 			},
 			fields: db.fields || [],
-			followersCount: visibleFollowers ? db.followersCount : null,
-			followingCount: visibleFollowers ? db.followingCount : null,
+			followersCount: (visibleFollowers && isLocalUser(db)) ? db.followersCount : null,
+			followingCount: (visibleFollowers && isLocalUser(db)) ? db.followingCount : null,
 			notesCount: db.notesCount,
 			pinnedNoteIds: db.pinnedNoteIds ? db.pinnedNoteIds.map(toOidString) : [],
 			pinnedNotes: packNoteMany(db.pinnedNoteIds || [], meId, {

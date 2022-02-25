@@ -11,7 +11,6 @@ import delFile from './delete-file';
 import { getDriveFileWebpublicBucket } from '../../models/drive-file-webpublic';
 import { getDriveFileThumbnailBucket } from '../../models/drive-file-thumbnail';
 import driveChart from '../../services/chart/drive';
-import perUserDriveChart from '../../services/chart/per-user-drive';
 import instanceChart from '../../services/chart/instance';
 import fetchMeta from '../../misc/fetch-meta';
 import { generateVideoThumbnail } from './generate-video-thumbnail';
@@ -69,24 +68,19 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 		const url = `${ baseUrl }/${ key }`;
 
 		// for alts
-		let webpublicKey: string | null = null;
-		let webpublicUrl: string | null = null;
 		let thumbnailKey: string | null = null;
 		let thumbnailUrl: string | null = null;
 		//#endregion
 
 		//#region Uploads
 		logger.info(`uploading original: ${key}`);
-		const uploads = [
-			upload(key, fs.createReadStream(path), info.type.mime, name, drive)
-		];
+
+		const uploads: Promise<any>[] = [];
 
 		if (alts.webpublic) {
-			webpublicKey = `${drive.prefix}/${genFid()}.${alts.webpublic.ext}`;
-			webpublicUrl = `${ baseUrl }/${ webpublicKey }`;
-
-			logger.info(`uploading webpublic: ${webpublicKey}`);
-			uploads.push(upload(webpublicKey, alts.webpublic.data, alts.webpublic.type, null, drive));
+			uploads.push(upload(key, alts.webpublic.data, alts.webpublic.type, name, drive));
+		} else {
+			uploads.push(upload(key, fs.createReadStream(path), info.type.mime, name, drive));
 		}
 
 		if (alts.thumbnail) {
@@ -106,11 +100,11 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			storage: 'minio',
 			storageProps: {
 				key,
-				webpublicKey,
+				webpublicKey: undefined,
 				thumbnailKey,
 			},
 			url,
-			webpublicUrl,
+			webpublicUrl: undefined,
 			thumbnailUrl,
 		} as IMetadata);
 
@@ -129,14 +123,13 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 	} else if (drive.storage == 'fs') {
 
 		const key = `${genFid()}`;
-		InternalStorage.saveFromPath(key, path);
 
-		let webpublicKey: string | null = null;
 		let thumbnailKey: string | null = null;
 
 		if (alts.webpublic) {
-			webpublicKey = `${genFid()}`;
-			InternalStorage.saveFromBuffer(webpublicKey, alts.webpublic.data);
+			InternalStorage.saveFromBuffer(key, alts.webpublic.data);
+		} else {
+			InternalStorage.saveFromPath(key, path);
 		}
 
 		if (alts.thumbnail) {
@@ -150,14 +143,11 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 			storage: 'fs',
 			storageProps: {
 				key,
-				webpublicKey,
+				webpublicKey: undefined,
 				thumbnailKey,
 			},
 			fileSystem: true
 		} as IMetadata);
-
-		// web用(Exif削除済み)がある場合はオリジナルにアクセス制限
-		if (alts.webpublic) metadata.accessKey = genFid();
 
 		const file = await DriveFile.insert({
 			length: info.size,
@@ -172,6 +162,8 @@ async function save(path: string, name: string, info: FileInfo, metadata: IMetad
 
 		return file;
 	} else {	// use MongoDB GridFS
+		// TODO: オリジナルを保存しない
+
 		// #region store original
 		const originalDst = await getDriveFileBucket();
 
@@ -413,8 +405,8 @@ export async function addFile({
 		}
 	}
 
-	//#region Check drive usageisRemote
-	if (!isLink) {
+	//#region リモートファイルを保存する場合は容量チェック
+	if (isRemoteUser(user) && !isLink) {
 		const usage = await DriveFile
 			.aggregate([{
 				$match: {
@@ -441,16 +433,12 @@ export async function addFile({
 		logger.debug(`drive usage is ${usage}`);
 
 		const instance = await fetchMeta();
-		const driveCapacity = 1024 * 1024 * (isLocalUser(user) ? (instance.localDriveCapacityMb || 0) : (instance.remoteDriveCapacityMb || 0));
+		const driveCapacity = 1024 * 1024 * (instance.remoteDriveCapacityMb || 0);
 
 		// If usage limit exceeded
 		if (usage + info.size > driveCapacity) {
-			if (isLocalUser(user)) {
-				throw 'no-free-space';
-			} else {
-				// (アバターまたはバナーを含まず)最も古いファイルを削除する
-				deleteOldFile(user);
-			}
+			// (アバターまたはバナーを含まず)最も古いファイルを削除する
+			deleteOldFile(user);
 		}
 	}
 	//#endregion
@@ -516,7 +504,7 @@ export async function addFile({
 				metadata: metadata,
 				contentType: info.type.mime
 			});
-		} catch (e) {
+		} catch (e: any) {
 			// duplicate key error (when already registered)
 			if (e.code === 11000) {
 				logger.info(`already registered ${metadata.uri}`);
@@ -548,11 +536,7 @@ export async function addFile({
 	}
 
 	// 統計を更新
-	driveChart.update(driveFile, true);
-
-	if (isLocalUser(driveFile.metadata?._user)) {
-		perUserDriveChart.update(driveFile, true);
-	}
+	driveChart.update(driveFile, true);	// TODO
 
 	if (isRemoteUser(driveFile.metadata?._user)) {
 		instanceChart.updateDrive(driveFile, true);

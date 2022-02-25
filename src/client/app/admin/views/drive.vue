@@ -27,7 +27,6 @@
 						<div>
 							<div>
 								<span style="margin-right:16px;">{{ file.type }}</span>
-								<span>{{ file.datasize | bytes }}</span>
 							</div>
 							<div><mk-time :time="file.createdAt" mode="detail"/></div>
 						</div>
@@ -68,7 +67,6 @@
 						<div>
 							<div>
 								<span style="margin-right:16px;">{{ file.type }}</span>
-								<span>{{ file.datasize | bytes }}</span>
 							</div>
 							<div><mk-time :time="file.createdAt" mode="detail"/></div>
 						</div>

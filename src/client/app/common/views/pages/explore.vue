@@ -48,9 +48,6 @@
 	</mk-user-list>
 
 	<template v-if="tag == null">
-		<mk-user-list :make-promise="recommendedUsersF" :expanded="false">
-			<fa icon="users" fixed-width/>{{ $t('recommended-users') }}
-		</mk-user-list>
 		<mk-user-list :make-promise="recentlyUpdatedUsersF" :expanded="false">
 			<fa :icon="faCommentAlt" fixed-width/>{{ $t('recently-updated-users') }}
 		</mk-user-list>
@@ -117,21 +114,6 @@ export default Vue.extend({
 				return {
 						users: x.splice(0, limit),
 						cursor: this.cursors.recommendedUsers
-				};
-			}),
-			recommendedUsersF: (offset: number) => this.$root.api('users/recommendation', {
-				'origin': 'remote',
-				offset,
-				limit: limit + 1
-			}).then((x: any[]) => {
-				if (x.length === limit + 1) {
-					this.cursors.recommendedUsersF += limit;
-				} else {
-					this.cursors.recommendedUsersF = undefined;
-				}
-				return {
-					users: x.splice(0, limit),
-					cursor: this.cursors.recommendedUsersF
 				};
 			}),
 			popularUsers: (offset: number) => this.$root.api('users', {
@@ -220,7 +202,6 @@ export default Vue.extend({
 			cursors: {
 				verifiedUsers: 0,
 				recommendedUsers: 0,
-				recommendedUsersF: 0,
 				popularUsers: 0,
 				recentlyUpdatedUsers: 0,
 				recentlyRegisteredUsers: 0,

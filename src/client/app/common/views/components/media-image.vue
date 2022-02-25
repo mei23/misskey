@@ -46,7 +46,7 @@ export default Vue.extend({
 			};
 		},
 		imageInfo(): string {
-			return `${this.image.name}\n${this.image.properties?.width} x ${this.image.properties?.height} px`;
+			return `${this.image.name}`;
 		},
 	},
 	methods: {

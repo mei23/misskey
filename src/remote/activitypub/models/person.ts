@@ -124,9 +124,9 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 
 	logger.info(`Creating the Person: ${person.id}`);
 
-	const [followersCount = 0, followingCount = 0, notesCount = 0] = await Promise.all([
-		getCollectionCount(person.followers, resolver).catch(() => undefined),
-		getCollectionCount(person.following, resolver).catch(() => undefined),
+	const [followersCount = -1, followingCount = -1, notesCount = 0] = await Promise.all([
+		-1,
+		-1,
 		getCollectionCount(person.outbox, resolver).catch(() => undefined),
 	]);
 
@@ -316,9 +316,9 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 
 	logger.info(`Updating the Person: ${person.id}`);
 
-	const [followersCount = 0, followingCount = 0, notesCount = 0] = await Promise.all([
-		getCollectionCount(person.followers, resolver).catch(() => undefined),
-		getCollectionCount(person.following, resolver).catch(() => undefined),
+	const [followersCount = -1, followingCount = -1, notesCount = 0] = await Promise.all([
+		-1,
+		-1,
 		getCollectionCount(person.outbox, resolver).catch(() => undefined),
 	]);
 

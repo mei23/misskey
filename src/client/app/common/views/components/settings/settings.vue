@@ -266,10 +266,6 @@
 		<x-notification/>
 	</template>
 
-	<template v-if="page == null || page == 'drive'">
-		<x-drive/>
-	</template>
-
 	<template v-if="page == null || page == 'hashtags'">
 		<ui-card>
 			<template #title><fa icon="hashtag"/> {{ $t('@._settings.tags') }}</template>
@@ -367,7 +363,6 @@ import XSignins from './signins.vue';
 import XTags from './tags.vue';
 import XIntegration from './integration.vue';
 import XTheme from './theme.vue';
-import XDrive from './drive.vue';
 import XMuteAndBlock from './mute-and-block.vue';
 import XExtendedNotification from './extended-notification.vue';
 import XPassword from './password.vue';
@@ -393,7 +388,6 @@ export default Vue.extend({
 		XTags,
 		XIntegration,
 		XTheme,
-		XDrive,
 		XMuteAndBlock,
 		XExtendedNotification,
 		XPassword,
