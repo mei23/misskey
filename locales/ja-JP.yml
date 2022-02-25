@@ -1665,6 +1665,7 @@ admin/views/drive.vue:
   unmark-as-sensitive: "閲覧注意を解除"
   marked-as-sensitive: "閲覧注意に設定しました"
   unmarked-as-sensitive: "閲覧注意を解除しました"
+  fileId: "ファイルID"
 
 admin/views/users.vue:
   operation: "操作"

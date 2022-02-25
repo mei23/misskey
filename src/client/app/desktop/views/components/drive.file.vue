@@ -40,7 +40,7 @@ import updateBanner from '../../api/update-banner';
 import XFileThumbnail from '../../../common/views/components/drive-file-thumbnail.vue';
 import ImageViewer from '../../../common/views/components/image-viewer.vue';
 import MkMediaVideoDialog from '../../../desktop/views/components/media-video-dialog.vue';
-import { faImages } from '@fortawesome/free-regular-svg-icons/';
+import { faImages } from '@fortawesome/free-regular-svg-icons';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({

@@ -12,6 +12,29 @@
 			</ui-horizon-group>
 			<ui-button @click="findAndDel()"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
 			<ui-button @click="show()"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
+
+			<div v-if="file" class="kidvdlkg detail">
+				<div>
+					<div>
+						<x-file-thumbnail class="thumbnail" :file="file" fit="contain"/>
+					</div>
+					<div>
+						<header>
+							<span class="sensitive" v-if="file.isSensitive"><fa :icon="faEyeSlash"/></span>
+							<b>{{ file.name }}</b>
+							<span class="username">@{{ file.user | acct }}</span>
+						</header>
+						<div>
+							<div>
+								<span style="margin-right:16px;">{{ file.type }}</span>
+								<span>{{ file.datasize | bytes }}</span>
+							</div>
+							<div><mk-time :time="file.createdAt" mode="detail"/></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<ui-textarea v-if="file" :value="file | json5" readonly tall style="margin-top:16px;"></ui-textarea>
 		</section>
 	</ui-card>
@@ -31,7 +54,7 @@
 					<span>{{ $t('@.host') }}</span>
 				</ui-input>
 			</ui-horizon-group>
-			<div class="kidvdlkg" v-for="file in files">
+			<div class="kidvdlkg" v-for="file in files" :key="file.id">
 				<div @click="file._open = !file._open">
 					<div>
 						<x-file-thumbnail class="thumbnail" :file="file" fit="contain" @click="showFileMenu(file)"/>
@@ -52,7 +75,10 @@
 					</div>
 				</div>
 				<div v-show="file._open">
-					<ui-input readonly :value="file.url"></ui-input>
+					<ui-horizon-group>
+						<ui-input readonly :value="file.id"><span>{{ $t('fileId') }}</span></ui-input>
+						<ui-input readonly :value="file.webpublicUrl || file.url"></ui-input>
+					</ui-horizon-group>
 					<ui-horizon-group>
 						<ui-button @click="toggleSensitive(file)" v-if="file.isSensitive"><fa :icon="faEye"/> {{ $t('unmark-as-sensitive') }}</ui-button>
 						<ui-button @click="toggleSensitive(file)" v-else><fa :icon="faEyeSlash"/> {{ $t('mark-as-sensitive') }}</ui-button>
@@ -225,6 +251,9 @@ export default Vue.extend({
 .kidvdlkg
 	padding 16px 0
 	border-top solid 1px var(--faceDivider)
+
+	&.detail
+		padding-top 32px
 
 	> div:first-child
 		display flex

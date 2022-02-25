@@ -1512,6 +1512,7 @@ admin/views/drive.vue:
   unmark-as-sensitive: "Unmark as 'sensitive'"
   marked-as-sensitive: "Set a sensitive content notice"
   unmarked-as-sensitive: "Remove the sensitive content notice"
+  fileId: "File ID"
 admin/views/users.vue:
   operation: "Operations"
   username-or-userid: "Username or user ID"

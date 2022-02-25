@@ -34,6 +34,9 @@
 				<ui-input v-model="searchLocal" type="text" spellcheck="false" @input="fetchEmojis('local', true)">
 					<span>{{ $t('name') }}</span>
 				</ui-input>
+				<ui-input v-model="searchCategory" type="text" spellcheck="false" @input="fetchEmojis('local', true)">
+					<span>{{ $t('add-emoji.category') }}</span>
+				</ui-input>
 			</ui-horizon-group>
 		</section>
 		<section v-for="emoji in emojis" :key="emoji.id" class="oryfrbft">
@@ -136,6 +139,7 @@ export default Vue.extend({
 			remoteExistMore: false,
 			remoteOffset: 0,
 			searchLocal: '',
+			searchCategory: '',
 			searchRemote: '',
 			searchHost: '',
 			origin: 'all',
@@ -204,6 +208,7 @@ export default Vue.extend({
 				this.$root.api('admin/emoji/list', {
 					remote: false,
 					name: this.searchLocal,
+					category: this.searchCategory || undefined,
 					offset: this.offset,
 					limit: this.limit + 1,
 				}).then((emojis: any[]) => {

@@ -3,6 +3,7 @@ import ID, { transform } from '../../../../../misc/cafy-id';
 import define from '../../../define';
 import DriveFile from '../../../../../models/drive-file';
 import { ApiError } from '../../../error';
+import { pack } from '../../../../../models/drive-file';
 
 export const meta = {
 	tags: ['admin'],
@@ -35,5 +36,5 @@ export default define(meta, async (ps, me) => {
 		throw new ApiError(meta.errors.noSuchFile);
 	}
 
-	return file;
+	return await pack(file, { detail: true, withUser: true, self: true });
 });
