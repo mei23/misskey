@@ -27,7 +27,8 @@ async function main() {
 		const files = await DriveFile.find({
 			//_id: { $nin: [user.avatarId, user.bannerId] },
 			'metadata.userId': user._id,
-			'metadata.deletedAt': { $exists: false }
+			'metadata.deletedAt': { $exists: false },
+			'metadata.isRemote': { $ne: true },
 		});
 
 		for (const file of files) {
