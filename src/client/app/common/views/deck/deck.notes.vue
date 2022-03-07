@@ -15,6 +15,8 @@
 		<template v-for="(note, i) in _notes">
 			<mk-note
 				:note="note"
+				:next="_notes[i + 1]"
+				:prev="_notes[i - 1]"
 				:key="note.id"
 				@update:note="onNoteUpdated(i, $event)"
 				:compact="true"

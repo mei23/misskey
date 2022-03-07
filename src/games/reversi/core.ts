@@ -2,13 +2,22 @@ import { count, concat } from '../../prelude/array';
 
 // MISSKEY REVERSI ENGINE
 
-/**
- * true ... 黒
- * false ... 白
- */
-export type Color = boolean;
+/** 先手 黒 */
 const BLACK = true;
+/** 後手 白 */
 const WHITE = false;
+
+export type Color = typeof BLACK | typeof WHITE;
+
+/** 勝者 未確定 */
+const WINNER_UNDECIDED = undefined;
+/** 勝者 引き分け */
+const WINNER_EVEN = null;
+
+/** 勝者 */
+export type Winner = Color | typeof WINNER_UNDECIDED | typeof WINNER_EVEN;
+
+const GAME_FINISHED = null;
 
 export type MapPixel = 'null' | 'empty';
 
@@ -82,8 +91,13 @@ export default class Reversi {
 		//#endregion
 
 		// ゲームが始まった時点で片方の色の石しかないか、始まった時点で勝敗が決定するようなマップの場合がある
-		if (!this.canPutSomewhere(BLACK))
-			this.turn = this.canPutSomewhere(WHITE) ? WHITE : null;
+		if (!this.canPutSomewhere(BLACK)) {
+			if (this.canPutSomewhere(WHITE)) {
+				this.turn = WHITE;
+			} else {
+				this.turn = GAME_FINISHED;
+			}
+		}
 	}
 
 	/**
@@ -146,7 +160,7 @@ export default class Reversi {
 		this.turn =
 			this.canPutSomewhere(!this.prevColor) ? !this.prevColor :
 			this.canPutSomewhere(this.prevColor) ? this.prevColor :
-			null;
+			GAME_FINISHED;
 	}
 
 	public undo() {
@@ -248,16 +262,25 @@ export default class Reversi {
 	 * ゲームが終了したか否か
 	 */
 	public get isEnded(): boolean {
-		return this.turn === null;
+		return this.turn === GAME_FINISHED;
 	}
 
 	/**
-	 * ゲームの勝者 (null = 引き分け)
+	 * ゲームの勝者
 	 */
-	public get winner(): Color {
-		return this.isEnded ?
-			this.blackCount == this.whiteCount ? null :
-			this.opts.isLlotheo === this.blackCount > this.whiteCount　? WHITE : BLACK :
-			undefined;
+	public get winner(): Winner {
+		if (!this.isEnded) {
+			return WINNER_UNDECIDED;
+		} else if (this.blackCount > this.whiteCount) {
+			return this.xor(BLACK, this.opts.isLlotheo);
+		} else if (this.blackCount < this.whiteCount) {
+			return this.xor(WHITE, this.opts.isLlotheo);
+		} else {
+			return WINNER_EVEN;
+		}
+	}
+
+	private xor(a: boolean, b: boolean): boolean {
+		return ( a || b ) && !( a && b );
 	}
 }

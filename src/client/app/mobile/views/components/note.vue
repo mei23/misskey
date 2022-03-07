@@ -7,6 +7,7 @@
 		renote: isRenote,
 		smart: $store.state.device.postStyle == 'smart',
 		mini: narrow,
+		nextIsSame,
 	}"
 	v-hotkey="keymap"
 >
@@ -34,12 +35,12 @@
 			'coloring-bg': $store.state.device.visibilityColoring === 'bg',
 			'coloring-left': $store.state.device.visibilityColoring === 'left',
 		}"
-		:style="{ boxShadow: `inset 0 0 3px 3px ${appearNote.user.borderColor || 'transparent'}` }"
+		:style="{ boxShadow: `inset -8px 0 3px -3px ${appearNote.user.borderColor || 'transparent'}` }"
 	>
 		<mk-avatar class="avatar" :user="appearNote.user" v-if="$store.state.device.postStyle != 'smart'"/>
 		<div class="main">
 			<mk-note-header class="header" :note="appearNote" :mini="true"/>
-			<x-instance-info v-if="appearNote.user.instance && $store.state.device.showInstanceInfo" :instance="appearNote.user.instance" />
+			<x-instance-info v-if="appearNote.user.instance && $store.state.device.showInstanceInfo && !prevIsSame" :instance="appearNote.user.instance" />
 			<div class="body" v-if="appearNote.deletedAt == null">
 				<p v-if="appearNote.cw != null" class="cw">
 				<mfm v-if="appearNote.cw != ''" class="text" :text="appearNote.cw" :author="appearNote.user" :i="$store.state.i" :custom-emojis="appearNote.emojis" :hashtags="appearNote.tags" :basic="!!appearNote.notHaveDecorationMfm"/>
@@ -126,6 +127,14 @@ export default Vue.extend({
 			type: Object,
 			required: true
 		},
+		next: {
+			type: Object,
+			required: false
+		},
+		prev: {
+			type: Object,
+			required: false
+		},
 		detail: {
 			type: Boolean,
 			required: false,
@@ -175,7 +184,9 @@ export default Vue.extend({
 .note
 	overflow hidden
 	font-size 13px
-	border-bottom solid var(--lineWidth) var(--faceDivider)
+
+	&:not(.nextIsSame)
+		border-bottom solid var(--lineWidth) var(--faceDivider)
 
 	&:last-of-type
 		border-bottom none
@@ -391,4 +402,7 @@ export default Vue.extend({
 				color var(--noteText)
 				opacity 0.7
 
+	&.nextIsSame
+		.article
+			padding-bottom 0
 </style>

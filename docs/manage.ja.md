@@ -80,6 +80,15 @@ node built/tools/clean-deleted-user-objs.js
 node built/tools/clean-unused-files.js
 ```
 
+### リモートファイルのキャッシュを削除する
+
+リモートファイルのキャッシュを削除します。  
+削除後は、直リンクまたはプロキシになります。
+
+```sh
+node built/tools/clean-remote-files.js
+```
+
 ## statsを再集計する
 
 ```sh

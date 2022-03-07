@@ -71,6 +71,14 @@ export default (opts: Opts = {}) => ({
 			return this.isRenote ? this.note.renote : this.note;
 		},
 
+		nextIsSame() {
+			return !this.note.renote && this.next && !this.next.renote && this.note.userId === this.next.userId;
+		},
+
+		prevIsSame() {
+			return !this.note.renote && this.prev && !this.prev.renote && this.note.userId === this.prev.userId;
+		},
+
 		isMyNote(): boolean {
 			return this.$store.getters.isSignedIn && (this.$store.state.i.id === this.appearNote.userId);
 		},

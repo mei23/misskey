@@ -1,30 +1,42 @@
-import * as promiseLimit from 'promise-limit';
-import DriveFile, { IDriveFile } from '../models/drive-file';
-import del from '../services/drive/delete-file';
+import DriveFile from '../models/drive-file';
+import User from '../models/user';
+import delFile from '../services/drive/delete-file';
 
-const limit = promiseLimit(16);
+async function main() {
+	const users = await User.find({
+		host: { $ne: null },
+	}, {
+		fields: {
+			_id: true
+		}
+	});
 
-DriveFile.find({
-	'metadata._user.host': {
-		$ne: null
-	},
-	'metadata.deletedAt': { $exists: false }
-}, {
-	fields: {
-		_id: true
+	let prs = 0;
+
+	for (const u of users) {
+		prs++;
+
+		const user = await User.findOne({
+			_id: u._id
+		});
+
+		if (user == null) continue;
+
+		console.log(`user(${prs}/${users.length}): ${user.username}@${user.host}`);
+
+		const files = await DriveFile.find({
+			//_id: { $nin: [user.avatarId, user.bannerId] },
+			'metadata.userId': user._id,
+			'metadata.deletedAt': { $exists: false }
+		});
+
+		for (const file of files) {
+			console.log(`expire file: ${file._id} ${file.metadata?.url}`);
+			await delFile(file, true);
+		}
 	}
-}).then(async files => {
-	console.log(`there is ${files.length} files`);
-
-	await Promise.all(files.map(file => limit(() => job(file))));
-
-	console.log('ALL DONE');
-});
-
-async function job(file: IDriveFile): Promise<any> {
-	file = await DriveFile.findOne({ _id: file._id });
-
-	await del(file, true);
-
-	console.log('done', file._id);
 }
+
+main().then(() => {
+	console.log('Done');
+});
