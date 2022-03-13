@@ -8,6 +8,7 @@ import { renderActivity } from '../../../remote/activitypub/renderer';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 import { decodeReaction } from '../../../misc/reaction-lib';
+import Notification from '../../../models/notification';
 
 export default async (user: IUser, note: INote) => {
 	// if already unreacted
@@ -37,6 +38,12 @@ export default async (user: IUser, note: INote) => {
 	// Decrement reactions count
 	Note.update({ _id: note._id }, {
 		$inc: dec
+	});
+
+	Notification.remove({
+		noteId: note._id,
+		notifierId: user._id,
+		reaction: exist.reaction,
 	});
 
 	publishNoteStream(note._id, 'unreacted', {

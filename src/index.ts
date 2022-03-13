@@ -101,24 +101,23 @@ function main() {
 
 function greet(config: Config) {
 	if (!envOption.quiet && process.env.NODE_ENV !== 'test') {
-		//#region Misskey logo
+		//#region Meisskey logo
 		const v = `v${config.version}`;
-		console.log('  _____ _         _           ');
-		console.log(' |     |_|___ ___| |_ ___ _ _ ');
-		console.log(' | | | | |_ -|_ -| \'_| -_| | |');
-		console.log(' |_|_|_|_|___|___|_,_|___|_  |');
-		console.log(' ' + chalk.gray(v) + ('                        |___|\n'.substr(v.length)));
+		console.log(chalk.red(' '));
+		console.log(chalk.red(' • ▌ ▄ ·. ▄▄▄ .▪  .▄▄ · .▄▄ · ▄ •▄ ▄▄▄ . ▄· ▄▌'));
+		console.log(chalk.red(' ·██ ▐███▪▀▄.▀·██ ▐█ ▀. ▐█ ▀. █▌▄▌▪▀▄.▀·▐█▪██▌'));
+		console.log(chalk.red(` ▐█ ▌▐▌▐█·▐▀▀▪▄▐█·▄▀▀▀█▄▄▀▀▀█▄▐▀▀▄·▐▀▀▪▄▐█▌▐█▪`));
+		console.log(chalk.red(' ██ ██▌▐█▌▐█▄▄▌▐█▌▐█▄▪▐█▐█▄▪▐█▐█.█▌▐█▄▄▌ ▐█▀·.'));
+		console.log(chalk.red(' ▀▀  █▪▀▀▀ ▀▀▀ ▀▀▀ ▀▀▀▀  ▀▀▀▀ ·▀  ▀ ▀▀▀   ▀ • '));
+		console.log(' ' + chalk.redBright(v));
 		//#endregion
-
-		console.log(' Misskey is maintained by @syuilo, @AyaMorisawa, @mei23, @acid-chicken, and @rinsuki.');
-		console.log(chalk.keyword('orange')(' If you like Misskey, please donate to support development. https://www.patreon.com/syuilo'));
 
 		console.log('');
 		console.log(chalk`< ${os.hostname()} {gray (PID: ${process.pid.toString()})} >`);
 	}
 
-	bootLogger.info('Welcome to Misskey!');
-	bootLogger.info(`Misskey v${config.version}`, undefined, true);
+	bootLogger.info('Welcome to Meisskey!');
+	bootLogger.info(`Meisskey v${config.version}`, undefined, true);
 }
 
 /**
@@ -140,7 +139,7 @@ async function masterMain(config: Config) {
 		process.exit(1);
 	}
 
-	bootLogger.succ('Misskey initialized');
+	bootLogger.succ('Meisskey initialized');
 }
 
 /**

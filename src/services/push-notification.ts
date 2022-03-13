@@ -19,7 +19,7 @@ setInterval(() => {
 				meta.swPrivateKey);
 		}
 	});
-}, 3000);
+}, 30000);
 
 export default async function(userId: mongo.ObjectID | string, type: string, body?: any) {
 	if (!meta.enableServiceWorker) return;

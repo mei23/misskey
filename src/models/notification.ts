@@ -61,6 +61,8 @@ export interface INotification {
 	noteId?: mongo.ObjectID;
 
 	choice?: number;
+
+	reaction?: string;
 }
 
 export const packMany = (

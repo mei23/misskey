@@ -5,12 +5,22 @@ const p = config.mongodb.pass ? encodeURIComponent(config.mongodb.pass) : null;
 
 const uri = `mongodb://${u && p ? `${u}:${p}@` : ''}${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.db}`;
 
+const logger: TMiddleware = context => next => (args, method) => {
+	console.log(method, args?.col?.s?.namespace?.collection);
+	return next(args, method).then((res) => {
+		//console.log(method + ' result', res)
+		return res
+	})
+};
+
 /**
  * monk
  */
-import mongo from 'monk';
+import mongo, { TMiddleware } from 'monk';
 
 const db = mongo(uri);
+
+//db.addMiddleware(logger);
 
 export default db;
 
