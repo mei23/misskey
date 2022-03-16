@@ -134,6 +134,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		: [];
 
 	// リプライ
+	let replyError = false;
 	const reply: INote | null = note.inReplyTo
 		? await resolveNote(getOneApId(note.inReplyTo), resolver).then(x => {
 			if (x == null) {
@@ -154,11 +155,13 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 				}
 			}
 
-			logger.warn(`Error in inReplyTo ${note.inReplyTo} - ${e.statusCode || e}`);
-			//throw e;
+			logger.warn(`Error in inReplyTo reply:${note.inReplyTo} - ${e.statusCode || e}`);
+			replyError = true;
 			return null;
 		})
 		: null;
+
+	if (replyError) return null;
 
 	// 引用
 	let quote: INote | undefined | null;
@@ -193,9 +196,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 
 		quote = results.filter(x => x.status === 'ok').map(x => x.res).find(x => x);
 		if (!quote) {
-			if (results.some(x => x.status === 'temperror')) {
-				throw 'quote resolve failed';
-			}
+			logger.warn(`Error in quote note:${note.id}`);
+			return null;
 		}
 	}
 

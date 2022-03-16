@@ -30,8 +30,8 @@ export default async function(resolver: Resolver, actor: IRemoteUser, note: IObj
 		const exist = await fetchNote(note);
 		if (exist) return 'skip: note exists';
 
-		await createNote(note, resolver, silent);
-		return 'ok';
+		const n = await createNote(note, resolver, silent);
+		return n ? 'ok' : 'skip';
 	} catch (e) {
 		if (e instanceof StatusError && e.isClientError) {
 			return `skip ${e.statusCode}`;
