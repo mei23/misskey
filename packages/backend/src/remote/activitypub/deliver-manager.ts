@@ -14,6 +14,7 @@ interface IFollowersRecipe extends IRecipe {
 interface IDirectRecipe extends IRecipe {
 	type: 'Direct';
 	to: IRemoteUser;
+	preferSharedInbox: boolean;
 }
 
 const isFollowers = (recipe: any): recipe is IFollowersRecipe =>
@@ -53,10 +54,11 @@ export default class DeliverManager {
 	 * Add recipe for direct deliver
 	 * @param to To
 	 */
-	public addDirectRecipe(to: IRemoteUser) {
+	public addDirectRecipe(to: IRemoteUser, preferSharedInbox = false) {
 		const recipe = {
 			type: 'Direct',
 			to,
+			preferSharedInbox,
 		} as IDirectRecipe;
 
 		this.addRecipe(recipe);
@@ -100,7 +102,7 @@ export default class DeliverManager {
 				}
 			} else if (isDirect(recipe)) {
 				// direct deliver
-				const inbox = recipe.to.sharedInbox || recipe.to.inbox;
+				const inbox = recipe.preferSharedInbox ? (recipe.to.sharedInbox || recipe.to.inbox) : recipe.to.inbox;
 				if (inbox) inboxes.add(inbox);
 			}
 		}

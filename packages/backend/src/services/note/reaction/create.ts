@@ -122,7 +122,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 		const dm = new DeliverManager(user, content);
 		if (note.userHost !== null) {
 			const reactee = await Users.findOne(note.userId);
-			dm.addDirectRecipe(reactee as IRemoteUser);
+			dm.addDirectRecipe(reactee as IRemoteUser, true);
 		}
 		dm.addFollowersRecipe();
 		dm.execute();
