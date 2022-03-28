@@ -2198,6 +2198,7 @@ deck/deck.tl-column.vue:
   is-sfw-media-only: "SFWメディア投稿のみ"
   is-nsfw-media-only: "NSFWメディア投稿のみ"
   excludeRenote: "Renoteを含めない"
+  enableSound: "通知音を有効にする"
   edit: "オプション"
 
 deck/deck.user-column.vue:

@@ -244,9 +244,8 @@
 					<label>{{ $t('@._settings.volume') }}</label>
 					<input type="range"
 						v-model="soundVolume"
-						:disabled="!enableSounds"
 						max="1"
-						step="0.1"
+						step="0.05"
 					/>
 				</div>
 				<ui-button @click="soundTest"><fa icon="volume-up"/> {{ $t('@._settings.test') }}</ui-button>

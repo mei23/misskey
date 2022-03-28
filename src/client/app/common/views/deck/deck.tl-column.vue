@@ -17,6 +17,7 @@
 		<ui-switch v-model="column.sfwMediaOnly" @change="onChangeSettings">{{ $t('is-sfw-media-only') }}</ui-switch>
 		<ui-switch v-model="column.nsfwMediaOnly" @change="onChangeSettings">{{ $t('is-nsfw-media-only') }}</ui-switch>
 		<ui-switch v-if="column.type === 'home' || column.type === 'hybrid' || column.type === 'list'" v-model="column.excludeRenote" @change="onChangeSettings">{{ $t('excludeRenote') }}</ui-switch>
+		<ui-switch v-model="column.enableSound" @change="onChangeSettings">{{ $t('enableSound') }}</ui-switch>
 	</div>
 
 	<x-list-tl v-if="column.type == 'list'"
@@ -25,6 +26,7 @@
 		:sfwMediaOnly="column.sfwMediaOnly"
 		:nsfwMediaOnly="column.nsfwMediaOnly"
 		:excludeRenote="column.excludeRenote"
+		:enableSound="column.enableSound"
 		ref="tl"
 	/>
 	<x-hashtag-tl v-else-if="column.type == 'hashtag'"
@@ -38,6 +40,7 @@
 		:sfwMediaOnly="column.sfwMediaOnly"
 		:nsfwMediaOnly="column.nsfwMediaOnly"
 		:excludeRenote="column.excludeRenote"
+		:enableSound="column.enableSound"
 		ref="tl"
 	/>
 </x-column>

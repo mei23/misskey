@@ -51,6 +51,11 @@ export default Vue.extend({
 			required: false,
 			default: false
 		},
+		enableSound: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 
 	data() {
@@ -160,7 +165,7 @@ export default Vue.extend({
 			(this.$refs.timeline as any).prepend(note);
 
 			// サウンドを再生する
-			if (this.$store.state.device.enableSounds && this.$store.state.device.enableSoundsInTimeline) {
+			if (this.enableSound) {
 				const sound = new Audio(`${config.url}/assets/post.mp3`);
 				sound.volume = this.$store.state.device.soundVolume;
 				sound.play();

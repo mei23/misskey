@@ -14,6 +14,14 @@
 import Vue from 'vue';
 import { toUnicode as decodePunycode } from 'punycode/';
 
+function safeURIDecode(str: string) {
+	try {
+		return decodeURIComponent(str);
+	} catch {
+		return str;
+	}
+}
+
 export default Vue.extend({
 	props: ['url', 'rel', 'target', 'trim'],
 	data() {
@@ -32,9 +40,9 @@ export default Vue.extend({
 		this.schema = url.protocol;
 		this.hostname = decodePunycode(url.hostname);
 		this.port = url.port;
-		this.pathname = decodeURIComponent(url.pathname);
-		this.query = decodeURIComponent(url.search);
-		this.hash = decodeURIComponent(url.hash);
+		this.pathname = safeURIDecode(url.pathname);
+		this.query = safeURIDecode(url.search);
+		this.hash = safeURIDecode(url.hash);
 
 		this.title = this.schema + '//'
 			+ this.hostname

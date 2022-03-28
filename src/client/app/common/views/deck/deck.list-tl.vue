@@ -5,6 +5,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import XNotes from './deck.notes.vue';
+import * as config from '../../../config';
 
 const fetchLimit = 10;
 
@@ -34,6 +35,11 @@ export default Vue.extend({
 			default: false
 		},
 		excludeRenote: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
+		enableSound: {
 			type: Boolean,
 			required: false,
 			default: false
@@ -112,6 +118,13 @@ export default Vue.extend({
 			if (this.nsfwMediaOnly && (note.files.length == 0 || note.files.every((x: any) => !x.isSensitive))) return;
 			if (this.excludeRenote && note.text == null && note.files.length === 0 && note.poll == null) return;
 			(this.$refs.timeline as any).prepend(note);
+
+			// サウンドを再生する
+			if (this.enableSound) {
+				const sound = new Audio(`${config.url}/assets/post.mp3`);
+				sound.volume = this.$store.state.device.soundVolume;
+				sound.play();
+			}
 		},
 
 		onUserAdded() {

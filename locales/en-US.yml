@@ -1980,6 +1980,7 @@ deck/deck.tl-column.vue:
   is-sfw-media-only: "Only SFW media posts"
   is-nsfw-media-only: "Only NSFW media posts"
   excludeRenote: "Exclude renote"
+  enableSound: "Enable sound"
   edit: "Options"
 deck/deck.user-column.vue:
   follows-you: "Follows you"

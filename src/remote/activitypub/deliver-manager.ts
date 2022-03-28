@@ -80,56 +80,60 @@ export default class DeliverManager {
 
 		const inboxes: InboxInfo[] = [];
 
-		// build inbox list
-		for (const recipe of this.recipes) {
-			if (isFollowers(recipe)) {
-				// followers deliver
-				const followers = await Following.find({
-					followeeId: this.actor._id
-				});
+		const addToDeliver = (inbox: InboxInfo) => {
+			if (inbox.url == null) return;
+			if (!inbox.url.match(/^https?:/)) return;
+			if (inboxes.map(x => x.url).includes(inbox.url)) return;
+			inboxes.push(inbox);
+		};
 
-				for (const following of followers) {
-					const follower = following._follower;
+		if (this.recipes.some(r => isFollowers(r))) {
+			// followers deliver
+			const followers = await Following.find({
+				followeeId: this.actor._id
+			});
 
-					if (isRemoteUser(follower)) {
-						const inbox: InboxInfo = follower.sharedInbox ? {
-							origin: 'sharedInbox',
-							url: follower.sharedInbox
-						} : {
-							origin: 'inbox',
-							url: follower.inbox,
-							userId: `${follower._id}`
-						};
+			for (const following of followers) {
+				const follower = following._follower;
 
-						if (!inboxes.map(x => x.url).includes(inbox.url)) inboxes.push(inbox);
-					}
+				if (isRemoteUser(follower)) {
+					const inbox: InboxInfo = follower.sharedInbox ? {
+						origin: 'sharedInbox',
+						url: follower.sharedInbox
+					} : {
+						origin: 'inbox',
+						url: follower.inbox,
+						userId: `${follower._id}`
+					};
+
+					addToDeliver(inbox);
 				}
-			} else if (isDirect(recipe)) {
-				// direct deliver
-				const inbox: InboxInfo = {
-					origin: 'inbox',
-					url: recipe.to.inbox,
-					userId: `${recipe.to._id}`
-				};
+			}
+		}
 
-				if (!inboxes.map(x => x.url).includes(inbox.url)) inboxes.push(inbox);
+		for (const recipe of this.recipes.filter((recipe): recipe is IDirectRecipe => isDirect(recipe))) {
+			// direct deliver
+			const inbox: InboxInfo = {
+				origin: 'inbox',
+				url: recipe.to.inbox,
+				userId: `${recipe.to._id}`
+			};
+
+			if (recipe.to.sharedInbox && inboxes.some(x => x.url === recipe.to.sharedInbox)) {
+				// skip
+			} else if (recipe.to.inbox) {
+				addToDeliver(inbox);
 			}
 		}
 
 		// deliver
 		for (const inbox of inboxes) {
-			if (inbox.url == null) {
-				continue;
-			} else if (!inbox.url.match(/^https?:/)) {
-				continue
-			} else {
-				try {
-					const { host } = new URL(inbox.url);
-					if (await isBlockedHost(host)) continue;
-					if (await isClosedHost(host)) continue;
-					deliver(this.actor, this.activity, inbox.url, lowSeverity, inbox);
-				} catch { }
-			}
+			try {
+				const { host } = new URL(inbox.url);
+				if (await isBlockedHost(host)) continue;
+				if (await isClosedHost(host)) continue;
+				deliver(this.actor, this.activity, inbox.url, lowSeverity, inbox);
+			} catch { }
 		}
 	}
 }
