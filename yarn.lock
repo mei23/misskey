@@ -9338,10 +9338,10 @@ ws@^8.2.3:
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.5.0.tgz#bfb4be96600757fe5382de12c670dab984a1ed4f"
   integrity sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==
 
-xev@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/xev/-/xev-2.0.1.tgz#24484173a22115bc8a990ef5d4d5129695b827a7"
-  integrity sha512-icDf9M67bDge0F2qf02WKZq+s7mMO/SbPv67ZQPym6JThLEOdlWWLdB7VTVgRJp3ekgaiVItCAyH6aoKCPvfIA==
+xev@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/xev/-/xev-3.0.2.tgz#3f4080bd8bed0d3479c674050e3696da98d22a4d"
+  integrity sha512-8kxuH95iMXzHZj+fwqfA4UrPcYOy6bGIgfWzo9Ji23JoEc30ge/Z++Ubkiuy8c0+M64nXmmxrmJ7C8wnuBhluw==
 
 xml-name-validator@^4.0.0:
   version "4.0.0"
