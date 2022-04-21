@@ -12,7 +12,7 @@ COPY . ./
 RUN yarn build
 
 
-FROM node:16.13.2-bullseye-slim AS runner
+FROM node:gallium-bullseye-slim AS runner
 
 ENV NODE_ENV=production
 WORKDIR /misskey
