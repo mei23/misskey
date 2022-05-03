@@ -15,6 +15,7 @@ export const meta = {
 
 	allowGet: true,
 	cacheSec: 600,
+	canDenyPost: true,
 
 	params: {
 		span: {

@@ -90,6 +90,8 @@ export interface IEndpointMeta {
 	 */
 	allowGet?: boolean;
 
+	canDenyPost?: boolean;
+
 	/**
 	 * 正常応答をキャッシュ (Cache-Control: public) する秒数
 	 */

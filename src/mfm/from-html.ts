@@ -93,7 +93,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 						} catch { }
 
 						if (encoded) {
-							return `[${txt}](${encoded})`;
+							return `[${txt.replace('[', '［').replace(']', '］')}](${encoded})`;
 						} else {
 							return txt;
 						}

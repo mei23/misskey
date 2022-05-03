@@ -80,6 +80,7 @@ export type Source = {
 	hideServerInfo?: boolean;
 	minimumAge?: number;
 	homeTlActiveLimitDays?: number;
+	denyStatsPost?: boolean;
 };
 
 export type DriveConfig = {

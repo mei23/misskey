@@ -8,6 +8,7 @@ import { ApiError } from './error';
 import { apiLogger } from './logger';
 import { toArray } from '../../prelude/array';
 import activeUsersChart from '../../services/chart/active-users';
+import config from '../../config';
 
 const accessDenied = {
 	message: 'Access denied.',
@@ -75,6 +76,15 @@ export default async (endpoint: string, user: IUser | null | undefined, app: IAp
 				id: 'd5826d14-3982-4d2e-8011-b9e9f02499ef',
 				httpStatusCode: 429
 			});
+		});
+	}
+
+	if (ep.meta.canDenyPost && config.denyStatsPost && ctx?.method === 'POST') {
+		throw new ApiError({
+			message: 'Method Not Allowed',
+			code: 'METHOD_NOT_ALLOWED',
+			id: 'a80e8552-bc3c-4dd5-9682-869a825e3716',
+			httpStatusCode: 405
 		});
 	}
 

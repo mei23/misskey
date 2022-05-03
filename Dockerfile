@@ -1,4 +1,4 @@
-FROM node:16.14.2-bullseye AS builder
+FROM node:16.15.0-bullseye AS builder
 
 ENV NODE_ENV=production
 WORKDIR /misskey
@@ -12,7 +12,7 @@ COPY . ./
 RUN yarn build
 
 
-FROM node:16.13.2-bullseye-slim AS runner
+FROM node:16.15.0-bullseye-slim AS runner
 
 ENV NODE_ENV=production
 WORKDIR /misskey

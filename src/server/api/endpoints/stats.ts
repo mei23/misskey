@@ -7,6 +7,7 @@ export const meta = {
 	requireCredential: false,
 
 	allowGet: true,
+	canDenyPost: true,
 
 	desc: {
 		'en-US': 'Get the instance\'s statistics'

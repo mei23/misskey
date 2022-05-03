@@ -28,6 +28,7 @@ router.get('/.well-known/host-meta', async ctx => {
 
 	ctx.set('Content-Type', xrd);
 	ctx.body = XRD({ element: 'Link', attributes: {
+		rel: 'lrdd',
 		type: xrd,
 		template: `${config.url}${webFingerPath}?resource={uri}`
 	}});
