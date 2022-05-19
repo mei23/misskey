@@ -17,7 +17,7 @@ export class uniformThemecolor1652859567549 {
 		.then(instances => instances.map(instance => {
 			// update theme color to uniform format, e.g. #00ff00
 			// invalid theme colors get set to null
-			instance.color = formatColor(instance.color);
+			instance.themeColor = formatColor(instance.themeColor);
 
 			return () => queryRunner.query('UPDATE "instance" SET "themeColor" = :themeColor WHERE "id" = :id', instance);
 		}))]);
