@@ -13,22 +13,18 @@ export class uniformThemecolor1652859567549 {
 			}
 		};
 
-		await Promise.all([queryRunner.query('SELECT "id", "themeColor" FROM "instance" WHERE "themeColor" IS NOT NULL')
-		.then(instances => instances.map(instance => {
-			// update theme color to uniform format, e.g. #00ff00
-			// invalid theme colors get set to null
-			instance.themeColor = formatColor(instance.themeColor);
+		const instances = await queryRunner.query('SELECT "id", "themeColor" FROM "instance" WHERE "themeColor" IS NOT NULL');
 
-			return () => queryRunner.query('UPDATE "instance" SET "themeColor" = :themeColor WHERE "id" = :id', instance);
-		}))]);
+		for (const instance of instances) {
+			instance.themeColor = formatColor(instance.themeColor);
+			await queryRunner.query('UPDATE "instance" SET "themeColor" = $1 WHERE "id" = $2', [ instance.themeColor, instance.id ]);
+		}
 
 		// also fix own theme color
-		await queryRunner.query('SELECT "themeColor" FROM "meta" WHERE "themeColor" IS NOT NULL LIMIT 1')
-		.then(metas => {
-			if (metas.length > 0) {
-				return () => queryRunner.query('UPDATE "meta" SET "themeColor" = :color', { color: formatColor(metas[0].color) });
-			}
-		});
+		const metas = await queryRunner.query('SELECT "themeColor" FROM "meta" WHERE "themeColor" IS NOT NULL LIMIT 1');
+		if (metas.length > 0) {
+			await queryRunner.query('UPDATE "meta" SET "themeColor" = $1', [ formatColor(metas[0].themeColor) ]);
+		}
 	}
 
 	async down(queryRunner) {
