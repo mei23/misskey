@@ -16,7 +16,10 @@ export class uniformThemecolor1652859567549 {
 		const instances = await queryRunner.query('SELECT "id", "themeColor" FROM "instance" WHERE "themeColor" IS NOT NULL');
 
 		for (const instance of instances) {
+			// update theme color to uniform format, e.g. #00ff00
+			// invalid theme colors get set to null
 			instance.themeColor = formatColor(instance.themeColor);
+
 			await queryRunner.query('UPDATE "instance" SET "themeColor" = $1 WHERE "id" = $2', [ instance.themeColor, instance.id ]);
 		}
 
