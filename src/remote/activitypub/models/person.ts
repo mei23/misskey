@@ -31,7 +31,7 @@ import DbResolver from '../db-resolver';
 import resolveUser from '../../resolve-user';
 import { normalizeTag } from '../../../misc/normalize-tag';
 import { substr } from 'stringz';
-import { resolveAnotherUser } from '../misc/resolve-another-user';
+import { resolveAnotherUser } from '../resolve-another-user';
 import { StatusError } from '../../../misc/fetch';
 const logger = apLogger;
 
@@ -136,7 +136,13 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 
 	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 64);
 
-	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
+	const movedTo = (person.id && person.movedTo)
+		? await resolveAnotherUser(person.id, person.movedTo, resolver)
+			.catch(e => {
+				logger.warn(`Error in movedTo: ${e}`);
+				return null;
+			})
+		: null;
 
 	const bday = person['vcard:bday']?.match(/^[0-9]{4,8}-\d{2}-\d{2}/);
 
@@ -168,7 +174,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 			featured: person.featured,
 			endpoints: person.endpoints,
 			uri: person.id,
-			movedToUserId,
+			movedToUserId: movedTo?._id || null,
 			url: getOneApHrefNullable(person.url),
 			fields,
 			...services,
@@ -340,7 +346,13 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 
 	const tags = extractApHashtags(person.tag).map(tag => normalizeTag(tag)).splice(0, 64);
 
-	const movedToUserId = await resolveAnotherUser(uri, person.movedTo);
+	const movedTo = (person.id && person.movedTo)
+		? await resolveAnotherUser(person.id, person.movedTo, resolver)
+			.catch(e => {
+				logger.warn(`Error in movedTo: ${e}`);
+				return null;
+			})
+		: null;
 
 	const bday = person['vcard:bday']?.match(/^[0-9]{4,8}-\d{2}-\d{2}/);
 
@@ -356,7 +368,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 		followingCount,
 		notesCount,
 		name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
-		movedToUserId,
+		movedToUserId: movedTo?._id || null,
 		url: getOneApHrefNullable(person.url),
 		endpoints: person.endpoints,
 		fields,

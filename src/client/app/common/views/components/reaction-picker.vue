@@ -20,7 +20,7 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import anime from 'animejs';
-import { emojiRegex, vendorEmojiRegex, localEmojiRegex } from '../../../../../misc/emoji-regex';
+import { emojiRegex, vendorEmojiRegex } from '../../../../../misc/emoji-regex';
 import { faRandom, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { emojilist } from '../../../../../misc/emojilist';
 
@@ -173,7 +173,7 @@ export default Vue.extend({
 				}
 			}
 
-			const m = this.text.match(vendorEmojiRegex) || this.text.match(localEmojiRegex) || this.text.match(emojiRegex);
+			const m = this.text.match(vendorEmojiRegex) || this.text.match(emojiRegex);
 			if (!m) return;
 			this.react(m[1]);
 		},
@@ -198,7 +198,7 @@ export default Vue.extend({
 				y: rect.top + window.pageYOffset
 			});
 			vm.$once('chosen', emoji => {
-				const m = emoji.match(vendorEmojiRegex) || emoji.match(localEmojiRegex) || emoji.match(emojiRegex);
+				const m = emoji.match(vendorEmojiRegex) || emoji.match(emojiRegex);
 				this.react(m ? m[1] : emoji);
 			});
 			this.$once('hook:beforeDestroy', () => {

@@ -257,6 +257,12 @@ function spawnWorker(type: 'server' | 'queue' | 'worker' = 'worker'): Promise<cl
 	return new Promise((res, rej) => {
 		const worker = cluster.fork({ WORKER_TYPE: type });
 		worker.on('message', message => {
+
+			if (message === 'listenFailed') {
+				bootLogger.error(`The server Listen failed due to the previous error.`);
+				process.exit(1);
+			}
+
 			if (message !== 'ready') return rej();
 			res(worker);
 		});

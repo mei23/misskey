@@ -25,7 +25,7 @@ export interface IObject {
 	url?: ApObject;
 	tag?: IObject | IObject[];
 	sensitive?: boolean;
-	movedTo?: ApObject;
+	movedTo?: string | IObject;
 	alsoKnownAs?: ApObject;
 	href?: string;
 }

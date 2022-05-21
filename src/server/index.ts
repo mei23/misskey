@@ -6,6 +6,7 @@ import * as fs from 'fs';
 import * as http from 'http';
 import * as http2 from 'http2';
 import * as https from 'https';
+import * as cluster from 'cluster';
 import * as Koa from 'koa';
 import * as Router from '@koa/router';
 import * as mount from 'koa-mount';
@@ -143,6 +144,27 @@ export default () => new Promise(resolve => {
 
 	// Init stream server
 	require('./api/streaming')(server);
+
+	server.on('error', e => {
+		switch ((e as any).code) {
+			case 'EACCES':
+				serverLogger.error(`You do not have permission to listen on port ${config.port}.`);
+				break;
+			case 'EADDRINUSE':
+				serverLogger.error(`Port ${config.port} is already in use by another process.`);
+				break;
+			default:
+				serverLogger.error(e);
+				break;
+		}
+
+		if (cluster.isWorker) {
+			process.send!('listenFailed');
+		} else {
+			// disableClustering
+			process.exit(1);
+		}
+	});
 
 	// Listen
 	server.listen(config.port, config.addr || undefined, resolve);
