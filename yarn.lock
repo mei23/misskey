@@ -4393,10 +4393,10 @@ ip-address@^7.1.0:
     jsbn "1.1.0"
     sprintf-js "1.1.2"
 
-ip-cidr@3.0.7:
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-3.0.7.tgz#22708dd4f2d3f6397c0fb7d647b44e3c565937e9"
-  integrity sha512-0cBBICDnmmpAdULMbMVdi4f0mSG+VWY/QBPL/OIIjuom14x7Y63VhpS/uSAOycasXOeGXah5y0eu//PDU51aNw==
+ip-cidr@3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-3.0.9.tgz#6bd9f76dbee3ae8d3915aaf5fbd66d4e796279bc"
+  integrity sha512-ScEt2VWOXmOc7O1SZV8fZb4oL/X3NKZdiXR/eueEPsyEvgFyjmCzhiuxFlgCk8o9QBcUy7zSTkeu4aLgu+ouZQ==
   dependencies:
     ip-address "^7.1.0"
     jsbn "^1.1.0"
