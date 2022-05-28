@@ -22,7 +22,8 @@
 		"format": "gulp format"
 	},
 	"resolutions": {
-		"lodash": "^4.17.21"
+		"lodash": "^4.17.21",
+		"source-map": "0.8.0-beta.0"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "1.2.36",
