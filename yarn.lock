@@ -8116,15 +8116,14 @@ stylus-loader@6.2.0:
     klona "^2.0.4"
     normalize-path "^3.0.0"
 
-stylus@0.57.0:
-  version "0.57.0"
-  resolved "https://registry.yarnpkg.com/stylus/-/stylus-0.57.0.tgz#a46f04f426c19ceef54abb1a9d189fd4e886df41"
-  integrity sha512-yOI6G8WYfr0q8v8rRvE91wbxFU+rJPo760Va4MF6K0I6BZjO4r+xSynkvyPBP9tV1CIEUeRsiidjIs2rzb1CnQ==
+stylus@0.58.0:
+  version "0.58.0"
+  resolved "https://registry.yarnpkg.com/stylus/-/stylus-0.58.0.tgz#1125d8381173356b22c675f165c17da3ec81f5ff"
+  integrity sha512-q27Pof0PINInv/gTO1AH+6C1VkoedEOPp38CB/DFWdSgu4fBCwnxM8cZEm4M1zU+Jr6rmZ75hkmqk2QyDze10g==
   dependencies:
     css "^3.0.0"
     debug "^4.3.2"
     glob "^7.1.6"
-    safer-buffer "^2.1.2"
     sax "~1.2.4"
     source-map "^0.7.3"
 
