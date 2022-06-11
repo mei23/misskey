@@ -31,7 +31,7 @@
 				<x-file v-for="file in files" :key="file.id" class="file" :file="file"/>
 				<ui-button v-if="moreFiles" @click="fetchMoreFiles">{{ $t('@.load-more') }}</ui-button>
 			</div>
-			<div class="files" v-else-if="!fetching">
+			<div class="empty" v-else-if="!fetching">
 				<p v-if="draghover">{{ $t('empty-draghover') }}</p>
 				<p v-else>{{ $t('empty-folder') }}</p>
 			</div>
@@ -685,6 +685,7 @@ export default Vue.extend({
 				padding 8px
 
 			> .files
+			> .empty
 				display flex
 				flex-wrap wrap
 				overflow-y auto
