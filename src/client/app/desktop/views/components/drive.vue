@@ -670,7 +670,7 @@ export default Vue.extend({
 			border solid 1px var(--primary)
 			background var(--primaryAlpha05)
 			pointer-events none
- 
+
 		> .contents
 			display flex
 			height 100%
@@ -702,6 +702,7 @@ export default Vue.extend({
 					flex-grow 1
 					pointer-events none
 					width 144px + 8px // 8px is margin
+
 			> .empty
 				padding 16px
 				text-align center
