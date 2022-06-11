@@ -18,7 +18,7 @@
 	<p class="name">
 		<template v-if="hover"><fa :icon="['far', 'folder-open']" fixed-width/></template>
 		<template v-if="!hover"><fa :icon="['far', 'folder']" fixed-width/></template>
-		{{ folder.name }}
+		{{ this.parent ? '..' : folder.name }}
 	</p>
 </div>
 </template>
@@ -29,7 +29,7 @@ import i18n from '../../../i18n';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/components/drive.folder.vue'),
-	props: ['folder'],
+	props: ['folder', 'parent'],
 	data() {
 		return {
 			hover: false,
@@ -43,7 +43,7 @@ export default Vue.extend({
 			return this.$parent;
 		},
 		title(): string {
-			return this.folder.name;
+			return this.folder?.name || '..';
 		}
 	},
 	methods: {

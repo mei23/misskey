@@ -23,7 +23,8 @@
 		<div class="selection" ref="selection"></div>
 		<div class="contents" ref="contents">
 			<div class="folders" ref="foldersContainer">
-				<x-folder v-for="folder in folders" :key="folder.id" class="folder" :folder="folder"/>
+				<x-folder class="folder" v-if="folder != null" :key="parentFolder ? parentFolder.id : null" :folder="parentFolder" :parent="true"/>
+				<x-folder class="folder" v-for="folder in folders" :key="folder.id" :folder="folder"/>
 				<ui-button v-if="moreFolders">{{ $t('@.load-more') }}</ui-button>
 			</div>
 			<div class="files" ref="filesContainer" v-if="files.length > 0 || moreFiles">
@@ -130,6 +131,11 @@ export default Vue.extend({
 	},
 	beforeDestroy() {
 		this.connection.dispose();
+	},
+	computed: {
+		parentFolder(): any {
+			return this.hierarchyFolders[this.hierarchyFolders.length - 1];
+		}
 	},
 	methods: {
 		onContextmenu(e) {
