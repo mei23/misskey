@@ -520,8 +520,8 @@ export default Vue.extend({
 			let fetchedFolders = null;
 			let fetchedFiles = null;
 
-			const foldersMax = 30;
-			const filesMax = 30;
+			const foldersMax = 24;
+			const filesMax = 24;
 
 			// フォルダ一覧取得
 			this.$root.api('drive/folders', {
@@ -565,7 +565,7 @@ export default Vue.extend({
 		fetchMoreFiles() {
 			this.fetching = true;
 
-			const max = 30;
+			const max = 24;
 
 			// ファイル一覧取得
 			this.$root.api('drive/files', {
