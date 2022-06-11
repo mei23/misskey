@@ -706,7 +706,7 @@ export default Vue.extend({
 
 			> .empty
 				padding 16px
-				text-align center
+				justify-content center
 				color #999
 				pointer-events none
 
