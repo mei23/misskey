@@ -67,6 +67,10 @@ describe('Fetch resource', () => {
 		alicesPost = await post(alice, {
 			text: 'test'
 		});
+		console.log('alicesPost', alicesPost);
+
+
+
 	});
 
 	after(async () => {
@@ -271,5 +275,24 @@ describe('Fetch resource', () => {
 				'og:image': alice.avatarUrl,
 			});
 		}));
+
+		it('note', async(async () => {
+			const parsed = parse(await getDocument(`/notes/${alicesPost.id}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': undefined,
+				'description': alicesPost.text,
+				'og:description': alicesPost.text,
+				'twitter:card': 'summary',
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/notes/${alicesPost.id}`,
+				'og:image': alice.avatarUrl,
+			});
+		}));
+
+
 	});
 });
