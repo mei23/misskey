@@ -93,7 +93,7 @@ export default define(meta, async (ps, user, app, file, cleanup) => {
 
 	try {
 		const driveFile = await addFile({ user, path: file.path, name, folderId: ps.folderId, force: ps.force, sensitive: ps.isSensitive });
-		return pack(driveFile, { self: true });
+		return pack(driveFile, { detail: true, self: true });
 	} catch (e) {
 		apiLogger.error(e);
 		throw new ApiError();

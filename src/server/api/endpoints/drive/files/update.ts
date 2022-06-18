@@ -137,7 +137,7 @@ export default define(meta, async (ps, user) => {
 		}
 	});
 
-	const fileObj = await pack(file, { self: true });
+	const fileObj = await pack(file, { detail: true, self: true });
 
 	// Publish fileUpdated event
 	publishDriveStream(user._id, 'fileUpdated', fileObj);

@@ -19,7 +19,7 @@ import notesChart from '../../services/chart/notes';
 import perUserNotesChart from '../../services/chart/per-user-notes';
 import instanceChart from '../../services/chart/instance';
 
-import { erase, concat, unique } from '../../prelude/array';
+import { erase, concat } from '../../prelude/array';
 import insertNoteUnread from './unread';
 import { registerOrFetchInstanceDoc } from '../register-or-fetch-instance-doc';
 import Instance from '../../models/instance';
@@ -196,10 +196,8 @@ export default async (user: IUser, data: Option, silent = false) => {
 	let emojis = data.apEmojis;
 	let mentionedUsers = data.apMentions;
 
-	const parseEmojisInToken = true;
-
 	// Parse MFM if needed
-	if (parseEmojisInToken || !tags || !emojis || !mentionedUsers) {
+	if (!tags || !emojis || !mentionedUsers) {
 		const tokens = data.text ? parseBasic(data.text) : [];
 		const cwTokens = data.cw ? parseBasic(data.cw) : [];
 		const choiceTokens = data.poll && data.poll.choices
@@ -210,7 +208,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 
 		tags = data.apHashtags || extractHashtags(combinedTokens);
 
-		emojis = unique(concat([data.apEmojis || [], extractEmojis(combinedTokens)]));
+		emojis = data.apEmojis || extractEmojis(combinedTokens);
 
 		mentionedUsers = data.apMentions || await extractMentionedUsers(user, combinedTokens);
 	}

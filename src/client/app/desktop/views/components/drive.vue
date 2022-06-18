@@ -22,22 +22,18 @@
 	>
 		<div class="selection" ref="selection"></div>
 		<div class="contents" ref="contents">
-			<div class="folders" ref="foldersContainer" v-if="folders.length > 0 || moreFolders">
-				<x-folder v-for="folder in folders" :key="folder.id" class="folder" :folder="folder"/>
-				<!-- SEE: https://stackoverflow.com/questions/18744164/flex-box-align-last-row-to-grid -->
-				<div class="padding" v-for="n in 16"></div>
+			<div class="folders" ref="foldersContainer">
+				<x-folder class="folder" v-if="folder != null" :key="parentFolder ? parentFolder.id : null" :folder="parentFolder" :parent="true"/>
+				<x-folder class="folder" v-for="folder in folders" :key="folder.id" :folder="folder"/>
 				<ui-button v-if="moreFolders">{{ $t('@.load-more') }}</ui-button>
 			</div>
 			<div class="files" ref="filesContainer" v-if="files.length > 0 || moreFiles">
 				<x-file v-for="file in files" :key="file.id" class="file" :file="file"/>
-				<!-- SEE: https://stackoverflow.com/questions/18744164/flex-box-align-last-row-to-grid -->
-				<div class="padding" v-for="n in 16"></div>
 				<ui-button v-if="moreFiles" @click="fetchMoreFiles">{{ $t('@.load-more') }}</ui-button>
 			</div>
-			<div class="empty" v-if="files.length == 0 && !moreFiles && folders.length == 0 && !moreFolders && !fetching">
+			<div class="empty" v-else-if="!fetching">
 				<p v-if="draghover">{{ $t('empty-draghover') }}</p>
-				<p v-if="!draghover && folder == null"><strong>{{ $t('empty-drive') }}</strong><br/>{{ $t('empty-drive-description') }}</p>
-				<p v-if="!draghover && folder != null">{{ $t('empty-folder') }}</p>
+				<p v-else>{{ $t('empty-folder') }}</p>
 			</div>
 		</div>
 		<div class="fetching" v-if="fetching">
@@ -135,6 +131,11 @@ export default Vue.extend({
 	},
 	beforeDestroy() {
 		this.connection.dispose();
+	},
+	computed: {
+		parentFolder(): any {
+			return this.hierarchyFolders[this.hierarchyFolders.length - 1];
+		}
 	},
 	methods: {
 		onContextmenu(e) {
@@ -519,8 +520,8 @@ export default Vue.extend({
 			let fetchedFolders = null;
 			let fetchedFiles = null;
 
-			const foldersMax = 30;
-			const filesMax = 30;
+			const foldersMax = 24;
+			const filesMax = 24;
 
 			// フォルダ一覧取得
 			this.$root.api('drive/folders', {
@@ -564,7 +565,7 @@ export default Vue.extend({
 		fetchMoreFiles() {
 			this.fetching = true;
 
-			const max = 30;
+			const max = 24;
 
 			// ファイル一覧取得
 			this.$root.api('drive/files', {
@@ -641,7 +642,6 @@ export default Vue.extend({
 						margin 0
 
 	> .main
-		padding 8px
 		height calc(100% - 38px)
 		overflow auto
 		background var(--desktopDriveBg)
@@ -672,15 +672,30 @@ export default Vue.extend({
 			pointer-events none
 
 		> .contents
+			display flex
+			height 100%
+			overflow hidden
+
+			> .folders
+				display flex
+				flex-direction column
+				overflow-y auto
+				overflow-x hidden
+				width 200px
+				padding 8px
+
+			> .files
+			> .empty
+				display flex
+				flex-wrap wrap
+				overflow-y auto
+				width 100%
+				padding 8px
 
 			> .folders
 			> .files
-				display flex
-				flex-wrap wrap
-
 				> .folder
 				> .file
-					flex-grow 1
 					width 144px
 					margin 4px
 
@@ -691,7 +706,7 @@ export default Vue.extend({
 
 			> .empty
 				padding 16px
-				text-align center
+				justify-content center
 				color #999
 				pointer-events none
 

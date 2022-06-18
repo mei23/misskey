@@ -412,7 +412,21 @@ export async function addFile({
 
 		if (much) {
 			logger.info(`file with same hash is found: ${much._id}`);
-			return much;
+
+			// ファイルに後からsensitiveが付けられたらフラグを上書き
+			if (sensitive && !much.metadata?.isSensitive) {
+				await DriveFile.update({
+					_id: much._id
+				}, {
+					$set: {
+						'metadata.isSensitive': sensitive
+					}
+				});
+
+				return (await DriveFile.findOne({ _id: much._id }))!;
+			} else {
+				return much;
+			}
 		}
 	}
 
