@@ -104,7 +104,7 @@ drive:
 # Sign to ActivityPub GET request (default: false)
 #signToActivityPubGet: true
 
-# 最初に作成したユーザーを管理者にする (default: true)
+# 最初に作成したユーザーを管理者にする (default: false)
 autoAdmin: true
 
 # アイコン等の設定

@@ -84,6 +84,15 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 		body: JSON.stringify(Object.assign(auth, params)),
 		timeout: 30 * 1000,
 		retry: 0,
+		hooks: {
+			beforeError: [
+				error => {
+					const { response } = error;
+					if (response && response.body) console.warn(response.body);
+					return error;
+				}
+			]
+		},
 	});
 
 	const status = res.statusCode;

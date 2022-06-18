@@ -31,6 +31,9 @@ const HTML = 'text/html; charset=utf-8';
 describe('Fetch resource', () => {
 	let p: childProcess.ChildProcess;
 
+	let admin: any;
+	let instance: any;
+
 	let alice: any;
 	let avatar: any;
 	let alicesPost: any;
@@ -45,6 +48,18 @@ describe('Fetch resource', () => {
 			db.get('users').drop(),
 			db.get('notes').drop(),
 		]);
+
+		// admin
+		admin = await signup({ username: 'admin' });
+
+		// update instance
+		await api('admin/update-meta', {
+			name: 'Instance Name',
+			description: 'Instance Desc',
+		}, admin);
+
+		instance = (await api('meta', {})).body;
+		//console.log('instance', instance);
 
 		// signup
 		alice = await signup({ username: 'alice' });
@@ -282,11 +297,11 @@ describe('Fetch resource', () => {
 			const parsed = parse(await getDocument('/'));
 
 			assert.deepStrictEqual(parsed, {
-				'title': 'Misskey',
-				'og:title': 'Misskey',
-				'og:site_name': 'Misskey',
-				'description': '✨🌎✨ A federated blogging platform ✨🚀✨',
-				'og:description': '✨🌎✨ A federated blogging platform ✨🚀✨',
+				'title': instance.name,
+				'og:title': instance.name,
+				'og:site_name': instance.name,
+				'description': instance.description,
+				'og:description': instance.description,
 				'twitter:card': 'summary',
 				'misskey:user-username': undefined,
 				'misskey:user-id': undefined,
@@ -305,7 +320,7 @@ describe('Fetch resource', () => {
 			const parsed = parse(await getDocument(`/@${alice.username}`));
 
 			assert.deepStrictEqual(parsed, {
-				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
 				'og:site_name': undefined,
 				'description': alice.description,
@@ -328,7 +343,7 @@ describe('Fetch resource', () => {
 			const parsed = parse(await getDocument(`/notes/${alicesPost.id}`));
 
 			assert.deepStrictEqual(parsed, {
-				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
 				'og:site_name': undefined,
 				'description': alicesPost.text,
@@ -351,7 +366,7 @@ describe('Fetch resource', () => {
 			const parsed = parse(await getDocument(`/notes/${alicesPostImage.id}`));
 
 			assert.deepStrictEqual(parsed, {
-				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
 				'og:site_name': undefined,
 				'description': `${alicesPostImage.text} (1つのファイル)`,
@@ -374,7 +389,7 @@ describe('Fetch resource', () => {
 			const parsed = parse(await getDocument(`/notes/${alicesPostVideo.id}`));
 
 			assert.deepStrictEqual(parsed, {
-				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'title': `${alice.name} (@${alice.username}) | ${instance.name}`,
 				'og:title': `${alice.name} (@${alice.username})`,
 				'og:site_name': undefined,
 				'description': `${alicesPostVideo.text} (1つのファイル)`,

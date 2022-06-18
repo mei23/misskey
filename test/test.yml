@@ -9,3 +9,5 @@ mongodb:
 redis:
   host: localhost
   port: 56310
+
+autoAdmin: true
