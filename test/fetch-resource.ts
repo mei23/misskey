@@ -34,6 +34,8 @@ describe('Fetch resource', () => {
 	let alice: any;
 	let avatar: any;
 	let alicesPost: any;
+	let image: any;
+	let alicesPostImage: any;
 
 	before(async () => {
 		p = await startServer();
@@ -65,11 +67,20 @@ describe('Fetch resource', () => {
 
 		// post
 		alicesPost = await post(alice, {
-			text: 'test'
+			text: 'test',
 		});
 		console.log('alicesPost', alicesPost);
 
+		// upload image
+		image = await uploadFile(alice);
+		console.log('image', image);
 
+		// post image
+		alicesPostImage = await post(alice, {
+			text: 'img',
+			fileIds: [ image.id ],
+		});
+		console.log('alicesPostImage', alicesPostImage);
 
 	});
 
@@ -292,6 +303,24 @@ describe('Fetch resource', () => {
 				'og:image': alice.avatarUrl,
 			});
 		}));
+
+		it('note with image', async(async () => {
+			const parsed = parse(await getDocument(`/notes/${alicesPostImage.id}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': undefined,
+				'description': `${alicesPostImage.text} (1つのファイル)`,
+				'og:description': `${alicesPostImage.text} (1つのファイル)`,
+				'twitter:card': 'summary',
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/notes/${alicesPostImage.id}`,
+				'og:image': alicesPostImage.files[0].thumbnailUrl,
+			});
+		}));
+
 
 
 	});
