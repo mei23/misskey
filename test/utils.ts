@@ -1,6 +1,7 @@
 import * as childProcess from 'child_process';
 import * as http from 'http';
 import * as fs from 'fs';
+import * as path from 'path';
 import got from 'got';
 import loadConfig from '../src/config/load';
 import { SIGKILL } from 'constants';
@@ -115,10 +116,17 @@ export const post = async (user: any, params?: any): Promise<any> => {
 	return res.body ? res.body.createdNote : null;
 };
 
-export const uploadFile = async (user: any, path?: string): Promise<any> => {
+/**
+ * Upload file
+ * @param user User
+ * @param _path Optional, absolute path or relative from ./resources/
+ */
+export const uploadFile = async (user: any, _path?: string): Promise<any> => {
+	const absPath = _path == null ? `${__dirname}/resources/Lenna.jpg` : path.isAbsolute(_path) ? _path : `${__dirname}/resources/${_path}`;
+
 	const formData = new FormData();
 	formData.append('i', user.token);
-	formData.append('file', fs.createReadStream(path || __dirname + '/resources/Lenna.jpg'));
+	formData.append('file', fs.createReadStream(absPath));
 	formData.append('force', 'true');
 
 	const res = await got<string>(`http://localhost:${port}/api/drive/files/create`, {
