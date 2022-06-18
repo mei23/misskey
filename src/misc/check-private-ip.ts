@@ -3,7 +3,7 @@ import * as IPCIDR from 'ip-cidr';
 const PrivateIp = require('private-ip');
 
 export function checkPrivateIp(ip: string | undefined): boolean {
-	if ((process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test') && !config.proxy && ip) {
+	if ((process.env.NODE_ENV === 'production') && !config.proxy && ip) {
 		// check exclusion
 		for (const net of config.allowedPrivateNetworks || []) {
 			const cidr = new IPCIDR(net);

@@ -12,7 +12,7 @@ process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
 import * as childProcess from 'child_process';
-import { async, startServer, signup, post, api, simpleGet, port, shutdownServer } from './utils';
+import { async, startServer, signup, post, api, simpleGet, port, shutdownServer, getDocument, uploadFile } from './utils';
 import * as openapi from '@redocly/openapi-core';
 
 const db = require('../built/db/mongodb').default;
@@ -32,6 +32,7 @@ describe('Fetch resource', () => {
 	let p: childProcess.ChildProcess;
 
 	let alice: any;
+	let avatar: any;
 	let alicesPost: any;
 
 	before(async () => {
@@ -41,7 +42,28 @@ describe('Fetch resource', () => {
 			db.get('notes').drop(),
 		]);
 
+		// signup
 		alice = await signup({ username: 'alice' });
+		//console.log('alice', alice);
+
+		// upload avatar
+		avatar = await uploadFile(alice);
+		//console.log('avatar', avatar);
+
+		// update profile
+		const token = alice.token;
+
+		const res = await api('i/update', {
+			name: 'Alice',
+			description: 'Alice Desc',
+			avatarId: avatar.id,
+		}, alice);
+
+		alice = res.body;
+		alice.token = token;	// tokenはsignup以外では返ってこない
+		console.log('alice-2', alice);
+
+		// post
 		alicesPost = await post(alice, {
 			text: 'test'
 		});
@@ -193,6 +215,61 @@ describe('Fetch resource', () => {
 			const res = await simpleGet(`/@${alice.username}.json`, UNSPECIFIED);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, 'application/json; charset=utf-8');
+		}));
+	});
+
+	describe('html meta', () => {
+		const parse = (doc: Document) => {
+			return {
+				'title': doc.querySelector('title')?.textContent,
+				'og:title': doc.querySelector('meta[property="og:title"]')?.getAttribute('content'),
+				'og:site_name': doc.querySelector('meta[property="og:site_name"]')?.getAttribute('content'),
+
+				'description': doc.querySelector('meta[name=description]')?.getAttribute('content'),
+				'og:description': doc.querySelector('meta[property="og:description"]')?.getAttribute('content'),
+
+				'twitter:card': doc.querySelector('meta[name="twitter:card"]')?.getAttribute('content'),
+
+				'misskey:user-username': doc.querySelector('meta[name="misskey:user-username"]')?.getAttribute('content'),
+				'misskey:user-id': doc.querySelector('meta[name="misskey:user-id"]')?.getAttribute('content'),
+
+				'og:url': doc.querySelector('meta[property="og:url"]')?.getAttribute('content'),
+				'og:image': doc.querySelector('meta[property="og:image"]')?.getAttribute('content'),
+			};
+		}
+
+		it('/', async(async () => {
+			const parsed = parse(await getDocument('/'));
+
+			assert.deepStrictEqual(parsed, {
+				'title': 'Misskey',
+				'og:title': 'Misskey',
+				'og:site_name': 'Misskey',
+				'description': '✨🌎✨ A federated blogging platform ✨🚀✨',
+				'og:description': '✨🌎✨ A federated blogging platform ✨🚀✨',
+				'twitter:card': 'summary',
+				'misskey:user-username': undefined,
+				'misskey:user-id': undefined,
+				'og:url': undefined,
+				'og:image': undefined,
+			});
+		}));
+
+		it('user', async(async () => {
+			const parsed = parse(await getDocument(`/@${alice.username}`));
+
+			assert.deepStrictEqual(parsed, {
+				'title': `${alice.name} (@${alice.username}) | Misskey`,
+				'og:title': `${alice.name} (@${alice.username})`,
+				'og:site_name': undefined,
+				'description': alice.description,
+				'og:description': alice.description,
+				'twitter:card': 'summary',
+				'misskey:user-username': alice.username,
+				'misskey:user-id': alice.id,
+				'og:url': `http://misskey.local/@${alice.username}`,
+				'og:image': alice.avatarUrl,
+			});
 		}));
 	});
 });

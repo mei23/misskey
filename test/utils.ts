@@ -1,8 +1,12 @@
 import * as childProcess from 'child_process';
 import * as http from 'http';
+import * as fs from 'fs';
 import got from 'got';
 import loadConfig from '../src/config/load';
 import { SIGKILL } from 'constants';
+import { getHtml } from '../src/misc/fetch';
+import { JSDOM } from 'jsdom';
+import * as FormData from 'form-data';
 
 export const port = loadConfig().port;
 
@@ -77,7 +81,7 @@ export const api = async (endpoint: string, params: any, me?: any): Promise<{ bo
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(Object.assign(auth, params)),
-		timeout: 10 * 1000,
+		timeout: 30 * 1000,
 		retry: 0,
 	});
 
@@ -111,6 +115,24 @@ export const post = async (user: any, params?: any): Promise<any> => {
 	return res.body ? res.body.createdNote : null;
 };
 
+export const uploadFile = async (user: any, path?: string): Promise<any> => {
+	const formData = new FormData();
+	formData.append('i', user.token);
+	formData.append('file', fs.createReadStream(path || __dirname + '/resources/Lenna.jpg'));
+	formData.append('force', 'true');
+
+	const res = await got<string>(`http://localhost:${port}/api/drive/files/create`, {
+		method: 'POST',
+		body: formData,
+		timeout: 30 * 1000,
+		retry: 0,
+	});
+
+	const body = res.statusCode !== 204 ? await JSON.parse(res.body) : null;
+
+	return body;
+};
+
 export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?: number, type?: string, location?: string }> => {
 	// node-fetchだと3xxを取れない
 	return await new Promise((resolve, reject) => {
@@ -132,4 +154,11 @@ export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?
 
 		req.end();
 	});
+};
+
+export const getDocument = async (path: string): Promise<Document> => {
+	const html = await getHtml(`http://localhost:${port}${path}`);
+	const { window } = new JSDOM(html);
+	const doc = window.document;
+	return doc;
 };
