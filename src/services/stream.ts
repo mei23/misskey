@@ -1,5 +1,5 @@
 import * as mongo from 'mongodb';
-import { redisClient as redis } from '../db/redis';
+import redis from '../db/redis';
 import config from '../config';
 import { PackedNote, PackedNotification, PackedUser, ThinPackedUser } from '../models/packed-schemas';
 
