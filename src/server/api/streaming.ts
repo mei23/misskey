@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as websocket from 'websocket';
-import * as redis from 'redis';
+import { subsdcriber as redisSubscriber } from '../../db/redis';
 import Xev from 'xev';
 
 import MainStreamConnection from './stream';
@@ -42,17 +42,6 @@ module.exports = (server: http.Server) => {
 		let ev: EventEmitter;
 
 		if (config.redis) {
-			// Connect to Redis
-			const redisSubscriber = redis.createClient(
-				config.redis.port,
-				config.redis.host,
-				{
-					password: config.redis.pass
-				}
-			);
-
-			redisSubscriber.subscribe(config.host);
-
 			ev = new EventEmitter();
 
 			redisSubscriber.on('message', async (_, data) => {
