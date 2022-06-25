@@ -1,6 +1,6 @@
 import { createConnection } from '../db/redis';
-import { EventEmitter } from 'events';
 import config from '../config';
+import { EventEmitter } from 'events';
 
 let ev: EventEmitter;
 
@@ -10,10 +10,10 @@ export function getServerSubscriber() {
 }
 
 function setupServerEv() {
-	ev = new EventEmitter();
-
 	const subscriber = createConnection();
 	subscriber.subscribe(config.host);
+
+	ev = new EventEmitter();
 
 	subscriber.on('message', async (_, data) => {
 		const obj = JSON.parse(data);

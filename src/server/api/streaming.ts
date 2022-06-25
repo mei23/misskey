@@ -42,10 +42,10 @@ module.exports = (server: http.Server) => {
 		let ev: EventEmitter;
 
 		if (config.redis) {
-			ev = new EventEmitter();
-
 			const redisSubscriber = createConnection();
 			redisSubscriber.subscribe(config.host);
+
+			ev = new EventEmitter();
 
 			redisSubscriber.on('message', async (_, data) => {
 				const obj = JSON.parse(data);
