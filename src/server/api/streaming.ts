@@ -1,6 +1,6 @@
 import * as http from 'http';
 import * as websocket from 'websocket';
-import { subsdcriber as redisSubscriber } from '../../db/redis';
+import { createConnection } from '../../db/redis';
 import Xev from 'xev';
 
 import MainStreamConnection from './stream';
@@ -43,6 +43,9 @@ module.exports = (server: http.Server) => {
 
 		if (config.redis) {
 			ev = new EventEmitter();
+
+			const redisSubscriber = createConnection();
+			redisSubscriber.subscribe(config.host);
 
 			redisSubscriber.on('message', async (_, data) => {
 				const obj = JSON.parse(data);
