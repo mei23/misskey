@@ -6,6 +6,10 @@
 			<div v-if="tab === 'overview'" class="_formRoot">
 				<div class="_formBlock aeakzknw">
 					<MkAvatar class="avatar" :user="user" :show-indicator="true"/>
+					<div class="body">
+						<span class="name"><MkUserName class="name" :user="user"/></span>
+						<span class="sub"><span class="acct _monospace">@{{ acct(user) }}</span></span>
+					</div>
 				</div>
 
 				<div v-if="user.url" class="_formLinksGrid _formBlock">
@@ -17,11 +21,6 @@
 				<FormLink v-if="user.host" class="_formBlock" :to="`/instance-info/${user.host}`">{{ i18n.ts.instanceInfo }}</FormLink>
 
 				<div class="_formBlock">
-					<MkKeyValue :copy="acct(user)" oneline style="margin: 1em 0;">
-						<template #key>Acct</template>
-						<template #value><span class="_monospace">{{ acct(user) }}</span></template>
-					</MkKeyValue>
-
 					<MkKeyValue :copy="user.id" oneline style="margin: 1em 0;">
 						<template #key>ID</template>
 						<template #value><span class="_monospace">{{ user.id }}</span></template>
@@ -76,6 +75,10 @@
 						<MkChart class="chart" :src="chartSrc" span="day" :limit="90" :args="{ user, withoutAll: true }" :detailed="true"></MkChart>
 					</div>
 				</div>
+			</div>
+			<div v-else-if="tab === 'ap'" class="_formRoot">
+				<MkObjectView v-if="ap" tall :value="user">
+				</MkObjectView>
 			</div>
 			<div v-else-if="tab === 'raw'" class="_formRoot">
 				<MkObjectView v-if="info && $i.isAdmin" tall :value="info">
@@ -225,7 +228,7 @@ watch(() => props.userId, () => {
 
 watch(() => user, () => {
 	os.api('ap/get', {
-		uri: user.uri || `${url}/users/${user.id}`,
+		uri: user.uri ?? `${url}/users/${user.id}`,
 	}).then(res => {
 		ap = res;
 	});
@@ -242,6 +245,10 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts.charts,
 	icon: 'fas fa-chart-simple',
 }, {
+	key: 'ap',
+	title: 'AP',
+	icon: 'fas fa-share-alt',
+}, {
 	key: 'raw',
 	title: 'Raw data',
 	icon: 'fas fa-code',
@@ -256,10 +263,37 @@ definePageMetadata(computed(() => ({
 
 <style lang="scss" scoped>
 .aeakzknw {
+	display: flex;
+	align-items: center;
+
 	> .avatar {
 		display: block;
 		width: 64px;
 		height: 64px;
+		margin-right: 16px;
+	}
+
+	> .body {
+		flex: 1;
+		overflow: hidden;
+
+		> .name {
+			display: block;
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		> .sub {
+			display: block;
+			width: 100%;
+			font-size: 85%;
+			opacity: 0.7;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 }
 

@@ -2,8 +2,8 @@
 <div :class="[$style.root, { yellow: instance.isNotResponding, red: instance.isBlocked, gray: instance.isSuspended }]">
 	<img v-if="instance.iconUrl" class="icon" :src="instance.iconUrl" alt=""/>
 	<div class="body">
-		<span class="host">{{ instance.host }}</span>
-		<span class="sub">{{ instance.softwareName || '?' }} {{ instance.softwareVersion }}</span>
+		<span class="host">{{ instance.name ?? instance.host }}</span>
+		<span class="sub _monospace"><b>{{ instance.host }}</b> / {{ instance.softwareName || '?' }} {{ instance.softwareVersion }}</span>
 	</div>
 	<MkMiniChart v-if="chart" class="chart" :src="chart.requests.received"/>
 </div>
@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const chart = $ref(null);
 
-os.api('charts/instance', { host: props.instance.host, limit: 16, span: 'hour' }).then(res => {
+os.api('charts/instance', { host: props.instance.host, limit: 16, span: 'day' }).then(res => {
 	chart = res;
 });
 </script>
@@ -42,7 +42,7 @@ os.api('charts/instance', { host: props.instance.host, limit: 16, span: 'hour' }
 		height: ($bodyTitleHieght + $bodyInfoHieght);
 		object-fit: cover;
 		border-radius: 4px;
-		margin-right: 8px;
+		margin-right: 10px;
 	}
 
 	> :global(.body) {
@@ -62,7 +62,9 @@ os.api('charts/instance', { host: props.instance.host, limit: 16, span: 'hour' }
 		}
 
 		> :global(.sub) {
-			font-size: 75%;
+			display: block;
+			width: 100%;
+			font-size: 80%;
 			opacity: 0.7;
 			line-height: $bodyInfoHieght;
 			white-space: nowrap;
