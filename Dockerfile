@@ -14,14 +14,15 @@ RUN yarn build
 
 FROM node:16.15.0-bullseye-slim AS runner
 
-ENV NODE_ENV=production
 WORKDIR /misskey
 
 RUN apt-get update
-RUN apt-get install -y ffmpeg mecab mecab-ipadic-utf8
+RUN apt-get install -y ffmpeg mecab mecab-ipadic-utf8 tini
 
 COPY --from=builder /misskey/node_modules ./node_modules
 COPY --from=builder /misskey/built ./built
 COPY . ./
 
+ENV NODE_ENV=production
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["npm", "start"]
