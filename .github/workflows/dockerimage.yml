@@ -5,6 +5,7 @@ on:
     branches:
       - mei-m544
       - mei-one
+  pull_request:
 
 jobs:
   build:
