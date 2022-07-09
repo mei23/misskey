@@ -18,8 +18,10 @@ mongodb:
 redis:
   host: localhost
   port: 6379
+  #family: 0 # 0=Both, 4=IPv4, 6=IPv6
   #pass: example-pass
-
+  #prefix: example-prefix
+  #db: 0
 
 ### drive ###
 drive:
@@ -104,7 +106,7 @@ drive:
 # Sign to ActivityPub GET request (default: false)
 #signToActivityPubGet: true
 
-# 最初に作成したユーザーを管理者にする (default: true)
+# 最初に作成したユーザーを管理者にする (default: false)
 autoAdmin: true
 
 # アイコン等の設定

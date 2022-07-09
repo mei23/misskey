@@ -30,6 +30,11 @@ block meta
 		meta(name='twitter:player:height' content=height)
 		meta(name='twitter:player:stream' content=stream)
 		meta(name='twitter:player:stream:content_type' content=type)
+		meta(property='og:video:url' content=player)
+		meta(property='og:video:secure_url' content=player)
+		meta(property='og:video:type' content='text/html')
+		meta(property='og:video:width' content=width)
+		meta(property='og:video:height' content=height)
 
 	if !user.host
 		link(rel='alternate' href=url type='application/activity+json')

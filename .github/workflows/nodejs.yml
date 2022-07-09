@@ -28,6 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: node cli/diag-environment.js
+    - run: sudo apt-get install -y ffmpeg
     - run: yarn install
     - run: git diff --exit-code yarn.lock
     - run: yarn build

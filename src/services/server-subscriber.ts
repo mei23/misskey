@@ -1,4 +1,4 @@
-import * as redis from 'redis';
+import { createConnection } from '../db/redis';
 import config from '../config';
 import { EventEmitter } from 'events';
 
@@ -10,14 +10,7 @@ export function getServerSubscriber() {
 }
 
 function setupServerEv() {
-	const subscriber = redis.createClient(
-		config.redis.port,
-		config.redis.host,
-		{
-			password: config.redis.pass
-		}
-	);
-
+	const subscriber = createConnection();
 	subscriber.subscribe(config.host);
 
 	ev = new EventEmitter();

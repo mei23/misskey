@@ -12,6 +12,7 @@ html
 		link(rel='apple-touch-icon' href= appleTouchIcon || '/apple-touch-icon.png')
 		link(rel='manifest' href='/manifest.json')
 		meta(name='twitter:card' content= player ? 'player' : 'summary')
+		meta(property='og:site_name' content= instanceName || 'Misskey')
 
 		if noindex
 			meta(name='robots' content='noindex')
@@ -26,9 +27,9 @@ html
 		block meta
 
 		block og
-			meta(property='og:site_name' content= instanceName || 'Misskey')
 			meta(property='og:title' content= instanceName || 'Misskey')
 			meta(property='og:description' content= desc || '✨🌎✨ A federated blogging platform ✨🚀✨')
+			meta(property='og:image'       content= img)
 
 		style
 			include ./../../../../built/client/assets/init.css

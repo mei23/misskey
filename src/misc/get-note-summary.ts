@@ -22,7 +22,7 @@ const summarize = (note: any): string => {
 
 	// ファイルが添付されているとき
 	if ((note.files || []).length != 0) {
-		summary += ` (${note.files.length}つのファイル)`;
+		summary += ` (📎${note.files.length})`;
 	}
 
 	// 投票が添付されているとき
