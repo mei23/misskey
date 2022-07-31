@@ -19,12 +19,14 @@ export default async (user: ThinUserWithKey, url: string, object: any) => {
 		}
 	});
 
-	await getResponse({
+	const res = await getResponse({
 		url,
 		method: req.request.method,
 		headers: req.request.headers,
 		body,
 	});
+
+	return res.body;
 };
 
 /**

@@ -32,7 +32,7 @@ export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((
 	authenticate(body['i']).then(([user, app]) => {
 		// API invoking
 		call(endpoint.name, user, app, body, ctx).then((res: any) => {
-			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user) {
+			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user && !app) {
 				ctx.set('Cache-Control', `public, max-age=${endpoint.meta.cacheSec}`);
 			}
 			reply(res);

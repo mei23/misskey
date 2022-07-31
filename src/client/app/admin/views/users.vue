@@ -27,7 +27,10 @@
 						<ui-button @click="deleteUser(user.username)">{{ $t('delete') }}</ui-button>
 					</ui-horizon-group>
 					<ui-button v-if="user.host != null" @click="updateRemoteUser"><fa :icon="faSync"/> {{ $t('update-remote-user') }}</ui-button>
+					User:
 					<ui-textarea v-if="user" :value="user | json5" readonly tall style="margin-top:16px;"></ui-textarea>
+					User signins:
+					<ui-textarea v-if="userSignins" :value="userSignins | json5" readonly tall style="margin-top:16px;"></ui-textarea>
 				</div>
 			</div>
 		</section>
@@ -98,6 +101,7 @@ export default Vue.extend({
 	data() {
 		return {
 			user: null,
+			userSignins: null,
 			target: null,
 			verifying: false,
 			unverifying: false,
@@ -176,26 +180,46 @@ export default Vue.extend({
 		/** テキストエリアから処理対象ユーザーを設定する */
 		async showUser() {
 			this.user = null;
+			this.userSignins = null;
+
 			const user = await this.fetchUser();
-			this.$root.api('admin/show-user', { userId: user.id }).then(info => {
+
+			await this.$root.api('admin/show-user', { userId: user.id }).then(info => {
 				this.user = info;
 			});
+
+			await this.$root.api('admin/show-user-signins', { userId: user.id }).then(info => {
+				this.userSignins = info;
+			});
+
 			this.target = '';
 		},
 
 		async showUserOnClick(userId: string) {
-			this.$root.api('admin/show-user', { userId: userId }).then(info => {
+			await this.$root.api('admin/show-user', { userId: userId }).then(info => {
 				this.user = info;
-				this.$nextTick(() => {
-					this.$refs.user.scrollIntoView();
-				});
+			});
+
+			await this.$root.api('admin/show-user-signins', { userId: userId }).then(info => {
+				this.userSignins = info;
+			});
+
+			this.$nextTick(() => {
+				this.$refs.user.scrollIntoView();
 			});
 		},
 
 		/** 処理対象ユーザーの情報を更新する */
 		async refreshUser() {
+			this.user = null;
+			this.userSignins = null;
+
 			this.$root.api('admin/show-user', { userId: this.user._id }).then(info => {
 				this.user = info;
+			});
+
+			this.$root.api('admin/show-user-signins', { userId: user.id }).then(info => {
+				this.userSignins = info;
 			});
 		},
 

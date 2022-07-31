@@ -28,7 +28,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 	}
 
 	try {
-		await request(job.data.user, job.data.to, job.data.content);
+		const res = await request(job.data.user, job.data.to, job.data.content);
 
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {
@@ -46,7 +46,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 			instanceChart.requestSent(i.host, true);
 		});
 
-		return 'Success';
+		return `ok: ${res?.substring(0, 256)}`;
 	} catch (res) {
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {

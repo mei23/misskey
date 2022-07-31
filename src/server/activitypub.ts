@@ -27,7 +27,7 @@ const router = new Router();
 
 //#region Routing
 
-function inbox(ctx: Router.RouterContext) {
+async function inbox(ctx: Router.RouterContext) {
 	if (config.disableFederation) ctx.throw(404);
 
 	let signature;
@@ -40,11 +40,14 @@ function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
-	processInbox(ctx.request.body, signature, {
+	const queue = await processInbox(ctx.request.body, signature, {
 		ip: ctx.request.ip
 	});
 
 	ctx.status = 202;
+	ctx.body = {
+		queueId: queue.id,
+	};
 }
 
 const ACTIVITY_JSON = 'application/activity+json; charset=utf-8';

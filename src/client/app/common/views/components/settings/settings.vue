@@ -306,14 +306,12 @@
 			</section>
 		</ui-card>
 
-		<!--
 		<ui-card>
 			<template #title><fa icon="sign-in-alt"/> {{ $t('@._settings.signin') }}</template>
 			<section>
 				<x-signins/>
 			</section>
 		</ui-card>
-		-->
 	</template>
 
 	<template v-if="page == null || page == 'api'">
