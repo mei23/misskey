@@ -24,9 +24,10 @@ export default async (user: ThinUserWithKey, url: string, object: any) => {
 		method: req.request.method,
 		headers: req.request.headers,
 		body,
+		timeout: 10 * 1000,
 	});
 
-	return res.body;
+	return `${res.statusCode} ${res.statusMessage} ${res.body}`;
 };
 
 /**
