@@ -38,6 +38,7 @@ drive:
 #  storage: 'minio'
 #  bucket: <bucket>
 #  prefix: <prefix>
+#  baseUrl: <baseUrl>   
 #  config:
 #    endPoint: <endPoint>
 #    region: <region>
@@ -48,6 +49,12 @@ drive:
 #    setPublicRead: false
 #    s3ForcePathStyle: true
 #
+# * baseurl
+#     If using Proxy or CDN, its URL. (eg: https://media.example.com)
+#     S3: https://<bucket>.s3.amazonaws.com
+#     GCS: https://storage.googleapis.com/<bucket>
+#     Other services: https://s3.example.com/<bucket>
+#
 # * endPoint
 #     S3: Leave empty
 #     GCS: 'storage.googleapis.com'
@@ -57,12 +64,6 @@ drive:
 # * region
 #     Specify a region such like 'xx-east-1'.
 #     If your service is region independent (eg: GCS/Minio) leave empty or specify 'us-east-1'
-#
-# * baseurl
-#     If using Proxy or CDN, its URL. (eg: https://media.example.com)
-#     S3: https://<bucket>.s3.amazonaws.com
-#     GCS: https://storage.googleapis.com/<bucket>
-#     Other services: https://s3.example.com/<bucket>
 #
 # * useProxy
 #     Use proxy
