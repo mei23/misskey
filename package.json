@@ -106,7 +106,7 @@
 		"cross-env": "7.0.3",
 		"css-loader": "6.7.1",
 		"cssnano": "5.1.12",
-		"date-fns": "2.29.1",
+		"date-fns": "2.29.2",
 		"deepcopy": "0.6.3",
 		"diskusage": "1.1.3",
 		"double-ended-queue": "2.1.0-0",
