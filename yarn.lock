@@ -7003,10 +7003,10 @@ pretty@^2.0.0:
     extend-shallow "^2.0.1"
     js-beautify "^1.6.12"
 
-private-ip@2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/private-ip/-/private-ip-2.3.1.tgz#fef387b981eb5c50caaab36da8c62f346356a415"
-  integrity sha512-aH66ibTf0E+HD76Kt8U/4pcz+1qnr2S0ODcllD96ULxK2bSZYFlJGSR4nq/rl+4QEEpOV1kSX7ruvTpzizAodQ==
+private-ip@2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/private-ip/-/private-ip-2.3.4.tgz#e2944f2a7a0142ec6640efda323af4b96307524e"
+  integrity sha512-ts/YFVwfBeLq61f9+KsOhXW6RH0wvY0gU50R6QZYzgFhggyyLK6WDFeYdjfi/HMnBm2hecLvsR3PB3JcRxDk+A==
   dependencies:
     ip-regex "^4.3.0"
     ipaddr.js "^2.0.1"
