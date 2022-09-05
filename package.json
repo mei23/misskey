@@ -96,7 +96,7 @@
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.22.0",
 		"browser-image-resizer": "git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2",
-		"bull": "4.8.5",
+		"bull": "4.9.0",
 		"cacheable-lookup": "6.1.0",
 		"cafy": "15.2.1",
 		"chalk": "4.1.2",
