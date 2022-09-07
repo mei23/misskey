@@ -92,7 +92,7 @@
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
 		"autwh": "0.1.0",
-		"aws-sdk": "2.1208.0",
+		"aws-sdk": "2.1210.0",
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.22.0",
 		"browser-image-resizer": "git+https://github.com/misskey-dev/browser-image-resizer#v2.2.1-misskey.2",
