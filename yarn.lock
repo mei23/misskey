@@ -8258,10 +8258,10 @@ stylus@^0.54.8:
     semver "^6.3.0"
     source-map "^0.7.3"
 
-suncalc@1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/suncalc/-/suncalc-1.8.0.tgz#1d9898109563078750f4994a959e654d876acbf5"
-  integrity sha512-fyyqA8Az3HnYkNtiiniU0g4xZZXnZYWjuRSS0RegfbmYTbe7idmv4L2Lho/Ez+/HsrmNjuop/bL/FutjtrTT3w==
+suncalc@1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/suncalc/-/suncalc-1.9.0.tgz#26212353fae61edb287c2d558fc4932ecf0e1532"
+  integrity sha512-vMJ8Byp1uIPoj+wb9c1AdK4jpkSKVAywgHX0lqY7zt6+EWRRC3Z+0Ucfjy/0yxTVO1hwwchZe4uoFNqrIC24+A==
 
 supports-color@8.1.1, supports-color@^8.0.0:
   version "8.1.1"
