@@ -35,6 +35,10 @@
 			{{ $t('expandTweet') }}
 		</a>
 	</div>
+	<div class="tweetAlt" v-if="nitter && twitterUser">
+		<a v-if="tweetId" :href="`https://${nitter}/${twitterUser}/status/${tweetId}`" rel="nofollow noopener" target="_blank">代替リンク</a>
+		<a v-else-if="twitterUser" :href="`https://${nitter}/${twitterUser}`" rel="nofollow noopener" target="_blank">代替リンク</a>
+	</div>
 </div>
 </template>
 
@@ -86,6 +90,7 @@ export default Vue.extend({
 				height: null
 			},
 			tweetId: null,
+			twitterUser: null,
 			tweetExpanded: this.detail,
 			embedId: `embed${Math.random().toString().replace(/\D/,'')}`,
 			steamId: null,
@@ -93,6 +98,7 @@ export default Vue.extend({
 			tweetLeft: 0,
 			playerEnabled: false,
 			misskeyUrl,
+			nitter: null,
 		};
 	},
 
@@ -103,14 +109,24 @@ export default Vue.extend({
 			return;
 		}
 
+		this.nitter = 'nitter.net';
+
 		if (requestUrl.hostname == 'store.steampowered.com') {
 			const m = requestUrl.pathname.match(/^\/app\/(\d+)/);
 			if (m) this.steamId = m[1];
 		}
 
-		if (requestUrl.hostname == 'twitter.com') {
-			const m = requestUrl.pathname.match(/^\/.+\/status(?:es)?\/(\d+)/);
-			if (m) this.tweetId = m[1];
+		if (requestUrl.hostname === 'twitter.com' || requestUrl.hostname === 'm.twitter.com') {
+			const mTweet = requestUrl.pathname.match(/^\/(\w+)\/status(?:es)?\/(\d+)/);
+			if (mTweet) {
+				this.twitterUser = mTweet[1];
+				this.tweetId = mTweet[2];
+			}
+
+			const mUser = requestUrl.pathname.match(/^\/(\w+)/);
+			if (mUser) {
+				this.twitterUser = mUser[1];
+			}
 		}
 
 		if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/(?:watch|channel)')) {
@@ -383,4 +399,7 @@ export default Vue.extend({
 	> a
 		font-size small
 		color var(--text)
+
+.tweetAlt
+	font-size small
 </style>
