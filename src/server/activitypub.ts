@@ -61,6 +61,19 @@ function isActivityPubReq(ctx: Router.RouterContext, preferAp = false) {
 	return typeof accepted === 'string' && !accepted.match(/html/);
 }
 
+function setCacheHeader(ctx: Router.RouterContext, note: INote) {
+	if (note.expiresAt) {
+		const s = (note.expiresAt.getTime() - new Date().getTime()) / 1000;
+		if (s < 180) {
+			ctx.set('Expires', note.expiresAt.toUTCString());
+			return;
+		}
+	}
+
+	ctx.set('Cache-Control', 'public, max-age=180');
+	return;
+}
+
 export function setResponseType(ctx: Router.RouterContext) {
 	const accept = ctx.accepts(ACTIVITY_JSON, LD_JSON);
 	if (accept === LD_JSON) {
@@ -119,7 +132,7 @@ router.get('/notes/:note', async (ctx, next) => {
 	}
 
 	ctx.body = renderActivity(await renderNote(note, false));
-	ctx.set('Cache-Control', 'public, max-age=180');
+	setCacheHeader(ctx, note);
 	setResponseType(ctx);
 });
 
@@ -147,7 +160,7 @@ router.get('/notes/:note/activity', async ctx => {
 	}
 
 	ctx.body = renderActivity(await packActivity(note));
-	ctx.set('Cache-Control', 'public, max-age=180');
+	setCacheHeader(ctx, note);
 	setResponseType(ctx);
 });
 

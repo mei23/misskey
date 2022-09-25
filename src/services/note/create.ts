@@ -33,6 +33,7 @@ import { getIndexer, getWordIndexer } from '../../misc/mecab';
 import Following from '../../models/following';
 import { IActivity } from '../../remote/activitypub/type';
 import { normalizeTag } from '../../misc/normalize-tag';
+import * as ms from 'ms';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention' | 'highlight';
 
@@ -99,6 +100,7 @@ class NotificationManager {
 
 type Option = {
 	createdAt?: Date;
+	expiresAt?: Date;
 	name?: string;
 	text?: string | null;
 	reply?: INote | null;
@@ -233,6 +235,23 @@ export default async (user: IUser, data: Option, silent = false) => {
 		}
 	}
 
+	// 時限投稿
+	let expireDelay: number | null = null;
+
+	if (isLocalUser(user)) {
+		for (const tag of tags) {
+			const m = tag.match(/^exp(\d{1,6}[smhd])$/);
+			if (!m) continue;
+
+			expireDelay = ms(m[1]);
+			if (expireDelay < ms('5s')) expireDelay = ms('5s');
+			if (expireDelay > ms('7d')) expireDelay = ms('7d');
+			data.expiresAt = new Date(new Date().getTime() + expireDelay);
+
+			break;
+		}
+	}
+
 	const note = await insertNote(user, data, tags, emojis, mentionedUsers);
 
 	(async () => {
@@ -242,8 +261,8 @@ export default async (user: IUser, data: Option, silent = false) => {
 			return;
 		}
 
-		if (isLocalUser(user)) {
-			queueDelete(note, tags);
+		if (expireDelay) {
+			createDeleteNoteJob(note, expireDelay);
 		}
 
 		// 統計を更新
@@ -421,20 +440,6 @@ export default async (user: IUser, data: Option, silent = false) => {
 	return note;
 };
 
-async function queueDelete(note: INote, tags: string[]) {
-	for (const tag of tags) {
-		const m = tag.match(/^exp(\d{1,5})([smh])$/);
-		if (!m) continue;
-
-		let delay = 1000 * Number(m[1]) * (m[2] === 'm' ? 60 : m[2] === 'h' ? 3600 : 1);
-		if (delay < 5) delay = 5;
-		if (delay > 86400) delay = 86400;
-
-		await createDeleteNoteJob(note, delay);
-		break;
-	}
-}
-
 async function renderNoteOrRenoteActivity(data: Option, note: INote, user: IUser) {
 	if (data.localOnly) return null;
 	if (user.noFederation) return null;
@@ -467,6 +472,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 	const insert: any = {
 		_id: genId(data.createdAt),
 		createdAt: data.createdAt,
+		expiresAt: data.expiresAt,
 		fileIds: data.files ? data.files.map(file => file._id) : [],
 		replyId: data.reply ? data.reply._id : null,
 		renoteId: data.renote ? data.renote._id : null,
