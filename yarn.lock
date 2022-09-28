@@ -9007,10 +9007,10 @@ v-animate-css@0.0.5:
   dependencies:
     scrollmonitor "^1.2.4"
 
-v-debounce@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/v-debounce/-/v-debounce-0.1.2.tgz#cab75df7def2783215bf449ef85c69c2decf0a55"
-  integrity sha1-yrdd997yeDIVv0Se+Fxpwt7PClU=
+v-debounce@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/v-debounce/-/v-debounce-0.2.0.tgz#20a6f0ec7025708fb0fddfb5b7186f0954789b78"
+  integrity sha512-aRm2D8SIs6jI9iaLzxry2TYWZtpuIj7gpQD82wQJFQVrX1iQFsRXdyxONlhlfv2wXV0dEhgXCH1j6+3VEJYpmg==
 
 v8-compile-cache-lib@^3.0.1:
   version "3.0.1"
