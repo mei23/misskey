@@ -139,6 +139,9 @@ themeColor: '#fb4e4e'
 # Whether disable HSTS
 #disableHsts: true
 
+# APIでCORSを無効にする (defaut: false, たぶんイントラ等に構築している非公開インスタンス等で有効にする)
+#disableApiCors: false
+
 # 各Workerの設定
 # workerWorkerCount: server+queue両方を処理するworkerの数
 # serverWorkerCount: server処理のみをするworkerの数
