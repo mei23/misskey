@@ -36,9 +36,14 @@ app.use(async (ctx, next) => {
 	}
 });
 
-app.use(cors({
-	origin: '*'
-}));
+// CORS
+if (config.disableApiCors === true) {
+	// do nothing
+} else {
+	app.use(cors({
+		origin: '*'
+	}));
+}
 
 // No caching
 app.use(async (ctx, next) => {
