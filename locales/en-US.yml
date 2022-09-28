@@ -363,6 +363,7 @@ common:
         low: "Low"
         cheep: "Cheep"
       useOrthographicCamera: "Use Orthographic Camera"
+     nitter: "Alternate domains for Twitter"
   search: "Search"
   delete: "Delete"
   loading: "Loading"

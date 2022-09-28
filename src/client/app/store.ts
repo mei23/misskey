@@ -94,6 +94,7 @@ const defaultDeviceSettings = Object.assign({
 	appType: 'auto',
 	emojiFlavor: 'default',
 	emojiSkinTone: null,
+	nitter: '',
 }, mods.defaultDeviceSettings || {});
 
 export default (os: MiOS) => new Vuex.Store({

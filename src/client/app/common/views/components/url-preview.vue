@@ -109,7 +109,7 @@ export default Vue.extend({
 			return;
 		}
 
-		this.nitter = 'nitter.net';
+		this.nitter = this.$store.state.device.nitter;
 
 		if (requestUrl.hostname == 'store.steampowered.com') {
 			const m = requestUrl.pathname.match(/^\/app\/(\d+)/);

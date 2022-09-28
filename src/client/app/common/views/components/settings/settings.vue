@@ -213,6 +213,10 @@
 					<option value="notify">{{ $t('@._settings._hasDisconnectedAction.notify') }}</option>
 					<option value="nothing">{{ $t('@._settings._hasDisconnectedAction.nothing') }}</option>
 				</ui-select>
+
+				<header>{{ $t('@._settings.nitter') }}</header>
+				<ui-input v-model="nitter">
+				</ui-input>
 			</section>
 
 			<section>
@@ -609,6 +613,11 @@ export default Vue.extend({
 		hasDisconnectedAction: {
 			get() { return this.$store.state.device.hasDisconnectedAction; },
 			set(value) { this.$store.commit('device/set', { key: 'hasDisconnectedAction', value }); }
+		},
+
+		nitter: {
+			get() { return this.$store.state.device.nitter; },
+			set(value: string) { this.$store.commit('device/set', { key: 'nitter', value: value.trim() }); }
 		},
 
 		roomUseOrthographicCamera: {
