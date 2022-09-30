@@ -95,7 +95,7 @@
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.22.0",
 		"browser-image-resizer": "2.4.1",
-		"bull": "4.9.0",
+		"bull": "4.10.0",
 		"cafy": "15.2.1",
 		"chalk": "4.1.2",
 		"cheerio": "0.22.0",
