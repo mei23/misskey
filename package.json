@@ -75,7 +75,7 @@
 		"@types/request-stats": "3.0.0",
 		"@types/rimraf": "3.0.2",
 		"@types/seedrandom": "3.0.2",
-		"@types/sharp": "0.31.0",
+		"@types/sharp": "0.30.2",
 		"@types/showdown": "2.0.0",
 		"@types/speakeasy": "2.0.7",
 		"@types/suncalc": "1.8.1",
