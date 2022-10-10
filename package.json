@@ -9,7 +9,6 @@
 	},
 	"main": "./index.js",
 	"private": true,
-	"type": "commonjs",
 	"engines": {
 		"node": ">=14.15.0"
 	},
