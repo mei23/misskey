@@ -4,9 +4,23 @@
 	},
 	"extends": [
 		"eslint:recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:node/recommended"
 	],
 	"rules": {
+		"node/callback-return": "off",
+		"node/handle-callback-err": "error",
+		"node/no-callback-literal": "error",
+		"node/no-missing-import": "off",
+		"node/no-missing-require": "off",
+		"node/no-unsupported-features/es-syntax": "off",
+		"node/no-sync": ["error", { "allowAtRootLevel": true }],
+		"node/prefer-global/buffer": "error",
+		"node/prefer-global/console": "error",
+		"node/prefer-global/process": "error",
+		"node/prefer-promises/fs": "error",
+		"node/prefer-promises/dns": "error",
+		"no-process-exit": "off",
 		"no-constant-condition": ["warn", { "checkLoops": false }],
 		"no-empty": ["warn", { "allowEmptyCatch": true }],
 		"no-irregular-whitespace": ["warn", { "skipComments": true, "skipRegExps": true, "skipTemplates": true }],

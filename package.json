@@ -9,6 +9,10 @@
 	},
 	"main": "./index.js",
 	"private": true,
+	"type": "commonjs",
+	"engines": {
+		"node": ">=14.15.0"
+	},
 	"scripts": {
 		"start": "node ./index.js",
 		"debug": "DEBUG=misskey:* node ./index.js",
@@ -229,6 +233,7 @@
 		"@typescript-eslint/parser": "5.39.0",
 		"cross-env": "7.0.3",
 		"eslint": "7.6.0",
+		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.0.0"
 	}
 }
