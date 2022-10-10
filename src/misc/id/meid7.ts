@@ -1,31 +1,21 @@
 import * as crypto from 'crypto';
 import { parseInt } from 'lodash';
 
-const CHARS = '0123456789abcdef';
-const CHARS_LEN = CHARS.length;
-
 //  4bit Fixed hex value '7'
 // 44bit UNIX Time ms in Hex
 // 48bit Random value in Hex
 
-function getTime(time: number) {
+function getTime(time: number, radix: number, length: number) {
 	if (time < 0) time = 0;
-	if (time === 0) {
-		return CHARS[0];
-	}
 
-	return time.toString(16).padStart(11, CHARS[0]).slice(-11);
+	return time.toString(radix).padStart(length, '0').slice(length * -1);
 }
 
-function getRandom() {
+function getRandomHex(bytes: number) {
 	let str = '';
 
-	for (let i = 0; i < 12; i++) {
-		let rand = Math.floor((crypto.randomBytes(1).readUInt8(0) / 0xFF) * CHARS_LEN);
-		if (rand === CHARS_LEN) {
-			rand = CHARS_LEN - 1;
-		}
-		str += CHARS.charAt(rand);
+	for (let i = 0; i < bytes; i++) {
+		str += crypto.randomBytes(1).readUInt8().toString(16).padStart(2, '0');
 	}
 
 	return str;
@@ -33,7 +23,7 @@ function getRandom() {
 
 export function genMeid7(date: Date): string {
 	if (date.toString() === 'Invalid Date') throw 'Invalid Date';
-	return '7' + getTime(date.getTime()) + getRandom();
+	return '7' + getTime(date.getTime(), 16, 11) + getRandomHex(6);
 }
 
 export function meid7ToDate(id?: string): Date | null {
