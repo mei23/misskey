@@ -1,19 +1,11 @@
 import Vue from 'vue';
 
-import wNotifications from './notifications.vue';
-import wTimemachine from './timemachine.vue';
-import wActivity from './activity.vue';
-import wTrends from './trends.vue';
-import wPolls from './polls.vue';
-import wMessaging from './messaging.vue';
-import wProfile from './profile.vue';
-import wCustomize from './customize.vue';
-
-Vue.component('mkw-notifications', wNotifications);
-Vue.component('mkw-timemachine', wTimemachine);
-Vue.component('mkw-activity', wActivity);
-Vue.component('mkw-trends', wTrends);
-Vue.component('mkw-polls', wPolls);
-Vue.component('mkw-messaging', wMessaging);
-Vue.component('mkw-profile', wProfile);
-Vue.component('mkw-customize', wCustomize);
+// widget/index/desktop
+Vue.component('mkw-notifications', () => import('./notifications.vue').then(m => m.default));
+Vue.component('mkw-timemachine', () => import('./timemachine.vue').then(m => m.default));
+Vue.component('mkw-activity', () => import('./activity.vue').then(m => m.default));
+Vue.component('mkw-trends', () => import('./trends.vue').then(m => m.default));
+Vue.component('mkw-polls', () => import('./polls.vue').then(m => m.default));
+Vue.component('mkw-messaging', () => import('./messaging.vue').then(m => m.default));
+Vue.component('mkw-profile', () => import('./profile.vue').then(m => m.default));
+Vue.component('mkw-customize', () => import('./customize.vue').then(m => m.default));

@@ -11,7 +11,6 @@ import * as Router from '@koa/router';
 import * as send from 'koa-send';
 import * as glob from 'glob';
 import config from '../../config';
-import { licenseHtml } from '../../misc/license';
 import { copyright } from '../../const.json';
 import * as locales from '../../../locales';
 import * as nestedProperty from 'nested-property';
@@ -41,7 +40,7 @@ async function genVars(lang: string): Promise<{ [key: string]: any }> {
 				title: {}
 			};
 		}
-		vars['docs'][name]['title'][lang] = fs.readFileSync(cwd + x, 'utf-8').match(/^# (.+?)\r?\n/)[1];
+		vars['docs'][name]['title'][lang] = (await fs.promises.readFile(cwd + x, 'utf-8')).match(/^# (.+?)\r?\n/)[1];
 	}
 
 	vars['kebab'] = (string: string) => string.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase();
@@ -49,8 +48,6 @@ async function genVars(lang: string): Promise<{ [key: string]: any }> {
 	vars['config'] = config;
 
 	vars['copyright'] = copyright;
-
-	vars['license'] = licenseHtml;
 
 	vars['i18n'] = (key: string) => nestedProperty.get(locales[lang], key);
 
@@ -92,7 +89,7 @@ router.get('/*/*', async ctx => {
 		tables: true,
 		extensions: ['urlExtension', 'apiUrlExtension', 'highlightjs']
 	});
-	const md = fs.readFileSync(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
+	const md = await fs.promises.readFile(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
 	await ctx.render('docs-article', Object.assign({
 		id: doc,

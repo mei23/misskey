@@ -31,8 +31,7 @@ export async function geoIpLookup(ip: string) {
 		nextResetTime = Date.now() + (ttl * 1000);
 	}
 
-	let json;
-	json = await JSON.parse(res.body);
+	const	json = await JSON.parse(res.body);
 
 	if (json.status !== 'success') {
 		throw json.message;

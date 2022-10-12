@@ -1,6 +1,9 @@
 import * as crypto from 'crypto';
+import * as util from 'util';
 import * as jsonld from 'jsonld';
 import { CONTEXTS } from './contexts';
+
+export const randomBytesAsync = util.promisify(crypto.randomBytes);
 
 // https://github.com/mei23/ldsig
 // https://docs.joinmastodon.org/spec/security/#ld
@@ -36,7 +39,7 @@ export class LdSignature {
 			type: 'RsaSignature2017',
 			creator,
 			domain,
-			nonce: crypto.randomBytes(16).toString('hex'),
+			nonce: (await randomBytesAsync(16)).toString('hex'),
 			created: (created || new Date()).toISOString()
 		};
 

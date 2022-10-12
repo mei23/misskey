@@ -101,6 +101,13 @@ common:
   only-not-followed: "Only not followed users"
   only-not-following: "Only not following users"
   only-moved: "Moved users only"
+  allAttached: "All attach states"
+  attached: "Attached"
+  notAttached: "Not attached"
+  allType: "All types"
+  image: "Image"
+  video: "Video"
+  audio: "Audio"
   desktop-mode: 'Desktop mode'
   mobile-mode: 'Mobile mode'
   empty: 'Empty'
@@ -363,6 +370,7 @@ common:
         low: "Low"
         cheep: "Cheep"
       useOrthographicCamera: "Use Orthographic Camera"
+    nitter: "Alternate domains for Twitter"
   search: "Search"
   delete: "Delete"
   loading: "Loading"
@@ -423,12 +431,13 @@ common:
     hashtags: "Hashtags"
     words: "Trend words"
     queue: "Queue"
+    sunmoon: "Sun and moon"
   dev: "Failed to create the application. Please try again."
   ai-chan-kawaii: "Ai-chan kawaii!"
   you: "You"
   startTalk: "Start chat"
   addUsertag: "Add usertag"
-  addUsertagDetail: "The usertag cannot be seen by other users, you can suggest it with the @tag"
+  addUsertagDetail: "The usertag cannot be seen by other users. Can be used in user search."
   removeUsertagConfirm: "Are you sure you want to delete this user tag?"
 
 auth/views/form.vue:
@@ -487,6 +496,7 @@ common/views/components/url-preview.vue:
   disable-player: "Close the player"
   expandTweet: "Expand tweet"
   collapseTweet: "Collapse tweet"
+  alternativeLink: "Alternative link"
 
 common/views/components/user-list.vue:
   no-users: "There are no users."
@@ -998,6 +1008,11 @@ common/views/widgets/tips.vue:
   tips-line23: "Ai-chan kawaii!"
   tips-line24: "Misskey has been running since 2014."
   tips-line25: "In a browser compatible with notification features, you can receive notifications in case Misskey is not open"
+common/views/widgets/sunmoon.vue:
+  ctStart: " Civil twilight"
+  sunrise: "Sunrise"
+  sunset: "Sunset"
+  ctEnd: " Civil twilight"
 common/views/pages/not-found.vue:
   page-not-found: "The page has not been found"
 common/views/pages/follow.vue:

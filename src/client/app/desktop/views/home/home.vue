@@ -6,6 +6,7 @@
 			<div>
 				<div class="adder">
 					<p>{{ $t('add-widget') }}</p>
+					<!-- widget/adder/desktop -->
 					<select v-model="widgetAdderSelected">
 						<option value="profile">{{ $t('@.widgets.profile') }}</option>
 						<option value="analog-clock">{{ $t('@.widgets.analog-clock') }}</option>
@@ -29,6 +30,7 @@
 						<option value="queue">{{ $t('@.widgets.queue') }}</option>
 						<option value="nav">{{ $t('@.widgets.nav') }}</option>
 						<option value="tips">{{ $t('@.widgets.tips') }}</option>
+						<option value="sunmoon">{{ $t('@.widgets.sunmoon') }}</option>
 					</select>
 					<button @click="addWidget">{{ $t('add') }}</button>
 					<button @click="restoreDefault">{{ $t('restore-default') }}</button>
@@ -101,17 +103,15 @@ export default Vue.extend({
 	computed: {
 		home(): any[] {
 			if (this.$store.getters.isSignedIn) {
+				// widget/settings/desktop/login
 				return this.$store.state.settings.home || [];
 			} else {
+				// widget/settings/desktop/nologin
 				return [{
 					name: 'instance',
 					place: 'right'
 				}, {
 					name: 'broadcast',
-					place: 'right',
-					data: {}
-				}, {
-					name: 'hashtags',
 					place: 'right',
 					data: {}
 				}];
@@ -158,27 +158,27 @@ export default Vue.extend({
 	},
 
 	methods: {
+		// widget/settings/desktop/default
 		generateDefault() {
 			const defaultDesktopHomeWidgets = {
 				left: [
 					'profile',
 					'calendar',
-					'hashtags',
-					'words',
+					'hashtag',
+					'word',
 					'version'
 				],
 				right: [
 					'customize',
 					'broadcast',
 					'notifications',
-					'polls',
 					'nav',
 					'tips'
 				]
 			};
 
 			//#region Construct home data
-			const _defaultDesktopHomeWidgets = [];
+			const _defaultDesktopHomeWidgets: any[] = [];
 
 			for (const widget of defaultDesktopHomeWidgets.left) {
 				_defaultDesktopHomeWidgets.push({

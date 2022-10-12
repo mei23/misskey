@@ -51,7 +51,7 @@ export function maximum(xs: number[]): number {
 export function groupBy<T>(collections: T[], keySerector: (x: T) => string) {
 	return collections.reduce((obj: Record<string, T[]>, item: T) => {
 		const key = keySerector(item);
-		if (!obj.hasOwnProperty(key)) {
+		if (!Object.prototype.hasOwnProperty.call(obj, key)) {
 			obj[key] = [];
 		}
 

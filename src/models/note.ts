@@ -50,6 +50,7 @@ export type INote = {
 	createdAt: Date;
 	deletedAt?: Date;
 	updatedAt?: Date;
+	expiresAt?: Date;
 	fileIds: mongo.ObjectID[];
 	replyId: mongo.ObjectID;
 	renoteId: mongo.ObjectID;
@@ -384,6 +385,7 @@ export const pack = async (
 		createdAt: toISODateOrNull(db.createdAt),
 		deletedAt: toISODateOrNull(db.deletedAt),
 		updatedAt: toISODateOrNull(db.updatedAt),
+		expiresAt: toISODateOrNull(db.expiresAt),
 		text: db.text,
 		cw: db.cw,
 		userId: toOidString(db.userId),

@@ -108,7 +108,7 @@ class Autocomplete {
 		if (isMention) {
 			const username = text.substr(mentionIndex + 1);
 			if (username.match(/^[\w-]+$/)) {
-				this.open('user', username);
+				this.open('user', username.toLowerCase());
 				opened = true;
 			}
 		}
@@ -116,7 +116,7 @@ class Autocomplete {
 		if (isHashtag && opened == false && !this.opts.userOnly) {
 			const hashtag = text.substr(hashtagIndex + 1);
 			if (!hashtag.includes(' ')) {
-				this.open('hashtag', hashtag);
+				this.open('hashtag', hashtag.toLowerCase());
 				opened = true;
 			}
 		}
@@ -124,23 +124,23 @@ class Autocomplete {
 		if (isEmoji && opened == false && !this.opts.userOnly && !this.opts.noEmoji) {
 			const emoji = text.substr(emojiIndex + 1);
 			if (emoji === '' || emoji.match(/^[\w+-]+$/)) {
-				this.open('emoji', emoji);
+				this.open('emoji', emoji.toLowerCase());
 				opened = true;
 			}
 		}
 
 		if (isAngle && opened == false) {
 			const angle = text.substr(angleIndex + 1);
-			if (angle.match(/^[a-z]*$/)) {
-				this.open('mfm', `<${angle}`);
+			if (angle.match(/^[a-z]*$/i)) {
+				this.open('mfm', `<${angle.toLowerCase()}`);
 				opened = true;
 			}
 		}
 
 		if (isFn && opened == false) {
 			const fn = text.substr(fnIndex + 2);
-			if (fn.match(/^[a-z]*$/)) {
-				this.open('mfm', `$[${fn}`);
+			if (fn.match(/^[a-z]*$/i)) {
+				this.open('mfm', `$[${fn.toLowerCase()}`);
 				opened = true;
 			}
 		}

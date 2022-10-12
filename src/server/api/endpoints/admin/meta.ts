@@ -91,7 +91,6 @@ export default define(meta, async (ps, me) => {
 		description: instance.description,
 		langs: instance.langs,
 
-		secure: config.https != null,
 		machine: os.hostname(),
 		os: os.platform(),
 		arch: os.arch(),

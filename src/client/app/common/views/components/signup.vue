@@ -6,7 +6,7 @@
 			<template #prefix><fa icon="id-card-alt"/></template>
 			<template #desc v-html="this.$t('invitation-info').replace('{}', 'mailto:' + meta.maintainer.email)"></template>
 		</ui-input>
-		<ui-input v-model="username" type="text" pattern="^[a-zA-Z0-9_]{1,20}$" :autocomplete="Math.random()" spellcheck="false" required @input="onChangeUsername" styl="fill">
+		<ui-input v-model="username" type="text" pattern="^[a-zA-Z0-9_]{1,20}$" :autocomplete="Math.random()" spellcheck="false" required @input="onChangeUsername" styl="fill" :debounce="true">
 			<span>{{ $t('username') }}</span>
 			<template #prefix>@</template>
 			<template #suffix>@{{ host }}</template>

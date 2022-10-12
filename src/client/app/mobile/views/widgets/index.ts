@@ -1,7 +1,5 @@
 import Vue from 'vue';
 
-import wActivity from './activity.vue';
-import wProfile from './profile.vue';
-
-Vue.component('mkw-activity', wActivity);
-Vue.component('mkw-profile', wProfile);
+// widget/index/mobile
+Vue.component('mkw-activity', () => import('./activity.vue').then(m => m.default));
+Vue.component('mkw-profile', () => import('./profile.vue').then(m => m.default));

@@ -17,6 +17,19 @@
 	</nav>
 	<mk-uploader ref="uploader"/>
 	<div class="browser" :class="{ fetching }" v-if="file == null">
+		<ui-horizon-group class="filter">
+			<ui-select v-model="attached">
+				<option value="all">{{ $t('@.allAttached') }}</option>
+				<option value="attached">{{ $t('@.attached') }}</option>
+				<option value="notAttached">{{ $t('@.notAttached') }}</option>
+			</ui-select>
+			<ui-select v-model="type">
+				<option value="">{{ $t('@.allType') }}</option>
+				<option value="image/*">{{ $t('@.image') }}</option>
+				<option value="video/*">{{ $t('@.video') }}</option>
+				<option value="audio/*">{{ $t('@.audio') }}</option>
+			</ui-select>
+		</ui-horizon-group>
 		<div class="info" v-if="info">
 			<p v-if="folder != null && (folder.foldersCount > 0 || folder.filesCount > 0)">
 				<template v-if="folder.foldersCount > 0">{{ folder.foldersCount }} {{ $t('folder-count') }}</template>
@@ -82,7 +95,9 @@ export default Vue.extend({
 			hierarchyFolders: [],
 			selectedFiles: [],
 			info: null,
-			connection: null
+			connection: null,
+			attached: 'all',
+			type: '',
 
 			fetching: true,
 			fetchingMoreFiles: false,
@@ -99,7 +114,13 @@ export default Vue.extend({
 			if (this.isNaked) {
 				(this.$refs.nav as any).style.top = `${this.top}px`;
 			}
-		}
+		},
+		attached() {
+			this.fetch();
+		},
+		type() {
+			this.fetch();
+		},
 	},
 	mounted() {
 		this.connection = this.$root.stream.useSharedConnection('drive');
@@ -283,6 +304,8 @@ export default Vue.extend({
 			// ファイル一覧取得
 			this.$root.api('drive/files', {
 				folderId: this.folder ? this.folder.id : null,
+				attached: this.attached,
+				type: this.type || undefined,
 				limit: filesMax + 1
 			}).then(files => {
 				if (files.length == filesMax + 1) {
@@ -326,6 +349,8 @@ export default Vue.extend({
 			// ファイル一覧取得
 			this.$root.api('drive/files', {
 				folderId: this.folder ? this.folder.id : null,
+				attached: this.attached,
+				type: this.type || undefined,
 				limit: max + 1,
 				untilId: this.files[this.files.length - 1].id
 			}).then(files => {

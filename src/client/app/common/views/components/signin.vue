@@ -1,7 +1,7 @@
 <template>
 <form class="mk-signin" :class="{ signing }" @submit.prevent="onSubmit">
 	<div class="avatar" :style="{ backgroundImage: user ? `url('${ user.avatarUrl }')` : null }" v-show="withAvatar"></div>
-	<ui-input v-model="username" type="text" pattern="^[a-zA-Z0-9_]+$" spellcheck="false" autofocus required @input="onUsernameChange">
+	<ui-input v-model="username" type="text" pattern="^[a-zA-Z0-9_]+$" spellcheck="false" autofocus required @input="onUsernameChange" :debounce="true">
 		<span>{{ $t('username') }}</span>
 		<template #prefix>@</template>
 		<template #suffix>@{{ host }}</template>

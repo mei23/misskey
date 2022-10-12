@@ -6,7 +6,7 @@
 <div v-else-if="tweetId && tweetExpanded" class="twitter" ref="twitter">
 	<iframe ref="tweet" scrolling="no" frameborder="no" :style="{ 'margin-top': '8px', left: `${tweetLeft}px`, width: `${tweetLeft < 0 ? 'auto' : '100%'}`, height: `${tweetHeight}px` }" :src="`https://platform.twitter.com/embed/index.html?embedId=${embedId}&amp;hideCard=false&amp;hideThread=false&amp;lang=en&amp;theme=${$store.state.device.darkmode ? 'dark' : 'light'}&amp;id=${tweetId}`"></iframe>
 	<div class="expandTweet">
-		<a @click="tweetExpanded = false">
+		<a @click.prevent="tweetExpanded = false">
 			{{ $t('collapseTweet') }}
 		</a>
 	</div>
@@ -31,9 +31,13 @@
 		</article>
 	</a>
 	<div class="expandTweet" v-if="tweetId">
-		<a @click="tweetExpanded = true">
+		<a @click.prevent="tweetExpanded = true">
 			{{ $t('expandTweet') }}
 		</a>
+	</div>
+	<div class="tweetAlt" v-if="nitter && twitterUser">
+		<a v-if="tweetId" :href="`https://${nitter}/${twitterUser}/status/${tweetId}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
+		<a v-else-if="twitterUser" :href="`https://${nitter}/${twitterUser}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
 	</div>
 </div>
 </template>
@@ -86,6 +90,7 @@ export default Vue.extend({
 				height: null
 			},
 			tweetId: null,
+			twitterUser: null,
 			tweetExpanded: this.detail,
 			embedId: `embed${Math.random().toString().replace(/\D/,'')}`,
 			steamId: null,
@@ -93,6 +98,7 @@ export default Vue.extend({
 			tweetLeft: 0,
 			playerEnabled: false,
 			misskeyUrl,
+			nitter: null,
 		};
 	},
 
@@ -103,14 +109,24 @@ export default Vue.extend({
 			return;
 		}
 
+		this.nitter = this.$store.state.device.nitter;
+
 		if (requestUrl.hostname == 'store.steampowered.com') {
 			const m = requestUrl.pathname.match(/^\/app\/(\d+)/);
 			if (m) this.steamId = m[1];
 		}
 
-		if (requestUrl.hostname == 'twitter.com') {
-			const m = requestUrl.pathname.match(/^\/.+\/status(?:es)?\/(\d+)/);
-			if (m) this.tweetId = m[1];
+		if (requestUrl.hostname === 'twitter.com' || requestUrl.hostname === 'm.twitter.com') {
+			const mTweet = requestUrl.pathname.match(/^\/(\w+)\/status(?:es)?\/(\d+)/);
+			if (mTweet) {
+				this.twitterUser = mTweet[1];
+				this.tweetId = mTweet[2];
+			}
+
+			const mUser = requestUrl.pathname.match(/^\/(\w+)/);
+			if (mUser) {
+				this.twitterUser = mUser[1];
+			}
 		}
 
 		if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/(?:watch|channel)')) {
@@ -383,4 +399,7 @@ export default Vue.extend({
 	> a
 		font-size small
 		color var(--text)
+
+.tweetAlt
+	font-size small
 </style>

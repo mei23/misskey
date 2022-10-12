@@ -21,6 +21,7 @@ const path = process.env.NODE_ENV == 'test'
 	: `${dir}/default.yml`;
 
 export default function load() {
+	// eslint-disable-next-line node/no-sync
 	const config = yaml.load(fs.readFileSync(path, 'utf-8')) as Source;
 
 	const mixin = {} as Mixin;

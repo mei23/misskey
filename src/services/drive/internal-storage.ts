@@ -11,19 +11,20 @@ export class InternalStorage {
 		return fs.createReadStream(InternalStorage.resolvePath(key));
 	}
 
-	public static saveFromPath(key: string, srcPath: string) {
-		fs.mkdirSync(InternalStorage.path, { recursive: true });
-		fs.copyFileSync(srcPath, InternalStorage.resolvePath(key));
+	public static async saveFromPathAsync(key: string, srcPath: string) {
+		await fs.promises.mkdir(InternalStorage.path, { recursive: true });
+		await fs.promises.copyFile(srcPath, InternalStorage.resolvePath(key));
 		return `${config.url}/files/${key}`;
 	}
 
-	public static saveFromBuffer(key: string, data: Buffer) {
-		fs.mkdirSync(InternalStorage.path, { recursive: true });
-		fs.writeFileSync(InternalStorage.resolvePath(key), data);
+	public static async saveFromBufferAsync(key: string, data: Buffer) {
+		await fs.promises.mkdir(InternalStorage.path, { recursive: true });
+		await fs.promises.writeFile(InternalStorage.resolvePath(key), data);
 		return `${config.url}/files/${key}`;
 	}
 
 	public static del(key: string) {
+		// eslint-disable-next-line node/prefer-promises/fs
 		fs.unlink(InternalStorage.resolvePath(key), () => {});
 	}
 }

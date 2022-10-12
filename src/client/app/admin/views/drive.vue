@@ -53,6 +53,19 @@
 					<span>{{ $t('@.host') }}</span>
 				</ui-input>
 			</ui-horizon-group>
+			<ui-horizon-group inputs>
+				<ui-select v-model="attached">
+					<option value="all">{{ $t('@.allAttached') }}</option>
+					<option value="attached">{{ $t('@.attached') }}</option>
+					<option value="notAttached">{{ $t('@.notAttached') }}</option>
+				</ui-select>
+				<ui-select v-model="type">
+					<option value="">{{ $t('@.allType') }}</option>
+					<option value="image/*">{{ $t('@.image') }}</option>
+					<option value="video/*">{{ $t('@.video') }}</option>
+					<option value="audio/*">{{ $t('@.audio') }}</option>
+				</ui-select>
+			</ui-horizon-group>
 			<div class="kidvdlkg" v-for="file in files" :key="file.id">
 				<div @click="file._open = !file._open">
 					<div>
@@ -67,6 +80,15 @@
 						<div>
 							<div>
 								<span style="margin-right:16px;">{{ file.type }}</span>
+								<!-- Note attaches -->
+								<span>
+									<span><fa :icon="faPaperclip"/> {{ file.attachedNoteIds ? file.attachedNoteIds.length : 0 }} Notes</span>
+									<span v-if="file.attachedNoteIds && file.attachedNoteIds.length" style="font-size: small">
+										<span v-for="noteId of file.attachedNoteIds" :key="noteId" style="padding: 0 0.3em">
+											<a :href="`/notes/${noteId}`" rel="noopener" target="_blank">{{ noteId }}</a>
+										</span>
+									</span>
+								</span>
 							</div>
 							<div><mk-time :time="file.createdAt" mode="detail"/></div>
 						</div>
@@ -93,7 +115,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../i18n';
-import { faCloud, faTerminal, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCloud, faTerminal, faSearch, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import XFileThumbnail from '../../common/views/components/drive-file-thumbnail.vue';
 
@@ -110,11 +132,13 @@ export default Vue.extend({
 			target: null,
 			origin: 'local',
 			hostname: '',
+			attached: 'all',
+			type: '',
 			limit: 10,
 			offset: 0,
 			files: [],
 			existMore: false,
-			faCloud, faTrashAlt, faEye, faEyeSlash, faTerminal, faSearch
+			faCloud, faTrashAlt, faEye, faEyeSlash, faTerminal, faSearch, faPaperclip
 		};
 	},
 
@@ -130,7 +154,19 @@ export default Vue.extend({
 			this.files = [];
 			this.offset = 0;
 			this.fetch();
-		}
+		},
+
+		attached() {
+			this.files = [];
+			this.offset = 0;
+			this.fetch();
+		},
+
+		type() {
+			this.files = [];
+			this.offset = 0;
+			this.fetch();
+		},
 	},
 
 	mounted() {
@@ -153,6 +189,8 @@ export default Vue.extend({
 			this.$root.api('admin/drive/files', {
 				origin: this.origin,
 				hostname: this.hostname,
+				attached: this.attached,
+				type: this.type || undefined,
 				offset: this.offset,
 				limit: this.limit + 1
 			}).then(files => {

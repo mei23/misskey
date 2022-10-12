@@ -11,6 +11,19 @@
 			<span class="folder current" v-if="folder != null">{{ folder.name }}</span>
 		</div>
 	</nav>
+	<ui-horizon-group class="filter">
+		<ui-select v-model="attached">
+			<option value="all">{{ $t('@.allAttached') }}</option>
+			<option value="attached">{{ $t('@.attached') }}</option>
+			<option value="notAttached">{{ $t('@.notAttached') }}</option>
+		</ui-select>
+		<ui-select v-model="type">
+			<option value="">{{ $t('@.allType') }}</option>
+			<option value="image/*">{{ $t('@.image') }}</option>
+			<option value="video/*">{{ $t('@.video') }}</option>
+			<option value="audio/*">{{ $t('@.audio') }}</option>
+		</ui-select>
+	</ui-horizon-group>
 	<div class="main" :class="{ uploading: uploadings.length > 0, fetching }"
 		ref="main"
 		@mousedown="onMousedown"
@@ -75,7 +88,12 @@ export default Vue.extend({
 		type: {
 			type: String,
 			required: false,
-			default: undefined 
+			default: () => '',
+		},
+		attached: {
+			type: String,
+			required: false,
+			default: () => 'all',
 		},
 		multiple: {
 			type: Boolean,
@@ -131,6 +149,14 @@ export default Vue.extend({
 	},
 	beforeDestroy() {
 		this.connection.dispose();
+	},
+	watch: {
+		attached() {
+			this.fetch();
+		},
+		type() {
+			this.fetch();
+		},
 	},
 	computed: {
 		parentFolder(): any {
@@ -539,7 +565,8 @@ export default Vue.extend({
 			// ファイル一覧取得
 			this.$root.api('drive/files', {
 				folderId: this.folder ? this.folder.id : null,
-				type: this.type,
+				attached: this.attached,
+				type: this.type || undefined,
 				limit: filesMax + 1
 			}).then(files => {
 				if (files.length == filesMax + 1) {
@@ -570,7 +597,8 @@ export default Vue.extend({
 			// ファイル一覧取得
 			this.$root.api('drive/files', {
 				folderId: this.folder ? this.folder.id : null,
-				type: this.type,
+				attached: this.attached,
+				type: this.type || undefined,
 				untilId: this.files[this.files.length - 1].id,
 				limit: max + 1
 			}).then(files => {
@@ -640,6 +668,13 @@ export default Vue.extend({
 
 					> [data-icon]
 						margin 0
+
+	> .filter
+		font-size 0.9em
+		color var(--text)
+		background var(--desktopDriveBg)
+		padding 0.9em
+		margin 0
 
 	> .main
 		height calc(100% - 38px)

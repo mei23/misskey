@@ -31,6 +31,7 @@ export const mfmLanguage = P.createLanguage({
 		r.hashtag,
 		r.url,
 		r.link,
+		r.rj,
 		r.emoji,
 		r.text,
 	).atLeast(1),
@@ -65,6 +66,7 @@ export const mfmLanguage = P.createLanguage({
 		r.hashtag,
 		r.url,
 		r.link,
+		r.rj,
 		r.emoji,
 
 		// 装飾はここに追加
@@ -324,6 +326,16 @@ export const mfmLanguage = P.createLanguage({
 			}, P.alt(r.emoji, r.text).atLeast(1).tryParse(x.text));
 		});
 	},
+	rj: r => {
+		return P.regexp(/(RJ\d{6})/, 1).map((x: any) => {
+			return createMfmNode('link',
+			{
+				silent: false,
+				url: `https://www.dlsite.com/home/announce/=/product_id/${x}.html`,
+			}, [createMfmNode('text', { text: x })]);
+		});
+	},
+
 	emoji: () => {
 		const name = P.regexp(/:(@?[\w-]+(?:@[\w.-]+)?):/i, 1).map(x => createMfmNode('emoji', { name: x }));
 		const vcode = P.regexp(vendorEmojiRegex).map(x => createMfmNode('emoji', { emoji: x, vendor: true }));

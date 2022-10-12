@@ -5,6 +5,7 @@
 	<div class="gqpwvtwtprsbmnssnbicggtwqhmylhnq">
 		<template v-if="edit">
 			<header>
+				<!-- widget/adder/deck -->
 				<select v-model="widgetAdderSelected" @change="addWidget">
 					<option value="profile">{{ $t('@.widgets.profile') }}</option>
 					<option value="analog-clock">{{ $t('@.widgets.analog-clock') }}</option>
@@ -19,7 +20,7 @@
 					<option value="notifications">{{ $t('@.widgets.notifications') }}</option>
 					<option value="polls">{{ $t('@.widgets.polls') }}</option>
 					<option value="post-form">{{ $t('@.widgets.post-form') }}</option>
-					<option value="messaging">{{ $t('@.widgets.messaging') }}</option>
+					<option value="messaging">{{ $t('@.messaging') }}</option> 
 					<option value="memo">{{ $t('@.widgets.memo') }}</option>
 					<option value="hashtags">{{ $t('@.widgets.hashtags') }}</option>
 					<option value="words">{{ $t('@.widgets.words') }}</option>
@@ -28,6 +29,7 @@
 					<option value="queue">{{ $t('@.widgets.queue') }}</option>
 					<option value="nav">{{ $t('@.widgets.nav') }}</option>
 					<option value="tips">{{ $t('@.widgets.tips') }}</option>
+					<option value="sunmoon">{{ $t('@.widgets.sunmoon') }}</option>
 				</select>
 			</header>
 			<x-draggable

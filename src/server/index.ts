@@ -2,10 +2,7 @@
  * Core Server
  */
 
-import * as fs from 'fs';
 import * as http from 'http';
-import * as http2 from 'http2';
-import * as https from 'https';
 import * as cluster from 'cluster';
 import * as Koa from 'koa';
 import * as Router from '@koa/router';
@@ -115,16 +112,7 @@ app.use(router.routes());
 app.use(mount(require('./web')));
 
 function createServer() {
-	if (config.https) {
-		const certs: any = {};
-		for (const k of Object.keys(config.https)) {
-			certs[k] = fs.readFileSync(config.https[k]);
-		}
-		certs['allowHTTP1'] = true;
-		return http2.createSecureServer(certs, app.callback()) as https.Server;
-	} else {
-		return http.createServer(app.callback());
-	}
+	return http.createServer(app.callback());
 }
 
 // For testing

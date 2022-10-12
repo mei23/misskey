@@ -72,7 +72,7 @@ export default async function(ctx: Router.RouterContext) {
 				}
 
 				return {
-					data: fs.readFileSync(path),
+					data: await fs.promises.readFile(path),
 					ext,
 					type: mime,
 				};

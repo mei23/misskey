@@ -1,7 +1,6 @@
-"use strict";
-const process = require("process");
-const os = require("os");
-const v8 = require("v8");
+'use strict';
+const os = require('os');
+const v8 = require('v8');
 console.log(`Node Version: ${process.version}`);
 console.log(`Node ExecPath: ${process.execPath}`);
 console.log(`OS Platform: ${os.platform()}`);

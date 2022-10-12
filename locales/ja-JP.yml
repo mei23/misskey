@@ -103,6 +103,13 @@ common:
   only-not-followed: "フォローされてないユーザーのみ"
   only-not-following: "フォローしてないユーザーのみ"
   only-moved: "引っ越したユーザーのみ"
+  allAttached: "すべての添付状態"
+  attached: "添付されている"
+  notAttached: "添付されていない"
+  allType: "すべての種類"
+  image: "画像"
+  video: "動画"
+  audio: "音声"
   desktop-mode: 'デスクトップ版'
   mobile-mode: 'モバイル版'
   empty: 'ありません！'
@@ -380,6 +387,7 @@ common:
         low: "低"
         cheep: "最低"
       useOrthographicCamera: "平行投影カメラを使用"
+    nitter: "Twitterの代替ドメイン"
 
   search: "検索"
   delete: "削除"
@@ -448,13 +456,14 @@ common:
     hashtags: "ハッシュタグ"
     words: "トレンドワード"
     queue: "キュー"
+    sunmoon: "太陽と月"
 
   dev: "アプリの作成に失敗しました。再度お試しください。"
   ai-chan-kawaii: "藍ちゃかわいい"
   you: "あなた"
   startTalk: "チャットを開始"
   addUsertag: "ユーザータグを追加"
-  addUsertagDetail: "ユーザータグは他のユーザーは見れません, @タグでサジェストすることが出来ます"
+  addUsertagDetail: "ユーザータグは他のユーザーは見れません。ユーザー検索で使用することが出来ます。"
   removeUsertagConfirm: "このユーザータグを削除しますか？"
 
 auth/views/form.vue:
@@ -516,6 +525,7 @@ common/views/components/url-preview.vue:
   disable-player: "プレイヤーを閉じる"
   expandTweet: "ツイートを展開する"
   collapseTweet: "ツイートを閉じる"
+  alternativeLink: "代替リンク"
 
 common/views/components/user-list.vue:
   no-users: "ユーザーがいません"
@@ -1078,6 +1088,12 @@ common/views/widgets/tips.vue:
   tips-line23: "藍かわいいよ藍"
   tips-line24: "Misskeyは2014年にサービスを開始しました"
   tips-line25: "対応ブラウザではMisskeyを開いていなくても通知を受け取れます"
+
+common/views/widgets/sunmoon.vue:
+  ctStart: "市民薄明"
+  sunrise: "日の出"
+  sunset: "日の入"
+  ctEnd: "市民薄明"
 
 common/views/pages/not-found.vue:
   page-not-found: "ページが見つかりませんでした"

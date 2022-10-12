@@ -30,7 +30,7 @@ export async function proxyMedia(ctx: Router.RouterContext) {
 			throw new StatusError('Rejected type', 403, 'Rejected type');
 		} else {
 			image = {
-				data: fs.readFileSync(path),
+				data: await fs.promises.readFile(path),
 				ext: ext || '',
 				type: mime,
 			};

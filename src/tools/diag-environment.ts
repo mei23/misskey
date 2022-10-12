@@ -1,4 +1,3 @@
-import * as process from 'process';
 import * as os from 'os';
 import * as v8 from 'v8';
 
