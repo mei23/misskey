@@ -53,6 +53,19 @@
 					<span>{{ $t('@.host') }}</span>
 				</ui-input>
 			</ui-horizon-group>
+			<ui-horizon-group inputs>
+				<ui-select v-model="attached">
+					<option value="all">{{ $t('@.allAttached') }}</option>
+					<option value="attached">{{ $t('@.attached') }}</option>
+					<option value="notAttached">{{ $t('@.notAttached') }}</option>
+				</ui-select>
+				<ui-select v-model="type">
+					<option value="">{{ $t('@.allType') }}</option>
+					<option value="image/*">{{ $t('@.image') }}</option>
+					<option value="video/*">{{ $t('@.video') }}</option>
+					<option value="audio/*">{{ $t('@.audio') }}</option>
+				</ui-select>
+			</ui-horizon-group>
 			<div class="kidvdlkg" v-for="file in files" :key="file.id">
 				<div @click="file._open = !file._open">
 					<div>
@@ -110,6 +123,8 @@ export default Vue.extend({
 			target: null,
 			origin: 'local',
 			hostname: '',
+			attached: 'all',
+			type: '',
 			limit: 10,
 			offset: 0,
 			files: [],
@@ -130,7 +145,19 @@ export default Vue.extend({
 			this.files = [];
 			this.offset = 0;
 			this.fetch();
-		}
+		},
+
+		attached() {
+			this.files = [];
+			this.offset = 0;
+			this.fetch();
+		},
+
+		type() {
+			this.files = [];
+			this.offset = 0;
+			this.fetch();
+		},
 	},
 
 	mounted() {
@@ -153,6 +180,8 @@ export default Vue.extend({
 			this.$root.api('admin/drive/files', {
 				origin: this.origin,
 				hostname: this.hostname,
+				attached: this.attached,
+				type: this.type || undefined,
 				offset: this.offset,
 				limit: this.limit + 1
 			}).then(files => {
