@@ -101,6 +101,13 @@ common:
   only-not-followed: "Only not followed users"
   only-not-following: "Only not following users"
   only-moved: "Moved users only"
+  allAttached: "All attach states"
+  attached: "Attached"
+  notAttached: "Not attached"
+  allType: "All types"
+  image: "Image"
+  video: "Video"
+  audio: "Audio"
   desktop-mode: 'Desktop mode'
   mobile-mode: 'Mobile mode'
   empty: 'Empty'

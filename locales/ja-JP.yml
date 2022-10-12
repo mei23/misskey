@@ -103,6 +103,13 @@ common:
   only-not-followed: "フォローされてないユーザーのみ"
   only-not-following: "フォローしてないユーザーのみ"
   only-moved: "引っ越したユーザーのみ"
+  allAttached: "すべての添付状態"
+  attached: "添付されている"
+  notAttached: "添付されていない"
+  allType: "すべての種類"
+  image: "画像"
+  video: "動画"
+  audio: "音声"
   desktop-mode: 'デスクトップ版'
   mobile-mode: 'モバイル版'
   empty: 'ありません！'

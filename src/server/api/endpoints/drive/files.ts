@@ -37,6 +37,14 @@ export const meta = {
 			transform: transform,
 		},
 
+		attached: {
+			validator: $.optional.str.or([
+				'all',
+				'attached',
+				'notAttached',
+			]),
+		},
+
 		type: {
 			validator: $.optional.str.match(/^[a-zA-Z\/\-\*]+$/)
 		}
@@ -60,6 +68,12 @@ export default define(meta, async (ps, user) => {
 		'metadata.folderId': ps.folderId,
 		'metadata.deletedAt': { $exists: false }
 	} as any;
+
+	if (ps.attached === 'attached') {
+		query['metadata.attachedNoteIds.0'] = { $exists: true };
+	} else if (ps.attached === 'notAttached') {
+		query['metadata.attachedNoteIds.0'] = { $exists: false };
+	}
 
 	if (ps.sinceId) {
 		sort._id = 1;
