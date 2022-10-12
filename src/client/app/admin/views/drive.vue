@@ -80,6 +80,15 @@
 						<div>
 							<div>
 								<span style="margin-right:16px;">{{ file.type }}</span>
+								<!-- Note attaches -->
+								<span>
+									<span><fa :icon="faPaperclip"/> {{ file.attachedNoteIds ? file.attachedNoteIds.length : 0 }} Notes</span>
+									<span v-if="file.attachedNoteIds && file.attachedNoteIds.length" style="font-size: small">
+										<span v-for="noteId of file.attachedNoteIds" :key="noteId" style="padding: 0 0.3em">
+											<a :href="`/notes/${noteId}`" rel="noopener" target="_blank">{{ noteId }}</a>
+										</span>
+									</span>
+								</span>
 							</div>
 							<div><mk-time :time="file.createdAt" mode="detail"/></div>
 						</div>
@@ -106,7 +115,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../i18n';
-import { faCloud, faTerminal, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCloud, faTerminal, faSearch, faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { faTrashAlt, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import XFileThumbnail from '../../common/views/components/drive-file-thumbnail.vue';
 
@@ -129,7 +138,7 @@ export default Vue.extend({
 			offset: 0,
 			files: [],
 			existMore: false,
-			faCloud, faTrashAlt, faEye, faEyeSlash, faTerminal, faSearch
+			faCloud, faTrashAlt, faEye, faEyeSlash, faTerminal, faSearch, faPaperclip
 		};
 	},
 

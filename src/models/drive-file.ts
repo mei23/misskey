@@ -156,9 +156,9 @@ export const packMany = (
 export const pack = async (
 	file: any,
 	options?: {
-		detail?: boolean,
-		self?: boolean,
-		withUser?: boolean,
+		detail?: boolean,	// w folder info
+		self?: boolean,	// for my drive, w original info
+		withUser?: boolean,	// w user info
 	}
 ) => {
 	const opts = Object.assign({
@@ -236,6 +236,7 @@ export const pack = async (
 	if (opts.self) {
 		_target.webpublicUrl = _target.url;
 		_target.url = getOriginalUrl(_file);
+		_target.attachedNoteIds = _file.metadata.attachedNoteIds;
 	}
 
 	return _target;
