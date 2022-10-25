@@ -8773,10 +8773,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@5.12.7:
-  version "5.12.7"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.7.tgz#6c13f58b2db47c7aa814172113d392ac1c1e52fc"
-  integrity sha512-Kubdu6YzMWtGEsnGF5ddohvIWsxOlEkV0P/3oKTPl56ADOowDiWBR59RpIRvbijXwEQrnRKeF3MOuH7apdEc/g==
+systeminformation@5.12.10:
+  version "5.12.10"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.10.tgz#05b70c2e1c41209b88bc670b81e5cbd2ea8c9bd3"
+  integrity sha512-rLShZFpz14aWqg3nNCS8zw74WicRV6c3R17Ob7oO37zSypZATT4M2Dgjr4nE6PYGlome9ObU0A2uqXiAlaBbuA==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
