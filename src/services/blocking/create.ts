@@ -85,6 +85,12 @@ async function cancelRequest(follower: IUser, followee: IUser) {
 		const content = renderActivity(renderReject(renderFollow(follower, followee, request.requestId), followee));
 		deliver(followee, content, follower.inbox);
 	}
+
+	// リモートからフォローを受けていたらReject送信
+	if (isRemoteUser(follower) && isLocalUser(followee)) {
+		const content = renderActivity(renderReject(renderFollow(follower, followee), followee));
+		deliver(followee, content, follower.inbox);
+	}
 }
 
 async function unFollow(follower: IUser, followee: IUser) {
