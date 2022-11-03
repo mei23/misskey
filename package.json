@@ -130,7 +130,7 @@
 		"https-proxy-agent": "5.0.1",
 		"iconv": "3.0.1",
 		"insert-text-at-cursor": "0.3.0",
-		"ioredis": "4.28.5",
+		"ioredis": "5.2.4",
 		"ip-cidr": "3.0.10",
 		"is-svg": "4.3.2",
 		"js-yaml": "4.1.0",
