@@ -175,7 +175,7 @@
 		"qrcode": "1.5.1",
 		"ratelimiter": "3.4.1",
 		"reconnecting-websocket": "4.4.0",
-		"redis-lock": "0.1.4",
+		"redis-lock": "1.0.0",
 		"rename": "1.0.4",
 		"request-stats": "3.0.0",
 		"rimraf": "3.0.2",
