@@ -165,7 +165,7 @@
 		"parsimmon": "1.18.1",
 		"postcss": "8.4.19",
 		"postcss-loader": "6.2.1",
-		"private-ip": "2.3.4",
+		"private-ip": "3.0.0",
 		"probe-image-size": "7.2.3",
 		"progress-bar-webpack-plugin": "2.1.0",
 		"promise-limit": "2.7.0",
