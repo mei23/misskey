@@ -4761,10 +4761,10 @@ ip-address@^7.1.0:
     jsbn "1.1.0"
     sprintf-js "1.1.2"
 
-ip-cidr@3.0.10:
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-3.0.10.tgz#e1a039705196d84b43858f81a243fd70def9cefc"
-  integrity sha512-PXSsrRYirsuaCI1qBVyVXRLUIpNzxm76eHd3UvN5NXTMUG85GWGZpr6P+70mimc5e7Nfh/tShmjk0oSywErMWg==
+ip-cidr@3.0.11:
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/ip-cidr/-/ip-cidr-3.0.11.tgz#62adf6e01a04eb34aec9fb12127d5c64ee231cfb"
+  integrity sha512-6pf3APV0cRWy7vk0ealQt7UeWPqpT4RQM0bR0miVY/XRiBV8hIkPSkEHctv1+GAUPIwT9qpUL57deYlYca9UEA==
   dependencies:
     ip-address "^7.1.0"
     jsbn "^1.1.0"
