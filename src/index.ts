@@ -26,16 +26,12 @@ const bootLogger = logger.createSubLogger('boot', 'magenta', false);
 const clusterLogger = logger.createSubLogger('cluster', 'orange');
 const ev = new Xev();
 const workerIndex: Record<number, string> = {};
+export let processLabel = 'unknown';
 
 /**
  * Init process
  */
 function main() {
-	process.title = `Misskey (${cluster.isMaster ? 'master'
-		: process.env.WORKER_TYPE === 'server' ? 'server'
-		: process.env.WORKER_TYPE === 'queue' ? 'queue'
-		: 'worker'})`;
-
 	//#region Load config
 	const configLogger = bootLogger.createSubLogger('config');
 	let config: any;
@@ -57,9 +53,23 @@ function main() {
 	//#endregion
 
 	const st = getWorkerStrategies(config);
-	if (st.workers + st.servers + st.queues === 0) envOption.disableClustering = true;
 
-	if (envOption.disableClustering) {
+	processLabel = ((): string => {
+		if (st.disableClustering) {
+			if (st.onlyServer) return 'standalone:server';	// serverのみを実行するstandalone process
+			if (st.onlyQueue) return 'standalone:queue';	// queueのみを実行するstandalone process
+			return 'standalone';	// server/queueを実行するstandalone process
+		}
+
+		if (cluster.isMaster) return 'primary';	// workerをかかえるmaster process
+		if (process.env.WORKER_TYPE === 'server') return 'server';	// serverのみを実行するworker process
+		if (process.env.WORKER_TYPE === 'queue') return 'queue';	// serverのみを実行するworker process
+		return 'worker';	// server/queuを実行するworker process
+	})();
+
+	process.title = `Misskey (${processLabel})`;
+
+	if (st.disableClustering) {
 		masterMain(config).then(() => {
 			ev.mount();
 
@@ -148,14 +158,26 @@ async function masterMain(config: Config) {
  */
 async function workerMain(config: Config) {
 	const workerType = process.env.WORKER_TYPE;
+	const st = getWorkerStrategies(config);
 
-	if (workerType === 'server') {
-		await require('./server').default();
-	} else if (workerType === 'queue') {
-		await require('./queue').default();
+	if (st.disableClustering) {
+		if (st.onlyServer) {
+			await require('./server').default();
+		} else if (st.onlyQueue) {
+			await require('./queue').default();
+		} else {
+			await require('./server').default();
+			await require('./queue').default();
+		}
 	} else {
-		await require('./server').default();
-		await require('./queue').default();
+		if (workerType === 'server') {
+			await require('./server').default();
+		} else if (workerType === 'queue') {
+			await require('./queue').default();
+		} else {
+			await require('./server').default();
+			await require('./queue').default();
+		}
 	}
 
 	if (cluster.isWorker) {
@@ -242,6 +264,7 @@ export function getWorkerStrategies(config: Config) {
 	let workers = 0;
 	let servers = 0;
 	let queues = 0;
+	let disableClustering = false;
 
 	if (config.workerStrategies) {
 		workers = config.workerStrategies.workerWorkerCount || 0;
@@ -249,8 +272,14 @@ export function getWorkerStrategies(config: Config) {
 		queues = config.workerStrategies.queueWorkerCount || 0;
 	}
 
+	if (workers + servers + queues === 0) disableClustering = true;
+	if (envOption.disableClustering) disableClustering = true;
+
+	const onlyServer = envOption.onlyServer;
+	const onlyQueue = envOption.onlyQueue;
+
 	return {
-		workers, servers, queues
+		workers, servers, queues, disableClustering, onlyServer, onlyQueue
 	};
 }
 
