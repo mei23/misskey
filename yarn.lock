@@ -8736,10 +8736,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@5.12.14:
-  version "5.12.14"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.14.tgz#f9563673a42831adc2b95b3c1acce5741a44e3e5"
-  integrity sha512-POlTQg4Oalbsk4JQqHNQlIeX4qZlzatVjgxZqX3FSsWNSjaRqFI+Fy0Da6/kZF36bgMRyQwBc8niA9ll+eMQhA==
+systeminformation@5.12.15:
+  version "5.12.15"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.15.tgz#23faa476e36fffd30469b458fa718032b18a0284"
+  integrity sha512-LMctTV27bGqWMBsuhzvNTH3roKOQonTN730F9v0x9YtoYducXcobs0rg3QKNnWDyHJyWIgKY6FiHlFcXJYclTQ==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"
