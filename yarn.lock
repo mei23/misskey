@@ -867,10 +867,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/suncalc@1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@types/suncalc/-/suncalc-1.8.1.tgz#64fd7e779c03e5df16e6140b8e00d4521fa4185e"
-  integrity sha512-PNtzFQhdAIw3x5HEjVMxbyBwciX42C/Cg6J1foq2z/t9rucLGGu9nqQxOl005wGZR/fOxw49exwZUCmbnT/vGw==
+"@types/suncalc@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@types/suncalc/-/suncalc-1.9.0.tgz#bfd8792efdd74b2c807aba13ba441a78990d73b5"
+  integrity sha512-+c2wOhgyG5ZTtxfC8XG5SGY36HNlXYaPqv/mqBbjXn3iKWx0Lj375AShoKbjF1MCGoXFhSl3jLlmxTksjaGyZQ==
 
 "@types/tinycolor2@1.4.3":
   version "1.4.3"
