@@ -107,11 +107,11 @@ export default define(meta, async (ps, user) => {
 
 	// Mark all as read
 	if (ps.markAsRead) {
-		read(user._id, recipient._id, messages);
+		const readMessages = await read(user._id, recipient._id, messages);
 
 		// リモートユーザーとのメッセージだったら既読配信
-		if (isLocalUser(user) && isRemoteUser(recipient)) {
-			deliverReadActivity(user, recipient, messages);
+		if (isLocalUser(user) && isRemoteUser(recipient) && readMessages.length > 0) {
+			deliverReadActivity(user, recipient, readMessages);
 		}
 	}
 

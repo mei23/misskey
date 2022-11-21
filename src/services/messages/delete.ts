@@ -6,6 +6,8 @@ import { renderActivity } from '../../remote/activitypub/renderer';
 import renderDelete from '../../remote/activitypub/renderer/delete';
 import renderTombstone from '../../remote/activitypub/renderer/tombstone';
 import { deliver } from '../../queue';
+import { deleteUnusedFile } from '../drive/delete-unused-file';
+import DriveFile from '../../models/drive-file';
 
 export async function deleteMessage(message: IMessagingMessage) {
 	await MessagingMessage.remove({ _id: message._id });
@@ -23,6 +25,20 @@ async function postDeleteMessage(message: IMessagingMessage) {
 
 	if (isLocalUser(recipient)) {
 		publishMessagingStream(recipient._id, message.userId, 'deleted', message._id);
+	}
+
+	// ファイルが添付されていた場合ドライブのファイルの「このファイルが添付されたチャットメッセージ一覧」プロパティからこの投稿を削除
+	if (message.fileId) {
+		DriveFile.update({ _id: message.fileId }, {
+			$pull: {
+				'metadata.attachedMessageIds': message._id
+			}
+		});
+
+		// リモートユーザーの場合はもう参照されてないファイルか確認
+		if (isRemoteUser(user)) {
+			deleteUnusedFile(message.fileId);
+		}
 	}
 
 	if (isLocalUser(user) && isRemoteUser(recipient)) {

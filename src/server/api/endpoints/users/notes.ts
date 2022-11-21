@@ -204,7 +204,13 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (!ps.includeReplies) {
-		query.replyId = null;
+		query.$and.push({
+			$or: [{
+				replyId: null	// normal post
+			}, {
+				$expr: { $eq: ['$_reply.userId', '$userId'] }
+			}]
+		});
 	}
 
 	if (ps.includeMyRenotes === false) {

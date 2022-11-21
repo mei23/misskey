@@ -1,5 +1,5 @@
 import NoteUnread from '../../models/note-unread';
-import User, { IUser, getMute } from '../../models/user';
+import User, { IUser, getMute, getBlocks } from '../../models/user';
 import { INote } from '../../models/note';
 import { publishMainStream } from '../stream';
 
@@ -7,6 +7,8 @@ export default async function(user: IUser, note: INote, isSpecified = false) {
 	//#region ミュートしているなら無視
 	const mute = await getMute(user._id, note.userId);
 	if (mute) return;
+	const blocks = await getBlocks(user._id, note.userId);
+	if (blocks.length > 0) return;
 	//#endregion
 
 	const unread = await NoteUnread.insert({

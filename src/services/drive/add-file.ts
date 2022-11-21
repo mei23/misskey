@@ -15,7 +15,7 @@ import instanceChart from '../../services/chart/instance';
 import fetchMeta from '../../misc/fetch-meta';
 import { generateVideoThumbnail } from './generate-video-thumbnail';
 import { driveLogger } from './logger';
-import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng, convertSharpToPngOrJpeg } from './image-processor';
+import { IImage, convertSharpToJpeg, convertSharpToWebp, convertSharpToPng, convertSharpToPngOrJpeg, convertSharpToAvif } from './image-processor';
 import Instance from '../../models/instance';
 import { contentDisposition } from '../../misc/content-disposition';
 import { getFileInfo, FileInfo, FILE_TYPE_BROWSERSAFE } from '../../misc/get-file-info';
@@ -210,7 +210,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	}
 
 	// unsupported image
-	if (!['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'].includes(type)) {
+	if (!['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/svg+xml'].includes(type)) {
 		return {
 			webpublic: null,
 			thumbnail: null
@@ -237,7 +237,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	if (generateWeb) {
 		logger.debug(`creating web image`);
 
-		if (['image/jpeg'].includes(type) && !webpulicSafe) {
+		if (['image/jpeg'].includes(type) && !webpulicSafe) { 
 			if (subsamplingOff) {
 				// (Photoshopの書き出しのデフォルトのように) Chroma subsampling を行っていない場合は、意図を汲んで行わないようにする。
 				webpublic = await convertSharpToJpeg(img, 2048, 2048, { disableSubsampling: true });
@@ -247,6 +247,8 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 			}
 		} else if (['image/webp'].includes(type) && !webpulicSafe) {
 			webpublic = await convertSharpToWebp(img, 2048, 2048);
+		} else if (['image/avif'].includes(type) && !webpulicSafe) {
+			webpublic = await convertSharpToAvif(img, 2048, 2048);
 		} else if (['image/png'].includes(type) && !webpulicSafe) {
 			webpublic = await convertSharpToPng(img, 2048, 2048);
 		} else if (['image/svg+xml'].includes(type)) {
@@ -262,7 +264,7 @@ export async function generateAlts(path: string, type: string, generateWeb: bool
 	// #region thumbnail
 	let thumbnail: IImage | null = null;
 
-	if (['image/jpeg', 'image/webp'].includes(type)) {
+	if (['image/jpeg', 'image/webp', 'image/avif'].includes(type)) {
 		// このあたりのサイズだとWebPの方が強いが互換性のためにとりあえず保留
 		thumbnail = await convertSharpToJpeg(img, 530, 255);
 	} else if (['image/png', 'image/svg+xml'].includes(type)) {

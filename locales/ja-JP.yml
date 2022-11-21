@@ -124,6 +124,7 @@ common:
   noteReactions: "リアクションした投稿"
   poll_finished: "アンケートが完了しました"
   flush: "キャッシュをクリア"
+  signinOrUsePostUrl: "それをするにはサインインするかURLをあなたのインスタンスの検索ボックスに入れてやっていってください。"
 
   permissions:
     "read:account": "アカウントの情報を見る"
@@ -397,6 +398,8 @@ common:
   update-available-title: "更新があります"
   update-available: "Misskeyの新しいバージョンがあります({newer}。現在{current}を利用中)。ページを再度読み込みすると更新が適用されます。"
   my-token-regenerated: "あなたのトークンが更新されたのでサインアウトします。"
+  admin-user: "管理者アカウント"
+  bot-user: "Botアカウント"
   verified-user: "公式アカウント"
   silenced-user: "Silenced user"
   suspended-user: "Suspended user"
@@ -457,6 +460,7 @@ common:
     words: "トレンドワード"
     queue: "キュー"
     sunmoon: "太陽と月"
+    aichan: "藍"
 
   dev: "アプリの作成に失敗しました。再度お試しください。"
   ai-chan-kawaii: "藍ちゃかわいい"
@@ -603,6 +607,9 @@ common/views/components/connect-failed.troubleshooter.vue:
   success-desc: "正常に接続できるようです。ページを再度読み込みしてください。"
   flush: "キャッシュの削除"
   set-version: "バージョン指定"
+
+common/views/components/instance.vue:
+  start: "はじめる"
 
 common/views/components/media-banner.vue:
   sensitive: "閲覧注意"
@@ -771,6 +778,7 @@ common/views/components/poll.vue:
   remaining-hours: "終了まであと{h}時間{m}分"
   remaining-minutes: "終了まであと{m}分{s}秒"
   remaining-seconds: "終了まであと{s}秒"
+  vote-confirm: "投票しますか？"
 
 common/views/components/poll-editor.vue:
   no-only-one-choice: "アンケートには、選択肢が最低2つ必要です"
@@ -1247,6 +1255,7 @@ desktop/views/components/note-detail.vue:
   private: "この投稿は非公開です"
   deleted: "この投稿は削除されました"
   location: "位置情報"
+  reply: "返信"
   renote: "Renote"
   add-reaction: "リアクション"
   undo-reaction: "リアクション解除"
@@ -2009,7 +2018,7 @@ common/views/components/follow-button.vue:
   follow-processing: "フォロー処理中"
   follow-request: "フォロー申請"
   remoteFollow: "リモートフォロー"
-  remoteFollowMessage: "以下のアカウントをフォローしたいインスタンスの検索ボックスに入れてフォローして下さい。\n```\n{acct}\n```\n\n\nまたは、以下にフォローしたいアカウントを入力して下さい。"
+  remoteFollowMessage: "以下のURLをあなたのインスタンスの検索ボックスに入れてフォローして下さい。\n{acct}"
 
 mobile/views/components/note.vue:
   private: "この投稿は非公開です"

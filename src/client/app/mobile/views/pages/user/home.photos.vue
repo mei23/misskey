@@ -27,7 +27,7 @@ export default Vue.extend({
 		};
 	},
 	mounted() {
-		const image = ['image/jpeg','image/png','image/apng','image/gif','image/webp'];
+		const image = ['image/jpeg','image/png','image/apng','image/gif','image/webp', 'image/avif'];
 		this.$root.api('users/notes', {
 			userId: this.user.id,
 			fileType: image,

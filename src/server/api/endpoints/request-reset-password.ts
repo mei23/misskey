@@ -9,6 +9,8 @@ import { secureRndstr } from '../../../misc/secure-rndstr';
 import { apiLogger } from '../logger';
 
 export const meta = {
+	tags: ['reset password'],
+
 	requireCredential: false as const,
 
 	limit: {

@@ -22,6 +22,9 @@
 					<h1><mk-user-name :user="user" :key="user.id" :nowrap="false"/></h1>
 					<span class="username"><mk-acct :user="user" :detail="true" :key="user.id"/></span>
 					<span class="moved" v-if="user.movedToUser != null">moved to <router-link :to="user.movedToUser | userPage()"><mk-acct :user="user.movedToUser" :detail="true"/></router-link></span>
+					<span class="is-admin" v-if="user.isAdmin" :title="$t('@.admin-user')"><fa :icon="faCrown"/></span>
+					<span class="is-verified" v-if="user.isVerified" :title="$t('@.verified-user')"><fa icon="star"/></span>
+					<span class="is-bot" v-if="user.isBot" :title="$t('@.bot-user')"><fa icon="robot"/></span>
 					<span class="followed" v-if="user.isFollowed">{{ $t('follows-you') }}</span>
 				</div>
 				<div class="description">
@@ -95,7 +98,7 @@ import XListMenu from '../../../../common/views/components/list-menu.vue';
 import XHome from './home.vue';
 import { getStaticImageUrl } from '../../../../common/scripts/get-static-image-url';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
-import { faUserTag } from '@fortawesome/free-solid-svg-icons';
+import { faUserTag, faCrown } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/user.vue'),
@@ -108,7 +111,7 @@ export default Vue.extend({
 			fetching: true,
 			user: null,
 			page: this.$route.name == 'user' ? 'home' : null,
-			faUserTag
+			faUserTag, faCrown
 		};
 	},
 	computed: {
@@ -286,7 +289,19 @@ export default Vue.extend({
 					color var(--mobileUserPageAcct)
 
 				> .moved
-					margin-left 8px
+					margin-left 4px
+
+				> .is-admin
+					margin-left .5em
+					color var(--noteHeaderAdminFg)
+
+				> .is-verified
+					margin-left .5em
+					color #4dabf7
+
+				> .is-bot
+					margin-left .5em
+					color var(--noteHeaderBadgeFg)
 
 				> .followed
 					margin-left 8px

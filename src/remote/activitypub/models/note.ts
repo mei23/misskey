@@ -166,7 +166,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	// 引用
 	let quote: INote | undefined | null;
 
-	if (note._misskey_quote || note.quoteUrl) {
+	if (note._misskey_quote || note.quoteUri || note.quoteUrl) {
 		const tryResolveNote = async (uri: string): Promise<{
 			status: 'ok' | 'permerror' | 'temperror';
 			res?: INote | null;
@@ -191,7 +191,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 			}
 		};
 
-		const uris = unique([note._misskey_quote, note.quoteUrl].filter(x => typeof x === 'string') as string[]);
+		const uris = unique([note._misskey_quote, note.quoteUri, note.quoteUrl].filter(x => typeof x === 'string') as string[]);
 		const results = await Promise.all(uris.map(uri => tryResolveNote(uri)));
 
 		quote = results.filter(x => x.status === 'ok').map(x => x.res).find(x => x);

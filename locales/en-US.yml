@@ -122,6 +122,7 @@ common:
   noteReactions: "Reacted notes"
   poll_finished: "Poll finished"
   flush: "Clear cache"
+  signinOrUsePostUrl: "To do so, either signin or put the URL into your instance's search box and do it."
   permissions:
     "read:account": "View your account information"
     "write:account": "Edit your account information"
@@ -379,6 +380,8 @@ common:
   update-available-title: "Update available"
   update-available: "A new version of Misskey is now available({newer}, the current version is {current}). Reload the page to apply updates."
   my-token-regenerated: "Your token has been regenerated, so you will be signed out."
+  admin-user: "Administrator account"
+  bot-user: "Bot account"
   verified-user: "Verified account"
   hide-password: "Hide Password"
   show-password: "Show Password"
@@ -432,6 +435,7 @@ common:
     words: "Trend words"
     queue: "Queue"
     sunmoon: "Sun and moon"
+    aichan: "Ai-chan"
   dev: "Failed to create the application. Please try again."
   ai-chan-kawaii: "Ai-chan kawaii!"
   you: "You"
@@ -568,6 +572,8 @@ common/views/components/connect-failed.troubleshooter.vue:
   success-desc: "Looks like we have a connection. Please reload the page."
   flush: "Clean cache"
   set-version: "Specify version"
+common/views/components/instance.vue:
+  start: "Start"
 common/views/components/media-banner.vue:
   sensitive: "NSFW"
   click-to-show: "Click to show"
@@ -724,6 +730,7 @@ common/views/components/poll.vue:
   remaining-hours: "{h} hours, and {m} minutes remain"
   remaining-minutes: "{m} minutes, and {s} seconds remaining"
   remaining-seconds: "{s} seconds remaining"
+  vote-confirm: "Do you want to vote?"
 common/views/components/poll-editor.vue:
   no-only-one-choice: "At least two choices are required"
   choice-n: "Choice {}"
@@ -1142,6 +1149,7 @@ desktop/views/components/note-detail.vue:
   private: "Post is private"
   deleted: "Post has been removed"
   location: "Location"
+  reply: "Reply"
   renote: "Renote"
   add-reaction: "Add a reaction"
   undo-reaction: "Reverse reaction"
@@ -1823,7 +1831,7 @@ common/views/components/follow-button.vue:
   follow-processing: "Processing"
   follow-request: "Follow request"
   remoteFollow: "Remote follow"
-  remoteFollowMessage: "Enter the following account in the search box of the instance you want to follow and follow.\n```\n{acct}\n```\n\n\nAlternatively, enter the account you want to follow below."
+  remoteFollowMessage: "Enter the following URL in the search box of the instance you want to follow and follow.\n{acct}"
 mobile/views/components/note.vue:
   private: "This post is private"
   deleted: "This post has been deleted"

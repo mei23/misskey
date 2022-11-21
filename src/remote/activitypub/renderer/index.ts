@@ -20,7 +20,6 @@ export const renderActivity = (x: any): IActivity | null => {
 				manuallyApprovesFollowers: 'as:manuallyApprovesFollowers',
 				sensitive: 'as:sensitive',
 				Hashtag: 'as:Hashtag',
-				quoteUrl: 'as:quoteUrl',
 				// Mastodon
 				toot: 'http://joinmastodon.org/ns#',
 				Emoji: 'toot:Emoji',
@@ -40,6 +39,9 @@ export const renderActivity = (x: any): IActivity | null => {
 				'isCat': 'misskey:isCat',
 				// vcard
 				vcard: 'http://www.w3.org/2006/vcard/ns#',
+				// Fedibird
+				fedibird: 'http://fedibird.com/ns#',
+				quoteUri: 'fedibird:quoteUri',
 			}
 		]
 	}, x);

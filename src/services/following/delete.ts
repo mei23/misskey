@@ -4,6 +4,7 @@ import { publishMainStream } from '../stream';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import renderFollow from '../../remote/activitypub/renderer/follow';
 import renderUndo from '../../remote/activitypub/renderer/undo';
+import renderReject from '../../remote/activitypub/renderer/reject';
 import { deliver } from '../../queue';
 import perUserFollowingChart from '../../services/chart/per-user-following';
 import Logger from '../logger';
@@ -43,6 +44,11 @@ export default async function(follower: IUser, followee: IUser, silent = false) 
 	if (isLocalUser(follower) && isRemoteUser(followee)) {
 		const content = renderActivity(renderUndo(renderFollow(follower, followee), follower));
 		deliver(follower, content, followee.inbox);
+	}
+
+	if (isLocalUser(followee) && isRemoteUser(follower)) {
+		const content = renderActivity(renderReject(renderFollow(follower, followee), followee));
+		deliver(followee, content, follower.inbox);
 	}
 }
 

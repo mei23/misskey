@@ -188,7 +188,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	if (list.mediaOnly) {
-		const medias = ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+		const medias = ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'image/avif', 'video/mp4', 'video/webm'];
 		if (ps.fileType?.length) {
 			ps.fileType = intersection(ps.fileType, medias);
 		} else {

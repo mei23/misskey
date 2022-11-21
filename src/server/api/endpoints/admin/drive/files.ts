@@ -53,6 +53,7 @@ export const meta = {
 export default define(meta, async (ps, me) => {
 	const q = {
 		'metadata.deletedAt': { $exists: false },
+		$and: [ {} ],
 	} as any;
 
 	if (ps.hostname != null && ps.hostname.length > 0) {
@@ -72,9 +73,23 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (ps.attached === 'attached') {
-		q['metadata.attachedNoteIds.0'] = { $exists: true };
+		q.$and.push({
+			$or: [	// any
+				{ 'metadata.attachedNoteIds.0': { $exists: true } },
+				{ 'metadata.attachedMessageIds.0': { $exists: true } },
+				{ _id: me.avatarId },
+				{ _id: me.bannerId },
+			]
+		})
 	} else if (ps.attached === 'notAttached') {
-		q['metadata.attachedNoteIds.0'] = { $exists: false };
+		q.$and.push({
+			$and: [	// all
+				{ 'metadata.attachedNoteIds.0': { $exists: false } },
+				{ 'metadata.attachedMessageIds.0': { $exists: false } },
+				{ _id: { $ne: me.avatarId } },
+				{ _id: { $ne: me.bannerId } },
+			]
+		});
 	}
 
 	if (ps.type) {

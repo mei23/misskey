@@ -30,6 +30,7 @@
 					<option value="nav">{{ $t('@.widgets.nav') }}</option>
 					<option value="tips">{{ $t('@.widgets.tips') }}</option>
 					<option value="sunmoon">{{ $t('@.widgets.sunmoon') }}</option>
+					<option value="aichan">{{ $t('@.widgets.aichan') }}</option>
 				</select>
 			</header>
 			<x-draggable

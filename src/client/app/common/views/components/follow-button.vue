@@ -97,20 +97,12 @@ export default Vue.extend({
 
 			try {
 				if (!this.$store.getters.isSignedIn) {
-					const { canceled, result: acct } = 	await this.$root.dialog({
+					const uri = `${url}/@${this.user.username}`;
+					await this.$root.dialog({
 						type: 'info',
-						text: this.$t('remoteFollowMessage', { acct: `@${this.user.username}@${host}` }),
-						input: {
-							placeholder: 'user@example.com',
-						}
+						text: this.$t('remoteFollowMessage', { acct: `[${uri}](${uri})` }),
 					});
 
-					if (canceled || !acct) return;
-
-					const res = await this.$root.api('ap/interact', { acct });
-
-					const template = res.template as string;
-					location.href = template.replace('{uri}', `${url}/users/${this.user.id}`);
 					return;
 				}
 

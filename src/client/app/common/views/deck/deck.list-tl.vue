@@ -54,7 +54,7 @@ export default Vue.extend({
 				limit: fetchLimit + 1,
 				untilId: cursor ? cursor : undefined,
 				withFiles: this.mediaOnly,
-				fileType: (this.sfwMediaOnly || this.nsfwMediaOnly) ? ['image/jpeg','image/png','image/apng','image/gif','image/webp','video/mp4','video/webm'] : undefined,
+				fileType: (this.sfwMediaOnly || this.nsfwMediaOnly) ? ['image/jpeg','image/png','image/apng','image/gif','image/webp','image/avif','video/mp4','video/webm'] : undefined,
 				excludeNsfw: this.sfwMediaOnly,
 				excludeSfw: this.nsfwMediaOnly,
 				excludeRenote: this.excludeRenote,

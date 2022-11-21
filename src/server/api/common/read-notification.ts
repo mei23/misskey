@@ -2,7 +2,7 @@ import * as mongo from 'mongodb';
 import isObjectId from '../../../misc/is-objectid';
 import { default as Notification, INotification } from '../../../models/notification';
 import { publishMainStream } from '../../../services/stream';
-import Mute from '../../../models/mute';
+import { getHideUserIdsById } from './get-hide-users';
 import User from '../../../models/user';
 
 /**
@@ -43,21 +43,14 @@ export default (
 
 	if (readResult.nModified === 0) return;
 
-	const mute = await Mute.find({
-		$or: [
-			{ expiresAt: null },
-			{ expiresAt: { $gt: new Date() }}
-		],
-		muterId: userId
-	});
-	const mutedUserIds = mute.map(m => m.muteeId);
+	const hideUserIds = await getHideUserIdsById(userId, false, true);
 
 	// Calc count of my unread notifications
 	const count = await Notification
 		.count({
 			notifieeId: userId,
 			notifierId: {
-				$nin: mutedUserIds
+				$nin: hideUserIds
 			},
 			isRead: false
 		}, {

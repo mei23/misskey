@@ -158,6 +158,22 @@ export function createDeleteNoteJob(note: INote, delay: number) {
 	});
 }
 
+/**
+ * Create deleteSignins Job
+ * @param user
+ * @param delay Delay in ms
+ */
+export function createDeleteSigninsJob(user: IUser, delay: number) {
+	return dbQueue.add('deleteSignins', {
+		user: { _id: `${user._id}` }
+	}, {
+		delay,
+		timeout: 1 * 60 * 60 * 1000,	// 1hour
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
 export function createExpireMuteJob(mute: IMute) {
 	if (!mute.expiresAt) return;
 	let delay = mute.expiresAt.getTime() - Date.now() + 1000;

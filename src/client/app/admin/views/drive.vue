@@ -80,14 +80,15 @@
 						<div>
 							<div>
 								<span style="margin-right:16px;">{{ file.type }}</span>
-								<!-- Note attaches -->
+								<!-- Attaches -->
 								<span>
-									<span><fa :icon="faPaperclip"/> {{ file.attachedNoteIds ? file.attachedNoteIds.length : 0 }} Notes</span>
-									<span v-if="file.attachedNoteIds && file.attachedNoteIds.length" style="font-size: small">
-										<span v-for="noteId of file.attachedNoteIds" :key="noteId" style="padding: 0 0.3em">
-											<a :href="`/notes/${noteId}`" rel="noopener" target="_blank">{{ noteId }}</a>
+									<span><fa :icon="faPaperclip"/> {{ file.attachedNoteIds ? file.attachedNoteIds.length : 0 }} Notes
+										<span v-if="file.attachedNoteIds && file.attachedNoteIds.length" style="font-size: small">
+											<span v-for="noteId of file.attachedNoteIds" :key="noteId" style="padding: 0 0.3em">
+												<a :href="`/notes/${noteId}`" rel="noopener" target="_blank">{{ noteId }}</a>
+											</span>
 										</span>
-									</span>
+									{{ file.attachedMessageIds ? file.attachedMessageIds.length : 0 }} Messages</span>
 								</span>
 							</div>
 							<div><mk-time :time="file.createdAt" mode="detail"/></div>

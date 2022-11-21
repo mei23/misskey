@@ -4,6 +4,7 @@ import * as chalk from 'chalk';
 import { format } from 'date-fns';
 import { envOption } from '../env';
 import Log from '../models/log';
+//import { processLabel } from '..';
 
 type Domain = {
 	name: string;
@@ -61,6 +62,7 @@ export default class Logger {
 
 		let log = `${l} ${worker}\t[${domains.join(' ')}]\t${m}`;
 		if (envOption.withLogTime) log = chalk.gray(time) + ' ' + log;
+		//log = `${processLabel} ${process.pid} ` + log;
 
 		console.log(important ? chalk.bold(log) : log);
 

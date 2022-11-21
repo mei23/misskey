@@ -128,7 +128,7 @@ export const startServer = () => {
 	return server;
 };
 
-export default () => new Promise(resolve => {
+export default () => new Promise<void>(resolve => {
 	const server = createServer();
 
 	// Init stream server
@@ -156,7 +156,10 @@ export default () => new Promise(resolve => {
 	});
 
 	// Listen
-	server.listen(config.port, config.addr || undefined, resolve);
+	server.listen({
+		port: config.port,
+		host: config.addr || undefined
+	}, resolve);
 
 	//#region Network stats
 	let queue: any[] = [];

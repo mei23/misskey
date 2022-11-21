@@ -20,14 +20,17 @@ export default async (
 	otherparty: string | mongo.ObjectID,
 	message: string | string[] | IMessage | IMessage[] | mongo.ObjectID | mongo.ObjectID[]
 ) => {
+	// populate my (メッセージを読んだユーザー) user id
 	const userId = isObjectId(user)
 		? user
 		: new mongo.ObjectID(user);
 
+	// populate otherparty (メッセージを読まれた/既読通知を送られる側) user id
 	const otherpartyId = isObjectId(otherparty)
 		? otherparty
 		: new mongo.ObjectID(otherparty);
 
+	// populate target message ids
 	const ids: mongo.ObjectID[] = Array.isArray(message)
 		? isObjectId(message[0])
 			? (message as mongo.ObjectID[])
@@ -40,12 +43,19 @@ export default async (
 				? [new mongo.ObjectID(message)]
 				: [(message as IMessage)._id];
 
-	// Update documents
-	await Message.update({
+	// 実際に既読にされるであろうメッセージを予め取得
+	const toRead = await Message.find({
 		_id: { $in: ids },
 		userId: otherpartyId,
 		recipientId: userId,
 		isRead: false
+	});
+
+	if (toRead.length === 0) return [];
+
+	// 必要であれば既読処理
+	await Message.update({
+		_id: { $in: toRead.map(x => x._id) },
 	}, {
 			$set: {
 				isRead: true
@@ -55,8 +65,8 @@ export default async (
 		});
 
 	// Publish event
-	publishMessagingStream(otherpartyId, userId, 'read', ids.map(id => id.toString()));
-	publishMessagingIndexStream(userId, 'read', ids.map(id => id.toString()));
+	publishMessagingStream(otherpartyId, userId, 'read', toRead.map(x => x._id.toString()));
+	publishMessagingIndexStream(userId, 'read', toRead.map(x => x._id.toString()));
 
 	// Calc count of my unread messages
 	const count = await Message
@@ -78,6 +88,8 @@ export default async (
 		// 全ての(いままで未読だった)自分宛てのメッセージを(これで)読みましたよというイベントを発行
 		publishMainStream(userId, 'readAllMessagingMessages');
 	}
+
+	return toRead;
 };
 
 export async function deliverReadActivity(user: ILocalUser, recipient: IRemoteUser, messages: IMessagingMessage | IMessagingMessage[]) {

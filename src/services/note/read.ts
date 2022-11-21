@@ -3,6 +3,7 @@ import isObjectId from '../../misc/is-objectid';
 import { publishMainStream } from '../stream';
 import User from '../../models/user';
 import NoteUnread from '../../models/note-unread';
+import { getHideUserIdsById } from '../../server/api/common/get-hide-users';
 
 /**
  * Mark a note as read
@@ -30,9 +31,12 @@ export default (
 		return;
 	}
 
+	const hideUserIds = await getHideUserIdsById(user, false, true);
+
 	const count1 = await NoteUnread
 		.count({
 			userId: userId,
+			'_note.userId': { $nin: hideUserIds },
 			isSpecified: false
 		}, {
 			limit: 1
@@ -41,6 +45,7 @@ export default (
 	const count2 = await NoteUnread
 		.count({
 			userId: userId,
+			'_note.userId': { $nin: hideUserIds },
 			isSpecified: true
 		}, {
 			limit: 1

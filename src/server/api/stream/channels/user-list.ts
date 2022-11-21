@@ -62,7 +62,7 @@ export default class extends Channel {
 	@autobind
 	private async onNote(note: PackedNote) {
 		if (this.list.mediaOnly) {
-			const medias = ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+			const medias = ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'image/avif', 'video/mp4', 'video/webm'];
 			const types = ((note.files || []) as any[]).map(x => x.type);
 			if (!medias.some(x => types.includes(x))) return;
 		}

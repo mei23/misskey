@@ -22,7 +22,12 @@ export async function deleteUnusedFile(fileId: ObjectID, detail = false) {
 	}
 
 	if (!file.metadata.attachedNoteIds || file.metadata.attachedNoteIds.length !== 0) {
-		if (detail) console.log(`  ${file._id} note or avatar or banner attached`);
+		if (detail) console.log(`  ${file._id} note attached`);
+		return;
+	}
+
+	if (!file.metadata.attachedMessageIds || file.metadata.attachedMessageIds.length !== 0) {
+		if (detail) console.log(`  ${file._id} message attached`);
 		return;
 	}
 

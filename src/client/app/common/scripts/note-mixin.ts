@@ -126,6 +126,11 @@ export default (opts: Opts = {}) => ({
 		},
 
 		reply(viaKeyboard = false) {
+			if (!this.$store.getters.isSignedIn) {
+				this.$root.dialog({ type: 'info', text: this.$t('@.signinOrUsePostUrl') });
+				return;
+			}
+
 			this.$root.$post({
 				reply: this.appearNote,
 				animation: !viaKeyboard,
@@ -136,6 +141,11 @@ export default (opts: Opts = {}) => ({
 		},
 
 		renote(viaKeyboard = false) {
+			if (!this.$store.getters.isSignedIn) {
+				this.$root.dialog({ type: 'info', text: this.$t('@.signinOrUsePostUrl') });
+				return;
+			}
+
 			this.$root.$post({
 				renote: this.appearNote,
 				animation: !viaKeyboard,
@@ -152,6 +162,11 @@ export default (opts: Opts = {}) => ({
 		},
 
 		react(viaKeyboard = false) {
+			if (!this.$store.getters.isSignedIn) {
+				this.$root.dialog({ type: 'info', text: this.$t('@.signinOrUsePostUrl') });
+				return;
+			}
+
 			this.blur();
 			const w = this.$root.new(MkReactionPicker, {
 				source: this.$refs.reactButton,
@@ -208,6 +223,11 @@ export default (opts: Opts = {}) => ({
 		},
 
 		menu(viaKeyboard = false) {
+			if (!this.$store.getters.isSignedIn) {
+				this.$root.dialog({ type: 'info', text: this.$t('@.signinOrUsePostUrl') });
+				return;
+			}
+
 			if (this.openingMenu) return;
 			this.openingMenu = true;
 			const w = this.$root.new(MkNoteMenu, {

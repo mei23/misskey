@@ -5,6 +5,8 @@ import PasswordResetRequest from '../../../models/password-reset-request';
 import User from '../../../models/user';
 
 export const meta = {
+	tags: ['reset password'],
+
 	requireCredential: false as const,
 
 	params: {

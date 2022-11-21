@@ -78,6 +78,35 @@ export async function convertSharpToWebp(sharp: sharp.Sharp, width: number, heig
 }
 
 /**
+ * Convert to AVIF
+ *   with resize, remove metadata, resolve orientation, stop animation
+ */
+ export async function convertToAvif(path: string, width: number, height: number, avifOpts?: AvifOpts): Promise<IImage> {
+	return convertSharpToAvif(await sharp(path), width, height);
+}
+
+export async function convertSharpToAvif(sharp: sharp.Sharp, width: number, height: number, avifOpts?: AvifOpts): Promise<IImage> {
+	const avifOptions: sharp.AvifOptions = {
+		quality: avifOpts?.quality || 65,
+	};
+
+	const data = await sharp
+		.resize(width, height, {
+			fit: 'inside',
+			withoutEnlargement: true
+		})
+		.rotate()
+		.avif(avifOptions)
+		.toBuffer();
+
+	return {
+		data,
+		ext: 'avif',
+		type: 'image/avif'
+	};
+}
+
+/**
  * Convert to PNG
  *   with resize, remove metadata, resolve orientation, stop animation
  */

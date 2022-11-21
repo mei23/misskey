@@ -3,7 +3,7 @@ import { ObjectID } from 'mongodb';
 import Notification, { INotification } from '../models/notification';
 import { pack } from '../models/notification';
 import { publishMainStream } from './stream';
-import User, { getMute } from '../models/user';
+import User, { getBlocks, getMute } from '../models/user';
 import pushSw from './push-notification';
 
 
@@ -40,6 +40,8 @@ export async function createNotification(notifiee: ObjectID, notifier: ObjectID,
 				//#region ただしミュートしているユーザーからの通知なら無視
 				const mute = await getMute(notifiee, notifier);
 				if (mute) return;
+				const blocks = await getBlocks(notifiee, notifier);
+				if (blocks.length > 0) return;
 				//#endregion
 
 				// Update flag

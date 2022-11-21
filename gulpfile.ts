@@ -8,7 +8,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as rename from 'gulp-rename';
-import replace = require('gulp-replace');
+const replace = require('gulp-replace');
 const terser = require('gulp-terser');
 const cleanCSS = require('gulp-clean-css');
 
@@ -59,6 +59,7 @@ gulp.task('cleanall', gulp.parallel('clean', cb =>
 ));
 
 gulp.task('build:client:script', () => {
+	// eslint-disable-next-line node/no-unpublished-require
 	const client = require('./built/meta.json');
 	return gulp.src(['./src/client/app/boot.js', './src/client/app/safe.js'])
 		.pipe(replace('VERSION', JSON.stringify(client.version)))
@@ -108,4 +109,4 @@ gulp.task('build', gulp.parallel(
 	'doc'
 ));
 
-gulp.task('default', gulp.task('build'));
+gulp.task('default', gulp.task('build')!);

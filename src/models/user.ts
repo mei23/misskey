@@ -263,6 +263,21 @@ export function isValidBirthday(birthday: string): boolean {
 }
 //#endregion
 
+export async function getBlocks(userId: mongo.ObjectId | string, otherId: mongo.ObjectId | string) {
+	return await Blocking.find({
+		$or: [
+			{
+				blockerId: transform(userId),
+				blockeeId: transform(otherId)
+			},
+			{
+				blockerId: transform(otherId),
+				blockeeId: transform(userId)
+			},
+		]
+	});
+}
+
 export async function getMute(muterId: mongo.ObjectId | string, muteeId: mongo.ObjectId | string) {
 	return await Mute.findOne({
 		muterId: transform(muterId),

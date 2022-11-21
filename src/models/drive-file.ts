@@ -97,6 +97,11 @@ export type IMetadata = {
 	attachedNoteIds?: mongo.ObjectID[];
 
 	/**
+	 * このファイルが添付されたチャットメッセージのID一覧
+	 */
+	attachedMessageIds?: mongo.ObjectID[];
+
+	/**
 	 * 外部の(信頼されていない)URLへの直リンクか否か
 	 */
 	isRemote?: boolean;
@@ -237,6 +242,7 @@ export const pack = async (
 		_target.webpublicUrl = _target.url;
 		_target.url = getOriginalUrl(_file);
 		_target.attachedNoteIds = _file.metadata.attachedNoteIds;
+		_target.attachedMessageIds = _file.metadata.attachedMessageIds;
 	}
 
 	return _target;

@@ -55,11 +55,11 @@ export default define(meta, async (ps, user) => {
 			'metadata.deletedAt': { $exists: false }
 		});
 
-	if (file === null) {
+	if (file == null) {
 		throw new ApiError(meta.errors.noSuchFile);
 	}
 
-	return await packMany(file.metadata.attachedNoteIds || [], user, {
+	return await packMany(file.metadata?.attachedNoteIds || [], user, {
 		detail: true
 	});
 });

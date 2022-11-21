@@ -4,7 +4,7 @@ import config from '../config';
 export default function(file: IDriveFile | null | undefined, thumbnail = false): string | null | undefined {
 	if (file == null) return null;
 
-	const isImage = file.contentType && ['image/png', 'image/apng', 'image/gif', 'image/jpeg', 'image/webp', 'image/svg+xml'].includes(file.contentType);
+	const isImage = file.contentType && ['image/png', 'image/apng', 'image/gif', 'image/jpeg', 'image/webp', 'image/avif', 'image/svg+xml'].includes(file.contentType);
 
 	if (file.metadata?.withoutChunks && file.metadata.isRemote && config.proxyRemoteFiles) {	// リモートの未格納ファイル => /files/ 下でProxy
 		if (thumbnail) {
@@ -44,6 +44,7 @@ function generateFilename(file: IDriveFile, thumbnail = false) {
 			if (file.contentType === 'image/jpeg') ext = '.jpg';
 			if (file.contentType === 'image/png') ext = '.png';
 			if (file.contentType === 'image/webp') ext = '.webp';
+			if (file.contentType === 'image/avif') ext = '.avif';
 		}
 	}
 

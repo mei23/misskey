@@ -8,9 +8,12 @@
 			<small>{{ host }}</small>
 			<p v-html="description || this.$t('@.about')"></p>
 			<router-link class="signup" to="/signup">{{ $t('@.signup') }}</router-link>
-		</div>
-		<div class="signin">
-			<a href="/signin" @click.prevent="signin()">{{ $t('@.signin') }}</a>
+			<div class="signin">
+				<a href="/signin" @click.prevent="signin()">{{ $t('@.signin') }}</a>
+			</div>
+			<div class="explore">
+				<router-link class="explore" to="/explore">Explore</router-link>
+			</div>
 		</div>
 		<div class="announcements" v-if="announcements && announcements.length > 0">
 			<article v-for="(announcement, i) in announcements" :key="i">
@@ -111,6 +114,7 @@ export default Vue.extend({
 				font-weight bold
 
 		> .signin
+		> .explore
 			margin 16px 0
 
 		> .tl

@@ -9,3 +9,4 @@ Vue.component('mkw-polls', () => import('./polls.vue').then(m => m.default));
 Vue.component('mkw-messaging', () => import('./messaging.vue').then(m => m.default));
 Vue.component('mkw-profile', () => import('./profile.vue').then(m => m.default));
 Vue.component('mkw-customize', () => import('./customize.vue').then(m => m.default));
+Vue.component('mkw-aichan', () => import('./aichan.vue').then(m => m.default));

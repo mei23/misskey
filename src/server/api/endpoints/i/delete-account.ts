@@ -2,9 +2,8 @@ import $ from 'cafy';
 import * as bcrypt from 'bcryptjs';
 import User from '../../../../models/user';
 import define from '../../define';
-import { createDeleteNotesJob, createDeleteDriveFilesJob } from '../../../../queue';
+import { createDeleteNotesJob, createDeleteDriveFilesJob, createDeleteSigninsJob } from '../../../../queue';
 import Message from '../../../../models/messaging-message';
-import Signin from '../../../../models/signin';
 import { doPostSuspend } from '../../../../services/suspend-user';
 import { publishTerminate } from '../../../../services/server-event';
 import { ApiError } from '../../error';
@@ -58,7 +57,7 @@ export default define(meta, async (ps, user) => {
 	publishTerminate(user._id);
 
 	Message.remove({ userId: user._id });
-	Signin.remove({ userId: user._id });
+	createDeleteSigninsJob(user, 30 * 86400 * 1000);
 	createDeleteNotesJob(user);
 	createDeleteDriveFilesJob(user);
 	doPostSuspend(user);

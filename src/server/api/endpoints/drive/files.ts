@@ -66,13 +66,28 @@ export default define(meta, async (ps, user) => {
 	const query = {
 		'metadata.userId': user._id,
 		'metadata.folderId': ps.folderId,
-		'metadata.deletedAt': { $exists: false }
+		'metadata.deletedAt': { $exists: false },
+		$and: [ {} ],
 	} as any;
 
 	if (ps.attached === 'attached') {
-		query['metadata.attachedNoteIds.0'] = { $exists: true };
+		query.$and.push({
+			$or: [	// any
+				{ 'metadata.attachedNoteIds.0': { $exists: true } },
+				{ 'metadata.attachedMessageIds.0': { $exists: true } },
+				{ _id: user.avatarId },
+				{ _id: user.bannerId },
+			]
+		})
 	} else if (ps.attached === 'notAttached') {
-		query['metadata.attachedNoteIds.0'] = { $exists: false };
+		query.$and.push({
+			$and: [	// all
+				{ 'metadata.attachedNoteIds.0': { $exists: true } },
+				{ 'metadata.attachedMessageIds.0': { $exists: true } },
+				{ _id: user.avatarId },
+				{ _id: user.bannerId },
+			]
+		});
 	}
 
 	if (ps.sinceId) {

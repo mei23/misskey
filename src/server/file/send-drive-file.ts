@@ -62,7 +62,7 @@ export default async function(ctx: Router.RouterContext) {
 
 			const convertFile = async () => {
 				if ('thumbnail' in ctx.query) {
-					if (['image/jpg', 'image/webp'].includes(mime)) {
+					if (['image/jpg', 'image/webp', 'image/avif'].includes(mime)) {
 						return await convertToJpeg(path, 530, 255);
 					} else if (['image/png', 'image/svg+xml'].includes(mime)) {
 						return await convertToPngOrJpeg(path, 530, 255);
