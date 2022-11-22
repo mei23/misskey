@@ -135,7 +135,7 @@
 		"is-svg": "4.3.2",
 		"js-yaml": "4.1.0",
 		"jschardet": "3.0.0",
-		"jsdom": "20.0.2",
+		"jsdom": "20.0.3",
 		"json5": "2.2.1",
 		"json5-loader": "4.0.1",
 		"jsonld": "5.2.0",
