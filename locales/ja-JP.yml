@@ -400,6 +400,7 @@ common:
   my-token-regenerated: "あなたのトークンが更新されたのでサインアウトします。"
   admin-user: "管理者アカウント"
   bot-user: "Botアカウント"
+  cat-user: "ねこアカウント"
   verified-user: "公式アカウント"
   silenced-user: "Silenced user"
   suspended-user: "Suspended user"

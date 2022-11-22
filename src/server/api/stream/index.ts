@@ -249,6 +249,6 @@ export default class Connection {
 		for (const c of this.channels.filter(c => c.dispose)) {
 			c.dispose();
 		}
-		this.subscriber.off(`serverEvent:${this.user!._id}`, this.onServerEvent);
+		if (this.user) this.subscriber.off(`serverEvent:${this.user._id}`, this.onServerEvent);
 	}
 }

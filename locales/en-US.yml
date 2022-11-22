@@ -382,6 +382,7 @@ common:
   my-token-regenerated: "Your token has been regenerated, so you will be signed out."
   admin-user: "Administrator account"
   bot-user: "Bot account"
+  cat-user: "Cat account"
   verified-user: "Verified account"
   hide-password: "Hide Password"
   show-password: "Show Password"

@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import * as katex from 'katex';
+import katex from 'katex';
 
 export default Vue.extend({
 	props: {

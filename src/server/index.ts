@@ -76,7 +76,7 @@ router.use(wellKnown.routes());
 
 router.get('/avatar/@:acct', async ctx => {
 	const { username, host } = parse(ctx.params.acct);
-	const user = await resolveUser(username, host);
+	const user = await resolveUser(username, host).catch(() => null);
 	const url = user?.avatarId ? getDriveFileUrl(await DriveFile.findOne({ _id: user.avatarId }), true) : null;
 
 	if (url) {

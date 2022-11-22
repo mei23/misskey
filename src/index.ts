@@ -329,7 +329,7 @@ if (!envOption.quiet) {
 // Display detail of uncaught exception
 process.on('uncaughtException', err => {
 	try {
-		logger.error(err);
+		console.error(err);
 	} catch { }
 });
 

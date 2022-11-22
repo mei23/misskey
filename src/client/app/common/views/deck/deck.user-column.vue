@@ -23,6 +23,10 @@
 				<span class="acct">@{{ user | acct }} 
 					<fa v-if="user.isLocked == true" class="locked" icon="lock" fixed-width/>
 					<fa v-if="user.refuseFollow == true" class="refuseFollow" icon="ban" fixed-width/>
+					<span class="is-admin" v-if="user.isAdmin" :title="$t('@.admin-user')"><fa :icon="faCrown"/></span>
+					<span class="is-verified" v-if="user.isVerified" :title="$t('@.verified-user')"><fa icon="star"/></span>
+					<span class="is-bot" v-if="user.isBot" :title="$t('@.bot-user')"><fa icon="robot"/></span>
+					<span class="is-cat" v-if="user.isCat" :title="$t('@.cat-user')"><fa :icon="faPaw"/></span>
 				</span>
 				<span class="moved" v-if="user.movedToUser != null">Moved to <router-link :to="user.movedToUser | userPage()"><mk-acct :user="user.movedToUser" :detail="true"/></router-link></span>
 				<span class="followed" v-if="user.isFollowed">{{ $t('follows-you') }}</span>
@@ -91,7 +95,7 @@ import XUserMenu from '../../../common/views/components/user-menu.vue';
 import XListMenu from '../../../common/views/components/list-menu.vue';
 import XIntegrations from '../../../common/views/components/integrations.vue';
 import ImageViewer from '../../../common/views/components/image-viewer.vue';
-import { faUserTag } from '@fortawesome/free-solid-svg-icons';
+import { faUserTag, faCrown, faPaw } from '@fortawesome/free-solid-svg-icons';
 import { calcAge } from '../../../../../misc/calc-age';
 
 export default Vue.extend({
@@ -104,7 +108,7 @@ export default Vue.extend({
 		return {
 			user: null,
 			fetching: true,
-			faUserTag
+			faUserTag, faCrown, faPaw
 		};
 	},
 
@@ -278,6 +282,19 @@ export default Vue.extend({
 
 				> .locked
 					opacity 0.8
+
+				> .is-admin
+					color var(--noteHeaderAdminFg)
+					margin-left .3em
+
+				> .is-verified
+					color #4dabf7
+					margin-left .3em
+
+				> .is-bot
+				> .is-cat
+					color var(--noteHeaderBadgeFg)
+					margin-left .3em
 
 			> .followed
 				display inline-block

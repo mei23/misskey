@@ -4,6 +4,7 @@
 	<router-link v-if="userUrl.startsWith('/')" class="name" :to="userUrl" v-user-preview="note.user.id"><mk-user-name :user="note.user"/></router-link>
 	<a v-else class="name" :href="userUrl" v-user-preview="note.user.id"><mk-user-name :user="note.user"/></a>
 	<span class="is-bot" v-if="note.user.isBot" :title="$t('@.bot-user')"><fa icon="robot"/></span>
+	<span class="is-cat" v-if="note.user.isCat" :title="$t('@.cat-user')"><fa :icon="faPaw"/></span>
 	<span class="username"><mk-acct :user="note.user"/></span>
 	<span class="is-verified" v-if="note.user.isVerified" :title="$t('@.verified-user')"><fa icon="star"/></span>
 	<div class="info" v-if="!noInfo">
@@ -19,7 +20,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faGlobeAmericas, faPaw } from '@fortawesome/free-solid-svg-icons';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 import getAcct from '../../../../../misc/acct/render';
 
@@ -30,7 +31,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			faGlobeAmericas
+			faGlobeAmericas, faPaw
 		}
 	},
 	props: {
@@ -95,6 +96,7 @@ export default Vue.extend({
 		flex-shrink 2147483647
 
 	> .is-bot
+	> .is-cat
 		margin 0 .5em 0 0
 		color var(--noteHeaderBadgeFg)
 

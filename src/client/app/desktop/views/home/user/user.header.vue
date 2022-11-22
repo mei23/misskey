@@ -13,6 +13,7 @@
 				<span class="is-admin" v-if="user.isAdmin" :title="$t('@.admin-user')"><fa :icon="faCrown"/></span>
 				<span class="is-verified" v-if="user.isVerified" :title="$t('@.verified-user')"><fa icon="star"/></span>
 				<span class="is-bot" v-if="user.isBot" :title="$t('@.bot-user')"><fa icon="robot"/></span>
+				<span class="is-cat" v-if="user.isCat" :title="$t('@.cat-user')"><fa :icon="faPaw"/></span>
 			</div>
 		</div>
 		<span class="followed" v-if="$store.getters.isSignedIn && $store.state.i.id != user.id && user.isFollowed">{{ $t('follows-you') }}</span>
@@ -67,7 +68,7 @@ import XUserMenu from '../../../../common/views/components/user-menu.vue';
 import XListMenu from '../../../../common/views/components/list-menu.vue';
 import XIntegrations from '../../../../common/views/components/integrations.vue';
 import ImageViewer from '../../../../common/views/components/image-viewer.vue';
-import { faUserTag, faCrown } from '@fortawesome/free-solid-svg-icons';
+import { faUserTag, faCrown, faPaw } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('desktop/views/pages/user/user.header.vue'),
@@ -77,7 +78,7 @@ export default Vue.extend({
 	props: ['user'],
 	data() {
 		return {
-			faUserTag, faCrown
+			faUserTag, faCrown, faPaw
 		}
 	},
 	computed: {
@@ -276,6 +277,7 @@ export default Vue.extend({
 					color #4dabf7
 
 				> .is-bot
+				> .is-cat
 					color var(--noteHeaderBadgeFg)
 
 	> .avatar
