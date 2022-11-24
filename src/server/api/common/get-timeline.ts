@@ -61,10 +61,8 @@ export async function getPackedTimeline(me: ILocalUser | null, query: any, sort:
 	const after = new Date().getTime();
 	const dt = after - begin;
 
-	if (dt > 1000) {
-		const x = await explainTimeline(me, query, sort, limit, hint);
-		console.log(`SLOWPLAN: ${dt} ${JSON.stringify(x)}`);
-	}
+	const x = await explainTimeline(me, query, sort, limit, hint);
+	console.log(`SLOWPLAN: ${dt} ${JSON.stringify(x)}`);
 
 	return await packMany(timeline, me);
 }
