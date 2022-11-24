@@ -178,14 +178,8 @@ export default define(meta, async (ps, user) => {
 		_id: -1
 	};
 
-	// どうせフィルタされるユーザーはフォローしてない扱いにして最初のuserのIXSCANの精度を少しでも高くする
-	//const realFollowingIds = followingIds
-	//	.filter(x => !oidIncludes(hideUserIds, x))
-	//	.filter(x => !oidIncludes(hideFromHomeUsers, x));
-	const realFollowingIds = followingIds;
-
 	const followQuery = [{
-		userId: { $in: realFollowingIds }
+		userId: { $in: followingIds }
 	}];
 
 	const visibleQuery = user == null ? [{
