@@ -168,12 +168,10 @@ export default define(meta, async (ps, user) => {
 		getHideRenoteUserIds(user),
 	]);
 
-	const prepareQueryEnd = performance.now();
-
-	console.log(`SLOWX: ${prepareQueryEnd - begin}`);
-
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
 	const hideFromHomeHosts = concat<string>(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
+
+	const prepareQueryEnd = performance.now();
 
 	//#region Construct query
 	const sort = {
@@ -374,5 +372,13 @@ export default define(meta, async (ps, user) => {
 	}
 	//#endregion
 
-	return await getPackedTimeline(user, query, sort, ps.limit!);
+	const prepareEnd = performance.now();
+
+	const packed = await getPackedTimeline(user, query, sort, ps.limit!);
+
+	const tlEnd = performance.now();
+
+	console.log(`SLOWX: prepareQuery=${prepareQueryEnd - begin}, prepare=${prepareEnd - prepareQueryEnd}, get=${tlEnd - prepareEnd}`);
+
+	return packed;
 });
