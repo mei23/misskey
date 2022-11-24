@@ -4,7 +4,7 @@ import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
-import { explainTimeline, getPackedTimeline } from '../../common/get-timeline';
+import { getPackedTimeline } from '../../common/get-timeline';
 
 export const meta = {
 	desc: {
