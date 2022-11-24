@@ -4,7 +4,7 @@ import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
-import { getPackedTimeline } from '../../common/get-timeline';
+import { explainTimeline, getPackedTimeline } from '../../common/get-timeline';
 
 export const meta = {
 	desc: {
@@ -122,6 +122,8 @@ export default define(meta, async (ps, user) => {
 
 	if (!m.showReplayInPublicTimeline) {
 		query.replyId = null;
+	} else {
+		query.replyId = { $ne: null };
 	}
 
 	if (hideUserIds && hideUserIds.length > 0) {
@@ -189,5 +191,8 @@ export default define(meta, async (ps, user) => {
 	}
 	//#endregion
 
-	return await getPackedTimeline(user, query, sort, ps.limit!);
+	const x = await explainTimeline(user, query, sort, ps.limit!, '_user.host_1_replyId_1__id_-1');
+	console.log(JSON.stringify(x, null, 2));
+
+	return await getPackedTimeline(user, query, sort, ps.limit!, '_user.host_1_replyId_1__id_-1');
 });
