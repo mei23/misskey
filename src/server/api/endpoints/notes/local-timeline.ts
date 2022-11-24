@@ -191,8 +191,5 @@ export default define(meta, async (ps, user) => {
 	}
 	//#endregion
 
-	const x = await explainTimeline(user, query, sort, ps.limit!, '_user.host_1_replyId_1__id_-1');
-	console.log(JSON.stringify(x, null, 2));
-
-	return await getPackedTimeline(user, query, sort, ps.limit!, '_user.host_1_replyId_1__id_-1');
+	return await getPackedTimeline(user, query, sort, ps.limit!);
 });
