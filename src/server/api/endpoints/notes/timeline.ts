@@ -179,9 +179,9 @@ export default define(meta, async (ps, user) => {
 	};
 
 	// どうせフィルタされるユーザーはフォローしてない扱いにして最初のuserのIXSCANの精度を少しでも高くする
-	const realFollowingIds = followingIds
-		.filter(x => !oidIncludes(hideUserIds, x))
-		.filter(x => !oidIncludes(hideFromHomeUsers, x));
+	//const realFollowingIds = followingIds
+	//	.filter(x => !oidIncludes(hideUserIds, x))
+	//	.filter(x => !oidIncludes(hideFromHomeUsers, x));
 
 	const followQuery = [{
 		userId: { $in: realFollowingIds }
