@@ -361,5 +361,6 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 	//#endregion
+
 	return await getPackedTimeline(user, query, sort, ps.limit!);
 });
