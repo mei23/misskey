@@ -67,7 +67,7 @@ export async function getPackedTimeline(me: ILocalUser | null, query: any, sort:
 
 	const packEnd = performance.now();
 
-	if (queryEnd - begin > 5000) {
+	if (queryEnd - begin > 1) {
 		apiLogger.warn(`SLOWTL: query=${(queryEnd - begin).toFixed()}, pack=${(packEnd - queryEnd).toFixed()}`);
 	}
 
