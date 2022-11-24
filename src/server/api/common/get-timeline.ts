@@ -50,19 +50,11 @@ function getStages(query: any, sort: Record<string, number>, limit: number) {
 }
 
 export async function getPackedTimeline(me: ILocalUser | null, query: any, sort: Record<string, number>, limit: number, hint: string | undefined = undefined) {
-	const begin = new Date().getTime();
-
 	const timeline = await Note.aggregate<INote[]>(getStages(query, sort, limit),
 	{
 		maxTimeMS: 55000,
 		hint,
 	});
-	
-	const after = new Date().getTime();
-	const dt = after - begin;
-
-	const x = await explainTimeline(me, query, sort, limit, hint);
-	console.log(`SLOWPLAN: ${dt} ${JSON.stringify(x)}`);
 
 	return await packMany(timeline, me);
 }
