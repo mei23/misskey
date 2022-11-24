@@ -148,6 +148,8 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
+	const begin = performance.now();
+
 	const [followingIds, hideUserIds, hideFromHomeLists, hideRenoteUserIds] = await Promise.all([
 		// フォローを取得
 		// Fetch following
@@ -165,6 +167,10 @@ export default define(meta, async (ps, user) => {
 		// リノートを隠すユーザーを取得
 		getHideRenoteUserIds(user),
 	]);
+
+	const prepareQueryEnd = performance.now();
+
+	console.log(`SLOWX: ${prepareQueryEnd - begin}`);
 
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
 	const hideFromHomeHosts = concat<string>(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
