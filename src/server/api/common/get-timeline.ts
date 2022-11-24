@@ -1,5 +1,6 @@
 import Note, { INote, packMany } from '../../../models/note';
 import { ILocalUser } from '../../../models/user';
+import { apiLogger } from '../logger';
 
 function getStages(query: any, sort: Record<string, number>, limit: number) {
 	return [
@@ -50,13 +51,27 @@ function getStages(query: any, sort: Record<string, number>, limit: number) {
 }
 
 export async function getPackedTimeline(me: ILocalUser | null, query: any, sort: Record<string, number>, limit: number, hint: string | undefined = undefined) {
+	const begin = performance.now();
+
+	// Query
 	const timeline = await Note.aggregate<INote[]>(getStages(query, sort, limit),
 	{
 		maxTimeMS: 55000,
 		hint,
 	});
 
-	return await packMany(timeline, me);
+	const queryEnd = performance.now();
+
+	// Pack
+	const packed = await packMany(timeline, me);
+
+	const packEnd = performance.now();
+
+	if (queryEnd - begin > 5000) {
+		apiLogger.warn(`SLOWTL: query=${(queryEnd - begin).toFixed()}, pack=${(packEnd - queryEnd).toFixed()}`);
+	}
+
+	return packed;
 }
 
 export async function explainTimeline(me: ILocalUser | null, query: any, sort: Record<string, number>, limit: number, hint: string | undefined = undefined) {
