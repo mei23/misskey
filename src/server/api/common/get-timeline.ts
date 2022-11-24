@@ -1,6 +1,5 @@
 import Note, { INote, packMany } from '../../../models/note';
 import { ILocalUser } from '../../../models/user';
-import { apiLogger } from '../logger';
 
 function getStages(query: any, sort: Record<string, number>, limit: number) {
 	return [
@@ -60,10 +59,12 @@ export async function getPackedTimeline(me: ILocalUser | null, query: any, sort:
 	});
 	
 	const after = performance.now();
+	const dt = after - begin;
+	console.log('dt', dt);
 
-	if (after - begin > 1000) {
+	if (dt > 1000) {
 		const x = await explainTimeline(me, query, sort, limit, hint);
-		apiLogger.warn(`SLOWPLAN: ${JSON.stringify(x)}`);
+		console.log(`SLOWPLAN: ${JSON.stringify(x)}`);
 	}
 
 	return await packMany(timeline, me);
