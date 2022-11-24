@@ -1,5 +1,6 @@
 import Note, { INote, packMany } from '../../../models/note';
 import { ILocalUser } from '../../../models/user';
+import { apiLogger } from '../logger';
 
 function getStages(query: any, sort: Record<string, number>, limit: number) {
 	return [
@@ -63,7 +64,7 @@ export async function getPackedTimeline(me: ILocalUser | null, query: any, sort:
 	if (after - begin > 5000) {
 		(async () => {
 			const x = await explainTimeline(me, query, sort, limit, hint);
-			console.log(`SLOWPLAN: ${JSON.stringify(x)}`);
+			apiLogger.warn(`SLOWPLAN: ${JSON.stringify(x)}`);
 		})();
 	}
 
