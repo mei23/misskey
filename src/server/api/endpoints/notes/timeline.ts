@@ -182,6 +182,7 @@ export default define(meta, async (ps, user) => {
 	//const realFollowingIds = followingIds
 	//	.filter(x => !oidIncludes(hideUserIds, x))
 	//	.filter(x => !oidIncludes(hideFromHomeUsers, x));
+	const realFollowingIds = followingIds;
 
 	const followQuery = [{
 		userId: { $in: realFollowingIds }
