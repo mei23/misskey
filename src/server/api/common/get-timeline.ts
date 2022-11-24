@@ -61,7 +61,7 @@ export async function getPackedTimeline(me: ILocalUser | null, query: any, sort:
 	
 	const after = performance.now();
 
-	if (after - begin > 5000) {
+	if (after - begin > 1000) {
 		const x = await explainTimeline(me, query, sort, limit, hint);
 		apiLogger.warn(`SLOWPLAN: ${JSON.stringify(x)}`);
 	}
