@@ -7,7 +7,6 @@ import UserList from '../../../../models/user-list';
 import { concat } from '../../../../prelude/array';
 import { isSelfHost } from '../../../../misc/convert-host';
 import { getHideRenoteUserIds } from '../../common/get-hide-renote-users';
-import { oidIncludes } from '../../../../prelude/oid';
 import { getPackedTimeline } from '../../common/get-timeline';
 import config from '../../../../config';
 
@@ -148,8 +147,6 @@ export const meta = {
 };
 
 export default define(meta, async (ps, user) => {
-	const begin = performance.now();
-
 	const [followingIds, hideUserIds, hideFromHomeLists, hideRenoteUserIds] = await Promise.all([
 		// フォローを取得
 		// Fetch following
@@ -170,8 +167,6 @@ export default define(meta, async (ps, user) => {
 
 	const hideFromHomeUsers = concat(hideFromHomeLists.map(list => list.userIds));
 	const hideFromHomeHosts = concat<string>(hideFromHomeLists.map(list => list.hosts || [])).map(x => isSelfHost(x) ? null : x);
-
-	const prepareQueryEnd = performance.now();
 
 	//#region Construct query
 	const sort = {
@@ -366,14 +361,5 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 	//#endregion
-
-	const prepareEnd = performance.now();
-
-	const packed = await getPackedTimeline(user, query, sort, ps.limit!);
-
-	const tlEnd = performance.now();
-
-	console.log(`SLOWX: prepareQuery=${prepareQueryEnd - begin}, prepare=${prepareEnd - prepareQueryEnd}, get=${tlEnd - prepareEnd}`);
-
-	return packed;
+	return await getPackedTimeline(user, query, sort, ps.limit!);
 });
