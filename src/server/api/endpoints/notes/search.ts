@@ -12,6 +12,7 @@ import { getFriends, getFriendIds } from '../../common/get-friends';
 import NoteWatching from '../../../../models/note-watching';
 import config from '../../../../config';
 import { getIndexer } from '../../../../misc/mecab';
+import { genMeid7 } from '../../../../misc/id/meid7';
 
 export const meta = {
 	desc: {
@@ -188,12 +189,12 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 
 	// 下でsince加工しているので（もうしてない）先にソートクエリだけ作っちゃう
 	const sort = {
-		createdAt: -1
+		_id: -1
 	};
 
 	// sinceのみ指定されてたら逆順
 	if (since && !until) {
-		sort.createdAt = 1;
+		sort._id = 1;
 	}
 
 	// ワード検索の場合
@@ -315,11 +316,11 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 
 	// Date
 	if (since) {
-		noteQuery.$and.push({ createdAt: { $gt: since } });
+		noteQuery.$and.push({ _id: { $gt: genMeid7(since) } });
 	}
 
 	if (until) {
-		noteQuery.$and.push({ createdAt: { $lt: until } });
+		noteQuery.$and.push({ _id: { $lt: genMeid7(until) } });
 	}
 
 	// note - files / medias
@@ -358,6 +359,17 @@ async function searchInternal(me: ILocalUser, query: string, limit: number | und
 			mecabWords: { $all: ws }
 		});
 	}
+
+	/*
+	const ex = await Note.find(noteQuery, {
+		maxTimeMS: 20000,
+		limit,
+		skip: offset,
+		sort,
+		explain: true,
+	}) as unknown;
+	console.log(JSON.stringify(ex, null, 1))
+	*/
 
 	const notes = await Note.find(noteQuery, {
 		maxTimeMS: 20000,
