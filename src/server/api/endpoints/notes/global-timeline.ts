@@ -119,8 +119,6 @@ export default define(meta, async (ps, user) => {
 
 	if (!m.showReplayInPublicTimeline) {
 		query.replyId = null;
-	} else {
-		query.replyId = { $ne: null };
 	}
 
 	if (hideUserIds && hideUserIds.length > 0) {

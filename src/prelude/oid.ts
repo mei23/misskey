@@ -4,6 +4,8 @@ export function oidEquals(x: any, y: any): boolean {
 	return `${x}` === `${y}`;
 }
 
-export function oidIncludes(array: any[], target: any): boolean {
-	return (array || []).some(x => oidEquals(x, target));
+export function oidIncludes(array: any[] | null, target: any): boolean {
+	const map = new Set<string>;
+	for (const v of (array || [])) map.add(`${v}`);
+	return map.has(`${target}`);
 }
