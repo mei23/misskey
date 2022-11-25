@@ -39,6 +39,7 @@ Note.dropIndex('_user.host').catch(() => {});
 
 Note.createIndex('mecabWords');
 Note.createIndex('trendWords');
+
 Note.createIndex({ 'userId': 1, _id: -1 });
 Note.dropIndex('userId').catch(() => {});
 

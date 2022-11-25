@@ -4,7 +4,7 @@ import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { ApiError } from '../../error';
-import { getPackedTimeline } from '../../common/get-timeline';
+import { explainTimeline, getPackedTimeline } from '../../common/get-timeline';
 
 export const meta = {
 	desc: {
@@ -188,6 +188,9 @@ export default define(meta, async (ps, user) => {
 		};
 	}
 	//#endregion
+
+	//const ex = await explainTimeline(user, query, sort, ps.limit!);
+	//console.log(JSON.stringify(ex, null, 1));
 
 	return await getPackedTimeline(user, query, sort, ps.limit!);
 });
