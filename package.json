@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "10.102.599-m544",
+	"version": "10.102.600-m544",
 	"codename": "m544",
 	"repository": {
 		"type": "git",
@@ -58,7 +58,7 @@
 		"@types/koa__cors": "3.3.0",
 		"@types/koa__multer": "2.0.4",
 		"@types/koa__router": "8.0.11",
-		"@types/lodash": "4.14.189",
+		"@types/lodash": "4.14.190",
 		"@types/mocha": "10.0.0",
 		"@types/mongodb": "3.6.20",
 		"@types/node": "18.11.9",
@@ -93,7 +93,7 @@
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
 		"autwh": "0.1.0",
-		"aws-sdk": "2.1259.0",
+		"aws-sdk": "2.1261.0",
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.23.1",
 		"browser-image-resizer": "2.4.1",

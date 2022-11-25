@@ -107,12 +107,12 @@ export default define(meta, async (ps, me) => {
 			});
 		}
 
-		if (users.length < ps.limit) {
+		if (users.length < ps.limit!) {
 			// local
 			const otherUsers = await User
 				.find({
 					host: null,
-					name: new RegExp('^' + escapeRegexp(name), 'i'),
+					name: new RegExp(escapeRegexp(name), 'i'),
 					isDeleted: { $ne: true },
 					isSuspended: { $ne: true }
 				}, {
@@ -122,16 +122,16 @@ export default define(meta, async (ps, me) => {
 			users = users.concat(otherUsers);
 		}
 
-		if (users.length < ps.limit && !ps.localOnly) {
+		if (users.length < ps.limit! && !ps.localOnly) {
 			// try remote
 			const otherUsers = await User
 				.find({
 					host: { $nin: hideHostsForRemote },
-					name: new RegExp('^' + escapeRegexp(name), 'i'),
+					name: new RegExp(escapeRegexp(name), 'i'),
 					isDeleted: { $ne: true },
 					isSuspended: { $ne: true }
 				}, {
-					limit: ps.limit - users.length
+					limit: ps.limit! - users.length
 				});
 
 			users = users.concat(otherUsers);
@@ -139,7 +139,7 @@ export default define(meta, async (ps, me) => {
 	// ユーザー名
 	} else if (isUsername) {
 		// まず、username (local/remote) の完全一致でアクティブ順
-		if (users.length < ps.limit && !ps.localOnly) {
+		if (users.length < ps.limit! && !ps.localOnly) {
 			users = await User
 				.find({
 						host: { $nin: hideHosts },
@@ -147,7 +147,7 @@ export default define(meta, async (ps, me) => {
 						isDeleted: { $ne: true },
 						isSuspended: { $ne: true }
 					}, {
-						limit: ps.limit - users.length,
+						limit: ps.limit! - users.length,
 						skip: ps.offset,
 						sort: { updatedAt: -1 },
 					});
@@ -156,7 +156,7 @@ export default define(meta, async (ps, me) => {
 		const ids = users.map(user => user._id);
 
 		// 足りなかったら、username (local) の前方一致でid順
-		if (users.length < ps.limit) {
+		if (users.length < ps.limit!) {
 			const otherUsers = await User
 				.find({
 					_id: { $nin: ids },
@@ -165,7 +165,7 @@ export default define(meta, async (ps, me) => {
 					isDeleted: { $ne: true },
 					isSuspended: { $ne: true }
 				}, {
-					limit: ps.limit - users.length,
+					limit: ps.limit! - users.length,
 					skip: ps.offset
 				});
 
@@ -173,7 +173,7 @@ export default define(meta, async (ps, me) => {
 		}
 
 		// 足りなかったら、username (remote) の前方一致でid順
-		if (users.length < ps.limit && !ps.localOnly) {
+		if (users.length < ps.limit! && !ps.localOnly) {
 			const otherUsers = await User
 				.find({
 					_id: { $nin: ids },
@@ -182,7 +182,7 @@ export default define(meta, async (ps, me) => {
 					isDeleted: { $ne: true },
 					isSuspended: { $ne: true }
 				}, {
-					limit: ps.limit - users.length,
+					limit: ps.limit! - users.length,
 					skip: ps.offset
 				});
 
@@ -196,7 +196,7 @@ export default define(meta, async (ps, me) => {
 			isDeleted: { $ne: true },
 			isSuspended: { $ne: true }
 		}, {
-			limit: ps.limit - users.length
+			limit: ps.limit! - users.length
 		});
 	}
 
