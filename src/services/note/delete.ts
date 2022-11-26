@@ -46,7 +46,6 @@ export default async function(user: IUser, note: INote, quiet = false) {
 			poll: null,
 			geo: null,
 			cw: null,
-			uri: null,
 		}
 	});
 
