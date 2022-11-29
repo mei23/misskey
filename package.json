@@ -226,7 +226,7 @@
 		"xmlbuilder": "15.1.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.114",
+		"@redocly/openapi-core": "1.0.0-beta.115",
 		"@typescript-eslint/eslint-plugin": "5.45.0",
 		"@typescript-eslint/parser": "5.45.0",
 		"cross-env": "7.0.3",
