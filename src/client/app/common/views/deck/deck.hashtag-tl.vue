@@ -35,7 +35,7 @@ export default Vue.extend({
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes,
-				tag: this.tagTl.tag
+				query: this.tagTl.query
 			}).then(notes => {
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();

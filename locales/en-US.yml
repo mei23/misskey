@@ -1987,6 +1987,9 @@ deck:
   notifications: "Notifications"
   list: "List"
   select-list: "Select a list"
+  select-tagTl:
+    title: "Select a hashtag"
+    text: "Hashtags can be added from Home"
   swap-left: "Move left"
   swap-right: "Move right"
   swap-up: "Move up"

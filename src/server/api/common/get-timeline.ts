@@ -1,6 +1,7 @@
 import Note, { INote, packMany } from '../../../models/note';
 import { ILocalUser } from '../../../models/user';
 import { apiLogger } from '../logger';
+import { performance } from 'perf_hooks';
 
 function getStages(query: any, sort: Record<string, number>, limit: number) {
 	return [

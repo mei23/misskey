@@ -285,17 +285,24 @@ export default Vue.extend({
 				}, {
 					icon: 'hashtag',
 					text: this.$t('@deck.hashtag'),
-					action: () => {
-						this.$root.dialog({
-							title: this.$t('enter-hashtag-tl-title'),
-							input: true
-						}).then(({ canceled, result: title }) => {
-							if (canceled) return;
-							this.$store.commit('device/addDeckColumn', {
-								id: uuid(),
-								type: 'hashtag',
-								tagTlId: this.$store.state.settings.tagTimelines.find(x => x.title == title).id
-							});
+					action: async () => {
+						const tagTls = this.$store.state.settings.tagTimelines;
+						const { canceled, result: tagTlId } = await this.$root.dialog({
+							type: null,
+							title: this.$t('@deck.select-tagTl.title'),
+							text: this.$t('@deck.select-tagTl.text'),
+							select: {
+								items: tagTls.map((tagTl: any) => ({
+									value: tagTl.id, text: tagTl.title
+								}))
+							},
+							showCancelButton: true
+						});
+						if (canceled) return;
+						this.$store.commit('device/addDeckColumn', {
+							id: uuid(),
+							type: 'hashtag',
+							tagTlId: tagTlId
 						});
 					}
 				}, {

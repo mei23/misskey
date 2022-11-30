@@ -2206,6 +2206,9 @@ deck:
   notifications: "通知"
   list: "リスト"
   select-list: "リストを選択してください"
+  select-tagTl:
+    title: "ハッシュタグを選択してください"
+    text: "ハッシュタグはホームから追加できます"
   swap-left: "左に移動"
   swap-right: "右に移動"
   swap-up: "上に移動"

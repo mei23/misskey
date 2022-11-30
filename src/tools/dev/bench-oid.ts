@@ -1,6 +1,7 @@
 import { genMeid7 } from '../../misc/id/meid7';
 import { oidIncludes } from '../../prelude/oid';
 import { ObjectID } from 'mongodb';
+import { performance } from 'perf_hooks';
 
 const follows: string[] = [];
 const excepts: string[] = [];
