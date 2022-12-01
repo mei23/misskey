@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "10.102.604-m544",
+	"version": "10.102.605-m544",
 	"codename": "m544",
 	"repository": {
 		"type": "git",
