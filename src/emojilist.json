@@ -867,8 +867,6 @@
   {"category":"activity","char":"⛹️‍♀️","name":"basketball_woman","keywords":["sports","girl","woman","female","human"],"st":1},
   {"category":"activity","char":"⛹️‍♂️","name":"basketball_man","keywords":["sports","boy","man","male","human"],"st":1},
   {"category":"activity","char":"🏋","name":"weight_lifting","keywords":["sports","exercise","training","gender-neutral","person","human"],"st":1},
-  {"category":"activity","char":"🏋‍♀️","name":"weight_lifting_woman","keywords":["sports","exercise","training","girl","woman","female","human"]},
-  {"category":"activity","char":"🏋‍♂️","name":"weight_lifting_man","keywords":["sports","exercise","training","boy","man","male","human"]},
   {"category":"activity","char":"🚴","name":"cyclist","keywords":["bike","sports","bicycle","cycling","hipster","exercise"],"st":1},
   {"category":"activity","char":"🚴‍♀️","name":"cyclist_woman","keywords":["bike","sports","bicycle","cycling","hipster","exercise","girl","woman","female","human"],"st":1},
   {"category":"activity","char":"🚴‍♂️","name":"cyclist_man","keywords":["bike","sports","bicycle","cycling","hipster","exercise","boy","man","male","human"],"st":1},
