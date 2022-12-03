@@ -26,7 +26,7 @@ export default async (actor: CacheableRemoteUser, activity: IUpdate): Promise<st
 		await updatePerson(actor.uri!, resolver, object);
 		return `ok: Person updated`;
 	} else if (getApType(object) === 'Question') {
-		await updateQuestion(object).catch(e => console.log(e));
+		await updateQuestion(object, resolver).catch(e => console.log(e));
 		return `ok: Question updated`;
 	} else {
 		return `skip: Unknown type: ${getApType(object)}`;
