@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "10.102.606-m544",
+	"version": "10.102.607-m544",
 	"codename": "m544",
 	"repository": {
 		"type": "git",
@@ -93,7 +93,7 @@
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
 		"autwh": "0.1.0",
-		"aws-sdk": "2.1265.0",
+		"aws-sdk": "2.1266.0",
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.23.1",
 		"browser-image-resizer": "2.4.1",
@@ -188,7 +188,7 @@
 		"stylus": "0.59.0",
 		"stylus-loader": "7.1.0",
 		"suncalc": "1.9.0",
-		"systeminformation": "5.15.1",
+		"systeminformation": "5.16.0",
 		"syuilo-password-strength": "0.0.1",
 		"terser-webpack-plugin": "4.2.3",
 		"textarea-caret": "3.1.0",

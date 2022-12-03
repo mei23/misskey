@@ -31,17 +31,19 @@ export default function() {
 		// |-- active --|-- available --|- free -|
 
 		const stats = {
-			cpu_usage: config.hideServerInfo ? -1 : cpu,
-			cpu_speed: config.hideServerInfo ? -1 : cpuSpeed,
-			mem: config.hideServerInfo ? -1 : mem,
-			disk: config.hideServerInfo ? -1 : disk,
-			os_uptime: config.hideServerInfo ? -1 : os.uptime(),
-			process_uptime: config.hideServerInfo ? -1 : process.uptime()
+			cpu_usage: cpu,
+			cpu_speed: cpuSpeed,
+			mem,
+			disk,
+			os_uptime:  os.uptime(),
+			process_uptime: process.uptime()
 		};
 		ev.emit('serverStats', stats);
 		log.unshift(stats);
 		if (log.length > 200) log.pop();
 	}
+
+	if (config.hideServerInfo) return;
 
 	tick();
 

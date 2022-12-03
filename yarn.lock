@@ -1675,10 +1675,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-sdk@2.1265.0:
-  version "2.1265.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1265.0.tgz#ec034b10126d7c81242b2501567cb4d5179a4e61"
-  integrity sha512-PcW3VAxatnOgSwdENkXpFAKnE6P5GJeI7yxjEhjHSLXFyOzQZQZIT5NMCs7B25nB6iACzxizjKaYbU0kNA/8/Q==
+aws-sdk@2.1266.0:
+  version "2.1266.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1266.0.tgz#38e7bb8ce4e4af16acd20b4ceea2832e82f60b68"
+  integrity sha512-UUj4TXP/V0rCbBmuIu7NLQyX4j2ZU81iEiM856eGvhWGha2M3LnKteA6JqKMjGx2weKRVaIcfkgLCyKIs3KEAg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -2924,9 +2924,9 @@ decimal.js@^10.4.2:
   integrity sha512-ic1yEvwT6GuvaYwBLLY6/aFFgjZdySKTE8en/fkU3QICTmRtgtSlFn0u0BXN06InZwtfCelR7j8LRiDI/02iGA==
 
 decode-uri-component@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-  integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.2.tgz#e69dbe25d37941171dd540e024c444cd5188e1e9"
+  integrity sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==
 
 decompress-response@^6.0.0:
   version "6.0.0"
@@ -8761,10 +8761,10 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-systeminformation@5.15.1:
-  version "5.15.1"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.15.1.tgz#a5d8e9afd427a24b2084197d46ab31974e4e7a66"
-  integrity sha512-KVAz71Hb8TmEO/4UXMHbV0hXV/tAs/gwesb4MDjo4wtsDunQy9qRYwp5jpA5LLE7IXXX9BYqGFTfT9drgnDECQ==
+systeminformation@5.16.0:
+  version "5.16.0"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.16.0.tgz#7bbfd481d7e2c5569aee422a20b9b6ff1a0dbc65"
+  integrity sha512-CLD9AChcuFPw+Ify3kcntAh8O0A1i9no/MrTBnfQxvMvakaOFcPPFN8wXwuEK08Ezxyh1/g/9mLXHbLnY8LlpQ==
 
 syuilo-password-strength@0.0.1:
   version "0.0.1"

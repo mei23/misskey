@@ -1,6 +1,6 @@
 <template>
 <div class="mkw-aichan">
-  <iframe class="dedjhjmo" ref="live2d" @click="touched" src="https://misskey-dev.github.io/mascot-web/?scale=1.5&y=1.1&eyeY=100"></iframe>
+  <iframe class="dedjhjmo" ref="live2d" src="https://misskey-dev.github.io/mascot-web/?scale=1.5&y=1.1&eyeY=100"></iframe>
 </div>
 </template>
 
@@ -13,7 +13,7 @@ export default define({
 	i18n: i18n(),
   mounted() {
 		window.addEventListener('mousemove', ev => {
-			let iframeRect = this.$refs.live2d.getBoundingClientRect();
+			const iframeRect = this.$refs.live2d.getBoundingClientRect();
 			this.$refs.live2d.contentWindow.postMessage({
 				type: 'moveCursor',
 				body: {
