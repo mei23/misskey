@@ -101,7 +101,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		return null;
 	}
 
-	const noteAudience = await parseAudience(actor, note.to, note.cc);
+	const noteAudience = await parseAudience(actor, note.to, note.cc, resolver);
 	let visibility = noteAudience.visibility;
 	const visibleUsers = noteAudience.visibleUsers;
 
@@ -113,7 +113,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		}
 	}
 
-	const apMentions = await extractApMentions(note.tag);
+	const apMentions = await extractApMentions(note.tag, resolver);
 	const apHashtags = await extractApHashtags(note.tag);
 
 	let isTalk = note._misskey_talk && visibility === 'specified';
