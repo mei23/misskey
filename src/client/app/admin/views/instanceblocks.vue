@@ -1,10 +1,10 @@
 <template>
 <div>
 	<ui-card>
-		<template #title>{{ $t('hided-tags') }}</template>
+		<template #title>{{ $t('instanceblocks') }}</template>
 		<section class="fit-top">
-			<ui-textarea v-model="hidedTags">
-			</ui-textarea>
+			<ui-textarea v-model="blockedInstances"></ui-textarea>
+			<ui-info>{{ $t('blockedInstances-info') }}</ui-info>
 			<ui-button @click="save">{{ $t('@._settings.save') }}</ui-button>
 		</section>
 	</ui-card>
@@ -16,10 +16,10 @@ import Vue from 'vue';
 import i18n from '../../i18n';
 
 export default Vue.extend({
-	i18n: i18n('admin/views/hashtags.vue'),
+	i18n: i18n('admin/views/instanceblocks.vue'),
 	data() {
 		return {
-			hidedTags: '',
+			blockedInstances: '',
 		};
 	},
 	created() {
@@ -28,19 +28,19 @@ export default Vue.extend({
 	methods: {
 		fetch() {
 			this.$root.api('admin/meta').then((meta: any) => {
-				this.hidedTags = meta.hidedTags.join('\n');
+				this.blockedInstances = meta.blockedInstances.join('\n');
 			});
 		},
 		save() {
 			this.$root.api('admin/update-meta', {
-				hidedTags: this.hidedTags ? this.hidedTags.split('\n') : [],
+				blockedInstances: this.blockedInstances ? this.blockedInstances.split('\n') : [],
 			}).then(() => {
 				this.$root.dialog({
 					type: 'success',
 					splash: true
 				});
 				this.fetch();
-			}).catch(e => {
+			}).catch((e: any) => {
 				console.error('e', e);
 				this.$root.dialog({
 					type: 'error',

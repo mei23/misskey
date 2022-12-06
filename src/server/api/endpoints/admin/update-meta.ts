@@ -1,6 +1,8 @@
 import $ from 'cafy';
 import Meta from '../../../../models/meta';
 import define from '../../define';
+import { toApHost } from '../../../../misc/convert-host';
+import { publishInstanceModUpdated } from '../../../../services/server-event';
 
 export const meta = {
 	desc: {
@@ -52,6 +54,13 @@ export const meta = {
 			validator: $.optional.nullable.arr($.str),
 			desc: {
 				'ja-JP': '統計などで無視するハッシュタグ'
+			}
+		},
+
+		blockedInstances: {
+			validator: $.optional.nullable.arr($.str),
+			desc: {
+				'ja-JP': 'blockedInstances'
 			}
 		},
 
@@ -335,7 +344,11 @@ export default define(meta, async (ps) => {
 	}
 
 	if (Array.isArray(ps.hidedTags)) {
-		set.hidedTags = ps.hidedTags.filter(Boolean);
+		set.hidedTags = ps.hidedTags.map(x => x.trim()).filter(x => x !== '');
+	}
+
+	if (Array.isArray(ps.blockedInstances)) {
+		set.blockedInstances = ps.blockedInstances.map(x => x.trim()).filter(x => x !== '').map(x => toApHost(x));
 	}
 
 	if (ps.mascotImageUrl !== undefined) {
@@ -399,7 +412,7 @@ export default define(meta, async (ps) => {
 	}
 
 	if (Array.isArray(ps.langs)) {
-		set.langs = ps.langs.filter(Boolean);
+		set.langs = ps.langs.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (ps.summalyProxy !== undefined) {
@@ -485,6 +498,10 @@ export default define(meta, async (ps) => {
 	await Meta.update({}, {
 		$set: set
 	}, { upsert: true });
+
+	if (set.blockedInstances) {
+		publishInstanceModUpdated();
+	}
 
 	return;
 });

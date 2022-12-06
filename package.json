@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "10.102.608-m544",
+	"version": "10.102.609-m544",
 	"codename": "m544",
 	"repository": {
 		"type": "git",
@@ -61,7 +61,7 @@
 		"@types/lodash": "4.14.191",
 		"@types/mocha": "10.0.1",
 		"@types/mongodb": "3.6.20",
-		"@types/node": "18.11.10",
+		"@types/node": "18.11.11",
 		"@types/nodemailer": "6.4.6",
 		"@types/nprogress": "0.2.0",
 		"@types/oauth": "0.9.1",
@@ -93,7 +93,7 @@
 		"autobind-decorator": "2.4.0",
 		"autosize": "4.0.2",
 		"autwh": "0.1.0",
-		"aws-sdk": "2.1266.0",
+		"aws-sdk": "2.1268.0",
 		"bcryptjs": "2.4.3",
 		"bootstrap-vue": "2.23.1",
 		"browser-image-resizer": "2.4.1",
@@ -188,7 +188,7 @@
 		"stylus": "0.59.0",
 		"stylus-loader": "7.1.0",
 		"suncalc": "1.9.0",
-		"systeminformation": "5.16.0",
+		"systeminformation": "5.16.1",
 		"syuilo-password-strength": "0.0.1",
 		"terser-webpack-plugin": "4.2.3",
 		"textarea-caret": "3.1.0",
@@ -227,10 +227,10 @@
 	},
 	"devDependencies": {
 		"@redocly/openapi-core": "1.0.0-beta.115",
-		"@typescript-eslint/eslint-plugin": "5.45.0",
-		"@typescript-eslint/parser": "5.45.0",
+		"@typescript-eslint/eslint-plugin": "5.45.1",
+		"@typescript-eslint/parser": "5.45.1",
 		"cross-env": "7.0.3",
-		"eslint": "8.28.0",
+		"eslint": "8.29.0",
 		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.1.0"
 	}

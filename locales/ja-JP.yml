@@ -1523,6 +1523,7 @@ admin/views/index.vue:
   abuse: "スパム報告"
   queue: "ジョブキュー"
   logs: "ログ"
+  instanceblocks: "インスタンスブロック"
   back-to-misskey: "Misskeyに戻る"
 
 admin/views/dashboard.vue:
@@ -1870,6 +1871,10 @@ admin/views/federation.vue:
   chart-spans:
     hour: "1時間ごと"
     day: "1日ごと"
+
+admin/views/instanceblocks.vue:
+  instanceblocks: "インスタンスブロック"
+  blockedInstances-info: "1行に1ホスト記述します。/正規表現/ が使えます。"
 
 admin/views/relay.vue:
   add-relay: "リレーの追加"

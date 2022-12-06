@@ -1,14 +1,21 @@
 import Instance from '../models/instance';
 import { getServerSubscriber } from '../services/server-subscriber';
 import { toApHost } from '../misc/convert-host';
+import fetchMeta from '../misc/fetch-meta';
 
 let blockedHosts: Set<string>;
+let blockedHostsRegExp: Set<RegExp>;
 let closedHosts: Set<string>;
 
 export async function isBlockedHost(host: string | null) {
 	if (host == null) return false;
 	if (!blockedHosts) await Update();
-	return blockedHosts?.has(toApHost(host));
+
+	if (blockedHosts?.has(toApHost(host))) return true;
+
+	if (blockedHostsRegExp && Array.from(blockedHostsRegExp).some(x => x.test(toApHost(host)))) return true;
+
+	return false;
 }
 
 export async function isClosedHost(host: string | null) {
@@ -21,7 +28,22 @@ async function Update() {
 	const blocked = await Instance.find({
 		isBlocked: true
 	});
-	blockedHosts = new Set(blocked.map(x => toApHost(x.host)));
+	const literals = new Set(blocked.map(x => toApHost(x.host)));
+
+	const regExps = new Set<RegExp>();
+
+	const meta = await fetchMeta();
+	for (const b of (meta.blockedInstances || [])) {
+		const m = b.match(/^[/](.*)[/]$/);
+		if (m) {
+			regExps.add(new RegExp(m[1]));
+		} else {
+			literals.add(b);
+		}
+	}
+
+	blockedHosts = literals;
+	blockedHostsRegExp = regExps;
 
 	const closed = await Instance.find({
 		isMarkedAsClosed: true
