@@ -30,6 +30,7 @@
 			<li><router-link to="/announcements" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
 			<li><router-link to="/hashtags" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="hashtag" fixed-width/>{{ $t('hashtags') }}</router-link></li>
 			<li><router-link to="/abuse" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
+			<li><router-link to="/instanceblocks" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="ban" fixed-width/>{{ $t('instanceblocks') }}</router-link></li>
 		</ul>
 		<div class="back-to-misskey">
 			<a href="/"><fa :icon="faArrowLeft"/> {{ $t('back-to-misskey') }}</a>
@@ -52,6 +53,7 @@
 			<div v-if="page == 'federation'"><x-federation/></div>
 			<div v-if="page == 'relays'"><x-relays/></div>
 			<div v-if="page == 'abuse'"><x-abuse/></div>
+			<div v-if="page == 'instanceblocks'"><x-instanceblocks/></div>
 		</div>
 	</main>
 </div>
@@ -68,6 +70,7 @@ import XModerators from "./moderators.vue";
 import XEmoji from "./emoji.vue";
 import XAnnouncements from "./announcements.vue";
 import XHashtags from "./hashtags.vue";
+import XInstanceblocks from "./instanceblocks.vue";
 import XUsers from "./users.vue";
 import XDrive from "./drive.vue";
 import XAbuse from "./abuse.vue";
@@ -91,6 +94,7 @@ export default Vue.extend({
 		XEmoji,
 		XAnnouncements,
 		XHashtags,
+		XInstanceblocks,
 		XUsers,
 		XDrive,
 		XAbuse,

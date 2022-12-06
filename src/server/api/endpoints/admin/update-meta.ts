@@ -55,6 +55,13 @@ export const meta = {
 			}
 		},
 
+		blockedInstances: {
+			validator: $.optional.nullable.arr($.str),
+			desc: {
+				'ja-JP': 'blockedInstances'
+			}
+		},
+
 		mascotImageUrl: {
 			validator: $.optional.nullable.str,
 			desc: {
@@ -336,6 +343,10 @@ export default define(meta, async (ps) => {
 
 	if (Array.isArray(ps.hidedTags)) {
 		set.hidedTags = ps.hidedTags.map(x => x.trim()).filter(x => x !== '');
+	}
+
+	if (Array.isArray(ps.blockedInstances)) {
+		set.blockedInstances = ps.blockedInstances.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (ps.mascotImageUrl !== undefined) {
