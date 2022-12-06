@@ -1,10 +1,10 @@
 <template>
 <div>
 	<ui-card>
-		<template #title>{{ $t('blockedInstances') }}</template>
+		<template #title>{{ $t('instanceblocks') }}</template>
 		<section class="fit-top">
-			<ui-textarea v-model="blockedInstances">
-			</ui-textarea>
+			<ui-textarea v-model="blockedInstances"></ui-textarea>
+			<ui-info>{{ $t('blockedInstances-info') }}</ui-info>
 			<ui-button @click="save">{{ $t('@._settings.save') }}</ui-button>
 		</section>
 	</ui-card>
