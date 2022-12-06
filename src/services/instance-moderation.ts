@@ -1,6 +1,7 @@
 import Instance from '../models/instance';
 import { getServerSubscriber } from '../services/server-subscriber';
 import { toApHost } from '../misc/convert-host';
+import fetchMeta from '../misc/fetch-meta';
 
 let blockedHosts: Set<string>;
 let closedHosts: Set<string>;
@@ -21,7 +22,12 @@ async function Update() {
 	const blocked = await Instance.find({
 		isBlocked: true
 	});
-	blockedHosts = new Set(blocked.map(x => toApHost(x.host)));
+	const bs = new Set(blocked.map(x => toApHost(x.host)));
+
+	const meta = await fetchMeta();
+	for (const b of (meta.blockedInstances || [])) bs.add(b);
+
+	blockedHosts = bs;
 
 	const closed = await Instance.find({
 		isMarkedAsClosed: true
