@@ -1,25 +1,8 @@
 <template>
 <div>
+	<x-basic/>
 	<ui-card>
-		<template #title><fa icon="cog"/> {{ $t('instance') }}</template>
-		<section class="fit-top fit-bottom">
-			<ui-input :value="host" readonly>{{ $t('host') }}</ui-input>
-			<ui-input v-model="name">{{ $t('instance-name') }}</ui-input>
-			<ui-textarea v-model="description">{{ $t('instance-description') }}</ui-textarea>
-			<ui-input v-model="mascotImageUrl"><template #icon><fa icon="link"/></template>{{ $t('logo-url') }}</ui-input>
-			<ui-input v-model="bannerUrl"><template #icon><fa icon="link"/></template>{{ $t('banner-url') }}</ui-input>
-			<ui-input v-model="languages"><template #icon><fa icon="language"/></template>{{ $t('languages') }}<template #desc>{{ $t('languages-desc') }}</template></ui-input>
-		</section>
 		<section class="fit-bottom">
-			<header><fa :icon="faHeadset"/> {{ $t('maintainer-config') }}</header>
-			<ui-input v-model="maintainerName">{{ $t('maintainer-name') }}</ui-input>
-			<ui-input v-model="maintainerEmail" type="email"><template #icon><fa :icon="farEnvelope"/></template>{{ $t('maintainer-email') }}</ui-input>
-		</section>
-		<section class="fit-top fit-bottom">
-			<ui-input v-model="maxNoteTextLength">{{ $t('max-note-text-length') }}</ui-input>
-		</section>
-		<section>
-			<ui-switch v-model="disableRegistration">{{ $t('disable-registration') }}</ui-switch>
 			<ui-switch v-model="disableLocalTimeline">{{ $t('disable-local-timeline') }}</ui-switch>
 			<ui-switch v-model="disableGlobalTimeline">{{ $t('disable-global-timeline') }}</ui-switch>
 			<ui-switch v-model="showReplayInPublicTimeline">{{ $t('showReplayInPublicTimeline') }}</ui-switch>
@@ -129,32 +112,31 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../i18n';
 import { url, host } from '../../config';
 import { toUnicode } from 'punycode/';
 import { faHeadset, faShieldAlt, faGhost, faUserPlus, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
+import XBasic from './instance.basic.vue';
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
+
+	components: {
+		XBasic,
+	},
 
 	data() {
 		return {
+			$root: getCurrentInstance() as any,
+
 			fetched: false,
 			url,
 			host: toUnicode(host),
-			maintainerName: null,
-			maintainerEmail: null,
-			disableRegistration: false,
 			disableLocalTimeline: false,
 			disableGlobalTimeline: false,
 			showReplayInPublicTimeline: false,
-			mascotImageUrl: null,
-			bannerUrl: null,
-			name: null,
-			description: null,
-			languages: null,
 			cacheRemoteFiles: false,
 			localDriveCapacityMb: null,
 			remoteDriveCapacityMb: null,
@@ -191,17 +173,9 @@ export default Vue.extend({
 
 	created() {
 		this.$root.api('admin/meta').then((meta: any) => {
-			this.maintainerName = meta.maintainer.name;
-			this.maintainerEmail = meta.maintainer.email;
-			this.disableRegistration = meta.disableRegistration;
 			this.disableLocalTimeline = meta.disableLocalTimeline;
 			this.disableGlobalTimeline = meta.disableGlobalTimeline;
 			this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
-			this.mascotImageUrl = meta.mascotImageUrl;
-			this.bannerUrl = meta.bannerUrl;
-			this.name = meta.name;
-			this.description = meta.description;
-			this.languages = meta.langs.join(' ');
 			this.cacheRemoteFiles = meta.cacheRemoteFiles;
 			this.localDriveCapacityMb = meta.driveCapacityPerLocalUserMb;
 			this.remoteDriveCapacityMb = meta.driveCapacityPerRemoteUserMb;
@@ -253,24 +227,6 @@ export default Vue.extend({
 			});
 		},
 
-		async testEmail() {
-			this.$root.api('admin/send-email', {
-				to: this.maintainerEmail,
-				subject: 'Test email',
-				text: 'Na'
-			}).then(x => {
-				this.$root.dialog({
-					type: 'success',
-					splash: true
-				});
-			}).catch(e => {
-				this.$root.dialog({
-					type: 'error',
-					text: e
-				});
-			});
-		},
-
 		updateMeta() {
 			if (!this.fetched) {
 				this.$root.dialog({
@@ -281,17 +237,9 @@ export default Vue.extend({
 			}
 
 			this.$root.api('admin/update-meta', {
-				maintainerName: this.maintainerName,
-				maintainerEmail: this.maintainerEmail,
-				disableRegistration: this.disableRegistration,
 				disableLocalTimeline: this.disableLocalTimeline,
 				disableGlobalTimeline: this.disableGlobalTimeline,
 				showReplayInPublicTimeline: this.showReplayInPublicTimeline,
-				mascotImageUrl: this.mascotImageUrl,
-				bannerUrl: this.bannerUrl,
-				name: this.name,
-				description: this.description,
-				langs: this.languages ? this.languages.split(' ') : [],
 				cacheRemoteFiles: this.cacheRemoteFiles,
 				localDriveCapacityMb: parseInt(this.localDriveCapacityMb, 10),
 				remoteDriveCapacityMb: parseInt(this.remoteDriveCapacityMb, 10),
