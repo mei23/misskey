@@ -4,16 +4,11 @@
 	<x-notetl/>
 	<x-drive/>
 	<x-captcha/>
+	<x-ghost/>
 
 	<ui-card>
 
 
-		<section>
-			<header><fa :icon="faGhost"/> {{ $t('proxy-account-config') }}</header>
-			<ui-info>{{ $t('proxy-account-info') }}</ui-info>
-			<ui-input v-model="proxyAccount"><template #prefix>@</template>{{ $t('proxy-account-username') }}<template #desc>{{ $t('proxy-account-username-desc') }}</template></ui-input>
-			<ui-info warn>{{ $t('proxy-account-warn') }}</ui-info>
-		</section>
 		<section>
 			<header><fa :icon="farEnvelope"/> {{ $t('email-config') }}</header>
 			<ui-switch v-model="enableEmail">{{ $t('enable-email') }}<template #desc>{{ $t('email-config-info') }}</template></ui-switch>
@@ -108,12 +103,13 @@ import XGeneral from './cards/general.vue';
 import XNotetl from './cards/notetl.vue';
 import XDrive from './cards/drive.vue';
 import XCaptcha from './cards/captcha.vue';
+import XGhost from './cards/ghost.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral, XNotetl, XDrive, XCaptcha,
+		XGeneral, XNotetl, XDrive, XCaptcha, XGhost,
 	},
 
 	data() {
@@ -134,7 +130,6 @@ export default defineComponent({
 			enableDiscordIntegration: false,
 			discordClientId: null,
 			discordClientSecret: null,
-			proxyAccount: null,
 			inviteCode: null,
 			summalyProxy: null,
 			enableEmail: false,
@@ -156,7 +151,6 @@ export default defineComponent({
 		this.$root.api('admin/meta').then((meta: any) => {
 
 
-			this.proxyAccount = meta.proxyAccount;
 			this.enableTwitterIntegration = meta.enableTwitterIntegration;
 			this.twitterConsumerKey = meta.twitterConsumerKey;
 			this.twitterConsumerSecret = meta.twitterConsumerSecret;
@@ -212,7 +206,6 @@ export default defineComponent({
 			this.$root.api('admin/update-meta', {
 
 
-				proxyAccount: this.proxyAccount,
 				enableTwitterIntegration: this.enableTwitterIntegration,
 				twitterConsumerKey: this.twitterConsumerKey,
 				twitterConsumerSecret: this.twitterConsumerSecret,
