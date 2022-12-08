@@ -116,8 +116,8 @@ import { url, host } from '../../config';
 import { toUnicode } from 'punycode/';
 import { faHeadset, faShieldAlt, faGhost, faUserPlus, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
-import XGeneral from './components/general.vue';
-import XNotetl from './components/notetl.vue';
+import XGeneral from './cards/general.vue';
+import XNotetl from './cards/notetl.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
