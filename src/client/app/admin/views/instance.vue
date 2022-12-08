@@ -1,6 +1,6 @@
 <template>
 <div>
-	<x-basic/>
+	<x-general/>
 	<ui-card>
 		<section class="fit-bottom">
 			<ui-switch v-model="disableLocalTimeline">{{ $t('disable-local-timeline') }}</ui-switch>
@@ -118,13 +118,13 @@ import { url, host } from '../../config';
 import { toUnicode } from 'punycode/';
 import { faHeadset, faShieldAlt, faGhost, faUserPlus, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
-import XBasic from './instance.basic.vue';
+import XGeneral from './components/general.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XBasic,
+		XGeneral,
 	},
 
 	data() {

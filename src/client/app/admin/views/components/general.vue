@@ -2,35 +2,43 @@
 <template>
 <ui-card>
 	<template #title><fa icon="cog"/> {{ $t('instance') }}</template>
-	<section class="fit-top fit-bottom">
-		<ui-input v-model="name">{{ $t('instance-name') }}</ui-input>
-		<ui-textarea v-model="description">{{ $t('instance-description') }}</ui-textarea>
-		<ui-input v-model="mascotImageUrl"><template #icon><fa icon="link"/></template>{{ $t('logo-url') }}</ui-input>
-		<ui-input v-model="bannerUrl"><template #icon><fa icon="link"/></template>{{ $t('banner-url') }}</ui-input>
-		<ui-input v-model="languages"><template #icon><fa icon="language"/></template>{{ $t('languages') }}<template #desc>{{ $t('languages-desc') }}</template></ui-input>
-	</section>
-	<section class="fit-bottom">
-		<header><fa :icon="faHeadset"/> {{ $t('maintainer-config') }}</header>
-		<ui-horizon-group inputs>
-			<ui-input v-model="maintainerName">{{ $t('maintainer-name') }}</ui-input>
-			<ui-input v-model="maintainerEmail" type="email"><template #icon><fa :icon="farEnvelope"/></template>{{ $t('maintainer-email') }}</ui-input>
-		</ui-horizon-group>
-	</section>
-	<section>
-		<ui-switch v-model="disableRegistration">{{ $t('disable-registration') }}</ui-switch>
-	</section>
-
-	<section>
+	<template v-if="fetched">
+		<!-- instance -->
+		<section class="fit-top fit-bottom">
+			<ui-input v-model="name">{{ $t('instance-name') }}</ui-input>
+			<ui-textarea v-model="description">{{ $t('instance-description') }}</ui-textarea>
+			<ui-input v-model="mascotImageUrl"><template #icon><fa icon="link"/></template>{{ $t('logo-url') }}</ui-input>
+			<ui-input v-model="bannerUrl"><template #icon><fa icon="link"/></template>{{ $t('banner-url') }}</ui-input>
+			<ui-input v-model="languages"><template #icon><fa icon="language"/></template>{{ $t('languages') }}<template #desc>{{ $t('languages-desc') }}</template></ui-input>
+		</section>
+		<!-- maintainer -->
+		<section class="fit-bottom">
+			<header><fa :icon="faHeadset"/> {{ $t('maintainer-config') }}</header>
+			<ui-horizon-group inputs>
+				<ui-input v-model="maintainerName">{{ $t('maintainer-name') }}</ui-input>
+				<ui-input v-model="maintainerEmail" type="email"><template #icon><fa :icon="farEnvelope"/></template>{{ $t('maintainer-email') }}</ui-input>
+			</ui-horizon-group>
+		</section>
+		<!-- extra -->
+		<section>
+			<ui-switch v-model="disableRegistration">{{ $t('disable-registration') }}</ui-switch>
+		</section>
+		<!-- save -->
+		<section>
 			<ui-button @click="updateMeta" primary>{{ $t('save') }}</ui-button>
-	</section>
+		</section>
+	</template>
+	<template v-else>
+		<div class="spinner"><fa icon="spinner" pulse fixed-width/></div>
+	</template>
 </ui-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue';
-import i18n from '../../i18n';
+import i18n from '../../../i18n';
 
-// (アイコンを追加したらここをいじる 1/2)
+// アイコンを追加したらここをいじる 1/2
 import { faHeadset } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
 
@@ -44,7 +52,7 @@ export default defineComponent({
 			// controls
 			fetched: false,
 
-			// props (項目を追加したらここをいじる 1/3)
+			// props 項目を追加したらここをいじる 1/3
 			name: null,
 			description: null,
 			mascotImageUrl: null,
@@ -54,7 +62,7 @@ export default defineComponent({
 			maintainerEmail: null,
 			disableRegistration: false,
 
-			// icons (アイコンを追加したらここをいじる 2/2)
+			// icons アイコンを追加したらここをいじる 2/2
 			faHeadset, farEnvelope,
 		};
 	},
@@ -66,10 +74,9 @@ export default defineComponent({
 	methods: {
 		fetchMeta() {
 			this.$root.api('admin/meta').then((meta: any) => {
-				// controls
 				this.fetched = true;
 
-				// props (項目を追加したらここをいじる 2/3)
+				// props 項目を追加したらここをいじる 2/3
 				this.name = meta.name;
 				this.description = meta.description;
 				this.mascotImageUrl = meta.mascotImageUrl;
@@ -78,11 +85,6 @@ export default defineComponent({
 				this.maintainerName = meta.maintainer.name;
 				this.maintainerEmail = meta.maintainer.email;
 				this.disableRegistration = meta.disableRegistration;
-			}).catch((e: Error) => {
-				this.$root.dialog({
-					type: 'error',
-					text: 'meta fetch failed'
-				});
 			});
 		},
 
@@ -96,7 +98,7 @@ export default defineComponent({
 			}
 
 			this.$root.api('admin/update-meta', {
-				// (項目を追加したらここをいじる 3/3)
+				// 項目を追加したらここをいじる 3/3
 				name: this.name,
 				description: this.description,
 				mascotImageUrl: this.mascotImageUrl,
@@ -121,3 +123,11 @@ export default defineComponent({
 	}
 });
 </script>
+<style lang="stylus" scoped>
+.spinner
+	font-size 2em
+	height 3em
+	display flex
+	justify-content center
+	align-items center
+</style>
