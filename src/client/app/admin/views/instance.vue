@@ -2,15 +2,11 @@
 <div>
 	<x-general/>
 	<x-notetl/>
+	<x-drive/>
 
 	<ui-card>
 
-		<section class="fit-bottom">
-			<header><fa icon="cloud"/> {{ $t('drive-config') }}</header>
-			<ui-switch v-model="cacheRemoteFiles">{{ $t('cache-remote-files') }}<template #desc>{{ $t('cache-remote-files-desc') }}</template></ui-switch>
-			<ui-input v-model="localDriveCapacityMb" type="number">{{ $t('local-drive-capacity-mb') }}<template #suffix>MB</template><template #desc>{{ $t('mb') }}</template></ui-input>
-			<ui-input v-model="remoteDriveCapacityMb" type="number" :disabled="!cacheRemoteFiles">{{ $t('remote-drive-capacity-mb') }}<template #suffix>MB</template><template #desc>{{ $t('mb') }}</template></ui-input>
-		</section>
+
 		<section class="fit-bottom">
 			<header><fa :icon="faShieldAlt"/> {{ $t('recaptcha-config') }}</header>
 			<ui-switch v-model="enableRecaptcha">{{ $t('enable-recaptcha') }}</ui-switch>
@@ -118,12 +114,13 @@ import { faHeadset, faShieldAlt, faGhost, faUserPlus, faBolt } from '@fortawesom
 import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
 import XGeneral from './cards/general.vue';
 import XNotetl from './cards/notetl.vue';
+import XDrive from './cards/drive.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral, XNotetl,
+		XGeneral, XNotetl, XDrive,
 	},
 
 	data() {
@@ -134,10 +131,7 @@ export default defineComponent({
 			url,
 			host: toUnicode(host),
 
-			cacheRemoteFiles: false,
-			localDriveCapacityMb: null,
-			remoteDriveCapacityMb: null,
-			maxNoteTextLength: null,
+
 			enableRecaptcha: false,
 			recaptchaSiteKey: null,
 			recaptchaSecretKey: null,
@@ -171,10 +165,7 @@ export default defineComponent({
 	created() {
 		this.$root.api('admin/meta').then((meta: any) => {
 
-			this.cacheRemoteFiles = meta.cacheRemoteFiles;
-			this.localDriveCapacityMb = meta.driveCapacityPerLocalUserMb;
-			this.remoteDriveCapacityMb = meta.driveCapacityPerRemoteUserMb;
-			this.maxNoteTextLength = meta.maxNoteTextLength;
+
 			this.enableRecaptcha = meta.enableRecaptcha;
 			this.recaptchaSiteKey = meta.recaptchaSiteKey;
 			this.recaptchaSecretKey = meta.recaptchaSecretKey;
@@ -233,10 +224,7 @@ export default defineComponent({
 
 			this.$root.api('admin/update-meta', {
 
-				cacheRemoteFiles: this.cacheRemoteFiles,
-				localDriveCapacityMb: parseInt(this.localDriveCapacityMb, 10),
-				remoteDriveCapacityMb: parseInt(this.remoteDriveCapacityMb, 10),
-				maxNoteTextLength: parseInt(this.maxNoteTextLength, 10),
+
 				enableRecaptcha: this.enableRecaptcha,
 				recaptchaSiteKey: this.recaptchaSiteKey,
 				recaptchaSecretKey: this.recaptchaSecretKey,
