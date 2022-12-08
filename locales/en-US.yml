@@ -1425,7 +1425,7 @@ admin/views/instance.vue:
   cache-remote-files: "Cache remote files"
   local-drive-capacity-mb: "Volume of Drive per user"
   remote-drive-capacity-mb: "Volume of Drive per remote user"
-  recaptcha-config: "the reCAPTCHA settings"
+  captcha-config: "CAPTCHA settings"
   recaptcha-info: "reCAPTCHA token is required. Please get it on https://www.google.com/recaptcha/intro/"
   enable-recaptcha: "enable reCAPTCHA"
   recaptcha-site-key: "reCAPTCHA site key"

@@ -3,19 +3,11 @@
 	<x-general/>
 	<x-notetl/>
 	<x-drive/>
+	<x-captcha/>
 
 	<ui-card>
 
 
-		<section class="fit-bottom">
-			<header><fa :icon="faShieldAlt"/> {{ $t('recaptcha-config') }}</header>
-			<ui-switch v-model="enableRecaptcha">{{ $t('enable-recaptcha') }}</ui-switch>
-			<ui-info>{{ $t('recaptcha-info') }}</ui-info>
-			<ui-horizon-group inputs>
-				<ui-input v-model="recaptchaSiteKey" :disabled="!enableRecaptcha"><template #icon><fa icon="key"/></template>{{ $t('recaptcha-site-key') }}</ui-input>
-				<ui-input v-model="recaptchaSecretKey" :disabled="!enableRecaptcha"><template #icon><fa icon="key"/></template>{{ $t('recaptcha-secret-key') }}</ui-input>
-			</ui-horizon-group>
-		</section>
 		<section>
 			<header><fa :icon="faGhost"/> {{ $t('proxy-account-config') }}</header>
 			<ui-info>{{ $t('proxy-account-info') }}</ui-info>
@@ -115,12 +107,13 @@ import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
 import XGeneral from './cards/general.vue';
 import XNotetl from './cards/notetl.vue';
 import XDrive from './cards/drive.vue';
+import XCaptcha from './cards/captcha.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral, XNotetl, XDrive,
+		XGeneral, XNotetl, XDrive, XCaptcha,
 	},
 
 	data() {
@@ -132,9 +125,6 @@ export default defineComponent({
 			host: toUnicode(host),
 
 
-			enableRecaptcha: false,
-			recaptchaSiteKey: null,
-			recaptchaSecretKey: null,
 			enableTwitterIntegration: false,
 			twitterConsumerKey: null,
 			twitterConsumerSecret: null,
@@ -166,9 +156,6 @@ export default defineComponent({
 		this.$root.api('admin/meta').then((meta: any) => {
 
 
-			this.enableRecaptcha = meta.enableRecaptcha;
-			this.recaptchaSiteKey = meta.recaptchaSiteKey;
-			this.recaptchaSecretKey = meta.recaptchaSecretKey;
 			this.proxyAccount = meta.proxyAccount;
 			this.enableTwitterIntegration = meta.enableTwitterIntegration;
 			this.twitterConsumerKey = meta.twitterConsumerKey;
@@ -225,9 +212,6 @@ export default defineComponent({
 			this.$root.api('admin/update-meta', {
 
 
-				enableRecaptcha: this.enableRecaptcha,
-				recaptchaSiteKey: this.recaptchaSiteKey,
-				recaptchaSecretKey: this.recaptchaSecretKey,
 				proxyAccount: this.proxyAccount,
 				enableTwitterIntegration: this.enableTwitterIntegration,
 				twitterConsumerKey: this.twitterConsumerKey,
