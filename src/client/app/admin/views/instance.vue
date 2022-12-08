@@ -7,20 +7,8 @@
 	<x-ghost/>
 	<x-email/>
 	<x-sw/>
+	<x-summaly/>
 
-	<ui-card>
-
-
-
-
-		<section>
-			<header>summaly Proxy</header>
-			<ui-input v-model="summalyProxy">URL</ui-input>
-		</section>
-		<section>
-			<ui-button @click="updateMeta">{{ $t('save') }}</ui-button>
-		</section>
-	</ui-card>
 
 	<ui-card>
 		<template #title>{{ $t('invite') }}</template>
@@ -85,12 +73,13 @@ import XCaptcha from './cards/captcha.vue';
 import XGhost from './cards/ghost.vue';
 import XEmail from './cards/email.vue';
 import XSw from './cards/sw.vue';
+import XSummaly from './cards/summaly.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral, XNotetl, XDrive, XCaptcha, XGhost, XEmail, XSw,
+		XGeneral, XNotetl, XDrive, XCaptcha, XGhost, XEmail, XSw, XSummaly,
 	},
 
 	data() {
@@ -112,7 +101,6 @@ export default defineComponent({
 			discordClientId: null,
 			discordClientSecret: null,
 			inviteCode: null,
-			summalyProxy: null,
 
 			faHeadset, faShieldAlt, faGhost, faUserPlus, farEnvelope, faBolt
 		};
@@ -131,7 +119,6 @@ export default defineComponent({
 			this.enableDiscordIntegration = meta.enableDiscordIntegration;
 			this.discordClientId = meta.discordClientId;
 			this.discordClientSecret = meta.discordClientSecret;
-			this.summalyProxy = meta.summalyProxy;
 
 
 			this.fetched = true;
@@ -176,7 +163,6 @@ export default defineComponent({
 				enableDiscordIntegration: this.enableDiscordIntegration,
 				discordClientId: this.discordClientId,
 				discordClientSecret: this.discordClientSecret,
-				summalyProxy: this.summalyProxy,
 
 
 			}).then(() => {
