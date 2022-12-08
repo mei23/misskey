@@ -301,10 +301,10 @@
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
-"@redocly/openapi-core@1.0.0-beta.115":
-  version "1.0.0-beta.115"
-  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.115.tgz#af27c495536aedf2c4027a0fae917ac0582e3bf4"
-  integrity sha512-knM3deYsnBMNnl+c2/vhg6UKA1n+77mxef3f4UNlZLyG0MHi/1NViKyUZdMstmmBInMamOkcZYy4EBh6q9H1aA==
+"@redocly/openapi-core@1.0.0-beta.116":
+  version "1.0.0-beta.116"
+  resolved "https://registry.yarnpkg.com/@redocly/openapi-core/-/openapi-core-1.0.0-beta.116.tgz#163ed25ed88cca732ab17f3297507b58abf853f2"
+  integrity sha512-wQougjp3kglfRM4GF8c+xd+EyTnrkcowQ/8OrHncC2BP79Mqwp59EbjB83e7ctVgUAQxHpHTzcQCbD0XaaM4SA==
   dependencies:
     "@redocly/ajv" "^8.11.0"
     "@types/node" "^14.11.8"
