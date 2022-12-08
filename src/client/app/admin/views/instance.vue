@@ -6,20 +6,13 @@
 	<x-captcha/>
 	<x-ghost/>
 	<x-email/>
+	<x-sw/>
 
 	<ui-card>
 
 
 
-		<section>
-			<header><fa :icon="faBolt"/> {{ $t('serviceworker-config') }}</header>
-			<ui-switch v-model="enableServiceWorker">{{ $t('enable-serviceworker') }}<template #desc>{{ $t('serviceworker-info') }}</template></ui-switch>
-			<ui-info>{{ $t('vapid-info') }}<br><code>npx web-push generate-vapid-keys<br>OR<br>docker-compose run --rm web npx web-push generate-vapid-keys # Docker</code></ui-info>
-			<ui-horizon-group inputs class="fit-bottom">
-				<ui-input v-model="swPublicKey" :disabled="!enableServiceWorker"><template #icon><fa icon="key"/></template>{{ $t('vapid-publickey') }}</ui-input>
-				<ui-input v-model="swPrivateKey" :disabled="!enableServiceWorker"><template #icon><fa icon="key"/></template>{{ $t('vapid-privatekey') }}</ui-input>
-			</ui-horizon-group>
-		</section>
+
 		<section>
 			<header>summaly Proxy</header>
 			<ui-input v-model="summalyProxy">URL</ui-input>
@@ -91,12 +84,13 @@ import XDrive from './cards/drive.vue';
 import XCaptcha from './cards/captcha.vue';
 import XGhost from './cards/ghost.vue';
 import XEmail from './cards/email.vue';
+import XSw from './cards/sw.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral, XNotetl, XDrive, XCaptcha, XGhost, XEmail,
+		XGeneral, XNotetl, XDrive, XCaptcha, XGhost, XEmail, XSw,
 	},
 
 	data() {
@@ -119,9 +113,7 @@ export default defineComponent({
 			discordClientSecret: null,
 			inviteCode: null,
 			summalyProxy: null,
-			enableServiceWorker: false,
-			swPublicKey: null,
-			swPrivateKey: null,
+
 			faHeadset, faShieldAlt, faGhost, faUserPlus, farEnvelope, faBolt
 		};
 	},
@@ -140,9 +132,7 @@ export default defineComponent({
 			this.discordClientId = meta.discordClientId;
 			this.discordClientSecret = meta.discordClientSecret;
 			this.summalyProxy = meta.summalyProxy;
-			this.enableServiceWorker = meta.enableServiceWorker;
-			this.swPublicKey = meta.swPublickey;
-			this.swPrivateKey = meta.swPrivateKey;
+
 
 			this.fetched = true;
 		}).catch(e => {
@@ -188,9 +178,7 @@ export default defineComponent({
 				discordClientSecret: this.discordClientSecret,
 				summalyProxy: this.summalyProxy,
 
-				enableServiceWorker: this.enableServiceWorker,
-				swPublicKey: this.swPublicKey,
-				swPrivateKey: this.swPrivateKey
+
 			}).then(() => {
 				this.$root.dialog({
 					type: 'success',

@@ -1,4 +1,4 @@
-<!-- 管理画面/インスタンス/ghost-->
+<!-- 管理画面/インスタンス/email-->
 <template>
 <ui-card>
 	<template #title><fa :icon="farEnvelope"/> {{ $t('email-config') }}</template>
