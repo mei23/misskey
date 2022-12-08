@@ -5,26 +5,12 @@
 	<x-drive/>
 	<x-captcha/>
 	<x-ghost/>
+	<x-email/>
 
 	<ui-card>
 
 
-		<section>
-			<header><fa :icon="farEnvelope"/> {{ $t('email-config') }}</header>
-			<ui-switch v-model="enableEmail">{{ $t('enable-email') }}<template #desc>{{ $t('email-config-info') }}</template></ui-switch>
-			<ui-input v-model="email" type="email" :disabled="!enableEmail">{{ $t('email') }}</ui-input>
-			<ui-horizon-group inputs>
-				<ui-input v-model="smtpHost" :disabled="!enableEmail">{{ $t('smtp-host') }}</ui-input>
-				<ui-input v-model="smtpPort" type="number" :disabled="!enableEmail">{{ $t('smtp-port') }}</ui-input>
-			</ui-horizon-group>
-			<ui-switch v-model="smtpAuth">{{ $t('smtp-auth') }}</ui-switch>
-			<ui-horizon-group inputs>
-				<ui-input v-model="smtpUser" :disabled="!enableEmail || !smtpAuth">{{ $t('smtp-user') }}</ui-input>
-				<ui-input v-model="smtpPass" type="password" :withPasswordToggle="true" :disabled="!enableEmail || !smtpAuth">{{ $t('smtp-pass') }}</ui-input>
-			</ui-horizon-group>
-			<ui-switch v-model="smtpSecure" :disabled="!enableEmail">{{ $t('smtp-secure') }}<template #desc>{{ $t('smtp-secure-info') }}</template></ui-switch>
-			<ui-button @click="testEmail()">{{ $t('test-mail') }}</ui-button>
-		</section>
+
 		<section>
 			<header><fa :icon="faBolt"/> {{ $t('serviceworker-config') }}</header>
 			<ui-switch v-model="enableServiceWorker">{{ $t('enable-serviceworker') }}<template #desc>{{ $t('serviceworker-info') }}</template></ui-switch>
@@ -104,12 +90,13 @@ import XNotetl from './cards/notetl.vue';
 import XDrive from './cards/drive.vue';
 import XCaptcha from './cards/captcha.vue';
 import XGhost from './cards/ghost.vue';
+import XEmail from './cards/email.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral, XNotetl, XDrive, XCaptcha, XGhost,
+		XGeneral, XNotetl, XDrive, XCaptcha, XGhost, XEmail,
 	},
 
 	data() {
@@ -132,14 +119,6 @@ export default defineComponent({
 			discordClientSecret: null,
 			inviteCode: null,
 			summalyProxy: null,
-			enableEmail: false,
-			email: null,
-			smtpSecure: false,
-			smtpHost: null,
-			smtpPort: null,
-			smtpUser: null,
-			smtpPass: null,
-			smtpAuth: false,
 			enableServiceWorker: false,
 			swPublicKey: null,
 			swPrivateKey: null,
@@ -161,14 +140,6 @@ export default defineComponent({
 			this.discordClientId = meta.discordClientId;
 			this.discordClientSecret = meta.discordClientSecret;
 			this.summalyProxy = meta.summalyProxy;
-			this.enableEmail = meta.enableEmail;
-			this.email = meta.email;
-			this.smtpSecure = meta.smtpSecure;
-			this.smtpHost = meta.smtpHost;
-			this.smtpPort = meta.smtpPort;
-			this.smtpUser = meta.smtpUser;
-			this.smtpPass = meta.smtpPass;
-			this.smtpAuth = meta.smtpUser != null && meta.smtpUser !== '';
 			this.enableServiceWorker = meta.enableServiceWorker;
 			this.swPublicKey = meta.swPublickey;
 			this.swPrivateKey = meta.swPrivateKey;
@@ -216,13 +187,7 @@ export default defineComponent({
 				discordClientId: this.discordClientId,
 				discordClientSecret: this.discordClientSecret,
 				summalyProxy: this.summalyProxy,
-				enableEmail: this.enableEmail,
-				email: this.email,
-				smtpSecure: this.smtpSecure,
-				smtpHost: this.smtpHost,
-				smtpPort: parseInt(this.smtpPort, 10),
-				smtpUser: this.smtpAuth ? this.smtpUser : '',
-				smtpPass: this.smtpAuth ? this.smtpPass : '',
+
 				enableServiceWorker: this.enableServiceWorker,
 				swPublicKey: this.swPublicKey,
 				swPrivateKey: this.swPrivateKey
