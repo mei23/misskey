@@ -1583,6 +1583,7 @@ admin/views/instance.vue:
   enable-recaptcha: "reCAPTCHAを有効にする"
   recaptcha-site-key: "reCAPTCHA site key"
   recaptcha-secret-key: "reCAPTCHA secret key"
+  external-service-integration-config: "外部サービス連携"
   twitter-integration-config: "Twitter連携の設定"
   twitter-integration-info: "コールバックURLは {url} に設定します。"
   enable-twitter-integration: "Twitter連携を有効にする"

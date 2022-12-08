@@ -1430,6 +1430,7 @@ admin/views/instance.vue:
   enable-recaptcha: "enable reCAPTCHA"
   recaptcha-site-key: "reCAPTCHA site key"
   recaptcha-secret-key: "reCAPTCHA secret key"
+  external-service-integration-config: "External service integrations"
   twitter-integration-config: "Settings of connecting to Twitter"
   twitter-integration-info: "The callback URL is set on {url}."
   enable-twitter-integration: "Enable connection to Twitter"
