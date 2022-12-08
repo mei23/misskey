@@ -1,12 +1,10 @@
 <template>
 <div>
 	<x-general/>
+	<x-notetl/>
+
 	<ui-card>
-		<section class="fit-bottom">
-			<ui-switch v-model="disableLocalTimeline">{{ $t('disable-local-timeline') }}</ui-switch>
-			<ui-switch v-model="disableGlobalTimeline">{{ $t('disable-global-timeline') }}</ui-switch>
-			<ui-switch v-model="showReplayInPublicTimeline">{{ $t('showReplayInPublicTimeline') }}</ui-switch>
-		</section>
+
 		<section class="fit-bottom">
 			<header><fa icon="cloud"/> {{ $t('drive-config') }}</header>
 			<ui-switch v-model="cacheRemoteFiles">{{ $t('cache-remote-files') }}<template #desc>{{ $t('cache-remote-files-desc') }}</template></ui-switch>
@@ -119,12 +117,13 @@ import { toUnicode } from 'punycode/';
 import { faHeadset, faShieldAlt, faGhost, faUserPlus, faBolt } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope as farEnvelope } from '@fortawesome/free-regular-svg-icons';
 import XGeneral from './components/general.vue';
+import XNotetl from './components/notetl.vue';
 
 export default defineComponent({
 	i18n: i18n('admin/views/instance.vue'),
 
 	components: {
-		XGeneral,
+		XGeneral, XNotetl,
 	},
 
 	data() {
@@ -134,9 +133,7 @@ export default defineComponent({
 			fetched: false,
 			url,
 			host: toUnicode(host),
-			disableLocalTimeline: false,
-			disableGlobalTimeline: false,
-			showReplayInPublicTimeline: false,
+
 			cacheRemoteFiles: false,
 			localDriveCapacityMb: null,
 			remoteDriveCapacityMb: null,
@@ -173,9 +170,7 @@ export default defineComponent({
 
 	created() {
 		this.$root.api('admin/meta').then((meta: any) => {
-			this.disableLocalTimeline = meta.disableLocalTimeline;
-			this.disableGlobalTimeline = meta.disableGlobalTimeline;
-			this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
+
 			this.cacheRemoteFiles = meta.cacheRemoteFiles;
 			this.localDriveCapacityMb = meta.driveCapacityPerLocalUserMb;
 			this.remoteDriveCapacityMb = meta.driveCapacityPerRemoteUserMb;
@@ -237,9 +232,7 @@ export default defineComponent({
 			}
 
 			this.$root.api('admin/update-meta', {
-				disableLocalTimeline: this.disableLocalTimeline,
-				disableGlobalTimeline: this.disableGlobalTimeline,
-				showReplayInPublicTimeline: this.showReplayInPublicTimeline,
+
 				cacheRemoteFiles: this.cacheRemoteFiles,
 				localDriveCapacityMb: parseInt(this.localDriveCapacityMb, 10),
 				remoteDriveCapacityMb: parseInt(this.remoteDriveCapacityMb, 10),

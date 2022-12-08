@@ -1420,6 +1420,7 @@ admin/views/instance.vue:
   maintainer-config: "Administrator information"
   maintainer-name: "Administrator name"
   maintainer-email: "Administrator contact"
+  note-and-tl: "Notes and timelines"
   drive-config: "Drive settings"
   cache-remote-files: "Cache remote files"
   cache-remote-files-desc: "Without this parameter, all remote files are linked to their host server directly. This will be an effective solution to save your server storage, however make remote files invisible to users who set direct-link disabled, since no thumbnail will be generated, increase traffic. It is recommended that this parameter set enabled."

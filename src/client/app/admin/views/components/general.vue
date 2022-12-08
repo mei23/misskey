@@ -25,7 +25,7 @@
 		</section>
 		<!-- save -->
 		<section>
-			<ui-button @click="updateMeta" primary>{{ $t('save') }}</ui-button>
+			<ui-button @click="updateMeta">{{ $t('save') }}</ui-button>
 		</section>
 	</template>
 	<template v-else>
