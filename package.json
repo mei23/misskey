@@ -113,7 +113,7 @@
 		"eventemitter3": "4.0.7",
 		"file-type": "16.5.4",
 		"fluent-ffmpeg": "2.1.2",
-		"got": "11.8.5",
+		"got": "11.8.6",
 		"gulp": "4.0.2",
 		"gulp-clean-css": "4.3.0",
 		"gulp-rename": "2.0.0",
