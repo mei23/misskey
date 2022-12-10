@@ -9,24 +9,12 @@
 	<x-sw/>
 	<x-summaly/>
 	<x-integrations/>
-
-	<ui-card>
-		<template #title>{{ $t('invite') }}</template>
-		<section>
-			<ui-button @click="invite">{{ $t('invite') }}</ui-button>
-			<p v-if="inviteCode">Code: <code>{{ inviteCode }}</code></p>
-		</section>
-	</ui-card>
-
-
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from 'vue';
+import { defineComponent } from 'vue';
 import i18n from '../../i18n';
-import { url, host } from '../../config';
-import { toUnicode } from 'punycode/';
 import XGeneral from './cards/general.vue';
 import XNotetl from './cards/notetl.vue';
 import XDrive from './cards/drive.vue';
@@ -43,37 +31,5 @@ export default defineComponent({
 	components: {
 		XGeneral, XNotetl, XDrive, XCaptcha, XGhost, XEmail, XSw, XSummaly, XIntegrations,
 	},
-
-	data() {
-		return {
-			$root: getCurrentInstance() as any,
-
-			fetched: false,
-			url,
-			host: toUnicode(host),
-
-
-
-			inviteCode: null,
-
-		};
-	},
-
-	created() {
-	},
-
-	methods: {
-		invite() {
-			this.$root.api('admin/invite').then(x => {
-				this.inviteCode = x.code;
-			}).catch(e => {
-				this.$root.dialog({
-					type: 'error',
-					text: e
-				});
-			});
-		},
-
-	}
 });
 </script>
