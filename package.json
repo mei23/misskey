@@ -163,7 +163,7 @@
 		"os-utils": "0.0.14",
 		"parse5": "6.0.1",
 		"parsimmon": "1.18.1",
-		"postcss": "8.4.19",
+		"postcss": "8.4.20",
 		"postcss-loader": "7.0.2",
 		"private-ip": "2.3.4",
 		"probe-image-size": "7.2.3",
