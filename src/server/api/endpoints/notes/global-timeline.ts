@@ -103,7 +103,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	if (!user && m.disableTimelinePreview) {
-		throw new ApiError(meta.errors.ltlDisabled);
+		throw new ApiError(meta.errors.gtlDisabled);
 	}
 
 	// 隠すユーザーを取得
