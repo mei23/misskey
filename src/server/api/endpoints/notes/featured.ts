@@ -5,6 +5,7 @@ import define from '../../define';
 import { getHideUserIds } from '../../common/get-hide-users';
 import { genMeid7 } from '../../../../misc/id/meid7';
 import * as mongo from 'mongodb';
+import fetchMeta from '../../../../misc/fetch-meta';
 
 export const meta = {
 	desc: {
@@ -75,6 +76,11 @@ export const meta = {
 // クライアントではこれを日付順にソートしている
 
 export default define(meta, async (ps, user) => {
+	const m = await fetchMeta();
+	if (!user && m.disableTimelinePreview) {
+		return [];
+	}
+
 	if (ps.excludeNsfw && ps.excludeSfw) return [];
 
 	const day = 1000 * 60 * 60 * 24 * ps.days;

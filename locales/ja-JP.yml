@@ -1609,6 +1609,7 @@ admin/views/instance.vue:
   disable-local-timeline: "ローカルタイムラインを無効にする"
   disable-global-timeline: "グローバルタイムラインを無効にする"
   showReplayInPublicTimeline: "公開タイムラインにリプライを表示する"
+  disableTimelinePreview: "タイムラインプレビューを無効にする"
   invite: "招待"
   save: "保存"
   saved: "保存しました"

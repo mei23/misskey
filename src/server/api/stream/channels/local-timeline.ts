@@ -17,6 +17,9 @@ export default class extends Channel {
 		if (meta.disableLocalTimeline) {
 			return;
 		}
+		if (!this.user && meta.disableTimelinePreview) {
+			return;
+		}
 		this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
 
 		// Subscribe events

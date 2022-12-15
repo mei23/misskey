@@ -97,6 +97,9 @@ export default define(meta, async (ps, user) => {
 	if (m.disableLocalTimeline) {
 		throw new ApiError(meta.errors.ltlDisabled);
 	}
+	if (!user && m.disableTimelinePreview) {
+		throw new ApiError(meta.errors.ltlDisabled);
+	}
 
 	// 隠すユーザーを取得
 	const hideUserIds = await getHideUserIds(user);

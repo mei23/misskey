@@ -50,6 +50,13 @@ export const meta = {
 			}
 		},
 
+		disableTimelinePreview: {
+			validator: $.optional.nullable.bool,
+			desc: {
+				'ja-JP': 'タイムラインプレビューを無効にするか否か'
+			}
+		},
+
 		hidedTags: {
 			validator: $.optional.nullable.arr($.str),
 			desc: {
@@ -341,6 +348,10 @@ export default define(meta, async (ps) => {
 
 	if (typeof ps.showReplayInPublicTimeline === 'boolean') {
 		set.showReplayInPublicTimeline = ps.showReplayInPublicTimeline;
+	}
+
+	if (typeof ps.disableTimelinePreview === 'boolean') {
+		set.disableTimelinePreview = ps.disableTimelinePreview;
 	}
 
 	if (Array.isArray(ps.hidedTags)) {

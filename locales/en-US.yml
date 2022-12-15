@@ -1456,6 +1456,7 @@ admin/views/instance.vue:
   disable-local-timeline: "Disable the Local Timeline"
   disable-global-timeline: "Disable global timeline"
   showReplayInPublicTimeline: "Show replay in public timelines"
+  disableTimelinePreview: "Disable Timeline Preview"
   invite: "Invite"
   save: "Save"
   saved: "Saved"
