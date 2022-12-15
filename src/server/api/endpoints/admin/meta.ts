@@ -68,9 +68,9 @@ export const meta = {
 				type: 'boolean',
 				description: 'Whether disabled Timeline Preview.',
 			},
-			disableUserPreview: {
+			disableProfileDirectory: {
 				type: 'boolean',
-				description: 'Whether disabled User Preview.',
+				description: 'Whether disabled Profile Directory.',
 			},
 		}
 	}
@@ -115,7 +115,7 @@ export default define(meta, async (ps, me) => {
 		disableGlobalTimeline: instance.disableGlobalTimeline,
 		showReplayInPublicTimeline: instance.showReplayInPublicTimeline,
 		disableTimelinePreview: instance.disableTimelinePreview,
-		disableUserPreview: instance.disableUserPreview,
+		disableProfileDirectory: instance.disableProfileDirectory,
 		enableEmojiReaction: instance.enableEmojiReaction,
 		driveCapacityPerLocalUserMb: instance.localDriveCapacityMb,
 		driveCapacityPerRemoteUserMb: instance.remoteDriveCapacityMb,

@@ -99,7 +99,7 @@ const sort: any = { // < https://github.com/Microsoft/TypeScript/issues/1863
 
 export default define(meta, async (ps, me) => {
 	const m = await fetchMeta();
-	if (me == null && m.disableUserPreview) {
+	if (me == null && m.disableProfileDirectory) {
 		return [];
 	}
 
