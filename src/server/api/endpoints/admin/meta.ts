@@ -68,6 +68,10 @@ export const meta = {
 				type: 'boolean',
 				description: 'Whether disabled Timeline Preview.',
 			},
+			disableUserPreview: {
+				type: 'boolean',
+				description: 'Whether disabled User Preview.',
+			},
 		}
 	}
 };
@@ -111,6 +115,7 @@ export default define(meta, async (ps, me) => {
 		disableGlobalTimeline: instance.disableGlobalTimeline,
 		showReplayInPublicTimeline: instance.showReplayInPublicTimeline,
 		disableTimelinePreview: instance.disableTimelinePreview,
+		disableUserPreview: instance.disableUserPreview,
 		enableEmojiReaction: instance.enableEmojiReaction,
 		driveCapacityPerLocalUserMb: instance.localDriveCapacityMb,
 		driveCapacityPerRemoteUserMb: instance.remoteDriveCapacityMb,

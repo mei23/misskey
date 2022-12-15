@@ -3,6 +3,7 @@ import User, { pack } from '../../../models/user';
 import define from '../define';
 import { fallback } from '../../../prelude/symbol';
 import { getHideUserIds } from '../common/get-hide-users';
+import fetchMeta from '../../../misc/fetch-meta';
 
 const nonnull = { $ne: null as any };
 
@@ -97,6 +98,11 @@ const sort: any = { // < https://github.com/Microsoft/TypeScript/issues/1863
 };
 
 export default define(meta, async (ps, me) => {
+	const m = await fetchMeta();
+	if (me == null && m.disableUserPreview) {
+		return [];
+	}
+
 	const hideUserIds = await getHideUserIds(me);
 
 	const users = await User
