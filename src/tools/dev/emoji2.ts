@@ -26,10 +26,13 @@ symbols	1F6DC	wireless`;
 for (const line of data.split(/\n/)) {
 	const m = line.match(/^([0-9A-Za-z_]+)\t([0-9A-Fa-f ]+)\t([0-9A-Za-z ]+)$/);
 	if (!m) throw `unmatch ${line}`;
+
+	// emojilist.json
 	const codes = m[2].split(/ /).map(x => parseInt(x, 16));
-	//console.log(codes);
 	const char = String.fromCodePoint(...codes);
+	//console.log(codes);
 	//console.log(m[1].split(/ /).map(x => String.fromCharCode(parseInt(x, 16))).join());
+	//console.log(`${char} -- ${m[1]} -- ${m[3]}`);
 
 	const obj = {
 		category: m[1],
@@ -38,7 +41,14 @@ for (const line of data.split(/\n/)) {
 		keywords: [],
 	};
 
-	//console.log(`${char} -- ${m[1]} -- ${m[3]}`);
-
 	console.log(`  ${JSON.stringify(obj)},`);
+
+	// twemoji-parser:emoji.yml
+	/*
+	const twemojiCode = m[2].split(/ /).map(x => x.toLowerCase()).join('-');
+	const tw = `  - unicode: "${twemojiCode}"
+    description: "${m[3]}"
+    keywords: ""`;
+	console.log(tw);
+	*/
 }
