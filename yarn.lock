@@ -5848,9 +5848,9 @@ memoizee@0.4.X:
     next-tick "^1.1.0"
     timers-ext "^0.1.7"
 
-memoji@mei23/memoji:
-  version "1.0.0"
-  resolved "https://codeload.github.com/mei23/memoji/tar.gz/aa38374383d7a44a4c36fa91a1031b18b2f3d46c"
+memoji@mei23/memoji#15.0.0:
+  version "15.0.0"
+  resolved "https://codeload.github.com/mei23/memoji/tar.gz/5ebfbda27b2bf38f99cb562ee3cece7d13c55154"
 
 memory-pager@^1.0.2:
   version "1.5.0"
