@@ -25,13 +25,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../../i18n';
 import XCore from './timeline.core.vue';
 import Menu from '../../../common/views/components/menu.vue';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n('desktop/views/components/timeline.vue'),
 	components: {
 		XCore
@@ -39,9 +39,10 @@ export default Vue.extend({
 
 	data() {
 		return {
+			$root: getCurrentInstance() as any,
 			src: 'home',
-			list: null,
-			tagTl: null,
+			list: null as any,
+			tagTl: null as any,
 			enableLocalTimeline: false,
 			enableGlobalTimeline: false,
 			faThumbsUp

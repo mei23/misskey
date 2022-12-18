@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import i18n from '../../../i18n';
 import { emojilist } from '../../../../../misc/emojilist';
 import { getStaticImageUrl } from '../../../common/scripts/get-static-image-url';
@@ -98,7 +98,7 @@ import { groupBy } from '../../../../../prelude/array';
 const SKIN_TONES_SAMPLE = '\u{1F44D}';	// thumbs up
 const SKIN_TONES = [ null, '\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}' ];
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n('common/views/components/emoji-picker.vue'),
 
 	props: {
@@ -377,7 +377,7 @@ export default Vue.extend({
 		},
 
 		chosen(emoji: any, skinTone?: string) {
-			const getKey = (emoji: any) => emoji.char ? this.getSkinToneModifiedChar(emoji.char, skinTone) : `:${emoji.name}:`;
+			const getKey = (emoji: any) => emoji.char ? emoji.st === 1 ? this.getSkinToneModifiedChar(emoji.char, skinTone) : emoji.char : `:${emoji.name}:`;
 
 			let recents = this.$store.state.device.recentEmojis || [];
 			recents = recents.filter((e: any) => getKey(e) !== getKey(emoji));

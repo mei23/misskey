@@ -12,13 +12,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../i18n';
 
-export default Vue.extend({
+
+export default defineComponent({
 	i18n: i18n('admin/views/hashtags.vue'),
 	data() {
 		return {
+			$root: getCurrentInstance() as any,
 			hidedTags: '',
 		};
 	},
