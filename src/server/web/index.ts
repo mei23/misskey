@@ -129,7 +129,7 @@ router.get('/api.json', async ctx => {
 
 // Atom
 router.get('/@:user.atom', async ctx => {
-	const feed = await getAtomFeed(ctx.params.user, ctx.query.until_id);
+	const feed = await getAtomFeed(ctx.params.user, ctx.query);
 
 	if (feed) {
 		ctx.set('Content-Type', 'application/atom+xml; charset=utf-8');
@@ -141,7 +141,7 @@ router.get('/@:user.atom', async ctx => {
 
 // RSS
 router.get('/@:user.rss', async ctx => {
-	const feed = await getRSSFeed(ctx.params.user, ctx.query.until_id);
+	const feed = await getRSSFeed(ctx.params.user, ctx.query);
 
 	if (feed) {
 		ctx.set('Content-Type', 'application/rss+xml; charset=utf-8');
@@ -153,7 +153,7 @@ router.get('/@:user.rss', async ctx => {
 
 // JSON
 router.get('/@:user.json', async ctx => {
-	const feed = await getJSONFeed(ctx.params.user, ctx.query.until_id);
+	const feed = await getJSONFeed(ctx.params.user, ctx.query);
 
 	if (feed) {
 		ctx.set('Content-Type', 'application/json; charset=utf-8');

@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import { IFeedAuthor, getJSONFeed } from './json';
 import { objectToXml } from './util';
 
@@ -53,8 +54,8 @@ export interface IAtomEntry {
  * @param acct @username@host
  * @param untilId UntileId
  */
-export async function getAtomFeed(acct: string, untilId?: string) {
-	const json = await getJSONFeed(acct, untilId);
+export async function getAtomFeed(acct: string, q: ParsedUrlQuery) {
+	const json = await getJSONFeed(acct, q);
 	if (!json) return null;
 
 	const root = {

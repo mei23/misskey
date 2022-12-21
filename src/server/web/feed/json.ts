@@ -5,6 +5,8 @@ import getDriveFileUrl from '../../../misc/get-drive-file-url';
 import { transform } from '../../../misc/cafy-id';
 import { getNoteHtml } from '../../../remote/activitypub/misc/get-note-html';
 import parseAcct from '../../../misc/acct/parse';
+import { ParsedUrlQuery } from 'querystring';
+import { parseQuery } from './util';
 
 //#region JSON Feed models
 export interface IFeed {
@@ -111,7 +113,7 @@ export interface IAtomEntry {
  * @param acct @username@host
  * @param untilId UntileId
  */
-export async function getJSONFeed(acct: string, untilId?: string) {
+export async function getJSONFeed(acct: string, q: ParsedUrlQuery) {
 	const { username, host } = parseAcct(acct);
 	const user = await User.findOne({
 		isDeleted: { $ne: true },
@@ -121,6 +123,8 @@ export async function getJSONFeed(acct: string, untilId?: string) {
 	});
 	if (user == null) return null;
 
+	const ps = parseQuery(q);
+
 	const query = {
 		userId: user._id,
 		deletedAt: null,
@@ -128,9 +132,9 @@ export async function getJSONFeed(acct: string, untilId?: string) {
 		text: { $ne: null },
 	} as any;
 
-	if (untilId) {
+	if (ps.untilId) {
 		query._id = {
-			$lt: transform(untilId)
+			$lt: transform(ps.untilId)
 		};
 	}
 

@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from 'querystring';
 import { getJSONFeed } from './json';
 import { objectToXml } from './util';
 
@@ -54,8 +55,8 @@ export interface IRSSItem {
  * @param acct @username@host
  * @param untilId UntileId
  */
-export async function getRSSFeed(acct: string, untilId?: string) {
-	const json = await getJSONFeed(acct, untilId);
+export async function getRSSFeed(acct: string, q: ParsedUrlQuery) {
+	const json = await getJSONFeed(acct, q);
 	if (!json) return null;
 
 	const root = {
@@ -66,7 +67,7 @@ export async function getRSSFeed(acct: string, untilId?: string) {
 			'@xmlns:content': 'http://purl.org/rss/1.0/modules/content/',
 			channel: {
 				'atom:link': {
-					'@href': json.feed_url.replace(/\.json$/, '.atom'),
+					'@href': json.feed_url?.replace(/\.json$/, '.atom'),
 					'@rel': 'self',
 					'@type': 'application/rss+xml'
 				},
