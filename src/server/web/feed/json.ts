@@ -6,7 +6,7 @@ import { transform } from '../../../misc/cafy-id';
 import { getNoteHtml } from '../../../remote/activitypub/misc/get-note-html';
 import parseAcct from '../../../misc/acct/parse';
 import { ParsedUrlQuery } from 'querystring';
-import { parseQuery } from './util';
+import $ from 'cafy';
 
 //#region JSON Feed models
 export interface IFeed {
@@ -140,7 +140,7 @@ export async function getJSONFeed(acct: string, q: ParsedUrlQuery) {
 
 	const notes = await Note.find(query, {
 		sort: { _id: -1 },
-		limit: 20
+		limit: ps.limit
 	});
 
 	const url = `${config.url}/@${user.username}`;
@@ -196,4 +196,22 @@ export async function getJSONFeed(acct: string, q: ParsedUrlQuery) {
 	}
 
 	return feed;
+}
+
+function parseQuery(q: ParsedUrlQuery) {
+	const untilId = $.optional.str.throw(tryJsonParse(q.until_id));
+	const limit = $.optional.num.int().min(0).max(50).throw(tryJsonParse(q.limit)) ?? 20;
+
+	return {
+		untilId, limit
+	};
+}
+
+function tryJsonParse(v: string | string[] | undefined): unknown {
+	if (typeof v !== 'string') return undefined;
+	try {
+		return JSON.parse(v);
+	} catch {
+		return v;
+	}
 }
