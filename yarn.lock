@@ -835,10 +835,10 @@
     "@types/glob" "*"
     "@types/node" "*"
 
-"@types/seedrandom@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-3.0.2.tgz#7f30db28221067a90b02e73ffd46b6685b18df1a"
-  integrity sha512-YPLqEOo0/X8JU3rdiq+RgUKtQhQtrppE766y7vMTu8dGML7TVtZNiiiaC/hhU9Zqw9UYopXxhuWWENclMVBwKQ==
+"@types/seedrandom@3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-3.0.3.tgz#e857dd8f1892bea589fe740e5824f9d658156e20"
+  integrity sha512-C+XVq4Mjjo6QMJwdmBmj0gNO0xDdQELjj0kXrTNth+7Iw2aAVTpwWWFfOdXXipIwGbCjnEv6DNxozatf90M0CA==
 
 "@types/semver@^7.3.12":
   version "7.3.12"
