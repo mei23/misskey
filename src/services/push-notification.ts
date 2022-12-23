@@ -1,33 +1,26 @@
 import * as mongo from 'mongodb';
+import fetchMeta from '../misc/fetch-meta';
 import Subscription from '../models/sw-subscription';
 import User, { getPushNotificationsValue, isLocalUser } from '../models/user';
 import { webpushDeliver } from '../queue';
 
-/*
-let meta: IMeta | null = null;
+let swEnabled = false;
 
 function update() {
-	fetchMeta().then(m => {
-		meta = m;
-
-		if (meta.enableServiceWorker) {
-			// アプリケーションの連絡先と、サーバーサイドの鍵ペアの情報を登録
-			push.setVapidDetails(config.url,
-				meta.swPublicKey,
-				meta.swPrivateKey);
+	fetchMeta().then(meta => {
+		if (meta.enableServiceWorker && meta.swPublicKey && meta.swPrivateKey) {
+			swEnabled = true;
+		} else {
+			swEnabled = false;
 		}
 	});
 }
 
-setInterval(() => {
-	update();
-}, 30000);
-
+setInterval(() => { update() }, 30000);
 update();
-*/
 
 export default async function(userId: mongo.ObjectID | string, type: string, body?: any) {
-	//if (!meta?.enableServiceWorker) return;
+	if (!swEnabled) return;
 
 	if (typeof userId === 'string') {
 		userId = new mongo.ObjectID(userId) as mongo.ObjectID;
