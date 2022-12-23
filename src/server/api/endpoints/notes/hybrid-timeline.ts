@@ -19,6 +19,8 @@ export const meta = {
 
 	tags: ['notes'],
 
+	requireCredential: true,
+
 	params: {
 		limit: {
 			validator: $.optional.num.range(1, 100),

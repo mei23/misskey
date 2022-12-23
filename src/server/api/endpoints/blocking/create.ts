@@ -7,6 +7,7 @@ import create from '../../../../services/blocking/create';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { getUser } from '../../common/getters';
+import deleteFollowing from '../../../../services/following/delete';
 
 export const meta = {
 	stability: 'stable',
@@ -82,6 +83,10 @@ export default define(meta, async (ps, user) => {
 	if (exist !== null) {
 		throw new ApiError(meta.errors.alreadyBlocking);
 	}
+
+	const follower = await getUser(ps.userId);
+	const followee = user;
+	await deleteFollowing(follower, followee);
 
 	// Create blocking
 	await create(blocker, blockee);

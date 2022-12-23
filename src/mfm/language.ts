@@ -327,7 +327,7 @@ export const mfmLanguage = P.createLanguage({
 		});
 	},
 	rj: r => {
-		return P.regexp(/(RJ\d{6})/, 1).map((x: any) => {
+		return P.regexp(/(RJ\d{6,8})/, 1).map((x: any) => {
 			return createMfmNode('link',
 			{
 				silent: false,

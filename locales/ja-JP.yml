@@ -2183,6 +2183,9 @@ mobile/views/pages/user.vue:
   timeline: "タイムライン"
   media: "メディア"
   years-old: "{age}歳"
+  year: "年"
+  month: "月"
+  day: "日"
 
 mobile/views/pages/user/home.vue:
   recent-notes: "最近の投稿"

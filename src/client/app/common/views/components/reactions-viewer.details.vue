@@ -3,7 +3,7 @@
 	<div class="buebdbiu" ref="popover" v-if="show">
 		<div class="reaction">
 			<mk-reaction-icon class="icon" :reaction="reaction" :customEmojis="customEmojis"/>
-			<span class="name" v-if="reaction.match(/:/)">{{ reaction.replace(/:/g, '').replace(/@\./, '') }}</span>
+			<span class="name">{{ name }}</span>
 		</div>
 		<b v-for="u in users.slice(0, 10)" :key="u.id" style="margin-right: 12px;">
 			<mk-avatar :user="u" style="width: 24px; height: 24px; margin-right: 2px;"/>
@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { emojilist } from '../../../../../misc/emojilist';
 
 export default Vue.extend({
 	props: {
@@ -61,7 +62,16 @@ export default Vue.extend({
 			popover.style.left = (x - 28) + 'px';
 			popover.style.top = (y + 16) + 'px';
 		});
-	}
+	},
+	computed: {
+		name(): string | undefined {
+			if (this.reaction.match(/:/)) {
+				return this.reaction.replace(/:/g, '').replace(/@\./, '');
+			} else {
+				return emojilist.find(x => x.char === this.reaction)?.name;
+			}
+		}
+	},
 	methods: {
 		close() {
 			this.show = false;

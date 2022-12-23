@@ -1,5 +1,6 @@
 import * as httpSignature from 'http-signature';
 import { IActivity } from '../remote/activitypub/type';
+import * as webpush from 'web-push';
 
 export type ThinUser = {
 	_id: string;
@@ -19,6 +20,12 @@ export type DeliverJobData = {
 	to: string;
 	/** Detail information of inbox */
 	inboxInfo?: InboxInfo;
+};
+
+export type WebpushDeliverJobData = {
+	swSubscriptionId: string;
+	pushSubscription: webpush.PushSubscription;
+	payload: string;
 };
 
 export type InboxInfo = {
