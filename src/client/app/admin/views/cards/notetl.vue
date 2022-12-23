@@ -12,6 +12,8 @@
 			<ui-switch v-model="disableLocalTimeline">{{ $t('disable-local-timeline') }}</ui-switch>
 			<ui-switch v-model="disableGlobalTimeline">{{ $t('disable-global-timeline') }}</ui-switch>
 			<ui-switch v-model="showReplayInPublicTimeline">{{ $t('showReplayInPublicTimeline') }}</ui-switch>
+			<ui-switch v-model="disableTimelinePreview">{{ $t('disableTimelinePreview') }}</ui-switch>
+			<ui-switch v-model="disableProfileDirectory">{{ $t('disableProfileDirectory') }}</ui-switch>
 		</section>
 		<!-- save -->
 		<section>
@@ -46,6 +48,8 @@ export default defineComponent({
 			disableLocalTimeline: false,
 			disableGlobalTimeline: false,
 			showReplayInPublicTimeline: false,
+			disableTimelinePreview: false,
+			disableProfileDirectory: false,
 
 			// icons アイコンを追加したらここをいじる 2/2
 			faPencilAlt
@@ -66,6 +70,8 @@ export default defineComponent({
 				this.disableLocalTimeline = meta.disableLocalTimeline;
 				this.disableGlobalTimeline = meta.disableGlobalTimeline;
 				this.showReplayInPublicTimeline = meta.showReplayInPublicTimeline;
+				this.disableTimelinePreview = meta.disableTimelinePreview;
+				this.disableProfileDirectory = meta.disableProfileDirectory;
 			});
 		},
 
@@ -84,6 +90,8 @@ export default defineComponent({
 				disableLocalTimeline: this.disableLocalTimeline,
 				disableGlobalTimeline: this.disableGlobalTimeline,
 				showReplayInPublicTimeline: this.showReplayInPublicTimeline,
+				disableTimelinePreview: this.disableTimelinePreview,
+				disableProfileDirectory: this.disableProfileDirectory,
 			}).then(() => {
 				this.fetchMeta();
 				this.$root.dialog({
