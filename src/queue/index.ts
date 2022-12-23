@@ -1,9 +1,10 @@
 import * as httpSignature from 'http-signature';
 import config from '../config';
-import { InboxInfo, InboxRequestData } from './types';
-import { deliverQueue, inboxQueue, dbQueue } from './queues';
+import { InboxInfo, InboxRequestData, WebpushDeliverJobData } from './types';
+import { deliverQueue, webpushDeliverQueue, inboxQueue, dbQueue } from './queues';
 import { getJobInfo } from './get-job-info';
 import processDeliver from './processors/deliver';
+import processWebpushDeliver from './processors/webpushDeliver';
 import processInbox from './processors/inbox';
 import processDb from './processors/db';
 import { queueLogger } from './logger';
@@ -15,6 +16,7 @@ import { IActivity } from '../remote/activitypub/type';
 import queueChart from '../services/chart/queue';
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
+const webpushDeliverLogger = queueLogger.createSubLogger('webpushDeliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');
 const dbLogger = queueLogger.createSubLogger('db');
 
@@ -35,6 +37,20 @@ deliverQueue
 	})
 	.on('error', (error) => deliverLogger.error(`error ${error}`))
 	.on('stalled', (job) => deliverLogger.warn(`stalled ${getJobInfo(job)} to=${job.data.to}`));
+
+webpushDeliverQueue
+	.on('waiting', (jobId) => {
+		webpushDeliverLogger.debug(`waiting id=${jobId}`);
+	})
+	.on('active', (job) => webpushDeliverLogger.info(`active ${getJobInfo(job, true)} to=${job.data.pushSubscription.endpoint}`))
+	.on('completed', (job, result) => webpushDeliverLogger.info(`completed(${result}) ${getJobInfo(job, true)} to=${job.data.pushSubscription.endpoint}`))
+	.on('failed', (job, err) => {
+		const msg = `failed(${err}) ${getJobInfo(job)} to=${job.data.pushSubscription.endpoint}`;
+		job.log(msg);
+		webpushDeliverLogger.warn(msg);
+	})
+	.on('error', (error) => webpushDeliverLogger.error(`error ${error}`))
+	.on('stalled', (job) => webpushDeliverLogger.warn(`stalled ${getJobInfo(job)} to=${job.data.pushSubscription.endpoint}`));
 
 inboxQueue
 	.on('waiting', (jobId) => {
@@ -95,6 +111,18 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
 
 	return deliverQueue.add(data, {
 		attempts,
+		timeout: 1 * 60 * 1000,	// 1min
+		backoff: {
+			type: 'apBackoff'
+		},
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
+export function webpushDeliver(data: WebpushDeliverJobData) {
+	return webpushDeliverQueue.add(data, {
+		attempts: 2,
 		timeout: 1 * 60 * 1000,	// 1min
 		backoff: {
 			type: 'apBackoff'
@@ -300,6 +328,7 @@ export function createImportUserListsJob(user: ILocalUser, fileId: IDriveFile['_
 
 export default function() {
 	deliverQueue.process(config.deliverJobConcurrency || 128, processDeliver);
+	webpushDeliverQueue.process(8, processWebpushDeliver);
 	inboxQueue.process(config.inboxJobConcurrency || 16, processInbox);
 	processDb(dbQueue);
 }
