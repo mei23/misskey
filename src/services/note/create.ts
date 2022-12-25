@@ -121,7 +121,7 @@ type Option = {
 	url?: string;
 	app?: IApp;
 	preview?: boolean;
-	references: INote[];
+	references?: INote[];
 };
 
 export default async (user: IUser, data: Option, silent = false) => {
@@ -496,7 +496,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 				? data.visibleUsers.map(u => u._id)
 				: []
 			: [],
-		referenceIds: data.references.map(x => x._id),
+		referenceIds: data.references?.map(x => x._id) || [],
 
 		// 以下非正規化データ
 		_reply: data.reply ? {
