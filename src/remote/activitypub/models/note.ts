@@ -4,7 +4,7 @@ import config from '../../../config';
 import Resolver from '../resolver';
 import { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage, getApType } from '../type';
+import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage, getApType, IOrderedCollection, ICollection, isCollectionOrOrderedCollection, isCollection, isCollectionPage, ICollectionPage } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -201,6 +201,14 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		}
 	}
 
+	// 参照
+	let references: INote[] = [];
+	if (note.references) {
+		references = await fetchReferences(note.references, resolver).catch(e => {
+			return [];
+		});
+	}
+
 	const cw = note.summary === '' ? null : note.summary;
 
 	// テキストのパース
@@ -265,6 +273,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		poll,
 		uri: note.id,
 		url: getOneApHrefNullable(note.url),
+		references,
 	}, silent);
 }
 
@@ -360,4 +369,51 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 			return emoji;
 		})
 	);
+}
+
+export async function fetchReferences(src: string | IOrderedCollection | ICollection , resolver: Resolver) {
+	// get root
+	const root = await resolver.resolve(src);
+
+	// get firstPage
+	let page: ICollectionPage | undefined;
+	if (isCollection(root) && root.first) {
+		const t = await resolver.resolve(root.first);
+		if (isCollectionPage(t)) {
+			page = t;
+		} else {
+			throw 'cant find firstPage';
+		}
+	}
+
+	const references: INote[] = [];
+
+	// Page再帰
+	for (let i = 0; i < 100; i++) {
+		console.log('Page再帰', i);
+
+		if (!page?.items) throw 'page not have items';
+
+		for (const item of page.items) {
+			const post = await resolveNote(getApId(item));	// 他鯖のオブジェクトが本物かわからないのでstring => uri => resolve
+			if (post) {
+				references.push(post);
+			} else {
+				// not post
+			}
+		}
+
+		if (page.next) {
+			const t = await resolver.resolve(page.next);
+			if (isCollectionPage(t)) {
+				page = t;
+			} else {
+				throw 'cant find next';
+			}
+		} else {
+			return references;
+		}
+	}
+
+	return [];
 }
