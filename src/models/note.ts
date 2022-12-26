@@ -417,7 +417,6 @@ export const pack = async (
 		url: db.url || null,
 		appId: toOidStringOrNull(db.appId),
 		app: db.appId ? packApp(db.appId) : null,
-
 		visibleUserIds: db.visibleUserIds?.length > 0 ? db.visibleUserIds.map(toOidString) : [],
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],
 		hasRemoteMentions: db.mentionedRemoteUsers?.length > 0,

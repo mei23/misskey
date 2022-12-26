@@ -390,8 +390,6 @@ export async function fetchReferences(src: string | IOrderedCollection | ICollec
 
 	// Page再帰
 	for (let i = 0; i < 100; i++) {
-		console.log('Page再帰', i);
-
 		if (!page?.items) throw 'page not have items';
 
 		for (const item of page.items) {
