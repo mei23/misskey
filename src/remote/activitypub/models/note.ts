@@ -395,9 +395,10 @@ export async function fetchReferences(src: string | IOrderedCollection | ICollec
 		if (!page?.items) throw 'page not have items';
 
 		for (const item of page.items) {
-			const post = await resolveNote(getApId(item));	// 他鯖のオブジェクトが本物かわからないのでstring => uri => resolve
+			const post = await resolveNote(getApId(item)).catch(() => null);	// 他鯖のオブジェクトが本物かわからないのでstring => uri => resolve
 			if (post) {
 				references.push(post);
+				if (references.length > 100) throw 'too many references';
 			} else {
 				// not post
 			}

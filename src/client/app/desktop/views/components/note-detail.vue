@@ -47,6 +47,9 @@
 				<div class="renote" v-if="appearNote.renote">
 					<mk-note-preview :note="appearNote.renote"/>
 				</div>
+				<div class="reference" v-for="reference in appearNote.references" :key="reference">
+					<mk-note-preview :note="reference"/>
+				</div>
 			</div>
 		</div>
 		<footer>
@@ -292,7 +295,8 @@ export default Vue.extend({
 					color var(--noteText)
 
 				> .renote
-					margin 0.3em 0.6em
+				> .reference
+					margin 1em 0.6em
 					opacity 0.9
 
 					> *

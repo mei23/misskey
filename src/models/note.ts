@@ -433,6 +433,11 @@ export const pack = async (
 				detail: true
 			}) : null,
 
+			references: db.referenceIds ? packMany(db.referenceIds, meId, {
+				detail: false,
+				removeError: true,
+			}) : null,
+
 			poll: db.poll ? populatePoll() : null,
 
 			...(meId ? {

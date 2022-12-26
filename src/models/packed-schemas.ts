@@ -44,6 +44,7 @@ export type ThinPackedNote = {
 export type PackedNote = ThinPackedNote & {
 	reply?: ThinPackedNote | null;
 	renote?: PackedNote | null;
+	references?: PackedNote[];
 	poll?: any | null;	// TODO
 	myReaction?: string | null;
 	myRenoteId?: string | null;
