@@ -114,7 +114,7 @@ export default define(meta, async (ps, user) => {
 		'_user.host': null,
 
 		// public only
-		visibility: { $in: ['public', 'home'] },
+		visibility: 'public',
 
 		deletedAt: null,
 

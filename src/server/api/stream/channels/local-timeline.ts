@@ -29,7 +29,7 @@ export default class extends Channel {
 
 	@autobind
 	private async onNote(note: PackedNote) {
-		if (note.visibility !== 'public' && note.visibility !== 'home') return;
+		if (note.visibility !== 'public') return;
 		if (note.user!.host != null) return;
 		if (!this.showReplayInPublicTimeline && note.replyId) return;
 		if (note.hasRemoteMentions) return;
