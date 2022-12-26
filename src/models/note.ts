@@ -421,9 +421,6 @@ export const pack = async (
 		visibleUserIds: db.visibleUserIds?.length > 0 ? db.visibleUserIds.map(toOidString) : [],
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],
 		hasRemoteMentions: db.mentionedRemoteUsers?.length > 0,
-
-		referenceIds: db.referenceIds,
-
 		...(opts.detail ? {
 			reply: (opts.detail && db.replyId) ? pack(db.replyId, meId, {
 				detail: false
@@ -433,7 +430,9 @@ export const pack = async (
 				detail: true
 			}) : null,
 
-			references: db.referenceIds ? packMany(db.referenceIds, meId, {
+			referenceIds: db.referenceIds?.reverse(),
+
+			references: db.referenceIds ? packMany(db.referenceIds.reverse(), meId, {
 				detail: false,
 				removeError: true,
 			}) : null,
