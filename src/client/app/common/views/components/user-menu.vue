@@ -54,14 +54,15 @@ export default Vue.extend({
 					icon: 'ban',
 					text: this.user.isBlocking ? this.$t('unblock') : this.$t('block'),
 					action: this.toggleBlock
-				},
-				null,
-				{
+				}
+			]);
+			if (!this.user.isAdmin) {
+				menu = menu.concat([null,{
 					icon: faExclamationCircle,
 					text: this.$t('report-abuse'),
 					action: this.reportAbuse
-				}
-			]);
+				}]);
+			}
 		}
 
 		// Admin or Moderator
