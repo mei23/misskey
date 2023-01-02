@@ -25,7 +25,7 @@ export default Vue.extend({
 				this.$post({ mention: this.user });
 			}
 		}] as any;
-		
+
 		// ログインユーザー
 		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
 			menu = menu.concat([
@@ -72,7 +72,7 @@ export default Vue.extend({
 				text: this.user.isSilenced ? this.$t('unsilence') : this.$t('silence'),
 				action: this.toggleSilence
 			}]);
-			if ((!this.user.isAdmin && !this.user.isModerator) || (this.user.isAdmin && this.user.isModerator && this.user.isSuspended)) {
+			if ((!this.user.isAdmin && !this.user.isModerator) || ((this.user.isAdmin || this.user.isModerator) && this.user.isSuspended)) {
 				menu = menu.concat({
 					icon: faSnowflake,
 					text: this.user.isSuspended ? this.$t('unsuspend') : this.$t('suspend'),
@@ -95,7 +95,7 @@ export default Vue.extend({
 
 		startTalk() {
 			if (this.$root.isMobile) {
-				this.$router.push(`/i/messaging/${getAcct(this.user)}`); 
+				this.$router.push(`/i/messaging/${getAcct(this.user)}`);
 			} else {
 				import('../../../desktop/views/components/messaging-room-window.vue').then(m => this.$root.new(m.default, {
 					user: this.user
