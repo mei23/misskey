@@ -5186,11 +5186,6 @@ jmespath@0.16.0:
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.16.0.tgz#b15b0a85dfd4d930d43e69ed605943c802785076"
   integrity sha512-9FzQjJ7MATs1tSpnco1K6ayiYE3figslrXA72G2HQ/n76RzvYlofyi5QM+iX4YRs/pu3yzxlVQSST23+dMDknw==
 
-joycon@^3.0.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/joycon/-/joycon-3.1.1.tgz#bce8596d6ae808f8b68168f5fc69280996894f03"
-  integrity sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==
-
 js-beautify@^1.6.12:
   version "1.14.3"
   resolved "https://registry.yarnpkg.com/js-beautify/-/js-beautify-1.14.3.tgz#3dd11c949178de7f3bdf3f6f752778d3bed95150"
@@ -5333,11 +5328,6 @@ json5@^1.0.1:
   integrity sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==
   dependencies:
     minimist "^1.2.0"
-
-jsonc-parser@^3.0.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/jsonc-parser/-/jsonc-parser-3.2.0.tgz#31ff3f4c2b9793f89c67212627c51c6394f88e76"
-  integrity sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==
 
 jsonld@5.2.0:
   version "5.2.0"
@@ -8932,15 +8922,6 @@ ts-node@10.9.1:
     make-error "^1.1.1"
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
-
-tsconfig-to-swcconfig@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/tsconfig-to-swcconfig/-/tsconfig-to-swcconfig-2.0.1.tgz#267e587ae5428f7ddbe741acf930cf6f7fa6371c"
-  integrity sha512-GD4rQFgw2Vdi9D81eO7F0OfKZPiBPdyB5mwbUgnGqD3jWBT8dW9TDT9vLMkbyEYM+FSv09nqmbZpzAdRDni0WQ==
-  dependencies:
-    deepmerge "^4.2.2"
-    joycon "^3.0.1"
-    jsonc-parser "^3.0.0"
 
 tslib@^1.8.1:
   version "1.11.1"

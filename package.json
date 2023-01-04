@@ -230,7 +230,6 @@
 		"cross-env": "7.0.3",
 		"eslint": "8.30.0",
 		"eslint-plugin-node": "11.1.0",
-		"mocha": "10.2.0",
-		"tsconfig-to-swcconfig": "2.0.1"
+		"mocha": "10.2.0"
 	}
 }
