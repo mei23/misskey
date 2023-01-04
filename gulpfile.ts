@@ -8,6 +8,7 @@ import * as gulp from 'gulp';
 const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as rename from 'gulp-rename';
+import { readFileSync } from 'fs';
 const replace = require('gulp-replace');
 const terser = require('gulp-terser');
 const cleanCSS = require('gulp-clean-css');
@@ -15,6 +16,15 @@ const cleanCSS = require('gulp-clean-css');
 const locales = require('./locales');
 
 const env = process.env.NODE_ENV || 'development';
+
+const swc = require('gulp-swc');
+const swcOptions = JSON.parse(readFileSync('.swcrc', 'utf-8'));
+
+gulp.task('build:ts', () =>
+	gulp.src('src/**/*.ts')
+		.pipe(swc(swcOptions))
+		.pipe(gulp.dest('built'))
+);
 
 /*
 gulp.task('build:ts', () => {
@@ -105,7 +115,7 @@ gulp.task('build:client', gulp.parallel(
 ));
 
 gulp.task('build', gulp.parallel(
-	//'build:ts',
+	'build:ts',
 	'build:copy',
 	'build:client',
 	'doc'
