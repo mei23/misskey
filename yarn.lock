@@ -789,10 +789,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/seedrandom@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-3.0.3.tgz#e857dd8f1892bea589fe740e5824f9d658156e20"
-  integrity sha512-C+XVq4Mjjo6QMJwdmBmj0gNO0xDdQELjj0kXrTNth+7Iw2aAVTpwWWFfOdXXipIwGbCjnEv6DNxozatf90M0CA==
+"@types/seedrandom@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/seedrandom/-/seedrandom-3.0.4.tgz#e4a8d0fca0168cacc7dba2af0e4a4ea645d3a190"
+  integrity sha512-/rWdxeiuZenlawrHU+XV6ZHMTKOqrC2hMfeDfLTIWJhDZP5aVqXRysduYHBbhD7CeJO6FJr/D2uBVXB7GT6v7w==
 
 "@types/semver@^7.3.12":
   version "7.3.12"
