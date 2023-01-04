@@ -15,8 +15,9 @@
 	"scripts": {
 		"start": "node ./index.js",
 		"debug": "DEBUG=misskey:* node ./index.js",
-		"build": "webpack && gulp build",
+		"build": "webpack && npm run swc && gulp build",
 		"webpack": "webpack",
+		"swc": "swc src -d built",
 		"gulp": "gulp build",
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
@@ -224,11 +225,14 @@
 	},
 	"devDependencies": {
 		"@redocly/openapi-core": "1.0.0-beta.118",
+		"@swc/cli": "0.1.59",
+		"@swc/core": "1.3.24",
 		"@typescript-eslint/eslint-plugin": "5.47.1",
 		"@typescript-eslint/parser": "5.47.1",
 		"cross-env": "7.0.3",
 		"eslint": "8.30.0",
 		"eslint-plugin-node": "11.1.0",
-		"mocha": "10.2.0"
+		"mocha": "10.2.0",
+		"tsconfig-to-swcconfig": "2.0.1"
 	}
 }

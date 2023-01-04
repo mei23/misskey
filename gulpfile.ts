@@ -3,8 +3,8 @@
  */
 
 import * as gulp from 'gulp';
-import * as ts from 'gulp-typescript';
-const sourcemaps = require('gulp-sourcemaps');
+//import * as ts from 'gulp-typescript';
+//const sourcemaps = require('gulp-sourcemaps');
 const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as rename from 'gulp-rename';
@@ -16,6 +16,7 @@ const locales = require('./locales');
 
 const env = process.env.NODE_ENV || 'development';
 
+/*
 gulp.task('build:ts', () => {
 	const tsProject = ts.createProject('./tsconfig.json');
 
@@ -27,6 +28,7 @@ gulp.task('build:ts', () => {
 		.pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../built' }))
 		.pipe(gulp.dest('./built/'));
 });
+*/
 
 gulp.task('build:copy:views', () =>
 	gulp.src('./src/server/web/views/**/*').pipe(gulp.dest('./built/server/web/views'))
@@ -103,7 +105,7 @@ gulp.task('build:client', gulp.parallel(
 ));
 
 gulp.task('build', gulp.parallel(
-	'build:ts',
+	//'build:ts',
 	'build:copy',
 	'build:client',
 	'doc'
