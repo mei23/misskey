@@ -1,0 +1,27 @@
+{
+	"$schema": "https://json.schemastore.org/swcrc",
+	"sourceMaps": true,
+	"module": {
+		"type": "commonjs",
+		"strictMode": true,
+		"noInterop": true
+	},
+	"jsc": {
+		"externalHelpers": false,
+		"target": "es2017",
+		"parser": {
+			"syntax": "typescript",
+			"tsx": true,
+			"decorators": true,
+			"dynamicImport": true
+		},
+		"transform": {
+			"legacyDecorator": true,
+			"decoratorMetadata": false
+		},
+		"keepClassNames": true
+	},
+	"exclude": [
+		"^src/client/app/"
+	]
+}

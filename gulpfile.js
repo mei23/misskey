@@ -5,7 +5,8 @@
  */
 
 const gulp = require('gulp');
-const ts = require('gulp-typescript');
+const fs = require('fs');
+const swc = require('gulp-swc');
 const sourcemaps = require('gulp-sourcemaps');
 const stylus = require('gulp-stylus');
 const rimraf = require('rimraf');
@@ -15,20 +16,17 @@ const terser = require('gulp-terser');
 const cleanCSS = require('gulp-clean-css');
 
 const locales = require('./locales');
+const swcOptions = JSON.parse(fs.readFileSync('.swcrc', 'utf-8'));
 
 const env = process.env.NODE_ENV || 'development';
 
-gulp.task('build:ts', () => {
-	const tsProject = ts.createProject('./tsconfig.json');
-
-	return tsProject
-		.src()
+gulp.task('build:ts', () =>
+	gulp.src('src/**/*.ts')
 		.pipe(sourcemaps.init())
-		.pipe(tsProject())
-		.on('error', () => {})
+		.pipe(swc(swcOptions))
 		.pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../built' }))
-		.pipe(gulp.dest('./built/'));
-});
+		.pipe(gulp.dest('built'))
+);
 
 gulp.task('build:copy:views', () =>
 	gulp.src('./src/server/web/views/**/*').pipe(gulp.dest('./built/server/web/views'))
