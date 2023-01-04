@@ -496,10 +496,10 @@
     "@types/keygrip" "*"
     "@types/node" "*"
 
-"@types/double-ended-queue@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@types/double-ended-queue/-/double-ended-queue-2.1.1.tgz#f077386134f0f736d927812c85c43a04f21ddc27"
-  integrity sha512-O2+umEIlHBVyi+ePmucPjpINqTvSnsz+hAok0D4IpvrOsIsDr6c34B0AbNXW2UDVYuxbv51z5dxnrRt23ohgWg==
+"@types/double-ended-queue@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/double-ended-queue/-/double-ended-queue-2.1.2.tgz#e5472829281a8cd46adc29cb1ff5a78c0f72f53f"
+  integrity sha512-iAjbBa3X4UQtYxcCsAr0YaZMRwyC79q4KHui0XtEN7GGLJA4fzD116KUYXXZKskaOYSchnaOFT/a8zSlEx3P9Q==
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.3"
