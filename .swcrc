@@ -20,5 +20,8 @@
 			"decoratorMetadata": false
 		},
 		"keepClassNames": true
-	}
+	},
+	"exclude": [
+		"^src/client/app/"
+	]
 }
