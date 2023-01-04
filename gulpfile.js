@@ -1,13 +1,13 @@
+'use strict';
 /**
  * Gulp tasks
  */
-
-import * as gulp from 'gulp';
-import * as ts from 'gulp-typescript';
+const gulp = require('gulp');
+const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
 const stylus = require('gulp-stylus');
-import * as rimraf from 'rimraf';
-import * as rename from 'gulp-rename';
+const rimraf = require('rimraf');
+const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const terser = require('gulp-terser');
 const cleanCSS = require('gulp-clean-css');
@@ -84,7 +84,7 @@ gulp.task('copy:client', () =>
 			'./src/client/app/*/assets/**/*'
 		])
 			.pipe(rename(path => {
-				path.dirname = path.dirname!.replace('assets', '.');
+				path.dirname = path.dirname.replace('assets', '.');
 			}))
 			.pipe(gulp.dest('./built/client/assets/'))
 );
@@ -109,4 +109,4 @@ gulp.task('build', gulp.parallel(
 	'doc'
 ));
 
-gulp.task('default', gulp.task('build')!);
+gulp.task('default', gulp.task('build'));
