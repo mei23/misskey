@@ -119,7 +119,6 @@
 		"gulp-stylus": "3.0.0",
 		"gulp-swc": "1.2.3",
 		"gulp-terser": "2.1.0",
-		"gulp-typescript": "5.0.1",
 		"highlight.js": "10.6.0",
 		"html-entities": "2.3.3",
 		"htmlescape": "1.1.1",

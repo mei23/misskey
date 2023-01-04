@@ -3,42 +3,28 @@
  */
 
 import * as gulp from 'gulp';
-//import * as ts from 'gulp-typescript';
-//const sourcemaps = require('gulp-sourcemaps');
+import { readFileSync } from 'fs';
+const swc = require('gulp-swc');
+const sourcemaps = require('gulp-sourcemaps');
 const stylus = require('gulp-stylus');
 import * as rimraf from 'rimraf';
 import * as rename from 'gulp-rename';
-import { readFileSync } from 'fs';
 const replace = require('gulp-replace');
 const terser = require('gulp-terser');
 const cleanCSS = require('gulp-clean-css');
 
 const locales = require('./locales');
+const swcOptions = JSON.parse(readFileSync('.swcrc', 'utf-8'));
 
 const env = process.env.NODE_ENV || 'development';
 
-const swc = require('gulp-swc');
-const swcOptions = JSON.parse(readFileSync('.swcrc', 'utf-8'));
-
 gulp.task('build:ts', () =>
 	gulp.src('src/**/*.ts')
+		.pipe(sourcemaps.init())
 		.pipe(swc(swcOptions))
+		.pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../built' }))
 		.pipe(gulp.dest('built'))
 );
-
-/*
-gulp.task('build:ts', () => {
-	const tsProject = ts.createProject('./tsconfig.json');
-
-	return tsProject
-		.src()
-		.pipe(sourcemaps.init())
-		.pipe(tsProject())
-		.on('error', () => {})
-		.pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../built' }))
-		.pipe(gulp.dest('./built/'));
-});
-*/
 
 gulp.task('build:copy:views', () =>
 	gulp.src('./src/server/web/views/**/*').pipe(gulp.dest('./built/server/web/views'))
