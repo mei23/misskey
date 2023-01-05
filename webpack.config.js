@@ -2,19 +2,18 @@
  * webpack configuration
  */
 
-import * as fs from 'fs';
-import * as webpack from 'webpack';
-import rndstr from 'rndstr';
-import * as chalk from 'chalk';
+const fs = require('fs');
+const webpack = require('webpack');
+const rndstr_1 = require('rndstr');
+const chalk = require('chalk');
 const { VueLoaderPlugin } = require('vue-loader');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-
 class WebpackOnBuildPlugin {
-	constructor(readonly callback: (stats: any) => void) {
+	constructor(callback) {
+		this.callback = callback;
 	}
-
-	public apply(compiler: any) {
+	apply(compiler) {
 		compiler.hooks.done.tap('WebpackOnBuildPlugin', this.callback);
 	}
 }
@@ -29,7 +28,7 @@ const locales = require('./locales');
 const meta = require('./package.json');
 const codename = meta.codename;
 
-const version = isProduction ? meta.version : meta.version + '-' + rndstr({ length: 8, chars: '0-9a-z' });
+const version = isProduction ? meta.version : meta.version + '-' + (0, rndstr_1.default)({ length: 8, chars: '0-9a-z' });
 
 const postcss = {
 	loader: 'postcss-loader',
@@ -133,21 +132,21 @@ module.exports = {
 	},
 	plugins: [
 		new ProgressBarPlugin({
-			format: chalk`  {cyan.bold webpack} {bold [}:bar{bold ]} {green.bold :percent} :msg :elapseds`,
+			format: chalk `  {cyan.bold webpack} {bold [}:bar{bold ]} {green.bold :percent} :msg :elapseds`,
 			clear: false
 		}),
 		new webpack.DefinePlugin({
 			_CONSTANTS_: JSON.stringify(constants),
 			_VERSION_: JSON.stringify(version),
 			_CODENAME_: JSON.stringify(codename),
-			_LANGS_: JSON.stringify(Object.entries(locales).map(([k, v]: [string, any]) => [k, v && v.meta && v.meta.lang])),
+			_LANGS_: JSON.stringify(Object.entries(locales).map(([k, v]) => [k, v && v.meta && v.meta.lang])),
 			_ENV_: JSON.stringify(process.env.NODE_ENV),
 			_MODS_: JSON.stringify(mods)
 		}),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
 		}),
-		new WebpackOnBuildPlugin((stats: any) => {
+		new WebpackOnBuildPlugin(stats => {
 			fs.writeFileSync('./built/meta.json', JSON.stringify({ version }), 'utf-8');
 			fs.mkdirSync('./built/client/assets/locales', { recursive: true });
 
