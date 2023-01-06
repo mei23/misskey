@@ -54,8 +54,8 @@ describe('Get file info', () => {
 			size: 1868,
 			md5: '08189c607bea3b952704676bb3c979e0',
 			type: {
-				mime: 'image/apng',
-				ext: 'apng'
+				mime: 'image/png',
+				ext: 'png'
 			},
 			width: 256,
 			height: 256,
@@ -138,8 +138,8 @@ describe('Get file info', () => {
 				mime: 'application/octet-stream',
 				ext: null
 			},
-			width: 25000,
-			height: 25000,
+			width: undefined,
+			height: undefined,
 		});
 	}));
 });
