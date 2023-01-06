@@ -37,7 +37,7 @@
 		"@koa/multer": "3.0.0",
 		"@koa/router": "8.0.8",
 		"@prezzemolo/rap": "0.1.2",
-		"@swc/core": "1.3.24",
+		"@swc/core": "1.3.25",
 		"animejs": "3.2.1",
 		"apexcharts": "3.33.2",
 		"autobind-decorator": "2.4.0",
