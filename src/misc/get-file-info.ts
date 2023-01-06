@@ -3,7 +3,6 @@ import * as crypto from 'crypto';
 import * as stream from 'stream';
 import * as util from 'util';
 import * as FileType from 'file-type';
-import isSvg from 'is-svg';
 import * as probeImageSize from 'probe-image-size';
 import * as FFmpeg from 'fluent-ffmpeg';
 
@@ -96,23 +95,22 @@ const pipeline = util.promisify(stream.pipeline);
 export type FileInfo = {
 	size: number;
 	md5: string;
-	type: {
-		mime: string;
-		ext: string | null;
-	};
+	type: Type;
 	width?: number;
 	height?: number;
 	warnings: string[];
 };
 
+type Type = {
+	mime: string;
+	ext: string | null;
+	width?: number;
+	height?: number;
+}
+
 const TYPE_OCTET_STREAM = {
 	mime: 'application/octet-stream',
 	ext: null
-};
-
-const TYPE_SVG = {
-	mime: 'image/svg+xml',
-	ext: 'svg'
 };
 
 const TYPE_MP4 = {
@@ -143,69 +141,52 @@ export async function getFileInfo(path: string): Promise<FileInfo> {
 	};
 }
 
-/**
- * Detect MIME Type and extension
- */
-export async function detectType(path: string) {
+export async function detectTypeWithCheck(path: string): Promise<Type> {
 	// Check 0 byte
 	const fileSize = await getFileSize(path);
 	if (fileSize === 0) {
 		return TYPE_OCTET_STREAM;
 	}
 
-	const type = await FileType.fromFile(path);
-
-	if (type) {
-		// XMLはSVGかもしれない
-		if (type.mime === 'application/xml' && await checkSvg(path)) {
-			return TYPE_SVG;
+	// 画像か判定＆サイズ取得
+	const img = await detectImageSize(path);
+	if (img) {
+		// 画像だが検出対象でなければoctet-stream
+		if (!FILE_TYPE_DETECTS.includes(img.mime)) {
+			return TYPE_OCTET_STREAM;
 		}
 
+		// 画像だがサイズが制限を超えていたらoctet-stream
+		if (img.width > 16383 || img.height > 16383) {
+			return TYPE_OCTET_STREAM;
+		}
+
+		// 画像確定
 		return {
-			mime: type.mime,
-			ext: type.ext
+			mime: img.mime,
+			ext: img.ext,
+			width: img.width,
+			height: img.height,
 		};
 	}
 
-	// 種類が不明でもSVGかもしれない
-	if (await checkSvg(path)) {
-		return TYPE_SVG;
+	// file-typeで認識
+	const ft = await FileType.fromFile(path)
+
+	// 認識できなければoctet-stream
+	if (!ft) {
+		return TYPE_OCTET_STREAM;
 	}
 
-	// それでも種類が不明なら application/octet-stream にする
-	return TYPE_OCTET_STREAM;
-}
-
-export async function detectTypeWithCheck(path: string) {
-	let type = await detectType(path);
-
-	// check type
-	if (!FILE_TYPE_DETECTS.includes(type.mime)) {
-		type = TYPE_OCTET_STREAM;
+	// 検出対象でなければoctet-stream
+	if (!FILE_TYPE_DETECTS.includes(ft.mime)) {
+		return TYPE_OCTET_STREAM;
 	}
 
-	// image dimensions
-	let width: number | undefined;
-	let height: number | undefined;
-
-	if (type.mime.startsWith('image/')) {
-		const imageSize = await detectImageSize(path).catch(e => {
-			return undefined;
-		});
-
-		// うまく判定できない画像は octet-stream にする
-		if (!imageSize) {
-			type = TYPE_OCTET_STREAM;
-		} else if (imageSize.wUnits === 'px') {
-			width = imageSize.width;
-			height = imageSize.height;
-
-			// 制限を超えている画像は octet-stream にする
-			if (imageSize.width > 16383 || imageSize.height > 16383) {
-				type = TYPE_OCTET_STREAM;
-			}
-		}
-	}
+	let type = {
+		mime: ft.mime as string,
+		ext: ft.ext as string,
+	};
 
 	// quicktime/m4v/m4a だけど h264 と aac で構成されているのは、実際はSafari以外でも再生できちゃうのでmp4扱いにしてしまう
 	if (type.mime === 'video/quicktime' || type.mime === 'video/x-m4v' || type.mime === 'audio/x-m4a') {
@@ -227,25 +208,7 @@ export async function detectTypeWithCheck(path: string) {
 		}
 	}
 
-	return {
-		mime: type.mime,
-		ext: type.ext,
-		width,
-		height,
-	};
-}
-
-/**
- * Check the file is SVG or not
- */
-export async function checkSvg(path: string) {
-	try {
-		const size = await getFileSize(path);
-		if (size > 1 * 1024 * 1024) return false;
-		return isSvg(await fs.promises.readFile(path));
-	} catch {
-		return false;
-	}
+	return type;
 }
 
 /**
@@ -268,16 +231,23 @@ export async function calcHash(path: string): Promise<string> {
 /**
  * Detect dimensions of image
  */
-async function detectImageSize(path: string): Promise<{
-	width: number;
-	height: number;
-	wUnits: string;
-	hUnits: string;
-}> {
+async function detectImageSize(path: string) {
 	const readable = fs.createReadStream(path);
-	const imageSize = await probeImageSize(readable);
+	const probed = await probeImageSize(readable).catch(() => undefined);
 	readable.destroy();
-	return imageSize;
+
+	if (probed) {
+		return {
+			mime: probed.mime,
+			ext: probed.type,
+			width: probed.width,
+			height: probed.height,
+			wUnits: probed.wUnits,
+			hUnits: probed.hUnits,
+		}
+	} else {
+		return undefined;
+	}
 }
 
 export async function getVideoProps(path: string): Promise<FFmpeg.FfprobeData> {
