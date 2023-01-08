@@ -1,5 +1,6 @@
 import $ from 'cafy';
 import { toDbHost } from '../../../../../misc/convert-host';
+import { genTypeFilterRegex, typeFilterValidater } from '../../../../../misc/mime-type-filter';
 import File, { packMany } from '../../../../../models/drive-file';
 import { getSystem1 } from '../../../../../services/emoji-store';
 import define from '../../../define';
@@ -45,7 +46,7 @@ export const meta = {
 		},
 
 		type: {
-			validator: $.optional.str.match(/^[a-zA-Z\/\-\*]+$/)
+			validator: $.optional.str.match(typeFilterValidater)
 		},
 	}
 };
@@ -93,7 +94,7 @@ export default define(meta, async (ps, me) => {
 	}
 
 	if (ps.type) {
-		q.contentType = new RegExp(`^${ps.type.replace(/\*/g, '.+?')}$`);
+		q.contentType = genTypeFilterRegex(ps.type);
 	}
 
 	const files = await File

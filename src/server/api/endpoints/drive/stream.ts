@@ -1,5 +1,6 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
+import { genTypeFilterRegex, typeFilterValidater } from '../../../../misc/mime-type-filter';
 import DriveFile, { packMany } from '../../../../models/drive-file';
 import define from '../../define';
 
@@ -27,7 +28,7 @@ export const meta = {
 		},
 
 		type: {
-			validator: $.optional.str.match(/^[a-zA-Z\/\-\*]+$/)
+			validator: $.optional.str.match(typeFilterValidater)
 		}
 	},
 
@@ -61,7 +62,7 @@ export default define(meta, async (ps, user) => {
 	}
 
 	if (ps.type) {
-		query.contentType = new RegExp(`^${ps.type.replace(/\*/g, '.+?')}$`);
+		query.contentType = genTypeFilterRegex(ps.type);
 	}
 
 	const files = await DriveFile
