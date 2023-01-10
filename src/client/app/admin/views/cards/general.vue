@@ -129,7 +129,7 @@ export default defineComponent({
 		},
 
 		invite() {
-			this.$root.api('admin/invite').then((x: any) => {
+			this.$root.api('admin/invitations/create').then((x: any) => {
 				this.inviteCode = x.code;
 			}).catch((e: Error) => {
 				this.$root.dialog({

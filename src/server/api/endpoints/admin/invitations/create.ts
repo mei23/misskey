@@ -1,6 +1,6 @@
+import define from '../../../define';
+import RegistrationTicket from '../../../../../models/registration-tickets';
 import rndstr from 'rndstr';
-import RegistrationTicket from '../../../../models/registration-tickets';
-import define from '../../define';
 
 export const meta = {
 	desc: {
@@ -15,11 +15,12 @@ export const meta = {
 	params: {}
 };
 
-export default define(meta, async (ps) => {
+export default define(meta, async (ps, user) => {
 	const code = rndstr({ length: 5, chars: '0-9' });
 
 	await RegistrationTicket.insert({
 		createdAt: new Date(),
+		userId: user._id,
 		code: code
 	});
 
