@@ -27,3 +27,11 @@ docker-compose -f test/docker-compose.yml up
 ```
 yarn test
 ```
+
+### API endpointを追加削除したら
+
+以下のコマンドでインデックスを更新する必要があります。
+
+```
+npx ts-node --swc src/tools/dev/gen-api-endpoints.ts
+```
