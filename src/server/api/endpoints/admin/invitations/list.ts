@@ -1,5 +1,6 @@
 import define from '../../../define';
 import RegistrationTicket from '../../../../../models/registration-tickets';
+import { pack } from '../../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -21,9 +22,10 @@ export const meta = {
 export default define(meta, async (ps, user) => {
 	const invirations = await RegistrationTicket.find();
 
-	return invirations.map((x: any) => {
+	return await Promise.all(invirations.map(async (x: any) => {
 		x.id = `${x._id}`;
 		delete x._id
+		x.user = x.userId && await pack(x.userId);
 		return x;
-	});
+	}));
 });
