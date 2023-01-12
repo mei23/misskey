@@ -27,7 +27,7 @@ jobs:
     - uses: pnpm/action-setup@v2.2.2
       with:
         version: 7
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: node cli/diag-environment.js
