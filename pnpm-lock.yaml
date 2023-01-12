@@ -24,7 +24,7 @@ specifiers:
   '@types/glob': 8.0.0
   '@types/js-yaml': 4.0.5
   '@types/jsdom': 20.0.1
-  '@types/jsonld': 1.5.6
+  '@types/jsonld': 1.5.8
   '@types/katex': 0.16.0
   '@types/koa': 2.0.49
   '@types/koa-bodyparser': 4.3.10
@@ -373,7 +373,7 @@ devDependencies:
   '@types/glob': 8.0.0
   '@types/js-yaml': 4.0.5
   '@types/jsdom': 20.0.1
-  '@types/jsonld': 1.5.6
+  '@types/jsonld': 1.5.8
   '@types/katex': 0.16.0
   '@types/koa': 2.0.49
   '@types/koa-bodyparser': 4.3.10
@@ -1078,8 +1078,8 @@ packages:
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
 
-  /@types/jsonld/1.5.6:
-    resolution: {integrity: sha512-OUcfMjRie5IOrJulUQwVNvV57SOdKcTfBj3pjXNxzXqeOIrY2aGDNGW/Tlp83EQPkz4tCE6YWVrGuc/ZeaAQGg==}
+  /@types/jsonld/1.5.8:
+    resolution: {integrity: sha512-4l5t/jDnJpqZ+i7CLTTgPcT5BYXnAnwJupb07aAokPufCV0SjDHcwctUkSTuhIuSU9yHok+WOOngIGCtpL96gw==}
     dev: true
 
   /@types/katex/0.16.0:
