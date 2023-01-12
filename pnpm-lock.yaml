@@ -167,7 +167,7 @@ specifiers:
   rimraf: 3.0.2
   rndstr: 1.0.0
   seedrandom: 3.0.5
-  sharp: 0.29.3
+  sharp: 0.30.5
   showdown: 2.1.0
   showdown-highlightjs-extension: 0.1.2
   speakeasy: 2.0.0
@@ -319,7 +319,7 @@ dependencies:
   rimraf: 3.0.2
   rndstr: 1.0.0
   seedrandom: 3.0.5
-  sharp: 0.29.3
+  sharp: 0.30.5
   showdown: 2.1.0
   showdown-highlightjs-extension: 0.1.2_showdown@2.1.0
   speakeasy: 2.0.0
@@ -3779,12 +3779,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /detect-libc/1.0.3:
-    resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
-    engines: {node: '>=0.10'}
-    hasBin: true
-    dev: false
-
   /detect-libc/2.0.1:
     resolution: {integrity: sha512-463v3ZeIrcWtdgIg6vI6XUncguvr2TnGl4SzDXinkt9mSLpBJKXT3mW6xT3VQdDN11+WVs29pgvivTc4Lp8v+w==}
     engines: {node: '>=8'}
@@ -7135,8 +7129,8 @@ packages:
       semver: 7.3.8
     dev: false
 
-  /node-addon-api/4.3.0:
-    resolution: {integrity: sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==}
+  /node-addon-api/5.0.0:
+    resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
     dev: false
 
   /node-fetch/2.6.7:
@@ -8880,14 +8874,14 @@ packages:
     dependencies:
       kind-of: 6.0.3
 
-  /sharp/0.29.3:
-    resolution: {integrity: sha512-fKWUuOw77E4nhpyzCCJR1ayrttHoFHBT2U/kR/qEMRhvPEcluG4BKj324+SCO1e84+knXHwhJ1HHJGnUt4ElGA==}
+  /sharp/0.30.5:
+    resolution: {integrity: sha512-0T28KxqY4DzUMLSAp1/IhGVeHpPIQyp1xt7esmuXCAfyi/+6tYMUeRhQok+E/+E52Yk5yFjacXp90cQOkmkl4w==}
     engines: {node: '>=12.13.0'}
     requiresBuild: true
     dependencies:
       color: 4.2.3
-      detect-libc: 1.0.3
-      node-addon-api: 4.3.0
+      detect-libc: 2.0.1
+      node-addon-api: 5.0.0
       prebuild-install: 7.1.1
       semver: 7.3.8
       simple-get: 4.0.1

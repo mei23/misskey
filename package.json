@@ -134,7 +134,7 @@
 		"rimraf": "3.0.2",
 		"rndstr": "1.0.0",
 		"seedrandom": "3.0.5",
-		"sharp": "0.29.3",
+		"sharp": "0.30.5",
 		"showdown": "2.1.0",
 		"showdown-highlightjs-extension": "0.1.2",
 		"speakeasy": "2.0.0",
