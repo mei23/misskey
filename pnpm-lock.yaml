@@ -163,6 +163,7 @@ specifiers:
   request-stats: 3.0.0
   rimraf: 3.0.2
   rndstr: 1.0.0
+  seedrandom: 3.0.5
   sharp: 0.29.3
   showdown: 2.1.0
   showdown-highlightjs-extension: 0.1.2
@@ -311,6 +312,7 @@ dependencies:
   request-stats: 3.0.0
   rimraf: 3.0.2
   rndstr: 1.0.0
+  seedrandom: 3.0.5
   sharp: 0.29.3
   showdown: 2.1.0
   showdown-highlightjs-extension: 0.1.2_showdown@2.1.0
@@ -8789,6 +8791,10 @@ packages:
 
   /seedrandom/2.4.2:
     resolution: {integrity: sha512-uQ72txMoObtuJooiBLSVs5Yu2e9d/lHQz0boaqHjW8runXB9vR8nFtaZV54wYii613N0C8ZqTBLsfwDhAdpvqQ==}
+    dev: false
+
+  /seedrandom/3.0.5:
+    resolution: {integrity: sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==}
     dev: false
 
   /semver-greatest-satisfied-range/1.1.0:
