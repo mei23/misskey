@@ -144,6 +144,7 @@ specifiers:
   nested-property: 4.0.0
   nodemailer: 6.8.0
   nprogress: 0.2.0
+  oauth: 0.10.0
   os-utils: 0.0.14
   parse5: 6.0.1
   parsimmon: 1.18.1
@@ -294,6 +295,7 @@ dependencies:
   nested-property: 4.0.0
   nodemailer: 6.8.0
   nprogress: 0.2.0
+  oauth: 0.10.0
   os-utils: 0.0.14
   parse5: 6.0.1
   parsimmon: 1.18.1
@@ -7271,6 +7273,10 @@ packages:
 
   /nwsapi/2.2.2:
     resolution: {integrity: sha512-90yv+6538zuvUMnN+zCr8LuV6bPFdq50304114vJYJ8RDyK8D5O9Phpbd6SZWgI7PwzmmfN1upeOJlvybDSgCw==}
+    dev: false
+
+  /oauth/0.10.0:
+    resolution: {integrity: sha512-1orQ9MT1vHFGQxhuy7E/0gECD3fd2fCC+PIX+/jgmU/gI3EpRocXtmtvxCO5x3WZ443FLTLFWNDjl5MPJf9u+Q==}
     dev: false
 
   /oauth/0.9.15:
