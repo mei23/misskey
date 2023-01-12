@@ -124,7 +124,7 @@
 		"promise-limit": "2.7.0",
 		"promise-sequential": "1.1.1",
 		"pug": "3.0.2",
-		"punycode": "2.1.1",
+		"punycode": "2.2.0",
 		"qrcode": "1.5.1",
 		"ratelimiter": "3.4.1",
 		"reconnecting-websocket": "4.4.0",
