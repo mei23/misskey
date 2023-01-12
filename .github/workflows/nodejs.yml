@@ -37,4 +37,4 @@ jobs:
     - run: pnpm build
     - run: ls built/meta.json
     - run: cp test/test.yml .config/
-    - run: pmpm test
+    - run: pnpm test
