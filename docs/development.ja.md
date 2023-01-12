@@ -7,9 +7,9 @@ NODE_ENVが設定不要な以外はほぼsetup手順と同じです
 
 依存パッケージをインストールしてconfigを設定してから
 ```
-yarn install
-yarn build
-yarn start
+pnpm install
+pnpm build
+pnpm start
 ```
 
 ## コードを変更した後に変更を確認する方法
@@ -39,7 +39,7 @@ yarn start
 
 3. テストを実行
 
-	`yarn test`
+	`pnpm test`
 
 	※ build後に実行する必要があります
 

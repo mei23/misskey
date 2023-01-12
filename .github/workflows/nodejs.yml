@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x, 18.x]
 
     services:
       mongo:
@@ -24,15 +24,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
+    - uses: pnpm/action-setup@v2.2.2
+      with:
+        version: 7
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: node cli/diag-environment.js
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y ffmpeg
-    - run: yarn install
-    - run: git diff --exit-code yarn.lock
-    - run: yarn build
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - run: pmpm build
     - run: ls built/meta.json
     - run: cp test/test.yml .config/
-    - run: yarn test
+    - run: pmpm test

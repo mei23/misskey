@@ -231,5 +231,15 @@
 		"eslint": "8.31.0",
 		"eslint-plugin-node": "11.1.0",
 		"mocha": "10.2.0"
+	},
+	"packageManager": "pnpm@7.24.3",
+	"pnpm": {
+		"packageExtensions": {
+			"diskusage": {
+				"optionalDependencies": {
+					"node-gyp": "*"
+				}
+			}
+		}
 	}
 }

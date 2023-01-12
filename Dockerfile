@@ -6,11 +6,15 @@ WORKDIR /misskey
 RUN apt-get update \
  && apt-get install -y --no-install-recommends build-essential
 
-COPY package.json yarn.lock ./
-RUN yarn install
-COPY . ./
-RUN yarn build
+COPY package.json pnpm-lock.yaml ./
 
+RUN corepack enable pnpm
+
+RUN pnpm i --frozen-lockfile --strict-peer-dependencies false
+
+COPY . ./
+
+RUN pnpm build
 
 FROM node:16.18.1-bullseye-slim AS runner
 
@@ -27,4 +31,4 @@ COPY . ./
 
 ENV NODE_ENV=production
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
