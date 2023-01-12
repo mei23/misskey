@@ -182,7 +182,7 @@
 	"devDependencies": {
 		"@redocly/openapi-core": "1.0.0-beta.120",
 		"@types/bcryptjs": "2.4.2",
-		"@types/cheerio": "0.22.18",
+		"@types/cheerio": "0.22.31",
 		"@types/double-ended-queue": "2.1.2",
 		"@types/fluent-ffmpeg": "2.1.20",
 		"@types/glob": "8.0.0",
