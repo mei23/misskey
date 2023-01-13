@@ -221,4 +221,5 @@ export type packedInvitation = {
 	code: string;
 	inviter?: ThinPackedUser | null;
 	invitees?: (ThinPackedUser | null)[];
+	restCount?: number;
 };

@@ -43,8 +43,31 @@
 			</ui-horizon-group>
 		</section>
 		-->
-		<section v-for="invitation in invitations" :key="invitation.id" class="inv986">
-			{{ JSON.stringify(invitation) }}
+		<section class="invite" v-for="invitation in invitations" :key="invitation.id">
+			<div class="prop">
+				<span class="key">Code</span>
+				<span class="val">{{ invitation.code }}</span>
+			</div>
+			<div class="prop">
+				<span class="key">Inviter</span>
+				<span class="val">{{ invitation.inviter ? `@${invitation.inviter.username}` : 'Unknown' }}</span>
+			</div>
+			<div class="prop">
+				<span class="key">CreatedAt</span>
+				<span class="val"><mk-time :time="invitation.createdAt" mode="detail"/></span>
+			</div>
+			<div class="prop">
+				<span class="key">ExpiresAt</span>
+				<span class="val"><mk-time :time="invitation.expiredAt" mode="detail"/></span>
+			</div>
+			<div class="prop">
+				<span class="key">RestCount</span>
+				<span class="val">{{ invitation.restCount || 'Undefined (1)' }}</span>
+			</div>
+			<div class="prop">
+				<span class="key">Invitees</span>
+				<span class="val" v-for="invitee in invitation.invitees" :key="`invitee-${invitee?.id}`" >{{ invitee ? `@${invitee.username}` : 'Unknown' }}</span>
+			</div>
 			<!--
 			<div>
 				<img :src="invitation.url" :alt="invitation.name" style="width: 64px;"/>
@@ -94,6 +117,7 @@ import { packedInvitation } from '../../../../models/packed-schemas';
 
 export default defineComponent({
 	i18n: i18n('admin/views/invitations.vue'),
+
 	data() {
 		return {
 			$root:getCurrentInstance() as any,
@@ -102,6 +126,7 @@ export default defineComponent({
 			offset: 0,
 			limit: 1,
 			existMore: false,
+
 
 
 			name: '',
@@ -157,4 +182,12 @@ export default defineComponent({
 </script>
 
 <style lang="stylus" scoped>
+	.invite
+		.prop
+			.key
+				padding-right: 0.5em;
+				&:after
+					content: ':';
+			.val
+				//
 </style>
