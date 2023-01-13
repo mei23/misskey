@@ -205,7 +205,7 @@ specifiers:
   vuewordcloud: 18.7.11
   vuex: 3.6.2
   vuex-persistedstate: 3.2.0
-  web-push: 3.4.4
+  web-push: 3.5.0
   webpack: 5.75.0
   webpack-cli: 4.10.0
   websocket: 1.0.34
@@ -357,7 +357,7 @@ dependencies:
   vuewordcloud: 18.7.11
   vuex: 3.6.2_vue@2.7.14
   vuex-persistedstate: 3.2.0_vue@2.7.14+vuex@3.6.2
-  web-push: 3.4.4
+  web-push: 3.5.0
   webpack: 5.75.0_5ywm6mmjljxluibnnkxbzvl3qe
   webpack-cli: 4.10.0_webpack@5.75.0
   websocket: 1.0.34
@@ -10398,8 +10398,8 @@ packages:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.10
 
-  /web-push/3.4.4:
-    resolution: {integrity: sha512-tB0F+ccobsfw5jTWBinWJKyd/YdCdRbKj+CFSnsJeEgFYysOULvWFYyeCxn9KuQvG/3UF1t3cTAcJzBec5LCWA==}
+  /web-push/3.5.0:
+    resolution: {integrity: sha512-JC0V9hzKTqlDYJ+LTZUXtW7B175qwwaqzbbMSWDxHWxZvd3xY0C2rcotMGDavub2nAAFw+sXTsqR65/KY2A5AQ==}
     engines: {node: '>= 6'}
     hasBin: true
     dependencies:
