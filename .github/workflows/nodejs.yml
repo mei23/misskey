@@ -33,6 +33,7 @@ jobs:
     - run: node cli/diag-environment.js
     - run: host azure.archive.ubuntu.com
     - run: host archive.ubuntu.com
+    - run: sudo perl -p -i.bak -e 's%(deb(?:-src|)\s+)https?://(?!azure\.archive\.ubuntu\.com|security\.ubuntu\.com)[^\s]+%$1http://ftp.tsukuba.wide.ad.jp/Linux/ubuntu/%' /etc/apt/sources.list 
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y ffmpeg
     - run: corepack enable
