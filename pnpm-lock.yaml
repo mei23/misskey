@@ -204,7 +204,7 @@ specifiers:
   vuedraggable: 2.24.3
   vuewordcloud: 18.7.11
   vuex: 3.6.2
-  vuex-persistedstate: 3.2.0
+  vuex-persistedstate: 3.2.1
   web-push: 3.5.0
   webpack: 5.75.0
   webpack-cli: 4.10.0
@@ -356,7 +356,7 @@ dependencies:
   vuedraggable: 2.24.3
   vuewordcloud: 18.7.11
   vuex: 3.6.2_vue@2.7.14
-  vuex-persistedstate: 3.2.0_vue@2.7.14+vuex@3.6.2
+  vuex-persistedstate: 3.2.1_vue@2.7.14+vuex@3.6.2
   web-push: 3.5.0
   webpack: 5.75.0_5ywm6mmjljxluibnnkxbzvl3qe
   webpack-cli: 4.10.0_webpack@5.75.0
@@ -10363,8 +10363,8 @@ packages:
       vue: 2.7.14
     dev: false
 
-  /vuex-persistedstate/3.2.0_vue@2.7.14+vuex@3.6.2:
-    resolution: {integrity: sha512-1Q4zV9cNaJtl59jN6rXbndemEtXKywZr0OFZnqgpYdwvdyy+64KNsEltKldQW+i03st5LuDwHsdOEevXIZUgdg==}
+  /vuex-persistedstate/3.2.1_vue@2.7.14+vuex@3.6.2:
+    resolution: {integrity: sha512-0OnHKGsCHJcvbEraaGZvuvX4aybM2oQWYRuZmIQB7zUjVM6tP+Hg+oXLrq9r6elT4she9SGtEbGE1L2+XdFgUw==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       vue: ^2.0.0
