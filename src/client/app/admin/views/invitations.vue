@@ -30,7 +30,7 @@
 
 	<!-- list -->
 	<ui-card>
-		<template #title><fa :icon="faGrin"/>Invitations</template>
+		<template #title><fa :icon="faGrin"/> Invitations</template>
 		<!--
 		<section style="padding: 16px 32px">
 			<ui-horizon-group searchboxes>
@@ -79,12 +79,9 @@
 			</div>-->
 		</section>
 		
-		<!--
 		<section style="padding: 16px 32px">
-			<ui-button v-if="existMore" @click="fetchInvitations('local')">{{ $t('loadNext') }}</ui-button>
-			<ui-button v-else @click="fetchInvitations('local', true)">{{ $t('loadFirst') }}</ui-button>
+			<ui-button v-if="existMore" @click="fetchInvitations(false)">More</ui-button>
 		</section>
-		-->
 	</ui-card>
 </div>
 </template>
@@ -103,7 +100,7 @@ export default defineComponent({
 
 			invitations: [] as packedInvitation[],
 			offset: 0,
-			limit: 10,
+			limit: 1,
 			existMore: false,
 
 
@@ -150,7 +147,8 @@ export default defineComponent({
 				} else {
 					this.existMore = false;
 				}
-				this.invitations = invitations;
+
+				this.invitations = this.invitations.concat(invitations);
 				this.offset += invitations.length;
 			});
 		},

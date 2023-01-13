@@ -1,3 +1,4 @@
+import $ from 'cafy';
 import define from '../../../define';
 import RegistrationTicket, { packRegistrationTicket } from '../../../../../models/registration-tickets';
 
@@ -12,7 +13,14 @@ export const meta = {
 	requireModerator: true,
 
 	params: {
-		// TODO: paging
+		limit: {
+			validator: $.optional.num.range(1, 100),
+			default: 10
+		},
+		offset: {
+			validator: $.optional.num.min(0),
+			default: 0
+		},
 	},
 
 	errors: {
@@ -21,7 +29,9 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const tickets = await RegistrationTicket.find({}, {
-		sort: { _id: -1 }
+		sort: { _id: -1 },
+		skip: ps.offset,
+		limit: ps.limit,
 	});
 
 	return await Promise.all(tickets.map(x => packRegistrationTicket(x)));
