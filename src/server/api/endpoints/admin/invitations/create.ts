@@ -1,6 +1,6 @@
 import $ from 'cafy';
 import define from '../../../define';
-import RegistrationTicket from '../../../../../models/registration-tickets';
+import RegistrationTicket, { packRegistrationTicket } from '../../../../../models/registration-tickets';
 import rndstr from 'rndstr';
 
 export const meta = {
@@ -33,7 +33,7 @@ export const meta = {
 export default define(meta, async (ps, user) => {
 	const code = rndstr({ length: 6, chars: '0-9' });
 
-	await RegistrationTicket.insert({
+	const inserted = await RegistrationTicket.insert({
 		createdAt: new Date(),
 		expiresAt: ps.expiredAfter && new Date(new Date().getTime() + ps.expiredAfter),
 		restCount: ps.restCount,
@@ -41,7 +41,5 @@ export default define(meta, async (ps, user) => {
 		code: code
 	});
 
-	return {
-		code: code
-	};
+	return await packRegistrationTicket(inserted);
 });

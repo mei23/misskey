@@ -141,7 +141,10 @@ export default async (ctx: Router.RouterContext) => {
 		RegistrationTicket.update({ _id: ticket._id }, {
 			$push: {
 				inviteeIds: account._id
-			}
+			},
+			$inc: {
+				restCount: -1
+			},
 		});
 	}
 
