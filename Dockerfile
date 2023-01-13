@@ -1,4 +1,4 @@
-FROM node:16.18.1-bullseye AS builder
+FROM node:16.19.0-bullseye AS builder
 
 ENV NODE_ENV=production
 WORKDIR /misskey
@@ -6,13 +6,17 @@ WORKDIR /misskey
 RUN apt-get update \
  && apt-get install -y --no-install-recommends build-essential
 
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json pnpm-lock.yaml ./
+
+RUN corepack enable pnpm
+
+RUN pnpm i --frozen-lockfile
+
 COPY . ./
-RUN yarn build
 
+RUN pnpm build
 
-FROM node:16.18.1-bullseye-slim AS runner
+FROM node:16.19.0-bullseye-slim AS runner
 
 WORKDIR /misskey
 
@@ -27,4 +31,4 @@ COPY . ./
 
 ENV NODE_ENV=production
 ENTRYPOINT ["/usr/bin/tini", "--"]
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

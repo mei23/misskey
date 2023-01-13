@@ -1,0 +1,36 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:base"
+	],
+	"packageRules": [
+		{
+			"matchPackageNames": ["chalk"],
+			"allowedVersions": "< 5"
+		},
+		{
+			"matchPackageNames": ["deepcopy "],
+			"allowedVersions": "< 2"
+		},
+		{
+			"matchPackageNames": ["file-type"],
+			"allowedVersions": "< 17"
+		},
+		{
+			"matchPackageNames": ["got"],
+			"allowedVersions": "< 12"
+		},
+		{
+			"matchPackageNames": ["private-ip"],
+			"allowedVersions": "< 3"
+		},
+		{
+			"matchPackageNames": ["redis-lock"],
+			"allowedVersions": "< 1"
+		},
+		{
+			"matchPackageNames": ["xev"],
+			"allowedVersions": "< 3"
+		},
+	]
+}

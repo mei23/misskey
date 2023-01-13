@@ -505,6 +505,7 @@ common/views/pages/about.vue:
   popularReactions: "Popular reactions"
   localActive: "Current users"
   globalActive: "Current users (global)"
+  relays: "Relays"
   reacters: "Reacters"
 
 common/views/components/url-preview.vue:

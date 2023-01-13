@@ -533,6 +533,7 @@ common/views/pages/about.vue:
   popularReactions: "人気のリアクション"
   localActive: "今のユーザー数"
   globalActive: "今のユーザー数 (グローバル)"
+  relays: "参加中のリレー"
   reacters: "よくリアクションするユーザー"
 
 common/views/components/url-preview.vue:

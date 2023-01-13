@@ -20,7 +20,7 @@ docker-compose -f test/docker-compose.yml up
 または、空の (データが消去されてもいい) DBを準備して`.config/test.yml`を調整する。
 
 ```
-yarn test
+pnpm test
 ```
 
 ### API endpointを追加削除したら

@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x, 18.x]
 
     services:
       mongo:
@@ -22,16 +22,21 @@ jobs:
           - 56310:6379
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.2.4
+      with:
+        version: 7
+    - uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
     - run: node cli/diag-environment.js
-    - run: sudo apt-get install -y ffmpeg
-    - run: yarn install
-    - run: git diff --exit-code yarn.lock
-    - run: yarn build
+    - run: sudo sed -i'' -E 's/http:\/\/(azure.archive|security).ubuntu.com/http:\/\/mirror.us.leaseweb.net/' /etc/apt/sources.list
+    - run: sudo apt-get update -y
+    - run: sudo apt-get install -y --no-install-recommends ffmpeg
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - run: pnpm build
     - run: ls built/meta.json
     - run: cp test/test.yml .config/
-    - run: yarn test
+    - run: pnpm test

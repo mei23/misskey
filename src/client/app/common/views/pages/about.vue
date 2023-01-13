@@ -52,6 +52,17 @@
 		</div>
 	</ui-container>
 
+	<ui-container>
+		<template #header><fa :icon="faProjectDiagram"/> {{ $t('relays') }}</template>
+		<div class="items" v-if="meta?.relays" >
+			<div class="item" v-for="relay in meta.relays" :key="relay.host">
+				<div class="key">
+					<a :href="`https://${relay.host}`" rel="nofollow noopener" target="_blank">{{ relay.host }}</a>
+				</div>
+			</div>
+		</div>
+	</ui-container>
+
 	<ui-container v-if="popularReactions">
 		<template #header><fa :icon="faThumbsUp"/> {{ $t('popularReactions') }}</template>
 		<div class="items">
@@ -81,22 +92,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../../i18n';
-import { faServer, faChartBar, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faServer, faChartBar, faThumbsUp, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n('common/views/pages/about.vue'),
 
 	data() {
 		return {
-			meta: null,
+			$root: getCurrentInstance() as any,
+			meta: null as any,
 			stats: null,
 			reactions: null,
 			popularReactions: null,
 			activeUsersCount: null,
 			reacters: null,
-			faServer, faChartBar, faThumbsUp
+			faServer, faChartBar, faThumbsUp, faProjectDiagram,
 		};
 	},
 

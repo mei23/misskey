@@ -37,7 +37,6 @@
 	"globals": {
 		"ENV": true,
 		"VERSION": true,
-		"API": true,
 		"LANGS": true
 	}
 }

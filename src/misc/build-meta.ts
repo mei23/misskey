@@ -2,14 +2,20 @@ import { IMeta } from '../models/meta';
 import Emoji from '../models/emoji';
 import config from '../config';
 import * as os from 'os';
+import Relay from '../models/relay';
 
 export async function buildMeta(instance: IMeta, detail = true) {
-	const emojis = await Emoji.find({ host: null }, {
-		sort: {
-			category: 1,
-			name: 1
-		}
-	});
+	const [emojis, relays] = await Promise.all([
+		Emoji.find({ host: null }, {
+			sort: {
+				category: 1,
+				name: 1
+			}
+		}),
+		Relay.find({
+			status: 'accepted'
+		})
+	]);
 
 	const response: any = {
 		maintainer: instance.maintainer,
@@ -63,6 +69,17 @@ export async function buildMeta(instance: IMeta, detail = true) {
 
 			return r;
 		}),
+
+		relays: relays.map(x => {
+			try {
+				const u = new URL(x.inbox);
+				return {
+					host: u.host
+				};
+			} catch {
+				return null;
+			}
+		}).filter(x => x != null),
 
 		enableEmail: instance.enableEmail,
 
