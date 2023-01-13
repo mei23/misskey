@@ -70,7 +70,7 @@ specifiers:
   animejs: 3.2.1
   apexcharts: 3.33.2
   autobind-decorator: 2.4.0
-  autosize: 4.0.2
+  autosize: 4.0.4
   autwh: 0.1.0
   aws-sdk: 2.1293.0
   bcryptjs: 2.4.3
@@ -226,7 +226,7 @@ dependencies:
   animejs: 3.2.1
   apexcharts: 3.33.2
   autobind-decorator: 2.4.0
-  autosize: 4.0.2
+  autosize: 4.0.4
   autwh: 0.1.0
   aws-sdk: 2.1293.0
   bcryptjs: 2.4.3
@@ -2113,8 +2113,8 @@ packages:
     engines: {node: '>=8.10', npm: '>=6.4.1'}
     dev: false
 
-  /autosize/4.0.2:
-    resolution: {integrity: sha512-jnSyH2d+qdfPGpWlcuhGiHmqBJ6g3X+8T+iRwFrHPLVcdoGJE/x6Qicm6aDHfTsbgZKxyV8UU/YB2p4cjKDRRA==}
+  /autosize/4.0.4:
+    resolution: {integrity: sha512-5yxLQ22O0fCRGoxGfeLSNt3J8LB1v+umtpMnPW6XjkTWXKoN0AmXAIhelJcDtFT/Y/wYWmfE+oqU10Q0b8FhaQ==}
     dev: false
 
   /autwh/0.1.0:
