@@ -157,7 +157,7 @@ specifiers:
   promise-limit: 2.7.0
   promise-sequential: 1.1.1
   pug: 3.0.2
-  punycode: 2.1.1
+  punycode: 2.2.0
   qrcode: 1.5.1
   ratelimiter: 3.4.1
   reconnecting-websocket: 4.4.0
@@ -309,7 +309,7 @@ dependencies:
   promise-limit: 2.7.0
   promise-sequential: 1.1.1
   pug: 3.0.2
-  punycode: 2.1.1
+  punycode: 2.2.0
   qrcode: 1.5.1
   ratelimiter: 3.4.1
   reconnecting-websocket: 4.4.0
@@ -8324,8 +8324,8 @@ packages:
     resolution: {integrity: sha512-RofWgt/7fL5wP1Y7fxE7/EmTLzQVnB0ycyibJ0OOHIlJqTNzglYFxVwETOcIoJqJmpDXJ9xImDv+Fq34F/d4Dw==}
     dev: false
 
-  /punycode/2.1.1:
-    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
+  /punycode/2.2.0:
+    resolution: {integrity: sha512-LN6QV1IJ9ZhxWTNdktaPClrNfp8xdSAYS0Zk2ddX7XsXZAxckMHPCBcHRo0cTcEIgYPRiGEkmji3Idkh2yFtYw==}
     engines: {node: '>=6'}
 
   /q/1.4.1:
@@ -9728,7 +9728,7 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       psl: 1.9.0
-      punycode: 2.1.1
+      punycode: 2.2.0
       universalify: 0.2.0
       url-parse: 1.5.10
     dev: false
@@ -9740,7 +9740,7 @@ packages:
     resolution: {integrity: sha512-l7FvfAHlcmulp8kr+flpQZmVwtu7nfRV7NZujtN0OqES8EL4O4e0qqzL0DC5gAvx/ZC/9lk6rhcUwYvkBnBnYA==}
     engines: {node: '>=12'}
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.2.0
     dev: false
 
   /ts-loader/9.4.2_3fkjkrd3audxnith3e7fo4fnxi:
@@ -9997,7 +9997,7 @@ packages:
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
-      punycode: 2.1.1
+      punycode: 2.2.0
 
   /urijs/1.19.11:
     resolution: {integrity: sha512-HXgFDgDommxn5/bIv0cnQZsPhHDA90NPHD6+c/v21U5+Sx5hoP8+dP9IZXBU1gIfvdRfhG8cel9QNPeionfcCQ==}
