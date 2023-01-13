@@ -106,7 +106,7 @@ specifiers:
   gulp-stylus: 3.0.0
   gulp-swc: 1.2.3
   gulp-terser: 2.1.0
-  highlight.js: 10.6.0
+  highlight.js: 10.7.3
   html-entities: 2.3.3
   htmlescape: 1.1.1
   http-proxy-agent: 5.0.0
@@ -259,7 +259,7 @@ dependencies:
   gulp-stylus: 3.0.0
   gulp-swc: 1.2.3_wycausexzdyktp5vgxs7buuucu
   gulp-terser: 2.1.0
-  highlight.js: 10.6.0
+  highlight.js: 10.7.3
   html-entities: 2.3.3
   htmlescape: 1.1.1
   http-proxy-agent: 5.0.0
@@ -5172,8 +5172,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  /highlight.js/10.6.0:
-    resolution: {integrity: sha512-8mlRcn5vk/r4+QcqerapwBYTe+iPL5ih6xrNylxrnBdHQiijDETfXX7VIxC3UiCRiINBJfANBAsPzAvRQj8RpQ==}
+  /highlight.js/10.7.3:
+    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: false
 
   /highlightjs/9.16.2:
