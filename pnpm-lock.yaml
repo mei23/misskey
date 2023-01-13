@@ -202,7 +202,7 @@ specifiers:
   vue-template-compiler: 2.7.14
   vue2-touch-events: 3.2.2
   vuedraggable: 2.24.3
-  vuewordcloud: 18.7.11
+  vuewordcloud: 18.7.12
   vuex: 3.6.2
   vuex-persistedstate: 3.2.0
   web-push: 3.4.4
@@ -354,7 +354,7 @@ dependencies:
   vue-template-compiler: 2.7.14
   vue2-touch-events: 3.2.2
   vuedraggable: 2.24.3
-  vuewordcloud: 18.7.11
+  vuewordcloud: 18.7.12_vue@2.7.14
   vuex: 3.6.2_vue@2.7.14
   vuex-persistedstate: 3.2.0_vue@2.7.14+vuex@3.6.2
   web-push: 3.4.4
@@ -10357,8 +10357,10 @@ packages:
       sortablejs: 1.10.2
     dev: false
 
-  /vuewordcloud/18.7.11:
-    resolution: {integrity: sha512-dDE+4HUOt4oURKj1d67CojTl9pefsUya90QzaB4FhSIkxaLecvp4yGlJTbIOVdx9EhwHvNrSH7IvSCSseLipcA==}
+  /vuewordcloud/18.7.12_vue@2.7.14:
+    resolution: {integrity: sha512-0oqqI47bGj+PxHSFrFe+8EAj1Vwb2lXj0EYFz9a1PO7CuGDCPjxdYKOPN4TlWuXYsstZX8lQTVRkCPEjE55PiA==}
+    peerDependencies:
+      vue: ^2.6.11
     dependencies:
       vue: 2.7.14
     dev: false
