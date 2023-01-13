@@ -31,8 +31,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
     - run: node cli/diag-environment.js
-    - run: host azure.archive.ubuntu.com
-    - run: host archive.ubuntu.com
     - run: sudo sed -i'' -E 's/http:\/\/(azure.archive|security).ubuntu.com/http:\/\/ftp.tsukuba.wide.ad.jp/' /etc/apt/sources.list
     - run: cat /etc/apt/sources.list
     - run: sudo apt-get update -y
