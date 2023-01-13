@@ -154,7 +154,7 @@
 		"twemoji-parser": "git+https://github.com/mei23/twemoji-parser.git#15.0.1",
 		"typescript": "4.9.4",
 		"uuid": "9.0.0",
-		"v-animate-css": "0.0.5",
+		"v-animate-css": "0.0.6",
 		"v-debounce": "0.1.2",
 		"vue": "2.7.14",
 		"vue-color": "2.8.1",
