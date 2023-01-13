@@ -7,7 +7,10 @@ export default RegistrationTicket;
 
 export interface IRegistrationTicket {
 	_id: mongo.ObjectID;
-	userId?: mongo.ObjectID;
 	createdAt: Date;
 	code: string;
+	expiresAt?: Date;
+	inviterId?: mongo.ObjectID;
+	inviteeIds?: mongo.ObjectID[];
+	restCount?: number;
 }
