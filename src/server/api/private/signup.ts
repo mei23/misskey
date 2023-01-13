@@ -29,6 +29,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	//#region Validate invitation code
 	let ticket: IRegistrationTicket | undefined;
+	let lastTicket = false;
 
 	if (instance?.disableRegistration) {
 		if (invitationCode == null || typeof invitationCode !== 'string') {
@@ -66,6 +67,7 @@ export default async (ctx: Router.RouterContext) => {
 			return;
 		}
 
+		if (restCount === 1) lastTicket = true;
 	}
 	//#endregion
 
@@ -138,14 +140,18 @@ export default async (ctx: Router.RouterContext) => {
 	});
 
 	if (ticket) {
-		RegistrationTicket.update({ _id: ticket._id }, {
-			$push: {
-				inviteeIds: account._id
-			},
-			$inc: {
-				restCount: -1
-			},
-		});
+		if (lastTicket) {
+			RegistrationTicket.remove({ _id: ticket._id });
+		} else {
+			RegistrationTicket.update({ _id: ticket._id }, {
+				$push: {
+					inviteeIds: account._id
+				},
+				$inc: {
+					restCount: -1
+				},
+			});
+		}
 	}
 
 	//#region Increment users count
