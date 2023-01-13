@@ -20,7 +20,8 @@ export interface IRegistrationTicket {
 export async function packRegistrationTicket(src: IRegistrationTicket): Promise<packedInvitation> {
 	return {
 		id: src._id,
-		createdAt: src.createdAt,
+		createdAt: src.createdAt.toISOString(),
+		expiredAt: src.expiresAt?.toISOString(),
 		inviterId: src.inviterId,
 		inviteeIds: src.inviterId,
 		inviter: src.inviterId && await packUser(src.inviterId),

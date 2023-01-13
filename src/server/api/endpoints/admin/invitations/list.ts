@@ -21,7 +21,7 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const tickets = await RegistrationTicket.find({}, {
-		sort: { _id: 'desc' }
+		sort: { _id: -1 }
 	});
 
 	return await Promise.all(tickets.map(x => packRegistrationTicket(x)));

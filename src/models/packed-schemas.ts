@@ -216,7 +216,8 @@ export type packedInvitation = {
 	id: string;
 	inviterId?: string;
 	inviteeIds?: string[];
-	createdAt: Date;
+	createdAt: string;
+	expiredAt?: string;
 	code: string;
 	inviter?: ThinPackedUser | null;
 	invitees?: (ThinPackedUser | null)[];
