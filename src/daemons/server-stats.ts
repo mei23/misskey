@@ -1,6 +1,5 @@
 import * as os from 'os';
 import * as systeminformation from 'systeminformation';
-const checkDiskSpace = require('check-disk-space').default;
 import * as Deque from 'double-ended-queue';
 import Xev from 'xev';
 import * as osUtils from 'os-utils';
@@ -29,13 +28,13 @@ export default function() {
 	async function tick() {
 		const cpu = await cpuUsage();
 		const mem = await systeminformation.mem();
+		const fsStats = await systeminformation.fsSize();
 		const cpuSpeed = (await systeminformation.cpuCurrentSpeed()).avg;
 
-		const _disk = await checkDiskSpace(os.platform() == 'win32' ? 'c:' : '/') as { diskPath: string; free: number; size: number; };
 		const disk: DiskUsage = {
-			available: _disk.free,
-			free: _disk.free,
-			total: _disk.size,
+			available: fsStats[0].available,
+			free: fsStats[0].available,
+			total: fsStats[0].size,
 		};
 
 		mem.used = mem.used - mem.buffers - mem.cached;

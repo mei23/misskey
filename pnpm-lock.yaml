@@ -78,7 +78,6 @@ specifiers:
   bull: 4.10.2
   cafy: 15.2.1
   chalk: 4.1.2
-  check-disk-space: 3.3.1
   cheerio: 0.22.0
   content-disposition: 0.5.4
   crc-32: 1.2.2
@@ -234,7 +233,6 @@ dependencies:
   bull: 4.10.2
   cafy: 15.2.1
   chalk: 4.1.2
-  check-disk-space: 3.3.1
   cheerio: 0.22.0
   content-disposition: 0.5.4
   crc-32: 1.2.2
@@ -2511,11 +2509,6 @@ packages:
     resolution: {integrity: sha512-+UqJQjFEFaTAs3bNsF2j2kEN1baG/zghZbdqoYEDxGZtJo9LBzl1A+m0D4n3qKx8N2FNv8/Xp6yV9mQmBuptaw==}
     dependencies:
       is-regex: 1.1.4
-    dev: false
-
-  /check-disk-space/3.3.1:
-    resolution: {integrity: sha512-iOrT8yCZjSnyNZ43476FE2rnssvgw5hnuwOM0hm8Nj1qa0v4ieUUEbCyxxsEliaoDUb/75yCOL71zkDiDBLbMQ==}
-    engines: {node: '>=12'}
     dev: false
 
   /cheerio/0.22.0:
