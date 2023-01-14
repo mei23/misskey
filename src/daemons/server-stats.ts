@@ -1,6 +1,6 @@
 import * as os from 'os';
 import * as systeminformation from 'systeminformation';
-import * as diskusage from 'diskusage';
+const checkDiskSpace = require('check-disk-space').default;
 import * as Deque from 'double-ended-queue';
 import Xev from 'xev';
 import * as osUtils from 'os-utils';
@@ -9,6 +9,12 @@ import config from '../config';
 const ev = new Xev();
 
 const interval = 3000;
+
+type DiskUsage = {
+	available: number;
+	free: number;
+	total: number;
+};
 
 /**
  * Report server stats regularly
@@ -24,7 +30,13 @@ export default function() {
 		const cpu = await cpuUsage();
 		const mem = await systeminformation.mem();
 		const cpuSpeed = (await systeminformation.cpuCurrentSpeed()).avg;
-		const disk = await diskusage.check(os.platform() == 'win32' ? 'c:' : '/');
+
+		const _disk = await checkDiskSpace(os.platform() == 'win32' ? 'c:' : '/') as { diskPath: string; free: number; size: number; };
+		const disk: DiskUsage = {
+			available: _disk.free,
+			free: _disk.free,
+			total: _disk.size,
+		};
 
 		mem.used = mem.used - mem.buffers - mem.cached;
 		// |- used -|- buffer-|- cache -|- free -|
