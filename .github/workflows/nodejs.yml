@@ -31,7 +31,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
     - run: node cli/diag-environment.js
-    - run: sudo sed -i'' -E 's/http:\/\/(azure.archive|security).ubuntu.com/http:\/\/mirror.us.leaseweb.net/' /etc/apt/sources.list
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y --no-install-recommends ffmpeg
     - run: corepack enable
