@@ -31,7 +31,7 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const result = await RegistrationTicket.remove({
-		id: ps.id,
+		_id: ps.id,
 	});
 
 	if (result.deletedCount === 0) {

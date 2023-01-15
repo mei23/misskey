@@ -1538,7 +1538,7 @@ admin/views/index.vue:
   back-to-misskey: "Misskeyに戻る"
 
 admin/views/invitations.vue:
-  invitations: 招待
+  invitations: 発行済みの招待
   code: コード
   inviter: 招待者
   createdAt: 作成
@@ -1548,6 +1548,7 @@ admin/views/invitations.vue:
   eternity: 永遠
   unknown: 不明
   delete: 削除
+  more: もっと
 
 admin/views/dashboard.vue:
   dashboard: "ダッシュボード"

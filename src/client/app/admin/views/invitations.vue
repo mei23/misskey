@@ -71,42 +71,12 @@
 				<span class="key">{{ $t('invitees') }}</span>
 				<span class="val" v-for="invitee in invitation.invitees" :key="`invitee-${invitee?.id}`" >{{ invitee ? `@${invitee.username}` : 'Unknown' }}</span>
 			</div>
-			<!--
-			<div>
-				<img :src="invitation.url" :alt="invitation.name" style="width: 64px;"/>
-			</div>
-
-			<div>
-				<ui-horizon-group>
-					<ui-input v-model="invitation.name">
-						<span>{{ $t('add-invitation.name') }}</span>
-					</ui-input>
-					<ui-input v-model="invitation.category" :datalist="categoryList">
-						<span>{{ $t('add-invitation.category') }}</span>
-					</ui-input>
-					<ui-input v-model="invitation.aliases">
-						<span>{{ $t('add-invitation.aliases') }}</span>
-					</ui-input>
-					<ui-select v-model="invitation.direction">
-						<template #label>{{ $t('add-invitation.direction') }}</template>
-						<option value="none">{{ $t('none') }}</option>
-						<option value="left">{{ $t('left') }}</option>
-						<option value="right">{{ $t('right') }}</option>
-					</ui-select>
-				</ui-horizon-group>
-				<ui-input v-model="invitation.url">
-					<template #icon><fa icon="link"/></template>
-					<span>{{ $t('add-invitation.url') }}</span>
-				</ui-input>
-				<ui-horizon-group class="fit-bottom">
-					<ui-button @click="updateinvitation(invitation)"><fa :icon="['far', 'save']"/> {{ $t('invitations.update') }}</ui-button>
-					<ui-button @click="removeinvitation(invitation)"><fa :icon="['far', 'trash-alt']"/> {{ $t('invitations.remove') }}</ui-button>
-				</ui-horizon-group>
-			</div>-->
+			<ui-horizon-group>
+				<ui-button class="delete" @click="() => deleteInvitation(invitation)"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
+			</ui-horizon-group>
 		</section>
-		
 		<section style="padding: 16px 32px">
-			<ui-button v-if="existMore" @click="fetchInvitations(false)">More</ui-button>
+			<ui-button v-if="existMore" @click="fetchInvitations(false)">{{ $t('more') }}</ui-button>
 		</section>
 	</ui-card>
 </div>
@@ -115,7 +85,7 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../i18n';
-import { faGrin } from '@fortawesome/free-regular-svg-icons';
+import { faGrin, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { packedInvitation } from '../../../../models/packed-schemas';
 
 export default defineComponent({
@@ -143,7 +113,7 @@ export default defineComponent({
 			searchRemote: '',
 			searchHost: '',
 			origin: 'all',
-			faGrin
+			faGrin, faTrashAlt
 		};
 	},
 
@@ -176,10 +146,19 @@ export default defineComponent({
 					this.existMore = false;
 				}
 
-				this.invitations = this.invitations.concat(invitations);
+				this.invitations = truncate? invitations : this.invitations.concat(invitations);
 				this.offset += invitations.length;
 			});
 		},
+
+		deleteInvitation(invitation: packedInvitation) {
+			this.$root.api('admin/invitations/delete', {
+				id: invitation.id,
+			}).then(() => {
+				this.fetchInvitations(true);
+			});
+		},
+
 	},
 });
 </script>
@@ -193,4 +172,6 @@ export default defineComponent({
 					content: ':';
 			.val
 				//
+		.delete
+			margin: 0.5em 0;
 </style>
