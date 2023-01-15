@@ -30,7 +30,7 @@
 
 	<!-- list -->
 	<ui-card>
-		<template #title><fa :icon="faGrin"/> Invitations</template>
+		<template #title><fa :icon="faGrin"/> {{ $t('invitations') }}</template>
 		<!--
 		<section style="padding: 16px 32px">
 			<ui-horizon-group searchboxes>
@@ -45,27 +45,30 @@
 		-->
 		<section class="invite" v-for="invitation in invitations" :key="invitation.id">
 			<div class="prop">
-				<span class="key">Code</span>
+				<span class="key">{{ $t('code') }}</span>
 				<span class="val">{{ invitation.code }}</span>
 			</div>
 			<div class="prop">
-				<span class="key">Inviter</span>
-				<span class="val">{{ invitation.inviter ? `@${invitation.inviter.username}` : 'Unknown' }}</span>
+				<span class="key">{{ $t('inviter') }}</span>
+				<span class="val">{{ invitation.inviter ? `@${invitation.inviter.username}` : $t('unknown') }}</span>
 			</div>
 			<div class="prop">
-				<span class="key">CreatedAt</span>
+				<span class="key">{{ $t('createdAt') }}</span>
 				<span class="val"><mk-time :time="invitation.createdAt" mode="detail"/></span>
 			</div>
 			<div class="prop">
-				<span class="key">ExpiresAt</span>
-				<span class="val"><mk-time :time="invitation.expiredAt" mode="detail"/></span>
+				<span class="key">{{ $t('expiredAt') }}</span>
+				<span class="val">
+					<mk-time v-if="invitation.expiredAt" :time="invitation.expiredAt" mode="detail"/>
+					<span v-else>{{ $t('eternity') }}</span>
+				</span>
 			</div>
 			<div class="prop">
-				<span class="key">RestCount</span>
-				<span class="val">{{ invitation.restCount || 'Undefined (1)' }}</span>
+				<span class="key">{{ $t('restCount') }}</span>
+				<span class="val">{{ invitation.restCount || '1' }}</span>
 			</div>
 			<div class="prop">
-				<span class="key">Invitees</span>
+				<span class="key">{{ $t('invitees') }}</span>
 				<span class="val" v-for="invitee in invitation.invitees" :key="`invitee-${invitee?.id}`" >{{ invitee ? `@${invitee.username}` : 'Unknown' }}</span>
 			</div>
 			<!--
@@ -120,7 +123,7 @@ export default defineComponent({
 
 	data() {
 		return {
-			$root:getCurrentInstance() as any,
+			$root: getCurrentInstance() as any,
 
 			invitations: [] as packedInvitation[],
 			offset: 0,
@@ -185,7 +188,7 @@ export default defineComponent({
 	.invite
 		.prop
 			.key
-				padding-right: 0.5em;
+				padding-right: 0.2em;
 				&:after
 					content: ':';
 			.val

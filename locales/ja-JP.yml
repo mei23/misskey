@@ -1537,6 +1537,18 @@ admin/views/index.vue:
   instanceblocks: "インスタンスブロック"
   back-to-misskey: "Misskeyに戻る"
 
+admin/views/invitations.vue:
+  invitations: 招待
+  code: コード
+  inviter: 招待者
+  createdAt: 作成
+  expiredAt: 期限
+  restCount: 残り
+  invitees: invitees
+  eternity: 永遠
+  unknown: 不明
+  delete: 削除
+
 admin/views/dashboard.vue:
   dashboard: "ダッシュボード"
   accounts: "アカウント"
