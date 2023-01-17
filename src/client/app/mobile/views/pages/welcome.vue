@@ -11,7 +11,7 @@
 			<div class="signin">
 				<a href="/signin" @click.prevent="signin()">{{ $t('@.signin') }}</a>
 			</div>
-			<div class="explore">
+			<div class="explore" v-if="meta && !(meta.disableProfileDirectory)">
 				<router-link class="explore" to="/explore">{{ $t('@.explore') }}</router-link>
 			</div>
 		</div>
