@@ -47,10 +47,12 @@
 				<span class="key">{{ $t('restCount') }}</span>
 				<span class="val">{{ invitation.restCount || '1' }}</span>
 			</div>
+			<!--
 			<div class="prop">
 				<span class="key">{{ $t('invitees') }}</span>
 				<span class="val" v-for="invitee in invitation.invitees" :key="`invitee-${invitee?.id}`" >{{ invitee ? `@${invitee.username}` : 'Unknown' }}</span>
 			</div>
+			-->
 			<ui-horizon-group>
 				<ui-button class="delete" @click="() => deleteInvitation(invitation)"><fa :icon="faTrashAlt"/> {{ $t('delete') }}</ui-button>
 			</ui-horizon-group>
@@ -80,7 +82,7 @@ export default defineComponent({
 
 			invitations: [] as packedInvitation[],
 			offset: 0,
-			limit: 1,
+			limit: 10,
 			existMore: false,
 
 
