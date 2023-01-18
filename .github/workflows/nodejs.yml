@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [14.x, 16.x, 18.x]
 
     services:
       mongo:
@@ -31,10 +31,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
     - run: node cli/diag-environment.js
-    - run: sudo sed -i'' -E 's/http:\/\/(azure.archive|security).ubuntu.com/http:\/\/mirror.us.leaseweb.net/' /etc/apt/sources.list
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y --no-install-recommends ffmpeg
-    - run: corepack enable
     - run: pnpm i --frozen-lockfile
     - run: pnpm build
     - run: ls built/meta.json

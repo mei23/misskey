@@ -31,6 +31,6 @@
 		{
 			"matchPackageNames": ["xev"],
 			"allowedVersions": "< 3"
-		},
+		}
 	]
 }

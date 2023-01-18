@@ -1,6 +1,5 @@
 import * as os from 'os';
 import * as systeminformation from 'systeminformation';
-import * as diskusage from 'diskusage';
 import * as Deque from 'double-ended-queue';
 import Xev from 'xev';
 import * as osUtils from 'os-utils';
@@ -9,6 +8,12 @@ import config from '../config';
 const ev = new Xev();
 
 const interval = 3000;
+
+type DiskUsage = {
+	available: number;
+	free: number;
+	total: number;
+};
 
 /**
  * Report server stats regularly
@@ -23,8 +28,14 @@ export default function() {
 	async function tick() {
 		const cpu = await cpuUsage();
 		const mem = await systeminformation.mem();
+		const fsStats = await systeminformation.fsSize();
 		const cpuSpeed = (await systeminformation.cpuCurrentSpeed()).avg;
-		const disk = await diskusage.check(os.platform() == 'win32' ? 'c:' : '/');
+
+		const disk: DiskUsage = {
+			available: fsStats[0].available,
+			free: fsStats[0].available,
+			total: fsStats[0].size,
+		};
 
 		mem.used = mem.used - mem.buffers - mem.cached;
 		// |- used -|- buffer-|- cache -|- free -|
