@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import i18n from '../../../i18n';
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n(),
 	props: {
 		time: {
@@ -38,17 +38,40 @@ export default Vue.extend({
 		relative(): string {
 			const time = this._time;
 			if (time == null) return this.$t('@.time.unknown');
-			const ago = (this.now.getTime() - time.getTime()) / 1000/*ms*/;
-			return (
-				ago >= 31536000 ? this.$t('@.time.years_ago')  .replace('{}', (~~(ago / 31536000)).toString()) :
-				ago >= 2592000  ? this.$t('@.time.months_ago') .replace('{}', (~~(ago / 2592000)).toString()) :
-				ago >= 604800   ? this.$t('@.time.weeks_ago')  .replace('{}', (~~(ago / 604800)).toString()) :
-				ago >= 86400    ? this.$t('@.time.days_ago')   .replace('{}', (~~(ago / 86400)).toString()) :
-				ago >= 3600     ? this.$t('@.time.hours_ago')  .replace('{}', (~~(ago / 3600)).toString()) :
-				ago >= 60       ? this.$t('@.time.minutes_ago').replace('{}', (~~(ago / 60)).toString()) :
-				ago >= 10       ? this.$t('@.time.seconds_ago').replace('{}', (~~(ago % 60)).toString()) :
-				ago >= -10      ? this.$t('@.time.just_now') :
-				this.$t('@.time.future'));
+
+			const diff = (time.getTime() - this.now.getTime()) / 1000;	// sec (positive is future)
+			const dir = Math.abs(diff) < 10 ? 'now' : diff < 0 ? 'ago' : 'after';
+			const abs = Math.abs(diff);	// sec
+
+			if (dir === 'now') return this.$t('@.time.just_now');
+
+			if (abs >= 31536000) {
+				const n = Math.floor(abs / 31536000).toString();
+				return n === '1' ? this.$t(`@.time.year_${dir}`) : this.$t(`@.time.years_${dir}`).replace('{}', n);
+			}
+			if (abs >= 2592000) {
+				const n = Math.floor(abs / 2592000).toString();
+				return n === '1' ? this.$t(`@.time.month_${dir}`) : this.$t(`@.time.months_${dir}`).replace('{}', n);
+			}
+			if (abs >= 604800) {
+				const n = Math.floor(abs / 604800).toString();
+				return n === '1' ? this.$t(`@.time.week_${dir}`) : this.$t(`@.time.weeks_${dir}`).replace('{}', n);
+			}
+			if (abs >= 86400) {
+				const n = Math.floor(abs / 86400).toString();
+				return n === '1' ? this.$t(`@.time.day_${dir}`) : this.$t(`@.time.days_${dir}`).replace('{}', n);
+			}
+			if (abs >= 3600) {
+				const n = Math.floor(abs / 3600).toString();
+				return this.$t(`@.time.hours_${dir}`).replace('{}', n);
+			}
+			if (abs >= 60) {
+				const n = Math.floor(abs / 60).toString();
+				return this.$t(`@.time.minutes_${dir}`).replace('{}', n);
+			}
+
+			const n = Math.floor(abs).toString();
+			return this.$t(`@.time.seconds_${dir}`).replace('{}', n);
 		}
 	},
 	created() {
