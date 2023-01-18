@@ -60,7 +60,7 @@ common:
     weeks_ago: "{}周前"
     month_ago: "上月"
     months_ago: "{}月前"
-    year_after: "去年"
+    year_ago: "去年"
     years_ago: "{}年前"
     seconds_after: "{}秒后"
     minutes_after: "{}分后"
