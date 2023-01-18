@@ -12,7 +12,7 @@
 				<template #label>{{ $t('addExpireSec') }}</template>
 				<option value="86400">1 {{ $t('day') }}</option>
 				<option value="604800">7 {{ $t('day') }}</option>
-				<option value="31536000">30 {{ $t('day') }}</option>
+				<option value="2592000">30 {{ $t('day') }}</option>
 				<option value="infinite">{{ $t('infinite') }}</option>
 			</ui-select>
 			</ui-horizon-group>
