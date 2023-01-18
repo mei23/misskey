@@ -1,48 +1,28 @@
 <template>
 <div>
 	<!-- add -->
-	<!--
 	<ui-card>
-		<template #title><fa icon="plus"/> {{ $t('add-invitation.title') }}</template>
+		<template #title><fa icon="plus"/> {{ $t('addTitle') }}</template>
 		<section class="fit-top">
 			<ui-horizon-group inputs>
-				<ui-input v-model="name">
-					<span>{{ $t('add-invitation.name') }}</span>
-					<template #desc>{{ $t('add-invitation.name-desc') }}</template>
+				<ui-input v-model="addCount" type="number">
+					<span>{{ $t('addCount') }}</span>
 				</ui-input>
-				<ui-input v-model="category" :datalist="categoryList">
-					<span>{{ $t('add-invitation.category') }}</span>
-				</ui-input>
-				<ui-input v-model="aliases">
-					<span>{{ $t('add-invitation.aliases') }}</span>
-					<template #desc>{{ $t('add-invitation.aliases-desc') }}</template>
-				</ui-input>
+				<ui-select v-model="addExpireSec">
+				<template #label>{{ $t('addExpireSec') }}</template>
+				<option value="86400">1 {{ $t('day') }}</option>
+				<option value="604800">7 {{ $t('day') }}</option>
+				<option value="31536000">30 {{ $t('day') }}</option>
+				<option value="infinite">{{ $t('infinite') }}</option>
+			</ui-select>
 			</ui-horizon-group>
-			<ui-input v-model="url">
-				<template #icon><fa icon="link"/></template>
-				<span>{{ $t('add-invitation.url') }}</span>
-			</ui-input>
-			<ui-info>{{ $t('add-invitation.info') }}</ui-info>
-			<ui-button @click="add">{{ $t('add-invitation.add') }}</ui-button>
+			<ui-button @click="createInvitation">{{ $t('add') }}</ui-button>
 		</section>
 	</ui-card>
-	-->
 
 	<!-- list -->
 	<ui-card>
 		<template #title><fa :icon="faGrin"/> {{ $t('invitations') }}</template>
-		<!--
-		<section style="padding: 16px 32px">
-			<ui-horizon-group searchboxes>
-				<ui-input v-model="searchLocal" type="text" spellcheck="false" @input="fetchInvitations(true)">
-					<span>{{ $t('name') }}</span>
-				</ui-input>
-				<ui-input v-model="searchCategory" type="text" spellcheck="false" @input="fetchInvitations(true)">
-					<span>{{ $t('add-invitation.category') }}</span>
-				</ui-input>
-			</ui-horizon-group>
-		</section>
-		-->
 		<section class="invite" v-for="invitation in invitations" :key="invitation.id">
 			<div class="prop">
 				<span class="key">{{ $t('code') }}</span>
@@ -60,7 +40,7 @@
 				<span class="key">{{ $t('expiredAt') }}</span>
 				<span class="val">
 					<mk-time v-if="invitation.expiredAt" :time="invitation.expiredAt" mode="detail"/>
-					<span v-else>{{ $t('eternity') }}</span>
+					<span v-else>{{ $t('infinite') }}</span>
 				</span>
 			</div>
 			<div class="prop">
@@ -95,41 +75,21 @@ export default defineComponent({
 		return {
 			$root: getCurrentInstance() as any,
 
+			addCount: '1',
+			addExpireSec: '604800',
+
 			invitations: [] as packedInvitation[],
 			offset: 0,
 			limit: 1,
 			existMore: false,
 
 
-
-			name: '',
-			category: '',
-			url: '',
-			aliases: '',
-			direction: 'none',
-
-			searchLocal: '',
-			searchCategory: '',
-			searchRemote: '',
-			searchHost: '',
-			origin: 'all',
 			faGrin, faTrashAlt
 		};
 	},
 
-	watch: {
-		/*
-		origin() {
-			this.fetchInvitations('remote', true);
-		}
-		*/
-	},
-
 	mounted() {
 		this.fetchInvitations();
-	},
-
-	computed: {
 	},
 
 	methods: {
@@ -146,8 +106,22 @@ export default defineComponent({
 					this.existMore = false;
 				}
 
-				this.invitations = truncate? invitations : this.invitations.concat(invitations);
+				this.invitations = truncate ? invitations : this.invitations.concat(invitations);
 				this.offset += invitations.length;
+			});
+		},
+
+		createInvitation() {
+			this.$root.api('admin/invitations/create', {
+				restCount: Number(this.addCount),
+				expiredAfter: this.addExpireSec === 'infinite' ? undefined : Number(this.addExpireSec) * 1000,
+			}).then(() => {
+				this.fetchInvitations(true);
+			}).catch((e: Error) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.message || e,
+				});
 			});
 		},
 
@@ -158,7 +132,6 @@ export default defineComponent({
 				this.fetchInvitations(true);
 			});
 		},
-
 	},
 });
 </script>

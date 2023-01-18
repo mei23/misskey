@@ -1538,14 +1538,19 @@ admin/views/index.vue:
   back-to-misskey: "Misskeyに戻る"
 
 admin/views/invitations.vue:
+  addTitle: 招待コードの発行
+  addCount: 使用可能回数
+  addExpireSec: 有効期限
+  infinite: 無期限
+  day: 日
+  add: 発行
   invitations: 発行済みの招待
   code: コード
   inviter: 招待者
   createdAt: 作成
   expiredAt: 期限
-  restCount: 残り
+  restCount: 残り回数
   invitees: invitees
-  eternity: 永遠
   unknown: 不明
   delete: 削除
   more: もっと
