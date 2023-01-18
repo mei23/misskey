@@ -11,24 +11,6 @@
 		</section>
 	</details>
 
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 365 * 2.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 366 * 1.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 30 * 2.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 30 * 1.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 7 * 2.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 7 * 1.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 2.5))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 1.5))"/></div>
-
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 365 * 2.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 366 * 1.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 30 * 2.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 30 * 1.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 7 * 2.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 7 * 1.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 2.5 * -1))"/></div>
-	<div><mk-time :time="new Date(new Date().getTime() + (1000 * 86400 * 1.5 * -1))"/></div>
-
 	<section>
 		<header>メンション</header>
 		<p>特定のユーザーを示すことができます。</p>
