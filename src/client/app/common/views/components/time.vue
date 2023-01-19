@@ -40,8 +40,8 @@ export default defineComponent({
 			if (time == null) return this.$t('@.time.unknown');
 
 			const diff = (time.getTime() - this.now.getTime()) / 1000;	// sec (positive is future)
-			const dir = Math.abs(diff) < 10 ? 'now' : diff < 0 ? 'ago' : 'after';
-			const abs = Math.abs(diff);	// sec
+			const dir = Math.abs(diff) < 5 ? 'now' : diff < 0 ? 'ago' : 'after';
+			const abs = Math.round(Math.abs(diff) / 10) * 10;	// sec
 
 			if (dir === 'now') return this.$t('@.time.just_now');
 
