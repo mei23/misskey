@@ -1413,6 +1413,23 @@ admin/views/index.vue:
   logs: "Logs"
   instanceblocks: "Instance blocks"
   back-to-misskey: "Back to Misskey"
+admin/views/invitations.vue:
+  addTitle: "New invitation"
+  addCount: "Usable count"
+  addExpireSec: "Expires after"
+  infinite: Infinite
+  day: Days
+  add: Issue
+  invitations: Invitations
+  code: Code
+  inviter: Inviter
+  createdAt: Created At
+  expiredAt: Expires At
+  restCount: Rest count
+  invitees: invitees
+  unknown: Unknown
+  delete: Delete
+  more: More
 admin/views/dashboard.vue:
   dashboard: "Dashboard"
   accounts: "Accounts"
