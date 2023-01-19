@@ -282,6 +282,7 @@ export async function getMute(muterId: mongo.ObjectId | string, muteeId: mongo.O
 	return await Mute.findOne({
 		muterId: transform(muterId),
 		muteeId: transform(muteeId),
+		allowNotification: { $ne: true },
 		$or: [
 			{ expiresAt: null },
 			{ expiresAt: { $lt: new Date() }}

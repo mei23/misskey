@@ -35,7 +35,16 @@ export const meta = {
 				'ja-JP': 'ミュートの期限',
 				'en-US': 'Expires at'
 			}
-		}
+		},
+
+		allowNotification: {
+			validator: $.optional.boolean,
+			default: false,
+			desc: {
+				'ja-JP': '通知を許可する',
+				'en-US': 'Allow notifications'
+			}
+		},
 	},
 
 	errors: {
@@ -93,7 +102,8 @@ export default define(meta, async (ps, user) => {
 		createdAt: new Date(),
 		muterId: muter._id,
 		muteeId: mutee._id,
-		expiresAt: ps.expiresAt ? new Date(ps.expiresAt) : undefined
+		expiresAt: ps.expiresAt ? new Date(ps.expiresAt) : undefined,
+		allowNotification: !!ps.allowNotification,
 	});
 
 	publishMutingChanged(muter._id);
