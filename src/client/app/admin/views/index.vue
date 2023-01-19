@@ -34,7 +34,7 @@
 			<li><router-link to="/federation" active-class="active"><fa :icon="faGlobe" fixed-width/>{{ $t('federation') }}</router-link></li>
 			<li><router-link to="/relays" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faProjectDiagram" fixed-width/>{{ $t('relays') }}</router-link></li>
 			<li><router-link to="/emoji" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faGrin" fixed-width/>{{ $t('emoji') }}</router-link></li>
-			<li><router-link to="/invitations" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faGrin" fixed-width/>Invitations</router-link></li>
+			<li><router-link to="/invitations" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faUserFriends" fixed-width/>{{ $t('invitations') }}</router-link></li>
 			<li><router-link to="/announcements" active-class="active" v-if="$store.getters.isAdmin"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
 			<li><router-link to="/hashtags" active-class="active" v-if="$store.getters.isAdmin"><fa icon="hashtag" fixed-width/>{{ $t('hashtags') }}</router-link></li>
 			<li><router-link to="/abuse" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
@@ -87,7 +87,7 @@ import XAbuse from "./abuse.vue";
 import XFederation from "./federation.vue";
 import XRelays from "./relays.vue";
 
-import { faHeadset, faArrowLeft, faGlobe, faProjectDiagram, faExclamationCircle, faTasks, faStream } from '@fortawesome/free-solid-svg-icons';
+import { faHeadset, faArrowLeft, faGlobe, faProjectDiagram, faExclamationCircle, faTasks, faStream, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { faGrin } from '@fortawesome/free-regular-svg-icons';
 
 // Detect the user agent
@@ -127,7 +127,8 @@ export default Vue.extend({
 			faProjectDiagram,
 			faExclamationCircle,
 			faTasks,
-			faStream
+			faStream,
+			faUserFriends,
 		};
 	},
 	computed: {

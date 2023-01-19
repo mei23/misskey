@@ -1545,6 +1545,7 @@ admin/views/index.vue:
   users: "ユーザー"
   federation: "連合"
   relays: "リレー"
+  invitations: "招待"
   announcements: "お知らせ"
   hashtags: "ハッシュタグ"
   abuse: "スパム報告"

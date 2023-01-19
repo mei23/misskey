@@ -1405,6 +1405,7 @@ admin/views/index.vue:
   users: "Users"
   federation: "Federation"
   relays: "Relays"
+  invitations: "Invitations"
   announcements: "Announcements"
   hashtags: "Hashtags"
   abuse: "Abuse"

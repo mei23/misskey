@@ -23,11 +23,6 @@
 		<section>
 			<ui-switch v-model="disableRegistration">{{ $t('disable-registration') }}</ui-switch>
 		</section>
-		<section>
-			<header>{{ $t('invite') }}</header>
-			<ui-button @click="invite">{{ $t('invite') }}</ui-button>
-			<p v-if="inviteCode">Code: <code>{{ inviteCode }}</code></p>
-		</section>
 		<!-- save -->
 		<section>
 			<ui-button @click="updateMeta">{{ $t('save') }}</ui-button>
@@ -66,8 +61,6 @@ export default defineComponent({
 			maintainerName: null,
 			maintainerEmail: null,
 			disableRegistration: false,
-
-			inviteCode: null,
 
 			// icons アイコンを追加したらここをいじる 2/2
 			faHeadset, farEnvelope,
@@ -120,17 +113,6 @@ export default defineComponent({
 					type: 'success',
 					text: this.$t('saved')
 				});
-			}).catch((e: Error) => {
-				this.$root.dialog({
-					type: 'error',
-					text: e
-				});
-			});
-		},
-
-		invite() {
-			this.$root.api('admin/invitations/create').then((x: any) => {
-				this.inviteCode = x.code;
 			}).catch((e: Error) => {
 				this.$root.dialog({
 					type: 'error',

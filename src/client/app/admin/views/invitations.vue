@@ -22,7 +22,7 @@
 
 	<!-- list -->
 	<ui-card>
-		<template #title><fa :icon="faGrin"/> {{ $t('invitations') }}</template>
+		<template #title><fa :icon="faUserFriends"/> {{ $t('invitations') }}</template>
 		<section class="invite" v-for="invitation in invitations" :key="invitation.id">
 			<div class="prop">
 				<span class="key">{{ $t('code') }}</span>
@@ -67,7 +67,7 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../i18n';
-import { faGrin, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { packedInvitation } from '../../../../models/packed-schemas';
 
 export default defineComponent({
@@ -85,8 +85,7 @@ export default defineComponent({
 			limit: 10,
 			existMore: false,
 
-
-			faGrin, faTrashAlt
+			faUserFriends,
 		};
 	},
 
