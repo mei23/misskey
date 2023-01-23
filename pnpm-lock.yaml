@@ -15,6 +15,7 @@ specifiers:
   '@prezzemolo/rap': 0.1.2
   '@redocly/openapi-core': 1.0.0-beta.120
   '@swc/core': 1.3.27
+  '@types/animejs': 3.1.6
   '@types/bcryptjs': 2.4.2
   '@types/cheerio': 0.22.31
   '@types/double-ended-queue': 2.1.2
@@ -362,6 +363,7 @@ dependencies:
 
 devDependencies:
   '@redocly/openapi-core': 1.0.0-beta.120
+  '@types/animejs': 3.1.6
   '@types/bcryptjs': 2.4.2
   '@types/cheerio': 0.22.31
   '@types/double-ended-queue': 2.1.2
@@ -936,6 +938,10 @@ packages:
     resolution: {integrity: sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==}
     dependencies:
       '@types/node': 18.11.18
+
+  /@types/animejs/3.1.6:
+    resolution: {integrity: sha512-jYlEdbVTOOLBz1mauqhrigFUFAGde2KCdO/99asxHpF+5zOdz/VjNKbnpNa0oNBhsDNFzmMvvE+V4C8ZkvJdKg==}
+    dev: true
 
   /@types/bcryptjs/2.4.2:
     resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
