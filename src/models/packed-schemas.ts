@@ -215,6 +215,7 @@ type PackedBasicNotification = PackedNotificationBase & {
 
 type PackedNoteNotification = PackedNotificationBase & {
 	type: 'mention' | 'reply' | 'renote' | 'quote' | 'highlight' | 'poll_finished';
+	/** Note (mention/reply/renote/quoteの場合は相手のNote) */
 	note?: PackedNote | null;
 };
 
