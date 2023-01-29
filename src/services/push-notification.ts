@@ -67,22 +67,19 @@ export default async function(userId: mongo.ObjectID | string, type: string, bod
 
 function truncateNotification(notification: any): any {
 	if (notification.note) {
-		const truncated = {
+		return {
 			...notification,
 			note: {
 				...notification.note,
 				// textをgetNoteSummaryしたものに置き換える
 				text: getNoteSummary(notification.type === 'renote' ? notification.note.renote : notification.note).substring(0, 3000),
 				_truncated: true,
+				cw: undefined,
+				reply: undefined,
+				renote: undefined,
+				user: undefined as any, // 通知を受け取ったユーザーである場合が多いのでこれも捨てる
 			}
 		};
-
-		delete truncated.cw;
-		delete truncated.reply;
-		delete truncated.renote;
-		delete truncated.user; // 通知を受け取ったユーザーである場合が多いのでこれも捨てる
-
-		return truncated;
 	}
 
 	return notification;
