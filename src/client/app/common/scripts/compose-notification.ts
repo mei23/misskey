@@ -48,49 +48,49 @@ export default function(type, data): Notification {
 				case 'mention':
 					return {
 						title: `Mention from ${getUserName(notification.user)}`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'reply':
 					return {
 						title: `Reply from ${getUserName(notification.user)}`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'renote':
 					return {
 						title: `Renoted by ${getUserName(notification.user)}`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'quote':
 					return {
 						title: `Quoted by ${getUserName(notification.user)}`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'reaction':
 					return {
 						title: `${getReactionEmoji(notification.reaction)} from ${getUserName(notification.user)}`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'poll_vote':
 					return {
 						title: `Voted by ${getUserName(notification.user)}`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 
 				case 'poll_finished':
 					return {
 						title: `Poll finished`,
-						body: notification._truncated ? notification.note.text : getNoteSummary(notification.note),
+						body: notification._truncated ? notification.note?.text : getNoteSummary(notification.note),
 						icon: notification.user.avatarUrl
 					};
 

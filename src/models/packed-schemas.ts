@@ -199,16 +199,39 @@ export type V10Followers = {
 }
 //#endregion
 
-export type PackedNotification = {
+export type PackedNotification = PackedBasicNotification | PackedNoteNotification | PackedMessageNotification | PackedReactionNotification | PackedVoteNotification;
+
+type PackedNotificationBase = {
 	id: string;
 	createdAt: string;
 	isRead: boolean;
-	type: 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'poll_vote' | 'poll_finished' | 'receiveFollowRequest' | 'highlight' | 'unreadMessagingMessage';
 	user: ThinPackedUser;
 	userId: string;
+};
+
+type PackedBasicNotification = PackedNotificationBase & {
+	type: 'follow' | 'receiveFollowRequest';
+};
+
+type PackedNoteNotification = PackedNotificationBase & {
+	type: 'mention' | 'reply' | 'renote' | 'quote' | 'highlight' | 'poll_finished';
 	note?: PackedNote | null;
+};
+
+type PackedMessageNotification = PackedNotificationBase & {
+	type: 'unreadMessagingMessage';
 	message?: any | null;
+};
+
+type PackedReactionNotification = PackedNotificationBase & {
+	type: 'reaction';
+	note?: PackedNote | null;
 	reaction?: string | null;
+};
+
+type PackedVoteNotification = PackedNotificationBase & {
+	type: 'poll_vote';
+	note?: PackedNote | null;
 	choice?: number | null;
 };
 
