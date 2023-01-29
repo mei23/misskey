@@ -216,24 +216,24 @@ type PackedBasicNotification = PackedNotificationBase & {
 type PackedNoteNotification = PackedNotificationBase & {
 	type: 'mention' | 'reply' | 'renote' | 'quote' | 'highlight' | 'poll_finished';
 	/** Note (mention/reply/renote/quoteの場合は相手のNote) */
-	note?: PackedNote | null;
+	note: PackedNote | null;
 };
 
 type PackedMessageNotification = PackedNotificationBase & {
 	type: 'unreadMessagingMessage';
-	message?: any | null;
+	message: any | null;
 };
 
 type PackedReactionNotification = PackedNotificationBase & {
 	type: 'reaction';
-	note?: PackedNote | null;
-	reaction?: string | null;
+	note: PackedNote | null;
+	reaction: string | null;
 };
 
 type PackedVoteNotification = PackedNotificationBase & {
 	type: 'poll_vote';
-	note?: PackedNote | null;
-	choice?: number | null;
+	note: PackedNote | null;
+	choice: number | null;
 };
 
 export type packedInvitation = {
