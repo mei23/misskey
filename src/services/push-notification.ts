@@ -1,5 +1,6 @@
 import * as mongo from 'mongodb';
 import fetchMeta from '../misc/fetch-meta';
+import getNoteSummary from '../misc/get-note-summary';
 import Subscription from '../models/sw-subscription';
 import User, { getPushNotificationsValue, isLocalUser } from '../models/user';
 import { webpushDeliver } from '../queue';
@@ -37,6 +38,11 @@ export default async function(userId: mongo.ObjectID | string, type: string, bod
 		if (!enabled) return;
 	}
 
+	const payload = {
+		type,
+		body: truncateNotification(body)
+	};
+
 	// Fetch
 	const subscriptions = await Subscription.find({
 		userId: userId
@@ -51,14 +57,30 @@ export default async function(userId: mongo.ObjectID | string, type: string, bod
 			}
 		};
 
-		const payload = {
-			type, body
-		};
-
 		webpushDeliver({
 			swSubscriptionId: subscription._id,
 			pushSubscription,
 			payload: JSON.stringify(payload),
 		});
 	}
+}
+
+function truncateNotification(notification: any): any {
+	if (notification.note) {
+		return {
+			...notification,
+			note: {
+				...notification.note,
+				// textをgetNoteSummaryしたものに置き換える
+				text: getNoteSummary(notification.type === 'renote' ? notification.note.renote : notification.note).substring(0, 3000),
+				_truncated: true,
+				cw: undefined,
+				reply: undefined,
+				renote: undefined,
+				user: undefined as any, // 通知を受け取ったユーザーである場合が多いのでこれも捨てる
+			}
+		};
+	}
+
+	return notification;
 }
