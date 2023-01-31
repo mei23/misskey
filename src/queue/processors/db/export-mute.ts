@@ -45,6 +45,17 @@ export async function exportMute(job: Bull.Job<DbUserJobData>): Promise<string> 
 		muterId: user._id,
 	});
 
+	await new Promise<void>((res, rej) => {
+		stream.write(`Account address,Hide notifications\n`, err => {
+			if (err) {
+				logger.error(err);
+				rej(err);
+			} else {
+				res();
+			}
+		});
+	});
+
 	while (true) {
 		const mutes = await Mute.find({
 			expiresAt: null,
@@ -68,8 +79,8 @@ export async function exportMute(job: Bull.Job<DbUserJobData>): Promise<string> 
 			const u = await User.findOne({ _id: mute.muteeId }, { fields: { username: true, host: true } });
 			if (u == null) continue;	// DB blocken ?
 			const content = getFullApAccount(u.username, u.host);
-			await new Promise((res, rej) => {
-				stream.write(content + '\n', err => {
+			await new Promise<void>((res, rej) => {
+				stream.write(`${content},${!mute.allowNotification}\n`, err => {
 					if (err) {
 						logger.error(err);
 						rej(err);
