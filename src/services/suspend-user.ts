@@ -9,6 +9,7 @@ import rejectFollowing from '../services/following/requests/reject';
 import FollowRequest from '../models/follow-request';
 import Notification from '../models/notification';
 import NoteReaction from '../models/note-reaction';
+import UserList from '../models/user-list';
 
 export async function doPostSuspend(user: IUser) {
 	await unFollowAll(user).catch(() => {});
@@ -28,6 +29,13 @@ export async function doPostSuspend(user: IUser) {
 
 	await NoteReaction.remove({
 		userId: user._id
+	}).catch(() => {});
+
+	// 入れられたリストから削除
+	await UserList.update({ userIds: user._id }, {
+		$pull: {
+			userIds: user._id
+		}
 	}).catch(() => {});
 }
 

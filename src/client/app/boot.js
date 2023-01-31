@@ -46,6 +46,8 @@
 	// Script version
 	const ver = localStorage.getItem('v') || VERSION;
 
+	const env = ENV;
+
 	//#region Detect the user language
 	let lang = null;
 
@@ -148,7 +150,7 @@
 
 			refresh();
 		}
-	}, 3000);
+	}, ENV === 'production' ? 3000 : 1000);
 
 	function refresh() {
 		localStorage.setItem('shouldFlush', 'false');

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   redistest:
-    image: redis:4.0-alpine
+    image: redis:6.2-alpine
     ports:
       - "127.0.0.1:56310:6379"
 

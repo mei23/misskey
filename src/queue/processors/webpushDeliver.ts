@@ -37,7 +37,7 @@ export default async (job: Bull.Job<WebpushDeliverJobData>): Promise<string> => 
 				});
 			}
 
-			const msg = `${err.statusCode} ${job.data.pushSubscription.endpoint}`;
+			const msg = `${err.statusCode} ${job.data.pushSubscription.endpoint} ${job.data.payload.length}`;
 
 			// 4xx => no retry, other => retry
 			if (err.statusCode >= 400 && err.statusCode <= 499) {

@@ -4,6 +4,7 @@ import Notification from '../models/notification';
 import FollowRequest from '../models/follow-request';
 import Following from '../models/following';
 import NoteReaction from '../models/note-reaction';
+import UserList from '../models/user-list';
 
 async function main() {
 	const users = await User.find({
@@ -64,6 +65,12 @@ async function main() {
 
 		console.log(`  reactions:${reactions.deletedCount}`);
 
+		const listed = await UserList.update({ userIds: user._id }, {
+			$pull: {
+				userIds: user._id
+			}
+		});
+		console.log(`  listed:${listed.nModified}`);
 	}
 }
 
