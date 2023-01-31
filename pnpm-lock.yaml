@@ -70,7 +70,7 @@ specifiers:
   autobind-decorator: 2.4.0
   autosize: 4.0.2
   autwh: 0.1.0
-  aws-sdk: 2.1294.0
+  aws-sdk: 2.1306.0
   bcryptjs: 2.4.3
   bootstrap: 4.6.2
   bootstrap-vue: 2.23.1
@@ -225,7 +225,7 @@ dependencies:
   autobind-decorator: 2.4.0
   autosize: 4.0.2
   autwh: 0.1.0
-  aws-sdk: 2.1294.0
+  aws-sdk: 2.1306.0
   bcryptjs: 2.4.3
   bootstrap: 4.6.2
   bootstrap-vue: 2.23.1_vue@2.7.14
@@ -2080,8 +2080,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
-  /aws-sdk/2.1294.0:
-    resolution: {integrity: sha512-/n/xbae0efRA/wpaMyF/0Jip8V0MMPEFicreDHRmiy/4iUrsqMvHdeaO8OW0kUYKHyUClKsc36Fu4GyhONKISw==}
+  /aws-sdk/2.1306.0:
+    resolution: {integrity: sha512-t3M04Nx+uHVYcRGZXoI0Dr24I722oslwkwGT/gFPR2+Aub5dQ88+BetCPBvg24sZDg2RNWNxepYk5YHuKV5Hrg==}
     engines: {node: '>= 10.0.0'}
     dependencies:
       buffer: 4.9.2
