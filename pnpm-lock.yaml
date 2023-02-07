@@ -184,7 +184,6 @@ specifiers:
   twemoji-parser: git+https://github.com/mei23/twemoji-parser.git#15.0.1
   typescript: 4.9.5
   uuid: 9.0.0
-  v-animate-css: 0.0.5
   v-debounce: 0.1.2
   vue: 2.7.14
   vue-color: 2.8.1
@@ -335,7 +334,6 @@ dependencies:
   twemoji-parser: github.com/mei23/twemoji-parser/75831bfddb415cefc1e89ac5232e883daf91a624
   typescript: 4.9.5
   uuid: 9.0.0
-  v-animate-css: 0.0.5
   v-debounce: 0.1.2
   vue: 2.7.14
   vue-color: 2.8.1
@@ -8545,10 +8543,6 @@ packages:
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
 
-  /scrollmonitor/1.2.11:
-    resolution: {integrity: sha512-M2BKxme/eYq6mEIWUvILdyKI6kv8m3c787WUFNKqZdtyBcvSn/VKI9c9owuNGq84tcjg5inCCmpRIEQN17b8ag==}
-    dev: false
-
   /seedrandom/2.4.2:
     resolution: {integrity: sha512-uQ72txMoObtuJooiBLSVs5Yu2e9d/lHQz0boaqHjW8runXB9vR8nFtaZV54wYii613N0C8ZqTBLsfwDhAdpvqQ==}
     dev: false
@@ -9768,12 +9762,6 @@ packages:
   /uuid/9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
-    dev: false
-
-  /v-animate-css/0.0.5:
-    resolution: {integrity: sha512-FML26yVYX3hCTWTKioTNAIXjaWIFWa1mSczb92cLkMYI9QI6uRacKx7QnBNB17IOFLFEv8mc14aawe2In/ba1w==}
-    dependencies:
-      scrollmonitor: 1.2.11
     dev: false
 
   /v-debounce/0.1.2:
