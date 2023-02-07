@@ -32,6 +32,19 @@ const env = process.env.NODE_ENV;
 const staticAssets = `${__dirname}/../../../assets/`;
 const client = `${__dirname}/../../client/`;
 
+export const csp
+	= `base-uri 'none'; `
+	+ `default-src 'none'; `
+	+ `script-src 'self'; `
+	+ `img-src 'self' https: data: blob:; `
+	+ `media-src 'self' https:; `
+	+ `style-src 'self' 'unsafe-inline'; `
+	+ `font-src 'self'; `
+	+ `frame-src 'self' https:; `
+	+ `manifest-src 'self'; `
+	+ `connect-src 'self' data: blob: https: wss:; `	// wss制限
+	+ `frame-ancestors 'none'`;
+
 // Init app
 const app = new Koa();
 
@@ -118,6 +131,7 @@ router.get('/api-doc', async ctx => {
 	await send(ctx as any, '/assets/redoc.html', {
 		root: client
 	});
+	ctx.set('Content-Security-Policy', csp);
 });
 
 // URL preview endpoint
@@ -190,6 +204,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			: [];
 
 		await ctx.render('user', {
+			version: config.version,
 			initialMeta: htmlescape(builded),
 			user,
 			me,
@@ -201,6 +216,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			noindex: user.host || user.avoidSearchIndex,
 		});
 		ctx.set('Cache-Control', 'public, max-age=60');
+		ctx.set('Content-Security-Policy', csp);
 	}
 });
 
@@ -282,6 +298,7 @@ router.get('/notes/:note', async (ctx, next) => {
 	const height = 255;
 
 	await ctx.render('note', {
+		version: config.version,
 		initialMeta: htmlescape(builded),
 		note: _note,
 		summary: getNoteSummary(_note),
@@ -295,7 +312,7 @@ router.get('/notes/:note', async (ctx, next) => {
 	});
 
 	ctx.set('Cache-Control', 'public, max-age=180');
-
+	ctx.set('Content-Security-Policy', csp);
 
 	return;
 });
@@ -358,6 +375,7 @@ router.get('/@:user/pages/:page', async ctx => {
 		const meta = await fetchMeta();
 		const builded = await buildMeta(meta, false);
 		await ctx.render('page', {
+			version: config.version,
 			initialMeta: htmlescape(builded),
 			page: _page,
 			instanceName: meta.name || 'Misskey',
@@ -371,6 +389,8 @@ router.get('/@:user/pages/:page', async ctx => {
 		} else {
 			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 		}
+
+		ctx.set('Content-Security-Policy', csp);
 
 		return;
 	}
@@ -438,6 +458,7 @@ router.get('*', async ctx => {
 	const noindex = ctx.path.match(/^[/](search|tags[/]|explore|featured)/);
 
 	await ctx.render('base', {
+		version: config.version,
 		initialMeta: htmlescape(builded),
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
@@ -450,6 +471,7 @@ router.get('*', async ctx => {
 	});
 
 	ctx.set('Cache-Control', 'public, max-age=60');
+	ctx.set('Content-Security-Policy', csp);
 });
 
 // Register router

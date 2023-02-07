@@ -14,6 +14,7 @@ import config from '../../config';
 import { copyright } from '../../const.json';
 import * as locales from '../../../locales';
 import * as nestedProperty from 'nested-property';
+import { csp } from '.';
 
 function getLang(lang: string): string {
 	if (['en-US', 'ja-JP'].includes(lang)) {
@@ -99,6 +100,7 @@ router.get('/*/*', async ctx => {
 	}, await genVars(lang)));
 
 	ctx.set('Cache-Control', 'public, max-age=300');
+	ctx.set('Content-Security-Policy', csp);
 });
 
 export default router;
