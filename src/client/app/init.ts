@@ -298,7 +298,7 @@ library.add(
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
-Vue.use(VAnimateCss);
+Vue.use(VAnimateCss, { animateCSSPath: '/assets/animate.min.css?3.5.1' });
 Vue.use(VModal);
 Vue.use(VueHotkey);
 Vue.use(VueSize);
