@@ -80,7 +80,7 @@ router.get('/static-assets/*', async ctx => {
 router.get('/assets/*', async ctx => {
 	await send(ctx as any, ctx.path, {
 		root: client,
-		maxage: ms('7 days'),
+		maxage: ctx.path === 'boot.js' ? ms('5m') : ms('7 days'),
 	});
 });
 
