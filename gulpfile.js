@@ -62,7 +62,7 @@ gulp.task('cleanall', gulp.parallel('clean', cb =>
 gulp.task('build:client:script', () => {
 	// eslint-disable-next-line node/no-unpublished-require
 	const client = require('./built/meta.json');
-	return gulp.src(['./src/client/app/boot.js', './src/client/app/safe.js'])
+	return gulp.src(['./src/client/app/boot.js'])
 		.pipe(replace('VERSION', JSON.stringify(client.version)))
 		.pipe(replace('ENV', JSON.stringify(env)))
 		.pipe(replace('LANGS', JSON.stringify(Object.keys(locales))))
