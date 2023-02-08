@@ -14,7 +14,6 @@ import config from '../../config';
 import { copyright } from '../../const.json';
 import * as locales from '../../../locales';
 import * as nestedProperty from 'nested-property';
-import { csp } from '.';
 
 function getLang(lang: string): string {
 	if (['en-US', 'ja-JP'].includes(lang)) {
