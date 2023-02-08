@@ -63,6 +63,7 @@ app.use(favicon(`${client}/assets/favicon.ico`));
 app.use(async (ctx, next) => {
 	// IFrameの中に入れられないようにする
 	ctx.set('X-Frame-Options', 'DENY');
+	ctx.set('Content-Security-Policy', csp);
 	await next();
 });
 
@@ -131,7 +132,6 @@ router.get('/api-doc', async ctx => {
 	await send(ctx as any, '/assets/redoc.html', {
 		root: client
 	});
-	ctx.set('Content-Security-Policy', csp);
 });
 
 // URL preview endpoint
@@ -216,7 +216,6 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 			noindex: user.host || user.avoidSearchIndex,
 		});
 		ctx.set('Cache-Control', 'public, max-age=60');
-		ctx.set('Content-Security-Policy', csp);
 	}
 });
 
@@ -312,7 +311,6 @@ router.get('/notes/:note', async (ctx, next) => {
 	});
 
 	ctx.set('Cache-Control', 'public, max-age=180');
-	ctx.set('Content-Security-Policy', csp);
 
 	return;
 });
@@ -389,8 +387,6 @@ router.get('/@:user/pages/:page', async ctx => {
 		} else {
 			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
 		}
-
-		ctx.set('Content-Security-Policy', csp);
 
 		return;
 	}
@@ -471,7 +467,6 @@ router.get('*', async ctx => {
 	});
 
 	ctx.set('Cache-Control', 'public, max-age=60');
-	ctx.set('Content-Security-Policy', csp);
 });
 
 // Register router

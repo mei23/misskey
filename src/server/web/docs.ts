@@ -100,7 +100,6 @@ router.get('/*/*', async ctx => {
 	}, await genVars(lang)));
 
 	ctx.set('Cache-Control', 'public, max-age=300');
-	ctx.set('Content-Security-Policy', csp);
 });
 
 export default router;
