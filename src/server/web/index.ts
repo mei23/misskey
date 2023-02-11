@@ -38,7 +38,7 @@ export function genCsp() {
 	const csp
 	= `base-uri 'none'; `
 	+ `default-src 'none'; `
-	+ `script-src 'nonce-${nonce}' 'strict-dynamic' https:; `
+	+ `script-src 'nonce-${nonce}' 'strict-dynamic' https:; `	// CSP3対応ブラウザはhttps:を無視する
 	+ `img-src 'self' https: data: blob:; `
 	+ `media-src 'self' https:; `
 	+ `style-src 'self' 'unsafe-inline'; `
