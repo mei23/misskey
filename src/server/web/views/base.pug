@@ -34,7 +34,7 @@ html
 		style
 			include ./../../../../built/client/assets/init.css
 
-		script(src=`/assets/boot.js?${version}`)
+		script(src=`/assets/boot.js?${version}` nonce=nonce)
 
 		script(type='application/json' id='initial-meta').
 			!{initialMeta}

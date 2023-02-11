@@ -14,6 +14,7 @@ import config from '../../config';
 import { copyright } from '../../const.json';
 import * as locales from '../../../locales';
 import * as nestedProperty from 'nested-property';
+import { genCsp } from '.';
 
 function getLang(lang: string): string {
 	if (['en-US', 'ja-JP'].includes(lang)) {
@@ -91,14 +92,18 @@ router.get('/*/*', async ctx => {
 	});
 	const md = await fs.promises.readFile(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
+	const { csp, nonce } = genCsp();
+
 	await ctx.render('docs-article', Object.assign({
 		id: doc,
 		html: conv.makeHtml(md),
 		title: md.match(/^# (.+?)\r?\n/)[1],
-		version: config.version
+		version: config.version,
+		nonce,
 	}, await genVars(lang)));
 
-	ctx.set('Cache-Control', 'public, max-age=300');
+	ctx.set('Content-Security-Policy', csp);
+	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 });
 
 export default router;
