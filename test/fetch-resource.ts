@@ -133,18 +133,21 @@ describe('Fetch resource', () => {
 			const res = await simpleGet('/');
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 
 		it('GET docs', async(async () => {
 			const res = await simpleGet('/docs/ja-JP/about');
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 
 		it('GET api-doc', async(async () => {
 			const res = await simpleGet('/api-doc');
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 
 		it('GET api.json', async(async () => {
@@ -166,6 +169,31 @@ describe('Fetch resource', () => {
 
 			assert.strictEqual(result.problems.length, 0);
 		}));
+
+		it('GET info', async(async () => {
+			const res = await simpleGet('/info');
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
+		}));
+
+		it('GET flush', async(async () => {
+			const res = await simpleGet('/flush');
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
+		}));
+
+		it('GET embed', (async () => {
+			const res = await simpleGet(`/notes/${alicesPostVideo.id}/embed`);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
+		}));
+
+		// TODO
+		//router.get('/@:user/pages/:page', async ctx => {
+		// TODO file
 	});
 
 	describe('/@:username', () => {
@@ -185,12 +213,14 @@ describe('Fetch resource', () => {
 			const res = await simpleGet(`/@${alice.username}`, PREFER_HTML);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 
 		it('Unspecified => HTML', async(async () => {
 			const res = await simpleGet(`/@${alice.username}`, UNSPECIFIED);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 	});
 
@@ -237,12 +267,14 @@ describe('Fetch resource', () => {
 			const res = await simpleGet(`/notes/${alicesPost.id}`, PREFER_HTML);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 
 		it('Unspecified => HTML', async(async () => {
 			const res = await simpleGet(`/notes/${alicesPost.id}`, UNSPECIFIED);
 			assert.strictEqual(res.status, 200);
 			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`);
 		}));
 	});
 

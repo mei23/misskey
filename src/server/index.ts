@@ -60,6 +60,8 @@ if (config.url.startsWith('https') && !config.disableHsts) {
 
 app.use(async (ctx, next) => {
 	ctx.set('X-Content-Type-Options', 'nosniff');
+	ctx.set('X-Frame-Options', 'DENY');
+	ctx.set('Content-Security-Policy', `default-src 'none'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'`);
 	await next();
 });
 

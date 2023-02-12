@@ -66,13 +66,6 @@ app.use(views(__dirname + '/views', {
 // Serve favicon
 app.use(favicon(`${client}/assets/favicon.ico`));
 
-// Common request handler
-app.use(async (ctx, next) => {
-	// IFrameの中に入れられないようにする
-	ctx.set('X-Frame-Options', 'DENY');
-	await next();
-});
-
 // Init router
 const router = new Router();
 
