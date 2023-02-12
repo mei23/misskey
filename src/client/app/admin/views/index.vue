@@ -31,7 +31,7 @@
 			<li><router-link to="/moderators" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faHeadset" fixed-width/>{{ $t('moderators') }}</router-link></li>
 			<li><router-link to="/users" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="users" fixed-width/>{{ $t('users') }}</router-link></li>
 			<li><router-link to="/drive" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa icon="cloud" fixed-width/>{{ $t('@.drive') }}</router-link></li>
-			<li><router-link to="/federation" active-class="active"><fa :icon="faGlobe" fixed-width/>{{ $t('federation') }}</router-link></li>
+			<li><router-link to="/federation" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faGlobe" fixed-width/>{{ $t('federation') }}</router-link></li>
 			<li><router-link to="/relays" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faProjectDiagram" fixed-width/>{{ $t('relays') }}</router-link></li>
 			<li><router-link to="/emoji" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faGrin" fixed-width/>{{ $t('emoji') }}</router-link></li>
 			<li><router-link to="/invitations" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faUserFriends" fixed-width/>{{ $t('invitations') }}</router-link></li>

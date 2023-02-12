@@ -1,11 +1,12 @@
 import $ from 'cafy';
-import define from '../../define';
-import Instance from '../../../../models/instance';
+import define from '../../../define';
+import Instance from '../../../../../models/instance';
 
 export const meta = {
 	tags: ['federation'],
 
-	requireCredential: false,
+	requireCredential: true,
+	requireModerator: true,
 
 	params: {
 		host: {

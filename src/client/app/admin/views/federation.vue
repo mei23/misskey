@@ -81,7 +81,7 @@
 						<span>{{ $t('maintainerEmail') }}</span>
 					</ui-input>
 				</ui-horizon-group>
-				<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('block') }}</ui-switch>
+				<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('ignore') }}</ui-switch>
 				<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('marked-as-closed') }}</ui-switch>
 				<details :open="true">
 					<summary>{{ $t('charts') }}</summary>
@@ -106,11 +106,13 @@
 					</ui-horizon-group>
 					<div ref="chart"></div>
 				</details>
+				<!--
 				<details v-if="$store.getters.isAdminOrModerator">
 					<summary>{{ $t('remove-all-following') }}</summary>
 					<ui-button @click="removeAllFollowing()" style="margin-top: 16px;"><fa :icon="faMinusCircle"/> {{ $t('remove-all-following') }}</ui-button>
 					<ui-info warn>{{ $t('remove-all-following-info', { host: instance.host }) }}</ui-info>
 				</details>
+				-->
 			</div>
 		</section>
 	</ui-card>
@@ -141,7 +143,7 @@
 				<ui-select v-model="state">
 					<template #label>{{ $t('state') }}</template>
 					<option value="all">{{ $t('states.all') }}</option>
-					<option value="blocked">{{ $t('states.blocked') }}</option>
+					<option value="blocked">{{ $t('states.ignored') }}</option>
 					<option value="notResponding">{{ $t('states.not-responding') }}</option>
 					<option value="markedAsClosed">{{ $t('states.marked-as-closed') }}</option>
 				</ui-select>
@@ -189,7 +191,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue, { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../i18n';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import { faGlobe, faTerminal, faSearch, faMinusCircle, faServer, faCrosshairs, faEnvelopeOpenText, faUsers, faCaretDown, faCaretUp, faTrafficLight, faInbox } from '@fortawesome/free-solid-svg-icons';
@@ -201,7 +203,7 @@ const chartLimit = 90;
 const sum = (...arr) => arr.reduce((r, a) => r.map((b, i) => a[i] + b));
 const negate = arr => arr.map(x => -x);
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n('admin/views/federation.vue'),
 
 	filters: {
@@ -210,20 +212,22 @@ export default Vue.extend({
 
 	data() {
 		return {
-			instance: null,
-			target: null,
+			$root: getCurrentInstance() as any,
+			instance: null as Record<string, any> | null,
+			target: null as any,
 			sort: '+lastCommunicatedAt',
 			state: 'all',
 			softwareName: '',
 			softwareVersion: '',
 			cc: '',
 			limit: 200,
-			instances: [],
-			chart: null,
+			instances: [] as Record<string, any>[],
+			chart: null as Record<string, any> | null,
 			chartSrc: 'requests',
 			chartSpan: 'day',
-			chartInstance: null,
+			chartInstance: null as any,
 			urlQuery,
+			now: null as Date | null,
 			faGlobe, faTerminal, faSearch, faMinusCircle, faServer, faCrosshairs, faEnvelopeOpenText, faUsers, faCaretDown, faCaretUp, faPaperPlane, faTrafficLight, faInbox
 		};
 	},
@@ -246,10 +250,10 @@ export default Vue.extend({
 			}
 		},
 
-		stats(): any[] {
+		stats(): any {
 			const stats =
-				this.chartSpan == 'day' ? this.chart.perDay :
-				this.chartSpan == 'hour' ? this.chart.perHour :
+				this.chartSpan == 'day' ? this.chart?.perDay :
+				this.chartSpan == 'hour' ? this.chart?.perHour :
 				null;
 
 			return stats;
@@ -266,6 +270,7 @@ export default Vue.extend({
 		},
 
 		async instance() {
+			if (!this.instance) return;
 			this.now = new Date();
 
 			const [perHour, perDay] = await Promise.all([
@@ -302,9 +307,9 @@ export default Vue.extend({
 
 	methods: {
 		showInstance(target?: string) {
-			this.$root.api('federation/show-instance', {
+			this.$root.api('admin/federation/show-instance', {
 				host: target || this.target
-			}).then(instance => {
+			}).then((instance: any) => {
 				if (instance == null) {
 					this.$root.dialog({
 						type: 'error',
@@ -319,7 +324,7 @@ export default Vue.extend({
 
 		fetchInstances() {
 			this.instances = [];
-			this.$root.api('federation/instances', {
+			this.$root.api('admin/federation/instances', {
 				softwareName: this.softwareName,
 				softwareVersion: this.softwareVersion,
 				cc: this.cc,
@@ -328,12 +333,13 @@ export default Vue.extend({
 				markedAsClosed: this.state === 'markedAsClosed' ? true : null,
 				sort: this.sort,
 				limit: this.limit
-			}).then(instances => {
+			}).then((instances: any) => {
 				this.instances = instances;
 			});
 		},
 
 		removeAllFollowing() {
+			if (!this.instance) return;
 			this.$root.api('admin/federation/remove-all-following', {
 				host: this.instance.host
 			}).then(() => {
@@ -345,6 +351,7 @@ export default Vue.extend({
 		},
 
 		updateInstance() {
+			if (!this.instance) return;
 			this.$root.api('admin/federation/update-instance', {
 				host: this.instance.host,
 				isBlocked: this.instance.isBlocked || false,

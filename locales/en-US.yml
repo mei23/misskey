@@ -1694,7 +1694,7 @@ admin/views/federation.vue:
   latest-request-received-at: "Last request received at"
   remove-all-following: "Withold all followers"
   remove-all-following-info: "Unfollow all accounts from {host}. Please run this if the instance no longer exists."
-  block: "Block"
+  ignore: "Ignore"
   marked-as-closed: "Marked as closed"
   lookup: "Look up"
   instances: "Federated"
@@ -1720,7 +1720,7 @@ admin/views/federation.vue:
   state: "Sort"
   states:
     all: "All"
-    blocked: "Blocked"
+    ignored: "Ignored"
     not-responding: "Without response"
     marked-as-closed: "Marked as closed"
   result-is-truncated: "Displaying the top {n} items."

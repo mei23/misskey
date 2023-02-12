@@ -1,12 +1,13 @@
 import $ from 'cafy';
-import define from '../../define';
-import Instance from '../../../../models/instance';
+import define from '../../../define';
+import Instance from '../../../../../models/instance';
 import * as escapeRegexp from 'escape-regexp';
 
 export const meta = {
 	tags: ['federation'],
 
-	requireCredential: false,
+	requireCredential: true,
+	requireModerator: true,
 
 	params: {
 		blocked: {
