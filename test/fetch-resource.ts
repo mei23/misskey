@@ -14,6 +14,8 @@ import * as assert from 'assert';
 import * as childProcess from 'child_process';
 import { async, startServer, signup, post, api, simpleGet, port, shutdownServer, getDocument, uploadFile } from './utils';
 import * as openapi from '@redocly/openapi-core';
+import rndstr from 'rndstr';
+import { randomUUID } from 'crypto';
 
 const db = require('../built/db/mongodb').default;
 
@@ -44,6 +46,7 @@ describe('Fetch resource', () => {
 	let alicesPostImage: any;
 	let video: any;
 	let alicesPostVideo: any;
+	let page: any;
 
 	before(async () => {
 		p = await startServer();
@@ -98,7 +101,7 @@ describe('Fetch resource', () => {
 
 		// upload image
 		image = await uploadFile(alice);
-		console.log('image', image);
+		//console.log('image', image);
 
 		// post image
 		alicesPostImage = await post(alice, {
@@ -117,6 +120,21 @@ describe('Fetch resource', () => {
 			fileIds: [ video.id ],
 		});
 		//console.log('alicesPostVideo', alicesPostVideo);
+
+		const pageRes = await api('pages/create', {
+			title: '',
+			name: rndstr(),
+			summary: null,
+			font: 'sans-serif',
+			hideTitleWhenPinned: false,
+			sensitive: false,
+			alignCenter: false,
+			content:[{id:randomUUID(),type:'text',text:'Hello World!'}],
+			variables: [],
+			eyeCatchingImageId :null,
+		}, alice);
+		page = pageRes.body;
+		//console.log('page', page);
 	});
 
 	after(async () => {
@@ -186,6 +204,13 @@ describe('Fetch resource', () => {
 			assert.strictEqual(res.cspx, CSP_STRICT);
 		}));
 
+		it('GET page', (async () => {
+			const res = await simpleGet(`/@alice/pages/${page.name}`);
+			assert.strictEqual(res.status, 200);
+			assert.strictEqual(res.type, HTML);
+			assert.strictEqual(res.cspx, CSP_STRICT);
+		}));
+
 		it('GET embed', (async () => {
 			const res = await simpleGet(`/notes/${alicesPostVideo.id}/embed`);
 			assert.strictEqual(res.status, 200);
@@ -199,9 +224,6 @@ describe('Fetch resource', () => {
 			assert.strictEqual(res.type, 'image/jpeg');
 			assert.strictEqual(res.cspx, `default-src 'none'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'`);
 		}));
-
-		// TODO
-		//router.get('/@:user/pages/:page', async ctx => {
 	});
 
 	describe('/@:username', () => {
