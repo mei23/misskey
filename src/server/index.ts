@@ -58,10 +58,11 @@ if (config.url.startsWith('https') && !config.disableHsts) {
 	});
 }
 
+// Default Security Headers (各ルートで上書き可)
 app.use(async (ctx, next) => {
 	ctx.set('X-Content-Type-Options', 'nosniff');
 	ctx.set('X-Frame-Options', 'DENY');
-	ctx.set('Content-Security-Policy', `default-src 'none'; img-src 'self'; media-src 'self'; style-src 'unsafe-inline'`);
+	ctx.set('Content-Security-Policy', `default-src 'none'`);
 	await next();
 });
 
