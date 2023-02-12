@@ -83,6 +83,7 @@
 				</ui-horizon-group>
 				<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('ignore') }}</ui-switch>
 				<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('marked-as-closed') }}</ui-switch>
+				<ui-info>{{ $t('flag-info') }}</ui-info>
 				<details :open="true">
 					<summary>{{ $t('charts') }}</summary>
 					<ui-horizon-group inputs>
