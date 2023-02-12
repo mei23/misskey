@@ -129,7 +129,7 @@ describe('Fetch resource', () => {
 			hideTitleWhenPinned: false,
 			sensitive: false,
 			alignCenter: false,
-			content:[{id:randomUUID(),type:'text',text:'Hello World!'}],
+			content: [ { id: randomUUID(), type: 'text', text: 'Hello World!' } ],
 			variables: [],
 			eyeCatchingImageId :null,
 		}, alice);
