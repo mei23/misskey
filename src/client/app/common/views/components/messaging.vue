@@ -87,7 +87,7 @@ export default Vue.extend({
 		this.connection.on('read', this.onRead);
 
 		this.$root.api('messaging/history').then(messages => {
-			this.messages = messages;
+			this.messages = messages.filter(m => m.user.host == null && m.recipient.host == null);
 			this.fetching = false;
 		});
 	},
@@ -119,7 +119,7 @@ export default Vue.extend({
 			}
 			this.$root.api('users/search', {
 				query: this.q,
-				localOnly: false,
+				localOnly: true,
 				limit: 10,
 				detail: false
 			}).then(users => {

@@ -26,8 +26,8 @@ export default Vue.extend({
 			}
 		}] as any;
 
-		// ログインユーザー
-		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
+		// ローカルユーザー
+		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id && this.user.host == null) {
 			menu = menu.concat([
 				{
 					icon: 'comments',
@@ -35,6 +35,12 @@ export default Vue.extend({
 					action: this.startTalk
 				},
 				null,
+			]);
+		}
+
+		// ログインユーザー
+		if (this.$store.getters.isSignedIn && this.$store.state.i.id != this.user.id) {
+			menu = menu.concat([
 				{
 					icon: faUserTag,
 					text: this.$t('@.addUsertag'),
