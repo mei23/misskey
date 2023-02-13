@@ -6,6 +6,7 @@ import define from '../../../define';
 import { ApiError } from '../../../error';
 import { getUser } from '../../../common/getters';
 import { createMessage } from '../../../../../services/messages/create';
+import { isRemoteUser, IUser } from '../../../../../models/user';
 
 export const meta = {
 	desc: {
@@ -56,6 +57,12 @@ export const meta = {
 			id: '11795c64-40ea-4198-b06e-3c873ed9039d'
 		},
 
+		remoteNotSupported: {
+			message: 'Remote not supported.',
+			code: 'REMOTE_NOT_SUPPORTED',
+			id: '02a6703e-fa13-449b-b792-5512ccc0ece0'
+		},
+
 		noSuchFile: {
 			message: 'No such file.',
 			code: 'NO_SUCH_FILE',
@@ -82,7 +89,11 @@ export default define(meta, async (ps, user) => {
 		throw e;
 	});
 
-	// TODO: check remote
+	// Remote
+	if (isRemoteUser(recipient)) {
+		throw new ApiError(meta.errors.remoteNotSupported);
+	}
+
 
 	let file = null;
 	if (ps.fileId != null) {
