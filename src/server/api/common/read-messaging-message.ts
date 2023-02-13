@@ -1,16 +1,11 @@
 import * as mongo from 'mongodb';
 import isObjectId from '../../../misc/is-objectid';
-import Message, { IMessagingMessage } from '../../../models/messaging-message';
+import Message from '../../../models/messaging-message';
 import { IMessagingMessage as IMessage } from '../../../models/messaging-message';
 import { publishMainStream } from '../../../services/stream';
 import { publishMessagingStream } from '../../../services/stream';
 import { publishMessagingIndexStream } from '../../../services/stream';
-import User, { ILocalUser, IRemoteUser } from '../../../models/user';
-import { renderActivity } from '../../../remote/activitypub/renderer';
-import { renderReadActivity } from '../../../remote/activitypub/renderer/read';
-import { deliver } from '../../../queue';
-import { toArray } from '../../../prelude/array';
-import orderedCollection from '../../../remote/activitypub/renderer/ordered-collection';
+import User from '../../../models/user';
 
 /**
  * Mark messages as read
@@ -91,17 +86,3 @@ export default async (
 
 	return toRead;
 };
-
-export async function deliverReadActivity(user: ILocalUser, recipient: IRemoteUser, messages: IMessagingMessage | IMessagingMessage[]) {
-	messages = toArray(messages).filter(x => x.uri);
-	const contents = messages.map(x => renderReadActivity(user, x));
-
-	if (contents.length > 1) {
-		const collection = orderedCollection(null, contents.length, undefined, undefined, contents);
-		deliver(user, renderActivity(collection), recipient.inbox);
-	} else {
-		for (const content of contents) {
-			deliver(user, renderActivity(content), recipient.inbox);
-		}
-	}
-}

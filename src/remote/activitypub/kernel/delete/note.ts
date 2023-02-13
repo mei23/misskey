@@ -3,7 +3,6 @@ import deleteNode from '../../../../services/note/delete';
 import { apLogger } from '../../logger';
 import { getApLock } from '../../../../misc/app-lock';
 import DbResolver from '../../db-resolver';
-import { deleteMessage } from '../../../../services/messages/delete';
 
 const logger = apLogger;
 
@@ -17,16 +16,7 @@ export default async function(actor: IRemoteUser, uri: string): Promise<string> 
 		const note = await dbResolver.getNoteFromApId(uri);
 
 		if (note == null) {
-			const message = await dbResolver.getMessageFromApId(uri);
-			if (message == null) return 'message not found';
-
-			if (!message.userId.equals(actor._id)) {
-				return '投稿を削除しようとしているユーザーは投稿の作成者ではありません';
-			}
-
-			await deleteMessage(message);
-
-			return 'ok: message deleted';
+			return 'skip: note not found';
 		}
 
 		if (!note.userId.equals(actor._id)) {

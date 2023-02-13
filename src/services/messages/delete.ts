@@ -1,12 +1,6 @@
-import config from '../../config';
-import User, { isLocalUser, isRemoteUser } from '../../models/user';
+import User, { isLocalUser } from '../../models/user';
 import MessagingMessage, { IMessagingMessage } from '../../models/messaging-message';
 import { publishMessagingStream } from '../stream';
-import { renderActivity } from '../../remote/activitypub/renderer';
-import renderDelete from '../../remote/activitypub/renderer/delete';
-import renderTombstone from '../../remote/activitypub/renderer/tombstone';
-import { deliver } from '../../queue';
-import { deleteUnusedFile } from '../drive/delete-unused-file';
 import DriveFile from '../../models/drive-file';
 
 export async function deleteMessage(message: IMessagingMessage) {
@@ -34,15 +28,5 @@ async function postDeleteMessage(message: IMessagingMessage) {
 				'metadata.attachedMessageIds': message._id
 			}
 		});
-
-		// リモートユーザーの場合はもう参照されてないファイルか確認
-		if (isRemoteUser(user)) {
-			deleteUnusedFile(message.fileId);
-		}
-	}
-
-	if (isLocalUser(user) && isRemoteUser(recipient)) {
-		const activity = renderActivity(renderDelete(renderTombstone(`${config.url}/notes/${message._id}`), user, `${config.url}/notes/${message._id}/delete`));
-		deliver(user, activity, recipient.inbox);
 	}
 }

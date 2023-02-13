@@ -1,13 +1,8 @@
-import User, { IUser, isRemoteUser, isLocalUser, getMute, getBlocks } from '../../models/user';
+import User, { IUser, isLocalUser, getMute, getBlocks } from '../../models/user';
 import DriveFile, { IDriveFile } from '../../models/drive-file';
 import { publishMessagingStream, publishMessagingIndexStream, publishMainStream } from '../stream';
 import MessagingMessage, { pack as packMessage } from '../../models/messaging-message';
 import pushNotification from '../push-notification';
-import { INote } from '../../models/note';
-import renderNote from '../../remote/activitypub/renderer/note';
-import renderCreate from '../../remote/activitypub/renderer/create';
-import { renderActivity } from '../../remote/activitypub/renderer';
-import { deliver } from '../../queue';
 import { createNotification } from '../create-notification';
 
 export async function createMessage(user: IUser, recipient: IUser, text: string | null, file: IDriveFile | undefined, uri?: string) {
@@ -69,27 +64,6 @@ export async function createMessage(user: IUser, recipient: IUser, text: string 
 				createNotification(message.recipientId, message.userId, 'unreadMessagingMessage', { messageId: freshMessage._id });
 			}
 		}, 2000);
-	}
-
-	if (isLocalUser(user) && isRemoteUser(recipient)) {
-		const note = {
-			_id: message._id,
-			createdAt: message.createdAt,
-			fileIds: message.fileId ? [ message.fileId ] : [],
-			text: message.text,
-			userId: message.userId,
-			visibility: 'specified',
-			mentions: [ recipient ].map(u => u._id),
-			mentionedRemoteUsers: [ {
-				uri: recipient.uri,
-				username: recipient.username,
-				host: recipient.host
-			} ],
-		} as INote;
-
-		const activity = renderActivity(renderCreate(await renderNote(note, false, true), note));
-
-		deliver(user, activity, recipient.inbox);
 	}
 
 	return messageObj;

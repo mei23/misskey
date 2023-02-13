@@ -82,6 +82,8 @@ export default define(meta, async (ps, user) => {
 		throw e;
 	});
 
+	// TODO: check remote
+
 	let file = null;
 	if (ps.fileId != null) {
 		file = await DriveFile.findOne({

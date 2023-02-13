@@ -9,7 +9,7 @@ import User from '../../../models/user';
 import { getNoteHtml } from '../misc/get-note-html';
 import Emoji, { IEmoji } from '../../../models/emoji';
 
-export default async function renderNote(note: INote, dive = true, isTalk = false): Promise<any> {
+export default async function renderNote(note: INote, dive = true): Promise<any> {
 	let inReplyTo;
 	let inReplyToNote: INote;
 
@@ -137,10 +137,6 @@ export default async function renderNote(note: INote, dive = true, isTalk = fals
 		}))
 	} : {};
 
-	const asTalk = isTalk ? {
-		_misskey_talk: true
-	} : {};
-
 	return {
 		id: `${config.url}/notes/${note._id}`,
 		url: `${config.url}/notes/${note._id}`,
@@ -159,7 +155,6 @@ export default async function renderNote(note: INote, dive = true, isTalk = fals
 		sensitive: note.cw != null || files.some(file => file.metadata.isSensitive),
 		tag,
 		...asPoll,
-		...asTalk
 	};
 }
 

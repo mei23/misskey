@@ -21,10 +21,8 @@ import { IDriveFile } from '../../../models/drive-file';
 import { deliverQuestionUpdate } from '../../../services/note/polls/update';
 import { extractApHost } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
-import { createMessage } from '../../../services/messages/create';
 import { isBlockedHost } from '../../../services/instance-moderation';
 import { parseAudience } from '../audience';
-import MessagingMessage from '../../../models/messaging-message';
 import DbResolver from '../db-resolver';
 import { tryStockEmoji } from '../../../services/emoji-store';
 import { parseDate, parseDateWithLimit } from '../misc/date';
@@ -116,8 +114,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	const apMentions = await extractApMentions(note.tag, resolver);
 	const apHashtags = await extractApHashtags(note.tag);
 
-	let isTalk = note._misskey_talk && visibility === 'specified';
-
 	// 添付ファイル
 	// Noteがsensitiveなら添付もsensitiveにする
 	const limit = promiseLimit<IDriveFile>(2);
@@ -144,17 +140,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 				return x;
 			}
 		}).catch(async e => {
-			// チャットだったらinReplyToのエラーは無視
-			const uri = getApId(getOneApId(note.inReplyTo!));
-			if (uri.startsWith(config.url + '/')) {
-				const id = uri.split('/').pop();
-				const talk = await MessagingMessage.findOne({ _id: id });
-				if (talk) {
-					isTalk = true;
-					return null;
-				}
-			}
-
 			logger.warn(`Error in inReplyTo reply:${note.inReplyTo} - ${e.statusCode || e}`);
 			replyError = true;
 			return null;
@@ -246,12 +231,6 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	// ユーザーの情報が古かったらついでに更新しておく
 	if (actor.lastFetchedAt == null || Date.now() - actor.lastFetchedAt.getTime() > 1000 * 60 * 60 * 24) {
 		updatePerson(actor.uri);
-	}
-
-	if (isTalk) {
-		for (const recipient of visibleUsers) {
-			return await createMessage(actor, recipient, text, (files && files.length > 0) ? files[0] : undefined, object.id);
-		}
 	}
 
 	return await post(actor, {

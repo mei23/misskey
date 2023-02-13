@@ -1,8 +1,7 @@
 import autobind from 'autobind-decorator';
-import read, { deliverReadActivity } from '../../common/read-messaging-message';
+import read from '../../common/read-messaging-message';
 import Channel from '../channel';
-import User, { isRemoteUser, IUser, isLocalUser, ILocalUser, IRemoteUser } from '../../../../models/user';
-import MessagingMessage from '../../../../models/messaging-message';
+import User, { IUser } from '../../../../models/user';
 
 export default class extends Channel {
 	public readonly chName = 'messaging';
@@ -27,13 +26,6 @@ export default class extends Channel {
 		switch (type) {
 			case 'read':
 				read(this.user._id, this.otherpartyId, body.id);
-
-				// リモートユーザーからのメッセージだったら既読配信
-				if (isLocalUser(this.user) && isRemoteUser(this.otherparty)) {
-					MessagingMessage.findOne({ _id: body.id }).then(message => {
-						deliverReadActivity(this.user as ILocalUser, this.otherparty as IRemoteUser, message);
-					});
-				}
 				break;
 		}
 	}
