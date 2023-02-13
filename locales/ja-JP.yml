@@ -1531,7 +1531,7 @@ admin/views/index.vue:
   abuse: "スパム報告"
   queue: "ジョブキュー"
   logs: "ログ"
-  instanceblocks: "インスタンスブロック"
+  instancemoderation: "インスタンスモデレーション"
   back-to-misskey: "Misskeyに戻る"
 
 admin/views/invitations.vue:
@@ -1906,8 +1906,8 @@ admin/views/federation.vue:
     day: "1日ごと"
 
 admin/views/instanceblocks.vue:
-  instanceblocks: "インスタンスブロック"
-  blockedInstances-info: "1行に1ホスト記述します。/正規表現/ が使えます。"
+  ignoredInstances: "インスタンスの無視"
+  ignoredInstances-info: "1行に1ホスト記述します。/正規表現/ が使えます。"
 
 admin/views/relay.vue:
   add-relay: "リレーの追加"

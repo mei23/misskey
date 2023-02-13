@@ -1,10 +1,10 @@
 <template>
 <div>
 	<ui-card>
-		<template #title>{{ $t('instanceblocks') }}</template>
+		<template #title>{{ $t('ignoredInstances') }}</template>
 		<section class="fit-top">
 			<ui-textarea v-model="blockedInstances"></ui-textarea>
-			<ui-info>{{ $t('blockedInstances-info') }}</ui-info>
+			<ui-info>{{ $t('ignoredInstances-info') }}</ui-info>
 			<ui-button @click="save">{{ $t('@._settings.save') }}</ui-button>
 		</section>
 	</ui-card>
@@ -12,13 +12,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 import i18n from '../../i18n';
 
-export default Vue.extend({
+export default defineComponent({
 	i18n: i18n('admin/views/instanceblocks.vue'),
 	data() {
 		return {
+			$root: getCurrentInstance() as any,
 			blockedInstances: '',
 		};
 	},

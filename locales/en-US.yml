@@ -1392,7 +1392,7 @@ admin/views/index.vue:
   abuse: "Abuse"
   queue: "Job Queue"
   logs: "Logs"
-  instanceblocks: "Instance blocks"
+  instancemoderation: "Instance moderation"
   back-to-misskey: "Back to Misskey"
 admin/views/invitations.vue:
   addTitle: "New invitation"
@@ -1743,8 +1743,8 @@ admin/views/federation.vue:
     day: "Daily"
 
 admin/views/instanceblocks.vue:
-  instanceblocks: "Instance block"
-  blockedInstances-info: "One host per line. You can use /RegExp/."
+  ignoredInstances: "Ignored instances"
+  ignoredInstances-info: "One host per line. You can use /RegExp/."
 
 admin/views/relay.vue:
   add-relay: "Add relay"

@@ -38,7 +38,7 @@
 			<li><router-link to="/announcements" active-class="active" v-if="$store.getters.isAdmin"><fa icon="broadcast-tower" fixed-width/>{{ $t('announcements') }}</router-link></li>
 			<li><router-link to="/hashtags" active-class="active" v-if="$store.getters.isAdmin"><fa icon="hashtag" fixed-width/>{{ $t('hashtags') }}</router-link></li>
 			<li><router-link to="/abuse" active-class="active" v-if="$store.getters.isAdminOrModerator"><fa :icon="faExclamationCircle" fixed-width/>{{ $t('abuse') }}</router-link></li>
-			<li><router-link to="/instanceblocks" active-class="active" v-if="$store.getters.isAdmin"><fa icon="ban" fixed-width/>{{ $t('instanceblocks') }}</router-link></li>
+			<li><router-link to="/instanceblocks" active-class="active" v-if="$store.getters.isAdmin"><fa icon="ban" fixed-width/>{{ $t('instancemoderation') }}</router-link></li>
 		</ul>
 		<div class="back-to-misskey">
 			<a href="/"><fa :icon="faArrowLeft"/> {{ $t('back-to-misskey') }}</a>
