@@ -85,6 +85,13 @@ export const meta = {
 			}
 		},
 
+		exposeHome: {
+			validator: $.optional.boolean,
+			desc: {
+				'ja-JP': 'exposeHome'
+			}
+		},
+
 		mascotImageUrl: {
 			validator: $.optional.nullable.str,
 			desc: {
@@ -382,6 +389,10 @@ export default define(meta, async (ps) => {
 
 	if (Array.isArray(ps.selfSilencedInstances)) {
 		set.selfSilencedInstances = ps.selfSilencedInstances.map(x => x.trim()).filter(x => x !== '').map(x => toApHost(x));
+	}
+
+	if (typeof ps.exposeHome === 'boolean') {
+		set.exposeHome = ps.exposeHome;
 	}
 
 	if (ps.mascotImageUrl !== undefined) {

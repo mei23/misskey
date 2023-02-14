@@ -1911,6 +1911,8 @@ admin/views/instanceblocks.vue:
   ignoredInstances-info: "送受信と取得を行わないインスタンス。1行に1ホスト記述します。/正規表現/ が使えます。"
   selfSilencedInstances: "セルフサイレンスするインスタンス"
   selfSilencedInstances-info: "最大公開範囲ホームで配信するインスタンス。1行に1ホスト記述します。/正規表現/ が使えます。"
+  exposeHome: 取得されるときの最大公開範囲はホームにする
+  exposeHome-info: "フォロワーのいないインスタンスなどから投稿を取得されるときの最大公開範囲をホームにします。"
 
 admin/views/relay.vue:
   add-relay: "リレーの追加"

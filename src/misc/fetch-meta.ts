@@ -10,6 +10,7 @@ const defaultMeta: any = {
 	hidedTags: [],
 	blockedInstances: [],
 	selfSilencedInstances: [],
+	exposeHome: false,
 	stats: {
 		// Object.assignじゃマージされない
 	},

@@ -16,6 +16,11 @@
 		</section>
 
 		<section>
+			<ui-switch v-model="exposeHome">{{ $t('exposeHome') }}</ui-switch>
+			<ui-info>{{ $t('exposeHome-info') }}</ui-info>
+		</section>
+
+		<section>
 			<ui-button @click="save">{{ $t('@._settings.save') }}</ui-button>
 		</section>
 	</ui-card>
@@ -33,6 +38,7 @@ export default defineComponent({
 			$root: getCurrentInstance() as any,
 			blockedInstances: '',
 			selfSilencedInstances: '',
+			exposeHome: false,
 		};
 	},
 	created() {
@@ -43,12 +49,14 @@ export default defineComponent({
 			this.$root.api('admin/meta').then((meta: any) => {
 				this.blockedInstances = meta.blockedInstances.join('\n');
 				this.selfSilencedInstances = meta.selfSilencedInstances.join('\n');
+				this.exposeHome = meta.exposeHome;
 			});
 		},
 		save() {
 			this.$root.api('admin/update-meta', {
 				blockedInstances: this.blockedInstances ? this.blockedInstances.split('\n') : [],
 				selfSilencedInstances: this.selfSilencedInstances ? this.selfSilencedInstances.split('\n') : [],
+				exposeHome: !!this.exposeHome,
 			}).then(() => {
 				this.$root.dialog({
 					type: 'success',

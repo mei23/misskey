@@ -141,6 +141,7 @@ export default define(meta, async (ps, me) => {
 		response.hidedTags = instance.hidedTags;
 		response.blockedInstances = instance.blockedInstances;
 		response.selfSilencedInstances = instance.selfSilencedInstances;
+		response.exposeHome = instance.exposeHome;
 		response.recaptchaSecretKey = instance.recaptchaSecretKey;
 		response.proxyAccount = instance.proxyAccount;
 		response.twitterConsumerKey = instance.twitterConsumerKey;
