@@ -1743,8 +1743,11 @@ admin/views/federation.vue:
     day: "Daily"
 
 admin/views/instanceblocks.vue:
+  instancemoderation: "Instance moderation"
   ignoredInstances: "Ignored instances"
-  ignoredInstances-info: "One host per line. You can use /RegExp/."
+  ignoredInstances-info: "Instances that don't send/receive and fetch. One host per line. You can use /RegExp/."
+  selfSilencedInstances: "Self-silenced instances"
+  selfSilencedInstances-info: "Instances to deliver with maximum visibility home. One host per line. You can use /RegExp/."
 
 admin/views/relay.vue:
   add-relay: "Add relay"

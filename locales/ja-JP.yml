@@ -1906,8 +1906,11 @@ admin/views/federation.vue:
     day: "1日ごと"
 
 admin/views/instanceblocks.vue:
+  instancemoderation: インスタンスモデレーション
   ignoredInstances: "インスタンスの無視"
-  ignoredInstances-info: "1行に1ホスト記述します。/正規表現/ が使えます。"
+  ignoredInstances-info: "送受信と取得を行わないインスタンス。1行に1ホスト記述します。/正規表現/ が使えます。"
+  selfSilencedInstances: "セルフサイレンスするインスタンス"
+  selfSilencedInstances-info: "最大公開範囲ホームで配信するインスタンス。1行に1ホスト記述します。/正規表現/ が使えます。"
 
 admin/views/relay.vue:
   add-relay: "リレーの追加"

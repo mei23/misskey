@@ -1,14 +1,21 @@
 <template>
 <div>
 	<ui-card>
-		<template #title>{{ $t('ignoredInstances') }}</template>
-		<section class="fit-top">
+		<template #title>{{ $t('instancemoderation') }}</template>
+
+		<section>
+			<header>{{ $t('ignoredInstances') }}</header>
 			<ui-textarea v-model="blockedInstances"></ui-textarea>
 			<ui-info>{{ $t('ignoredInstances-info') }}</ui-info>
+		</section>
 
+		<section>
+			<header>{{ $t('selfSilencedInstances') }}</header>
 			<ui-textarea v-model="selfSilencedInstances"></ui-textarea>
 			<ui-info>{{ $t('selfSilencedInstances-info') }}</ui-info>
+		</section>
 
+		<section>
 			<ui-button @click="save">{{ $t('@._settings.save') }}</ui-button>
 		</section>
 	</ui-card>
