@@ -6,9 +6,10 @@ import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
 import { isBlockedHost, isClosedHost, isSelfSilencedHost } from '../../services/instance-moderation';
-import { DeliverJobData } from '../types';
+import { DeliverJobData, ThinUser } from '../types';
 import { publishInstanceModUpdated } from '../../services/server-event';
 import { StatusError } from '../../misc/fetch';
+import config from '../../config';
 
 const logger = new Logger('deliver');
 
@@ -28,8 +29,7 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 	}
 
 	if (await isSelfSilencedHost(host)) {
-		// TODO
-		console.log(`SS ${host}`);
+		job.data.content = publicToHome(job.data.content, job.data.user);
 	}
 
 	try {
@@ -97,3 +97,39 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 		throw res;
 	}
 };
+
+type DeliverContent = {
+	type: string;
+	to: string[];
+	cc: string[];
+	object: {
+		type: string;
+		to: string[];
+		cc: string[];
+	};
+};
+
+function publicToHome(content: DeliverContent, user: ThinUser): DeliverContent {
+	if (content.type === 'Create' && content.object.type === 'Note') {
+		const asPublic = 'https://www.w3.org/ns/activitystreams#Public';
+		const followers = `${config.url}/users/${user._id}/followers`;
+
+		if (content.to.includes(asPublic)) {
+			content.to = content.to.filter(x => x !== asPublic);
+			content.to = content.to.concat(followers);
+			content.cc = content.cc.filter(x => x !== followers);
+			content.cc = content.cc.concat(asPublic);
+		}
+
+		if (content.object.to.includes(asPublic)) {
+			content.object.to = content.object.to.filter(x => x !== asPublic);
+			content.object.to = content.object.to.concat(followers);
+			content.object.cc = content.object.cc.filter(x => x !== followers);
+			content.object.cc = content.object.cc.concat(asPublic);
+		}
+
+		return content;
+	} else {
+		return content;
+	}
+}
