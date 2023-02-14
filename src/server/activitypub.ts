@@ -21,6 +21,7 @@ import NoteReaction from '../models/note-reaction';
 import { renderLike } from '../remote/activitypub/renderer/like';
 import { inspect } from 'util';
 import config from '../config';
+import fetchMeta from '../misc/fetch-meta';
 
 // Init router
 const router = new Router();
@@ -108,7 +109,7 @@ router.get('/notes/:note', async (ctx, next) => {
 		return;
 	}
 
-	const note = await Note.findOne({
+	let note = await Note.findOne({
 		_id: new ObjectID(ctx.params.note),
 		deletedAt: { $exists: false },
 		visibility: { $in: ['public', 'home'] },
@@ -131,6 +132,13 @@ router.get('/notes/:note', async (ctx, next) => {
 		return;
 	}
 
+	const meta = await fetchMeta();
+	if (meta.exposeHome) {
+		note = Object.assign(note, {
+			visibility: 'home'
+		});
+	}
+
 	ctx.body = renderActivity(await renderNote(note, false));
 	setCacheHeader(ctx, note);
 	setResponseType(ctx);
@@ -145,7 +153,7 @@ router.get('/notes/:note/activity', async ctx => {
 		return;
 	}
 
-	const note = await Note.findOne({
+	let note = await Note.findOne({
 		_id: new ObjectID(ctx.params.note),
 		deletedAt: { $exists: false },
 		'_user.host': null,
@@ -157,6 +165,13 @@ router.get('/notes/:note/activity', async ctx => {
 	if (note == null || !await isNoteUserAvailable(note)) {
 		ctx.status = 404;
 		return;
+	}
+
+	const meta = await fetchMeta();
+	if (meta.exposeHome) {
+		note = Object.assign(note, {
+			visibility: 'home'
+		});
 	}
 
 	ctx.body = renderActivity(await packActivity(note));
