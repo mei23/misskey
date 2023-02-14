@@ -32,11 +32,8 @@ export async function getNote(noteId: mongo.ObjectID, user?: ILocalUser, visible
 export async function getUser(userId: mongo.ObjectID) {
 	const user = await User.findOne({
 		_id: userId,
-		$or: [{
-			isDeleted: { $exists: false }
-		}, {
-			isDeleted: false
-		}]
+		isDeleted: { $ne: true },
+		isSuspended: { $ne: true },
 	}, {
 		fields: {
 			data: false,
