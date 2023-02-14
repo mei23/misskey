@@ -140,6 +140,7 @@ export default define(meta, async (ps, me) => {
 	if (me && (me.isAdmin || me.isModerator)) {
 		response.hidedTags = instance.hidedTags;
 		response.blockedInstances = instance.blockedInstances;
+		response.selfSilencedInstances = instance.selfSilencedInstances;
 		response.recaptchaSecretKey = instance.recaptchaSecretKey;
 		response.proxyAccount = instance.proxyAccount;
 		response.twitterConsumerKey = instance.twitterConsumerKey;

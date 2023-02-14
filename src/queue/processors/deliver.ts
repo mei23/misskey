@@ -5,7 +5,7 @@ import Instance from '../../models/instance';
 import instanceChart from '../../services/chart/instance';
 import Logger from '../../services/logger';
 import { UpdateInstanceinfo } from '../../services/update-instanceinfo';
-import { isBlockedHost, isClosedHost } from '../../services/instance-moderation';
+import { isBlockedHost, isClosedHost, isSelfSilencedHost } from '../../services/instance-moderation';
 import { DeliverJobData } from '../types';
 import { publishInstanceModUpdated } from '../../services/server-event';
 import { StatusError } from '../../misc/fetch';
@@ -25,6 +25,11 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 	}
 	if (await isClosedHost(host)) {
 		return 'skip (closed)';
+	}
+
+	if (await isSelfSilencedHost(host)) {
+		// TODO
+		console.log(`SS ${host}`);
 	}
 
 	try {

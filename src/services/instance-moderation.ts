@@ -5,6 +5,8 @@ import fetchMeta from '../misc/fetch-meta';
 
 let blockedHosts: Set<string>;
 let blockedHostsRegExp: Set<RegExp>;
+let selfSilencedHosts: Set<string>;
+let selfSilencedHostsRegExp: Set<RegExp>;
 let closedHosts: Set<string>;
 
 export async function isBlockedHost(host: string | null) {
@@ -18,6 +20,17 @@ export async function isBlockedHost(host: string | null) {
 	return false;
 }
 
+export async function isSelfSilencedHost(host: string | null) {
+	if (host == null) return false;
+	if (!selfSilencedHosts) await Update();
+
+	if (selfSilencedHosts?.has(toApHost(host))) return true;
+
+	if (selfSilencedHostsRegExp && Array.from(selfSilencedHostsRegExp).some(x => x.test(toApHost(host)))) return true;
+
+	return false;
+}
+
 export async function isClosedHost(host: string | null) {
 	if (host == null) return false;
 	if (!closedHosts) await Update();
@@ -25,26 +38,49 @@ export async function isClosedHost(host: string | null) {
 }
 
 async function Update() {
-	const blocked = await Instance.find({
-		isBlocked: true
-	});
-	const literals = new Set(blocked.map(x => toApHost(x.host)));
-
-	const regExps = new Set<RegExp>();
-
 	const meta = await fetchMeta();
-	for (const b of (meta.blockedInstances || [])) {
-		const m = b.match(/^[/](.*)[/]$/);
-		if (m) {
-			regExps.add(new RegExp(m[1]));
-		} else {
-			literals.add(b);
+
+	// block from instance/meta
+	{
+		const blocked = await Instance.find({
+			isBlocked: true
+		});
+		const literals = new Set(blocked.map(x => toApHost(x.host)));
+
+		const regExps = new Set<RegExp>();
+
+		for (const b of (meta.blockedInstances || [])) {
+			const m = b.match(/^[/](.*)[/]$/);
+			if (m) {
+				regExps.add(new RegExp(m[1]));
+			} else {
+				literals.add(b);
+			}
 		}
+
+		blockedHosts = literals;
+		blockedHostsRegExp = regExps;
 	}
 
-	blockedHosts = literals;
-	blockedHostsRegExp = regExps;
+	// self-silence from meta
+	{
+		const literals = new Set<string>();
+		const regExps = new Set<RegExp>();
 
+		for (const b of (meta.selfSilencedInstances || [])) {
+			const m = b.match(/^[/](.*)[/]$/);
+			if (m) {
+				regExps.add(new RegExp(m[1]));
+			} else {
+				literals.add(b);
+			}
+		}
+
+		selfSilencedHosts = literals;
+		selfSilencedHostsRegExp = regExps;
+	}
+
+	// closed from instance
 	const closed = await Instance.find({
 		isMarkedAsClosed: true
 	});

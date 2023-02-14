@@ -5,6 +5,10 @@
 		<section class="fit-top">
 			<ui-textarea v-model="blockedInstances"></ui-textarea>
 			<ui-info>{{ $t('ignoredInstances-info') }}</ui-info>
+
+			<ui-textarea v-model="selfSilencedInstances"></ui-textarea>
+			<ui-info>{{ $t('selfSilencedInstances-info') }}</ui-info>
+
 			<ui-button @click="save">{{ $t('@._settings.save') }}</ui-button>
 		</section>
 	</ui-card>
@@ -21,6 +25,7 @@ export default defineComponent({
 		return {
 			$root: getCurrentInstance() as any,
 			blockedInstances: '',
+			selfSilencedInstances: '',
 		};
 	},
 	created() {
@@ -30,11 +35,13 @@ export default defineComponent({
 		fetch() {
 			this.$root.api('admin/meta').then((meta: any) => {
 				this.blockedInstances = meta.blockedInstances.join('\n');
+				this.selfSilencedInstances = meta.selfSilencedInstances.join('\n');
 			});
 		},
 		save() {
 			this.$root.api('admin/update-meta', {
 				blockedInstances: this.blockedInstances ? this.blockedInstances.split('\n') : [],
+				selfSilencedInstances: this.selfSilencedInstances ? this.selfSilencedInstances.split('\n') : [],
 			}).then(() => {
 				this.$root.dialog({
 					type: 'success',
