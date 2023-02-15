@@ -140,7 +140,7 @@ specifiers:
   multer: 1.4.5-lts.1
   neologd-normalizer: 0.0.3
   nested-property: 4.0.0
-  nodemailer: 6.9.0
+  nodemailer: 6.9.1
   nprogress: 0.2.0
   oauth: 0.10.0
   os-utils: 0.0.14
@@ -291,7 +291,7 @@ dependencies:
   multer: 1.4.5-lts.1
   neologd-normalizer: 0.0.3
   nested-property: 4.0.0
-  nodemailer: 6.9.0
+  nodemailer: 6.9.1
   nprogress: 0.2.0
   oauth: 0.10.0
   os-utils: 0.0.14
@@ -6965,8 +6965,8 @@ packages:
   /node-releases/2.0.8:
     resolution: {integrity: sha512-dFSmB8fFHEH/s81Xi+Y/15DQY6VHW81nXRj86EMSL3lmuTmK1e+aT4wrFCkTbm+gSwkw4KpX+rT/pMM2c1mF+A==}
 
-  /nodemailer/6.9.0:
-    resolution: {integrity: sha512-jFaCEGTeT3E/m/5R2MHWiyQH3pSARECRUDM+1hokOYc3lQAAG7ASuy+2jIsYVf+RVa9zePopSQwKNVFH8DKUpA==}
+  /nodemailer/6.9.1:
+    resolution: {integrity: sha512-qHw7dOiU5UKNnQpXktdgQ1d3OFgRAekuvbJLcdG5dnEo/GtcTHRYM7+UfJARdOFU9WUQO8OiIamgWPmiSFHYAA==}
     engines: {node: '>=6.0.0'}
     dev: false
 
