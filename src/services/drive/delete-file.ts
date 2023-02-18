@@ -6,8 +6,9 @@ import DriveFileWebpublic, { DriveFileWebpublicChunk } from '../../models/drive-
 import Instance from '../../models/instance';
 import { isRemoteUser } from '../../models/user';
 import { getDriveConfig } from '../../misc/get-drive-config';
-import { getS3 } from './s3';
+import { getS3Client } from './s3';
 import { InternalStorage } from './internal-storage';
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 export default async function(file: IDriveFile, isExpired = false) {
 	if (file.metadata?.storage == 'minio') {
@@ -21,32 +22,32 @@ export default async function(file: IDriveFile, isExpired = false) {
 			throw 'drive.bucket is null';
 		}
 
-		const s3 = getS3(drive);
+		const s3Client = getS3Client(drive);
 
 		// 後方互換性のため、file.metadata.storageProps.key があるかどうかチェックしています。
 		// 将来的には const obj = file.metadata.storageProps.key; とします。
 		const obj = file.metadata.storageProps.key ? file.metadata.storageProps.key : `${drive.prefix}/${file.metadata.storageProps.id}`;
-		await s3.deleteObject({
+		await s3Client.send(new DeleteObjectCommand({
 			Bucket: drive.bucket,
 			Key: obj
-		}).promise();
+		}));
 
 		if (file.metadata.thumbnailUrl) {
 			// 後方互換性のため、file.metadata.storageProps.thumbnailKey があるかどうかチェックしています。
 			// 将来的には const thumbnailObj = file.metadata.storageProps.thumbnailKey; とします。
 			const thumbnailObj = file.metadata.storageProps.thumbnailKey ? file.metadata.storageProps.thumbnailKey : `${drive.prefix}/${file.metadata.storageProps.id}-thumbnail`;
-			await s3.deleteObject({
+			await s3Client.send(new DeleteObjectCommand({
 				Bucket: drive.bucket,
 				Key: thumbnailObj
-			}).promise();
+			}));
 		}
 
 		if (file.metadata.webpublicUrl) {
 			const webpublicObj = file.metadata.storageProps.webpublicKey ? file.metadata.storageProps.webpublicKey : `${drive.prefix}/${file.metadata.storageProps.id}-original`;
-			await s3.deleteObject({
+			await s3Client.send(new DeleteObjectCommand({
 				Bucket: drive.bucket,
 				Key: webpublicObj
-			}).promise();
+			}));
 		}
 	}
 

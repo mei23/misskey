@@ -21,8 +21,9 @@ import { contentDisposition } from '../../misc/content-disposition';
 import { getFileInfo, FileInfo, FILE_TYPE_BROWSERSAFE } from '../../misc/get-file-info';
 import { DriveConfig } from '../../config/types';
 import { getDriveConfig } from '../../misc/get-drive-config';
-import * as S3 from 'aws-sdk/clients/s3';
-import { getS3 } from './s3';
+import { getS3Client } from './s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import { CompleteMultipartUploadCommandOutput, PutObjectCommandInput  } from '@aws-sdk/client-s3';
 import * as sharp from 'sharp';
 import { v4 as uuid } from 'uuid';
 import { InternalStorage } from './internal-storage';
@@ -281,19 +282,21 @@ async function upload(key: string, stream: fs.ReadStream | Buffer, type: string,
 		Body: stream,
 		ContentType: type,
 		CacheControl: 'max-age=2592000, s-maxage=172800, immutable',
-	} as S3.PutObjectRequest;
+	} as PutObjectCommandInput;
 
 	if (filename) params.ContentDisposition = contentDisposition('inline', filename);
 	if (drive.config?.setPublicRead) params.ACL = 'public-read';
 
-	const s3 = getS3(drive);
+	const s3Client = getS3Client(drive);
 
-	const upload = s3.upload(params, {
-		partSize: s3.endpoint?.hostname === 'storage.googleapis.com' ? 500 * 1024 * 1024 : 8 * 1024 * 1024
+	const upload = new Upload({
+		client: s3Client,
+		params,
+		partSize: drive.config?.endPoint === 'storage.googleapis.com' ? 500 * 1024 * 1024 : 8 * 1024 * 1024
 	});
 
-	const result = await upload.promise();
-	if (result) logger.debug(`Uploaded: ${result.Bucket}/${result.Key} => ${result.Location}`);
+	const result = await upload.done() as CompleteMultipartUploadCommandOutput;	// TODO: About...が返ることがあるのか、abortはどう判定するのか謎
+	logger.debug(`Uploaded: ${result.Bucket}/${result.Key} => ${result.Location}`);
 }
 
 /**
