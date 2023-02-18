@@ -46,8 +46,11 @@ export async function deleteDriveFiles(job: Bull.Job<DbUserJobData>): Promise<st
 		cursor = files[files.length - 1]._id;
 
 		for (const file of files) {
-			await deleteFile(file);
-			logger.info(`Deleted: ${user._id}: ${file._id}`);
+			await deleteFile(file).catch(e => {
+				logger.warn(`Delete failed: ${user._id}: ${file._id} ${e}`);
+			}).then(() => {
+				logger.info(`Deleted: ${user._id}: ${file._id}`);
+			});
 			deletedCount++;
 		}
 
