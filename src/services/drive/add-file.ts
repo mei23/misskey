@@ -23,7 +23,7 @@ import { DriveConfig } from '../../config/types';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import { getS3Client } from './s3';
 import { Upload } from '@aws-sdk/lib-storage';
-import { CompleteMultipartUploadCommandOutput, PutObjectCommandInput  } from '@aws-sdk/client-s3';
+import { PutObjectCommandInput, CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import * as sharp from 'sharp';
 import { v4 as uuid } from 'uuid';
 import { InternalStorage } from './internal-storage';
