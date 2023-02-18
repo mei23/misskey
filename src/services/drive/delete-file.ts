@@ -7,8 +7,8 @@ import Instance from '../../models/instance';
 import { isRemoteUser } from '../../models/user';
 import { getDriveConfig } from '../../misc/get-drive-config';
 import { getS3Client } from './s3';
-import { InternalStorage } from './internal-storage';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { InternalStorage } from './internal-storage';
 
 export default async function(file: IDriveFile, isExpired = false) {
 	if (file.metadata?.storage == 'minio') {
