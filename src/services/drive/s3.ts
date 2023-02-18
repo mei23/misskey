@@ -6,8 +6,8 @@ import { getAgentByUrl } from '../../misc/fetch';
 export function getS3Client(drive: DriveConfig) {
 	if (drive.config == null) throw 'drive.config is null';
 
-	return new S3Client({
-		endpoint: drive.config.endPoint || undefined,
+	const config = {
+		endpoint: drive.config.endPoint ? `${drive.config.useSSL ? 'https://' : 'http://'}${drive.config.endPoint}` : undefined,
 		credentials: {
 			accessKeyId: drive.config.accessKey,
 			secretAccessKey: drive.config.secretKey,
@@ -23,5 +23,7 @@ export function getS3Client(drive: DriveConfig) {
 			connectionTimeout: 10 * 1000,
 			socketTimeout: 30 * 1000,
 		}),
-	});
+	};
+
+	return new S3Client(config);
 }
