@@ -75,7 +75,7 @@ specifiers:
   bootstrap: 4.6.2
   bootstrap-vue: 2.23.1
   browser-image-resizer: 2.4.1
-  bull: 4.10.2
+  bull: 4.10.4
   cafy: 15.2.1
   chalk: 4.1.2
   cheerio: 0.22.0
@@ -230,7 +230,7 @@ dependencies:
   bootstrap: 4.6.2
   bootstrap-vue: 2.23.1_vue@2.7.14
   browser-image-resizer: 2.4.1
-  bull: 4.10.2
+  bull: 4.10.4
   cafy: 15.2.1
   chalk: 4.1.2
   cheerio: 0.22.0
@@ -2335,8 +2335,8 @@ packages:
       node-gyp-build: 4.6.0
     dev: false
 
-  /bull/4.10.2:
-    resolution: {integrity: sha512-xa65xtWjQsLqYU/eNaXxq9VRG8xd6qNsQEjR7yjYuae05xKrzbVMVj2QgrYsTMmSs/vsqJjHqHSRRiW1+IkGXQ==}
+  /bull/4.10.4:
+    resolution: {integrity: sha512-o9m/7HjS/Or3vqRd59evBlWCXd9Lp+ALppKseoSKHaykK46SmRjAilX98PgmOz1yeVaurt8D5UtvEt4bUjM3eA==}
     engines: {node: '>=12'}
     dependencies:
       cron-parser: 4.7.1
@@ -2345,7 +2345,6 @@ packages:
       ioredis: 5.2.4
       lodash: 4.17.21
       msgpackr: 1.8.1
-      p-timeout: 3.2.0
       semver: 7.3.8
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -7204,11 +7203,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /p-finally/1.0.0:
-    resolution: {integrity: sha512-LICb2p9CB7FS+0eR1oqWnHhp0FljGLZCWBE9aix0Uye9W8LTQPwMTYVGWQWIw9RdQiDg4+epXQODwIYJtSJaow==}
-    engines: {node: '>=4'}
-    dev: false
-
   /p-limit/2.3.0:
     resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
     engines: {node: '>=6'}
@@ -7244,13 +7238,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       aggregate-error: 3.1.0
-    dev: false
-
-  /p-timeout/3.2.0:
-    resolution: {integrity: sha512-rhIwUycgwwKcP9yTOOFK/AKsAopjjCakVqLHePO3CC6Mir1Z99xT+R63jZxAT5lFZLa2inS5h+ZS2GvR99/FBg==}
-    engines: {node: '>=8'}
-    dependencies:
-      p-finally: 1.0.0
     dev: false
 
   /p-try/2.2.0:
