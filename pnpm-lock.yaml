@@ -19,7 +19,7 @@ specifiers:
   '@types/cheerio': 0.22.31
   '@types/double-ended-queue': 2.1.2
   '@types/fluent-ffmpeg': 2.1.20
-  '@types/glob': 8.0.0
+  '@types/glob': 8.0.1
   '@types/js-yaml': 4.0.5
   '@types/jsdom': 20.0.1
   '@types/jsonld': 1.5.8
@@ -93,7 +93,7 @@ specifiers:
   eventemitter3: 4.0.7
   file-type: 16.5.4
   fluent-ffmpeg: 2.1.2
-  glob: 8.0.3
+  glob: 8.1.0
   got: 11.8.6
   gulp: 4.0.2
   gulp-clean-css: 4.3.0
@@ -245,7 +245,7 @@ dependencies:
   eventemitter3: 4.0.7
   file-type: 16.5.4
   fluent-ffmpeg: 2.1.2
-  glob: 8.0.3
+  glob: 8.1.0
   got: 11.8.6
   gulp: 4.0.2
   gulp-clean-css: 4.3.0
@@ -366,7 +366,7 @@ devDependencies:
   '@types/cheerio': 0.22.31
   '@types/double-ended-queue': 2.1.2
   '@types/fluent-ffmpeg': 2.1.20
-  '@types/glob': 8.0.0
+  '@types/glob': 8.0.1
   '@types/js-yaml': 4.0.5
   '@types/jsdom': 20.0.1
   '@types/jsonld': 1.5.8
@@ -1026,8 +1026,8 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
-  /@types/glob/8.0.0:
-    resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
+  /@types/glob/8.0.1:
+    resolution: {integrity: sha512-8bVUjXZvJacUFkJXHdyZ9iH1Eaj5V7I8c4NdH5sQJsdXkqT4CA5Dhb4yb4VE/3asyx4L9ayZr1NIhTsWHczmMw==}
     dependencies:
       '@types/minimatch': 5.1.2
       '@types/node': 18.11.18
@@ -4731,8 +4731,8 @@ packages:
       once: 1.4.0
       path-is-absolute: 1.0.1
 
-  /glob/8.0.3:
-    resolution: {integrity: sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==}
+  /glob/8.1.0:
+    resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
     dependencies:
       fs.realpath: 1.0.0
@@ -5747,7 +5747,7 @@ packages:
     dependencies:
       config-chain: 1.1.13
       editorconfig: 0.15.3
-      glob: 8.0.3
+      glob: 8.1.0
       nopt: 6.0.0
     dev: false
 
