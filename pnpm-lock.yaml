@@ -69,7 +69,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': 5.52.0
   '@typescript-eslint/parser': 5.52.0
   animejs: 3.2.1
-  apexcharts: 3.33.2
+  apexcharts: 3.37.1
   autobind-decorator: 2.4.0
   autosize: 4.0.2
   autwh: 0.1.0
@@ -226,7 +226,7 @@ dependencies:
   '@prezzemolo/rap': 0.1.2
   '@swc/core': 1.3.35
   animejs: 3.2.1
-  apexcharts: 3.33.2
+  apexcharts: 3.37.1
   autobind-decorator: 2.4.0
   autosize: 4.0.2
   autwh: 0.1.0
@@ -2853,8 +2853,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /apexcharts/3.33.2:
-    resolution: {integrity: sha512-GkHZ3o36ZT/jSBh5y1pxxRzwM3tvtladtkcUTfXwP0wYAHK8Qj0X4ZPsupP7emRIjhOVpGsCxW9xeO3F5w+AOQ==}
+  /apexcharts/3.37.1:
+    resolution: {integrity: sha512-fmQ5Updeb/LASl+S1+mIxXUFxzY0Fa7gexfCs4o+OPP9f2NEBNjvybOtPrah44N4roK7U5o5Jis906QeEQu0cA==}
     dependencies:
       svg.draggable.js: 2.2.2
       svg.easing.js: 2.0.0
