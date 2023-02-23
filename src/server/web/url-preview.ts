@@ -2,7 +2,7 @@ import * as tmp from 'tmp';
 import * as fs from 'fs';
 import * as Router from '@koa/router';
 import { getJson } from '../../misc/fetch';
-import summaly from '../../misc/summaly';
+import { Summary } from 'summaly';
 import fetchMeta from '../../misc/fetch-meta';
 import Logger from '../../services/logger';
 import config from '../../config';
@@ -14,6 +14,22 @@ import { sanitizeUrl } from '../../misc/sanitize-url';
 
 const logger = new Logger('url-preview');
 
+//#region SummaryInstance
+let summaryInstance: Summary | null = null;
+
+function getSummaryInstance(): Summary {
+	if (summaryInstance) return summaryInstance;
+	summaryInstance = new Summary({
+		allowedPlugins: [
+			'twitter',
+			'youtube',
+			'dlsite',
+		],
+	});
+	return summaryInstance;
+}
+//#endregion
+
 module.exports = async (ctx: Router.RouterContext) => {
 	if (config.disableUrlPreview) {
 		ctx.body = '{}';
@@ -22,17 +38,24 @@ module.exports = async (ctx: Router.RouterContext) => {
 
 	const meta = await fetchMeta();
 
+	const url = sanitizeUrl(ctx.query.url);
+	if (url == null) throw 'invalid url';
+
+	const lang = ctx.query.lang || 'ja-JP';
+
 	logger.info(meta.summalyProxy
-		? `(Proxy) Getting preview of ${ctx.query.url}@${ctx.query.lang} ...`
-		: `Getting preview of ${ctx.query.url}@${ctx.query.lang} ...`);
+		? `(Proxy) Getting preview of ${url}@${lang} ...`
+		: `Getting preview of ${url}@${lang} ...`);
 
 	try {
 		const summary = meta.summalyProxy ? await getJson(`${meta.summalyProxy}?${query({
-			url: ctx.query.url,
-			lang: ctx.query.lang || 'ja-JP'
-		})}`) : await summaly(ctx.query.url);
+			url: url,
+			lang: lang
+		})}`) : await getSummaryInstance().summary(url, {
+			lang: lang
+		});
 
-		logger.succ(`Got preview of ${ctx.query.url}: ${summary.title}`);
+		logger.succ(`Got preview of ${url}: ${summary.title}`);
 
 		summary.icon = await wrap(summary.icon, 32);
 		summary.thumbnail = await wrap(summary.thumbnail, 128);
@@ -45,7 +68,7 @@ module.exports = async (ctx: Router.RouterContext) => {
 
 		ctx.body = summary;
 	} catch (e) {
-		logger.error(`Failed to get preview of ${ctx.query.url}: ${e}`);
+		logger.error(`Failed to get preview of ${url}: ${e}`);
 		ctx.status = 200;
 
 		ctx.set('Cache-Control', 'max-age=3600');
