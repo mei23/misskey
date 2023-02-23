@@ -32,14 +32,19 @@ function getSummaryInstance(): Summary {
 
 module.exports = async (ctx: Router.RouterContext) => {
 	if (config.disableUrlPreview) {
-		ctx.body = '{}';
+		ctx.status = 403;
+		ctx.set('Cache-Control', 'max-age=3600');
 		return;
 	}
 
 	const meta = await fetchMeta();
 
 	const url = sanitizeUrl(ctx.query.url);
-	if (url == null) throw 'invalid url';
+	if (url == null) {
+		ctx.status = 400;
+		ctx.set('Cache-Control', 'max-age=3600');
+		return;
+	}
 
 	const lang = ctx.query.lang || 'ja-JP';
 
@@ -72,8 +77,7 @@ module.exports = async (ctx: Router.RouterContext) => {
 		ctx.status = 200;
 
 		ctx.set('Cache-Control', 'max-age=3600');
-
-		ctx.body = '{}';
+		ctx.body = {};
 	}
 };
 
