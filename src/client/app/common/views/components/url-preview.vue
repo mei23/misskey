@@ -27,7 +27,7 @@
 		</div>
 		<article>
 			<header>
-				<h1 :title="title">{{ title }}</h1>
+				<h1 :title="title">{{ title.length > 50 ? title.slice(0, 50) + '…' : title }}</h1>
 			</header>
 			<p v-if="description" :title="description">{{ description.length > 85 ? description.slice(0, 85) + '…' : description }}</p>
 			<footer>
@@ -400,7 +400,7 @@ export default Vue.extend({
 
 		&.compact
 			> article
-				> header h1, p, footer
+				> p, footer
 					overflow hidden
 					white-space nowrap
 					text-overflow ellipsis
