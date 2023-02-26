@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ThinPackedNote } from '../../../../../models/packed-schemas';
 import XNotes from './deck.notes.vue';
 
 const fetchLimit = 10;
@@ -28,16 +29,19 @@ export default Vue.extend({
 	data() {
 		return {
 			connection: null,
-			makePromise: cursor => this.$root.api('notes/search_by_tag', {
+			date: null as Date | null,
+			makePromise: (cursor: string) => this.$root.api('notes/search_by_tag', {
 				limit: fetchLimit + 1,
-				untilId: cursor ? cursor : undefined,
+				untilId: (!this.date && cursor) ? cursor : undefined,
+				untilDate: this.date ? this.date.getTime() : undefined,
 				withFiles: this.mediaOnly,
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes,
 				tag: this.tagTl.tag,
 				query: this.tagTl.query,
-			}).then(notes => {
+			}).then((notes: ThinPackedNote[]) => {
+				this.date = null;
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
 					return {
@@ -80,7 +84,12 @@ export default Vue.extend({
 
 		focus() {
 			this.$refs.timeline.focus();
-		}
+		},
+
+		warp(date: Date) {
+			this.date = date;
+			(this.$refs.timeline as any).reload();
+		},
 	}
 });
 </script>

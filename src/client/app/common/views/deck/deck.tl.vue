@@ -15,6 +15,7 @@ import XNotes from './deck.notes.vue';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
 import i18n from '../../../i18n';
 import * as config from '../../../config';
+import { ThinPackedNote } from '../../../../../models/packed-schemas';
 
 const fetchLimit = 10;
 
@@ -63,7 +64,8 @@ export default Vue.extend({
 			connection: null,
 			disabled: false,
 			faMinusCircle,
-			makePromise: null
+			makePromise: null,
+			date: null as Date | null,
 		};
 	},
 
@@ -110,9 +112,10 @@ export default Vue.extend({
 	},
 
 	created() {
-		this.makePromise = cursor => this.$root.api(this.endpoint, {
+		this.makePromise = (cursor: string) => this.$root.api(this.endpoint, {
 			limit: fetchLimit + 1,
-			untilId: cursor ? cursor : undefined,
+			untilId: (!this.date && cursor) ? cursor : undefined,
+			untilDate: this.date ? this.date.getTime() : undefined,
 			withFiles: this.mediaOnly,
 			fileType: (this.sfwMediaOnly || this.nsfwMediaOnly) ? ['image/jpeg','image/png','image/apng','image/gif','image/webp','image/avif','video/mp4','video/webm'] : undefined,
 			excludeNsfw: this.sfwMediaOnly,
@@ -122,7 +125,8 @@ export default Vue.extend({
 			includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 			includeLocalRenotes: this.$store.state.settings.showLocalRenotes,
 			includeForeignReply: this.$store.state.settings.includeForeignReply,
-		}).then(notes => {
+		}).then((notes: ThinPackedNote[]) => {
+			this.date = null;
 			if (notes.length == fetchLimit + 1) {
 				notes.pop();
 				return {
@@ -181,7 +185,12 @@ export default Vue.extend({
 
 		focus() {
 			(this.$refs.timeline as any).focus();
-		}
+		},
+
+		warp(date: Date) {
+			this.date = date;
+			(this.$refs.timeline as any).reload();
+		},
 	}
 });
 </script>

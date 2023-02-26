@@ -6,6 +6,7 @@
 import Vue from 'vue';
 import XNotes from './deck.notes.vue';
 import * as config from '../../../config';
+import { ThinPackedNote } from '../../../../../models/packed-schemas';
 
 const fetchLimit = 10;
 
@@ -49,10 +50,12 @@ export default Vue.extend({
 	data() {
 		return {
 			connection: null,
-			makePromise: cursor => this.$root.api('notes/user-list-timeline', {
+			date: null as Date | null,
+			makePromise: (cursor: string) => this.$root.api('notes/user-list-timeline', {
 				listId: this.list.id,
 				limit: fetchLimit + 1,
-				untilId: cursor ? cursor : undefined,
+				untilId: (!this.date && cursor) ? cursor : undefined,
+				untilDate: this.date ? this.date.getTime() : undefined,
 				withFiles: this.mediaOnly,
 				fileType: (this.sfwMediaOnly || this.nsfwMediaOnly) ? ['image/jpeg','image/png','image/apng','image/gif','image/webp','image/avif','video/mp4','video/webm'] : undefined,
 				excludeNsfw: this.sfwMediaOnly,
@@ -61,7 +64,8 @@ export default Vue.extend({
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes
-			}).then(notes => {
+			}).then((notes: ThinPackedNote[]) => {
+				this.date = null;
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
 					return {
@@ -149,7 +153,12 @@ export default Vue.extend({
 
 		focus() {
 			this.$refs.timeline.focus();
-		}
+		},
+
+		warp(date: Date) {
+			this.date = date;
+			(this.$refs.timeline as any).reload();
+		},
 	}
 });
 </script>

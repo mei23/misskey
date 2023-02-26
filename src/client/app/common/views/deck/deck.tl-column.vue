@@ -19,6 +19,7 @@
 		<ui-switch v-model="column.nsfwMediaOnly" @change="onChangeSettings">{{ $t('is-nsfw-media-only') }}</ui-switch>
 		<ui-switch v-if="column.type === 'home' || column.type === 'hybrid' || column.type === 'list'" v-model="column.excludeRenote" @change="onChangeSettings">{{ $t('excludeRenote') }}</ui-switch>
 		<ui-switch v-model="column.enableSound" @change="onChangeSettings">{{ $t('enableSound') }}</ui-switch>
+		<mk-calendar @chosen="warp"/>
 	</div>
 
 	<x-list-tl v-if="column.type == 'list'"
@@ -120,7 +121,11 @@ export default Vue.extend({
 
 		focus() {
 			this.$refs.tl.focus();
-		}
+		},
+
+		warp(date: Date) {
+			(this.$refs.tl as any).warp(date);
+		},
 	}
 });
 </script>
