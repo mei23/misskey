@@ -143,7 +143,6 @@ common:
   renoted: "Renoted"
   timemachine: "Timemachine"
 
-
   permissions:
     "read:account": "View your account information"
     "write:account": "Edit your account information"
