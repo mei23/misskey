@@ -34,6 +34,15 @@
 			></router-link>
 		</div>
 	</ui-container>
+
+	<!-- タイムマシン -->
+	<ui-container :body-togglable="true"
+		:expanded="$store.state.device.expandUsersWarp"
+		@toggle="expanded => $store.commit('device/set', { key: 'expandUsersWarp', value: expanded })">
+		<template #header><fa :icon="faCalendarAlt"/> {{ $t('@.timemachine') }}</template>
+			<mk-calendar @chosen="warp"/>
+	</ui-container>
+
 	<!-- タイムライン -->
 	<ui-container>
 		<template #header><fa :icon="['far', 'comment-alt']"/> {{ $t('timeline') }}</template>
@@ -54,6 +63,8 @@ import XNotes from './deck.notes.vue';
 import { concat } from '../../../../../prelude/array';
 import ApexCharts from 'apexcharts';
 import XReactions from '../../../common/views/components/user-reactions.vue';
+import { ThinPackedNote } from '../../../../../models/packed-schemas';
+import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 
 const fetchLimit = 10;
 
@@ -76,6 +87,8 @@ export default Vue.extend({
 			withFiles: false,
 			images: [],
 			makePromise: null,
+			date: null as Date | null,
+			faCalendarAlt,
 			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get_frequently_replied_users', {
 				userId: this.user.id,
 				limit: 5,
@@ -98,15 +111,17 @@ export default Vue.extend({
 
 	methods: {
 		genPromiseMaker() {
-			this.makePromise = cursor => this.$root.api('users/notes', {
+			this.makePromise = (cursor: string) => this.$root.api('users/notes', {
 				userId: this.user.id,
 				limit: fetchLimit + 1,
-				untilId: cursor ? cursor : undefined,
+				untilId: (!this.date && cursor) ? cursor : undefined,
+				untilDate: this.date ? this.date.getTime() : undefined,
 				withFiles: this.withFiles,
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes
-			}).then(notes => {
+			}).then((notes: ThinPackedNote) => {
+				this.date = null;
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
 					return {
@@ -129,6 +144,11 @@ export default Vue.extend({
 			}).then(() => {
 				(this.$refs.timeline as any).reload();
 			});
+		},
+
+		warp(date: Date) {
+			this.date = date;
+			(this.$refs.timeline as any).reload();
 		},
 
 		fetch() {
