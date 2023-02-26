@@ -120,7 +120,7 @@ export default Vue.extend({
 				includeMyRenotes: this.$store.state.settings.showMyRenotes,
 				includeRenotedMyNotes: this.$store.state.settings.showRenotedMyNotes,
 				includeLocalRenotes: this.$store.state.settings.showLocalRenotes
-			}).then((notes: ThinPackedNote) => {
+			}).then((notes: ThinPackedNote[]) => {
 				this.date = null;
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
