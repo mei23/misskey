@@ -134,7 +134,7 @@ export default Vue.extend({
 	color var(--calendarDay)
 	background var(--face)
 	overflow hidden
-	border-radius 6px
+	//border-radius 6px
 	box-shadow 0 3px 8px rgba(0, 0, 0, 0.2)
 
 	&[data-melt]
@@ -150,7 +150,7 @@ export default Vue.extend({
 		font-size 0.9em
 		font-weight bold
 		color var(--faceHeaderText)
-		background var(--faceHeader)
+		//background var(--faceHeader)
 		box-shadow 0 var(--lineWidth) rgba(#000, 0.07)
 
 		> [data-icon]

@@ -1,5 +1,12 @@
 <template>
 <div id="user_timeline_52">
+	<!-- タイムマシン -->
+	<ui-container :body-togglable="true"
+		:expanded="$store.state.device.expandUsersWarp"
+		@toggle="expanded => $store.commit('device/set', { key: 'expandUsersWarp', value: expanded })">
+		<template #header><fa :icon="faCalendarAlt"/> {{ $t('@.timemachine') }}</template>
+		<mk-calendar @chosen="warp"/>
+	</ui-container>
 	<div class="command">
 		<ui-button @click="fetchOutbox()">{{ $t('fetch-posts') }}</ui-button>
 	</div>
@@ -18,7 +25,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { ThinPackedNote } from '../../../../../../models/packed-schemas';
 import i18n from '../../../../i18n';
+import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 
 const fetchLimit = 10;
 
@@ -32,15 +41,19 @@ export default Vue.extend({
 			fetching: true,
 			mode: 'default',
 			unreadCount: 0,
-			date: null,
-			makePromise: cursor => this.$root.api('users/notes', {
+			date: null as Date | null,
+			faCalendarAlt,
+
+			makePromise: (cursor: string) => this.$root.api('users/notes', {
 				userId: this.user.id,
 				limit: fetchLimit + 1,
 				includeReplies: this.mode == 'with-replies' || this.mode == 'with-media',
 				includeMyRenotes: this.mode != 'my-posts',
 				withFiles: this.mode == 'with-media',
-				untilId: cursor ? cursor : undefined,
-			}).then(notes => {
+				untilId: (!this.date && cursor) ? cursor : undefined,
+				untilDate: this.date ? this.date.getTime() : undefined,
+			}).then((notes: ThinPackedNote[]) => {
+				this.date = null;
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
 					return {
@@ -53,7 +66,7 @@ export default Vue.extend({
 						cursor: null
 					};
 				}
-			})
+			}),
 		};
 	},
 
@@ -89,7 +102,7 @@ export default Vue.extend({
 			});
 		},
 
-		warp(date) {
+		warp(date: Date) {
 			this.date = date;
 			(this.$refs.timeline as any).reload();
 		}

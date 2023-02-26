@@ -143,6 +143,7 @@ common:
   flush: "キャッシュをクリア"
   signinOrUsePostUrl: "それをするにはサインインするかURLをあなたのインスタンスの検索ボックスに入れてやっていってください。"
   renoted: "Renoteしました"
+  timemachine: "タイムマシン"
 
   permissions:
     "read:account": "アカウントの情報を見る"

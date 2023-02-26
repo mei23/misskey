@@ -3,7 +3,6 @@
 <div class="lnctpgve">
 	<!-- ピン留め投稿 -->
 	<mk-note-detail v-for="n in user.pinnedNotes" :key="n.id" :note="n" :compact="true"/>
-	<!--<mk-calendar @chosen="warp" :start="new Date(user.createdAt)"/>-->
 	<!-- Activityグラフ -->
 	<div class="activity">
 		<ui-container :body-togglable="true"
@@ -54,9 +53,6 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		warp(date) {
-			(this.$refs.tl as any).warp(date);
-		}
 	}
 });
 </script>

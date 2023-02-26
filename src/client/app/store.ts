@@ -78,6 +78,7 @@ const defaultDeviceSettings = Object.assign({
 	showTlPin: false,
 	enableKeyboardShortcutInNote: false,
 	expandUsersPhotos: true,
+	expandUsersWarp: false,
 	expandUsersActivity: true,
 	expandUsersReactions: true,
 	expandUsersReacteds: true,

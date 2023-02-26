@@ -141,6 +141,8 @@ common:
   flush: "Clear cache"
   signinOrUsePostUrl: "To do so, either signin or put the URL into your instance's search box and do it."
   renoted: "Renoted"
+  timemachine: "Timemachine"
+
 
   permissions:
     "read:account": "View your account information"
