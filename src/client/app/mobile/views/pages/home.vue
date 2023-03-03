@@ -52,7 +52,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 		<mk-post-form class="form" :inside="true" v-if="$store.state.settings.showPostFormOnTopOfTlMobile"/>
 
 		<div class="tl">
@@ -77,7 +77,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import Progress from '../../../common/scripts/loading';
 import XTl from './home.timeline.vue';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/home.vue'),
@@ -95,7 +95,7 @@ export default Vue.extend({
 			showNav: false,
 			enableLocalTimeline: false,
 			enableGlobalTimeline: false,
-			faThumbsUp
+			faThumbsUp, faQuestion
 		};
 	},
 
