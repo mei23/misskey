@@ -214,7 +214,7 @@
 		"@types/redis": "2.8.32",
 		"@types/rename": "1.0.4",
 		"@types/request-stats": "3.0.0",
-		"@types/seedrandom": "3.0.4",
+		"@types/seedrandom": "3.0.5",
 		"@types/sharp": "0.31.1",
 		"@types/showdown": "2.0.0",
 		"@types/speakeasy": "2.0.7",
