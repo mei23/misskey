@@ -31,7 +31,7 @@
 						<span class="divider">|</span>
 						<span class="signin" @click="signin">{{ $t('@.signin') }}</span>
 						<span class="divider" v-if="meta && !(meta.disableProfileDirectory)">|</span>
-						<span class="explore" onclick="window.location.href='/explore'" v-if="meta && !(meta.disableProfileDirectory)">{{ $t('@.explore') }}</span>
+						<span class="explore" @click="explore" v-if="meta && !(meta.disableProfileDirectory)">{{ $t('@.explore') }}</span>
 					</p>
 
 					<img v-if="meta && meta.mascotImageUrl" :src="meta.mascotImageUrl" alt="" title="藍" class="char">
@@ -225,7 +225,11 @@ export default Vue.extend({
 				key: 'darkmode',
 				value: !this.$store.state.device.darkmode
 			});
-		}
+		},
+		
+		explore() {
+			this.$router.push(`/explore`);
+		},
 	}
 });
 </script>
