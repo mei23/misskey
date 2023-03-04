@@ -60,7 +60,7 @@ specifiers:
   '@types/suncalc': 1.9.0
   '@types/tinycolor2': 1.4.3
   '@types/tmp': 0.2.3
-  '@types/uuid': 9.0.0
+  '@types/uuid': 9.0.1
   '@types/web-push': 3.3.2
   '@types/webpack': 5.28.0
   '@types/websocket': 1.0.5
@@ -401,7 +401,7 @@ devDependencies:
   '@types/suncalc': 1.9.0
   '@types/tinycolor2': 1.4.3
   '@types/tmp': 0.2.3
-  '@types/uuid': 9.0.0
+  '@types/uuid': 9.0.1
   '@types/web-push': 3.3.2
   '@types/webpack': 5.28.0_lz4sy4wf3557lsssrdckxvzacm
   '@types/websocket': 1.0.5
@@ -2293,8 +2293,8 @@ packages:
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
     dev: true
 
-  /@types/uuid/9.0.0:
-    resolution: {integrity: sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==}
+  /@types/uuid/9.0.1:
+    resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
     dev: true
 
   /@types/vinyl/2.0.7:
