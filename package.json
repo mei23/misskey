@@ -182,7 +182,7 @@
 		"@types/bcryptjs": "2.4.2",
 		"@types/double-ended-queue": "2.1.2",
 		"@types/fluent-ffmpeg": "2.1.21",
-		"@types/glob": "8.0.1",
+		"@types/glob": "8.1.0",
 		"@types/js-yaml": "4.0.5",
 		"@types/jsdom": "20.0.1",
 		"@types/jsonld": "1.5.8",

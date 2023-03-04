@@ -21,7 +21,7 @@ specifiers:
   '@types/bcryptjs': 2.4.2
   '@types/double-ended-queue': 2.1.2
   '@types/fluent-ffmpeg': 2.1.21
-  '@types/glob': 8.0.1
+  '@types/glob': 8.1.0
   '@types/js-yaml': 4.0.5
   '@types/jsdom': 20.0.1
   '@types/jsonld': 1.5.8
@@ -362,7 +362,7 @@ devDependencies:
   '@types/bcryptjs': 2.4.2
   '@types/double-ended-queue': 2.1.2
   '@types/fluent-ffmpeg': 2.1.21
-  '@types/glob': 8.0.1
+  '@types/glob': 8.1.0
   '@types/js-yaml': 4.0.5
   '@types/jsdom': 20.0.1
   '@types/jsonld': 1.5.8
@@ -2012,8 +2012,8 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
-  /@types/glob/8.0.1:
-    resolution: {integrity: sha512-8bVUjXZvJacUFkJXHdyZ9iH1Eaj5V7I8c4NdH5sQJsdXkqT4CA5Dhb4yb4VE/3asyx4L9ayZr1NIhTsWHczmMw==}
+  /@types/glob/8.1.0:
+    resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
     dependencies:
       '@types/minimatch': 5.1.2
       '@types/node': 18.11.18
