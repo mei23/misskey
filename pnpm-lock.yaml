@@ -170,7 +170,7 @@ specifiers:
   stylus-loader: 7.1.0
   summaly: mei23/summaly#3.3.0
   suncalc: 1.9.0
-  systeminformation: 5.17.9
+  systeminformation: 5.17.12
   syuilo-password-strength: 0.0.1
   terser-webpack-plugin: 4.2.3
   textarea-caret: 3.1.0
@@ -320,7 +320,7 @@ dependencies:
   stylus-loader: 7.1.0_577zv5myo6oqbmxnic7hzxwylm
   summaly: github.com/mei23/summaly/812bb61a2be3794a9cbce72efb7dcce3002e72cf
   suncalc: 1.9.0
-  systeminformation: 5.17.9
+  systeminformation: 5.17.12
   syuilo-password-strength: 0.0.1
   terser-webpack-plugin: 4.2.3_webpack@5.75.0
   textarea-caret: 3.1.0
@@ -10186,8 +10186,8 @@ packages:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
     dev: false
 
-  /systeminformation/5.17.9:
-    resolution: {integrity: sha512-inxwRLI/4qpx4o85R54/zdhNagdBGBgs0la7Vl3qBorRVKRDk0nNsDTCGzG4lOITsw1gl7LRWeG4Zsp1pC8nfg==}
+  /systeminformation/5.17.12:
+    resolution: {integrity: sha512-I3pfMW2vue53u+X08BNxaJieaHkRoMMKjWetY9lbYJeWFaeWPO6P4FkNc4XOCX8F9vbQ0HqQ25RJoz3U/B7liw==}
     engines: {node: '>=8.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
