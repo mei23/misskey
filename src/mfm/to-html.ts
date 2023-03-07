@@ -142,7 +142,6 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 		}
 
 		/*
-
 		if (['sub', 'sup'].includes(node.type)) {
 			const el = doc.createElement(node.type);
 			appendChildren(node.children, el);
@@ -152,7 +151,6 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 		if (['fn'].includes(node.type)) {
 			return nodeToData(node, 'i');
 		}
-
 		*/
 
 		const el = doc.createElement('i');
