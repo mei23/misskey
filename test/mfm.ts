@@ -1391,6 +1391,26 @@ describe('fromHtml', () => {
 	it('hashtag', () => {
 		assert.deepStrictEqual(fromHtml('<p>a <a href="https://example.com/tags/a">#a</a> d</p>', ['#a']), 'a #a d');
 	});
+
+	it('bold', () => {
+		assert.deepStrictEqual(fromHtml('<p>a<b>b</b>c</p>'), 'a**b**c');
+	});
+
+	it('small', () => {
+		assert.deepStrictEqual(fromHtml('<p>a<small>b</small>c</p>'), 'a<small>b</small>c');
+	});
+
+	it('italic', () => {
+		assert.deepStrictEqual(fromHtml('<p>a<i>b</i>c</p>'), 'a<i>b</i>c');
+	});
+
+	it('strike', () => {
+		assert.deepStrictEqual(fromHtml('<p>a<del>b</del>c</p>'), 'a~~b~~c');
+	});
+
+	it('title', () => {
+		assert.deepStrictEqual(fromHtml('<p>a<h1>b</h1>c</p>'), 'a【b】\nc');
+	});
 });
 
 describe('toHtml', () => {
