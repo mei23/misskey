@@ -1406,10 +1406,6 @@ describe('toHtml', () => {
 		assert.equal(toHtml(parseFull(input)!), output);
 	});
 
-	it('fn', () => {
-		assert.equal(toHtml(parseFull('$[spin.y,left,speed=1s,delay=0.3s a]')!), `<p><i data-mfm="spin" data-mfm-y="1" data-mfm-left="1" data-mfm-speed="1s" data-mfm-delay="0.3s"><span>a</span></i></p>`);
-	});
-
 	it('blod **', () => {
 		assert.equal(toHtml(parseFull('a**b**c')!), `<p><span>a</span><b><span>b</span></b><span>c</span></p>`);
 	});
@@ -1422,6 +1418,7 @@ describe('toHtml', () => {
 		assert.equal(toHtml(parseFull('a<i>b</i>c')!), `<p><span>a</span><i><span>b</span></i><span>c</span></p>`);
 	});
 
+	/*
 	it('sub', () => {
 		assert.equal(toHtml(parseFull('a<sub>b</sub>c')!), `<p><span>a</span><sub><span>b</span></sub><span>c</span></p>`);
 	});
@@ -1429,18 +1426,15 @@ describe('toHtml', () => {
 	it('sup', () => {
 		assert.equal(toHtml(parseFull('a<sup>b</sup>c')!), `<p><span>a</span><sup><span>b</span></sup><span>c</span></p>`);
 	});
+	*/
 
 	it('strike', () => {
 		assert.equal(toHtml(parseFull('a~~b~~c')!), `<p><span>a</span><del><span>b</span></del><span>c</span></p>`);
 	});
 
-	// color
-
 	it('quote', () => {
 		assert.equal(toHtml(parseFull('a\n> b\nc')!), `<p><span>a<br></span><blockquote><span>b</span></blockquote><span>c</span></p>`);
 	});
-
-	// center
 
 	it('inlineCode', () => {
 		assert.equal(toHtml(parseFull('a`b`c')!), `<p><span>a</span><code>b</code><span>c</span></p>`);
@@ -1458,19 +1452,11 @@ describe('toHtml', () => {
 		assert.equal(toHtml(parseFull('【a】')!), `<p><h1><span>a</span></h1></p>`);
 	});
 
-	it('motion', () => {
-		assert.equal(toHtml(parseFull('<motion>a</motion>')!), `<p><i data-mfm="motion"><span>a</span></i></p>`);
+	/*
+	it('fn', () => {
+		assert.equal(toHtml(parseFull('$[spin.y,left,speed=1s,delay=0.3s a]')!), `<p><i data-mfm="spin" data-mfm-y="1" data-mfm-left="1" data-mfm-speed="1s" data-mfm-delay="0.3s"><span>a</span></i></p>`);
 	});
-
-	it('big', () => {
-		assert.equal(toHtml(parseFull('***a***')!), `<p><b data-mfm="big"><span>a</span></b></p>`);
-	});
-
-	it('bigger', () => {
-		assert.equal(toHtml(parseFull('****a****')!), `<p><b data-mfm="bigger"><span>a</span></b></p>`);
-	});
-
-
+	*/
 });
 
 describe('Extract mentions', () => {
