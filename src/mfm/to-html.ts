@@ -20,6 +20,7 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 	}
 
 	function nodeToElement(node: MfmNode): HTMLElement | Text {
+		/*
 		function nodeToData(node: MfmNode, baseElement: 'i' | 'b' = 'i' ): HTMLElement {
 			const el = doc.createElement(baseElement);
 			el.setAttribute('data-mfm', node.props.name ?? node.type)
@@ -30,6 +31,7 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 			appendChildren(node.children, el);
 			return el;
 		}
+		*/
 
 		if (node.type === 'text') {
 			const el = doc.createElement('span');
