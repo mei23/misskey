@@ -87,6 +87,7 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 			const pre = doc.createElement('pre');
 			const inner = doc.createElement('code');
 			inner.textContent = node.props.code;
+			if (node.props.lang) inner.setAttribute('data-lang', node.props.lang)
 			pre.appendChild(inner);
 			return pre;
 		}
@@ -109,12 +110,6 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 			return el;
 		}
 
-		if (node.type === 'big') {
-			const el = doc.createElement('span');
-			appendChildren(node.children, el);
-			return el;
-		}
-
 		if (node.type === 'small') {
 			const el = doc.createElement('small');
 			appendChildren(node.children, el);
@@ -133,7 +128,46 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 			return el;
 		}
 
-		const el = doc.createElement('span');
+		if (node.type === 'fn') {
+			const el = doc.createElement('i');
+			el.setAttribute('data-mfm', node.props.name)
+			for (const key of Object.keys(node.props.args || {})) {
+				const val = node.props.args[key];
+				el.setAttribute(`data-mfm-${key}`, typeof val === 'boolean' ? '1' : val);
+			}
+			appendChildren(node.children, el);
+			return el;
+		}
+
+		if (node.type === 'sub' || node.type === 'sup') {
+			const el = doc.createElement(node.type);
+			appendChildren(node.children, el);
+			return el;
+		}
+
+		if (node.type === 'motion') {
+			const el = doc.createElement('i');
+			el.setAttribute('data-mfm', node.type)
+			for (const key of Object.keys(node.props.args || {})) {
+				const val = node.props.args[key];
+				el.setAttribute(`data-mfm-${key}`, typeof val === 'boolean' ? '1' : val);
+			}
+			appendChildren(node.children, el);
+			return el;
+		}
+
+		if (node.type === 'bigger' || node.type === 'big') {
+			const el = doc.createElement('b');
+			el.setAttribute('data-mfm', node.type)
+			for (const key of Object.keys(node.props.args || {})) {
+				const val = node.props.args[key];
+				el.setAttribute(`data-mfm-${key}`, typeof val === 'boolean' ? '1' : val);
+			}
+			appendChildren(node.children, el);
+			return el;
+		}
+
+		const el = doc.createElement('i');
 		if (node.children) appendChildren(node.children, el);
 		return el;
 	}
