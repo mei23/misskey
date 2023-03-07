@@ -1406,7 +1406,7 @@ describe('toHtml', () => {
 		assert.equal(toHtml(parseFull(input)!), output);
 	});
 
-	it('blod **', () => {
+	it('blod', () => {
 		assert.equal(toHtml(parseFull('a**b**c')!), `<p><span>a</span><b><span>b</span></b><span>c</span></p>`);
 	});
 
