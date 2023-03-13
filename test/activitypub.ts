@@ -323,7 +323,7 @@ describe('ActivityPub', () => {
 				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
 				followers: 'https://example.com/users/a/followers',
 				searchableBy: [ 'https://example.com/users/a/followers' ],
-			}), 'follower');
+			}), 'none');
 		});
 
 		it('parseSearchableBy - reaction', () => {
@@ -331,7 +331,7 @@ describe('ActivityPub', () => {
 				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
 				followers: 'https://example.com/users/a/followers',
 				searchableBy: [],
-			}), 'reaction');
+			}), 'none');
 		});
 
 		it('parseSearchableBy - undefined', () => {

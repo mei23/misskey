@@ -625,8 +625,8 @@ function parseSearchableBy(actor: IActor) {
 	if (actor.searchableBy == null) return null;
 	const searchableBy = toArray(actor.searchableBy);
 	if (searchableBy.includes('https://www.w3.org/ns/activitystreams#Public')) return 'public';
-	if (searchableBy.includes(getApId(actor.followers))) return 'follower';
-	return 'reaction';
+	if (searchableBy.includes(getApId(actor.followers))) return 'none';
+	return 'none';
 }
 
 export const exportedForTesting = {
