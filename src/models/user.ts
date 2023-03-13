@@ -141,6 +141,8 @@ type IUserBase = {
 	 */
 	isExplorable?: boolean;
 
+	searchableBy?: 'public' | 'follower' | 'reacted' | null;
+
 	/**
 	 * このアカウントに届いているフォローリクエストの数
 	 */

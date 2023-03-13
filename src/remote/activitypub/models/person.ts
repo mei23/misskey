@@ -161,6 +161,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 			name: person.name ? truncate(person.name, MAX_NAME_LENGTH) : person.name,
 			isLocked: person.manuallyApprovesFollowers,
 			isExplorable: !!person.discoverable,
+			searchableBy: parseSearchableBy(person),
 			username: person.preferredUsername,
 			usernameLower: person.preferredUsername.toLowerCase(),
 			host,
@@ -384,6 +385,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 		isCat: (person as any).isCat === true,
 		isLocked: person.manuallyApprovesFollowers,
 		isExplorable: !!person.discoverable,
+		searchableBy: parseSearchableBy(person),
 		publicKey: person.publicKey ? {
 			id: person.publicKey.id,
 			publicKeyPem: person.publicKey.publicKeyPem
@@ -618,3 +620,15 @@ export async function fetchOutbox(user: IUser) {
 		}
 	}
 }
+
+function parseSearchableBy(actor: IActor) {
+	if (actor.searchableBy == null) return null;
+	const searchableBy = toArray(actor.searchableBy);
+	if (searchableBy.includes('https://www.w3.org/ns/activitystreams#Public')) return 'public';
+	if (searchableBy.includes(getApId(actor.followers))) return 'follower';
+	return 'reaction';
+}
+
+export const exportedForTesting = {
+	parseSearchableBy,
+};

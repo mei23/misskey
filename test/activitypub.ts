@@ -17,7 +17,7 @@ import * as assert from 'assert';
 import rndstr from 'rndstr';
 import Resolver from '../src/remote/activitypub/resolver';
 import { IObject } from '../src/remote/activitypub/type';
-import { createPerson } from '../src/remote/activitypub/models/person';
+import { createPerson, exportedForTesting } from '../src/remote/activitypub/models/person';
 import { createNote } from '../src/remote/activitypub/models/note';
 import { tryProcessInbox } from '../src/queue/processors/inbox';
 import { LdSignature } from '../src/remote/activitypub/misc/ld-signature';
@@ -304,6 +304,41 @@ describe('ActivityPub', () => {
 			await assert.rejects(ldSignature.verifyRsaSignature2017(signed, ec1.publicKey), {
 				message: 'publicKey is not rsa'
 			});
+		});
+	});
+
+	describe('parseSearchableBy', () => {
+		const parseSearchableBy = exportedForTesting.parseSearchableBy;
+
+		it('parseSearchableBy - public', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [ 'https://www.w3.org/ns/activitystreams#Public' ],
+			}), 'public');
+		});
+
+		it('parseSearchableBy - follower', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [ 'https://example.com/users/a/followers' ],
+			}), 'follower');
+		});
+
+		it('parseSearchableBy - reaction', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [],
+			}), 'reaction');
+		});
+
+		it('parseSearchableBy - undefined', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+			}), null);
 		});
 	});
 });

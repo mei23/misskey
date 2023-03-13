@@ -434,7 +434,7 @@ export default async (user: IUser, data: Option, silent = false) => {
 		}
 
 		// Register to search database
-		index(note);
+		index(note, user);
 
 		if (isLocalUser(user) && note.poll && note.poll.expiresAt) {
 			createNotifyPollFinishedJob(note, user, note.poll.expiresAt);
@@ -555,8 +555,9 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 	}
 }
 
-function index(note: INote) {
+function index(note: INote, user: IUser) {
 	if (note.visibility !== 'public') return;
+	if (user.searchableBy != null && user.searchableBy !== 'public') return;
 
 	if (config.mecabSearch) {
 		// for search
