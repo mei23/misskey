@@ -126,6 +126,7 @@ export type PackedUser = ThinPackedUser & {
 	refuseFollow?: boolean;
 	autoAcceptFollowed?: boolean;
 	isExplorable?: boolean;
+	searchableBy?: string;
 	hideFollows?: string;
 	wallpaperId?: string | null;
 	wallpaperUrl?: string | null;

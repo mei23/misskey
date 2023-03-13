@@ -925,6 +925,7 @@ common/views/components/profile-editor.vue:
   auto-accept-followed: "Automatically approve follows from the people you follow"
   avoid-search-index: "Avoid search engine index"
   isExplorable: "Show in explore"
+  searchableBy: "Allow post search"
   hideFollows-none: "Not hide Following / Followed list"
   hideFollows-follower: "Show Following / Followed list only to followers"
   hideFollows-always: "Always hide Following / Followed list"

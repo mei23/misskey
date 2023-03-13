@@ -543,6 +543,7 @@ export async function pack(
 			refuseFollow: !!db.refuseFollow,
 			autoAcceptFollowed: !!db.autoAcceptFollowed,
 			isExplorable: !!db.isExplorable,
+			searchableBy: db.searchableBy || 'public',
 			hideFollows: db.hideFollows || '',
 
 			wallpaperId: toOidStringOrNull(db.wallpaperId),
