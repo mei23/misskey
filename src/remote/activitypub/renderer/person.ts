@@ -107,6 +107,7 @@ export default async (user: ILocalUser) => {
 		tag,
 		manuallyApprovesFollowers: user.isLocked || user.carefulRemote,
 		discoverable: !!user.isExplorable,
+		searchableBy: user.searchableBy === 'none' ? [] : ['https://www.w3.org/ns/activitystreams#Public'],
 		publicKey: renderKey(user, `#main-key`),
 		isCat: user.isCat,
 		attachment: attachment.length ? attachment : undefined,

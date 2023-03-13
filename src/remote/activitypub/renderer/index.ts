@@ -41,6 +41,7 @@ export const renderActivity = (x: any): IActivity | null => {
 				// Fedibird
 				fedibird: 'http://fedibird.com/ns#',
 				quoteUri: 'fedibird:quoteUri',
+				searchableBy: { '@id': 'fedibird:searchableBy', '@type': '@id' },
 			}
 		]
 	}, x);
