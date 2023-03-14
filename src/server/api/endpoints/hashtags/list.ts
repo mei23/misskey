@@ -6,6 +6,8 @@ export const meta = {
 	tags: ['hashtags'],
 
 	requireCredential: false,
+	allowGet: true,
+	cacheSec: 600,
 
 	params: {
 		limit: {
