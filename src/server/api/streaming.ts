@@ -63,34 +63,6 @@ module.exports = (server: http.Server) => {
 
 		const main = new MainStreamConnection(connection, ev, user, app);
 
-		//#region 後方互換性のため
-		if (request.resourceURL.pathname !== '/streaming') {
-			main.sendMessageToWsOverride = (type: string, payload: any) => {
-				if (type == 'channel') {
-					type = payload.type;
-					payload = payload.body;
-				}
-				if (type.startsWith('api:')) {
-					type = type.replace('api:', 'api-res:');
-				}
-				connection.send(JSON.stringify({
-					type: type,
-					body: payload
-				}));
-			};
-
-			main.connectChannel(Math.random().toString().substr(2, 8), null,
-				request.resourceURL.pathname === '/' ? 'homeTimeline' :
-				request.resourceURL.pathname === '/local-timeline' ? 'localTimeline' :
-				request.resourceURL.pathname === '/hybrid-timeline' ? 'hybridTimeline' :
-				request.resourceURL.pathname === '/global-timeline' ? 'globalTimeline' : null);
-
-			if (request.resourceURL.pathname === '/') {
-				main.connectChannel(Math.random().toString().substr(2, 8), null, 'main');
-			}
-		}
-		//#endregion 後方互換性のため
-
 		const intervalId = user ? setInterval(() => {
 			activeUsersChart.update(user);
 		}, 1000 * 60 * 5) : null;
