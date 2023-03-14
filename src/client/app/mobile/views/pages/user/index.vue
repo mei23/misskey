@@ -141,7 +141,9 @@ export default Vue.extend({
 		fetch() {
 			Progress.start();
 
-			this.$root.api('users/show', parseAcct(this.$route.params.user)).then(user => {
+			const { username, host } = parseAcct(this.$route.params.user);
+
+			this.$root.api('users/show', { username, host: host ?? undefined }, false, !this.$store.getters.isSignedIn).then(user => {
 				if (this.$store.state.i || !user.host) this.user = user;
 				this.fetching = false;
 

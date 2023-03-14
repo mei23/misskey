@@ -25,7 +25,7 @@ export default Vue.extend({
 				limit: fetchLimit + 1,
 				withFiles: this.withMedia,
 				untilId: cursor ? cursor : undefined,
-			}).then(notes => {
+			}, false, !this.$store.getters.isSignedIn).then(notes => {
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();
 					return {
