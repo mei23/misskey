@@ -82,7 +82,8 @@ router.get('/assets/*', async ctx => {
 // Apple touch icon
 router.get('/apple-touch-icon.png', async ctx => {
 	await send(ctx as any, '/assets/apple-touch-icon.png', {
-		root: client
+		root: client,
+		maxage: ms('7 days'),
 	});
 });
 
