@@ -30,7 +30,7 @@ const AP = 'application/activity+json; charset=utf-8';
 const JSON = 'application/json; charset=utf-8';
 const HTML = 'text/html; charset=utf-8';
 
-const CSP_STRICT = `base-uri 'none'; default-src 'none'; script-src 'nonce-X 'strict-dynamic' https:; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`;
+const CSP_STRICT = `base-uri 'none'; default-src 'none'; script-src 'self' https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/; img-src 'self' https: data: blob:; media-src 'self' https:; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-src 'self' https:; manifest-src 'self'; connect-src 'self' data: blob: ws://misskey.local https://api.rss2json.com; frame-ancestors 'none'`;
 
 describe('Fetch resource', () => {
 	let p: childProcess.ChildProcess;
