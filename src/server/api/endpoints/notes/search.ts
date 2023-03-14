@@ -24,6 +24,8 @@ export const meta = {
 	tags: ['notes'],
 
 	requireCredential: false,
+	allowGet: true,
+	cacheSec: 60,
 
 	params: {
 		query: {
