@@ -23,6 +23,7 @@ module.exports = (server: http.Server) => {
 	});
 
 	ws.on('request', async (request) => {
+		// auth
 		const q = request.resourceURL.query as ParsedUrlQuery;
 		const [user, app] = await authenticate(q.i as string);
 
@@ -33,12 +34,14 @@ module.exports = (server: http.Server) => {
 
 		const connection = request.accept();
 
+		// connection log
 		connCount++;
 		const connHash = rndstr(8);
 		const connPeer = `${connection?.remoteAddress}`;
 		const connUser = user ? `${user._id} (${user.username})` : 'anonymous';
 		streamLogger.info(`connect ${connHash} (${connPeer} ${connUser} total=${connCount}`);
 
+		// events
 		let ev: EventEmitter;
 
 		if (config.redis) {
@@ -63,6 +66,7 @@ module.exports = (server: http.Server) => {
 
 		const main = new MainStreamConnection(connection, ev, user, app);
 
+		// active user chart
 		const intervalId = user ? setInterval(() => {
 			activeUsersChart.update(user);
 		}, 1000 * 60 * 5) : null;
@@ -70,13 +74,16 @@ module.exports = (server: http.Server) => {
 		if (user) activeUsersChart.update(user);
 
 		connection.once('close', () => {
+			// connection log
 			connCount--;
 			if (intervalId) clearInterval(intervalId);
 			streamLogger.info(`close ${connHash} (${connPeer} ${connUser}) total=${connCount}`);
+
 			ev.removeAllListeners();
 			main.dispose();
 		});
 
+		// ping
 		connection.on('message', async (data) => {
 			if (data.utf8Data == 'ping') {
 				connection.send('pong');
