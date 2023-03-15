@@ -173,7 +173,7 @@
 		"web-push": "3.5.0",
 		"webpack": "5.76.1",
 		"webpack-cli": "4.10.0",
-		"websocket": "1.0.34",
+		"ws": "8.13.0",
 		"xev": "2.0.1",
 		"xmlbuilder": "15.1.1"
 	},

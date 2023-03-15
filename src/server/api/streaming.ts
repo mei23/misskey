@@ -1,45 +1,35 @@
 import * as http from 'http';
-import * as websocket from 'websocket';
+import * as webSocket from 'ws';
 import { createConnection } from '../../db/redis';
 import Xev from 'xev';
 
 import MainStreamConnection from './stream';
-import { ParsedUrlQuery } from 'querystring';
-import authenticate from './authenticate';
+import authenticate, { AuthenticationError } from './authenticate';
 import { EventEmitter } from 'events';
 import config from '../../config';
-import rndstr from 'rndstr';
 import Logger from '../../services/logger';
 import activeUsersChart from '../../services/chart/active-users';
+import * as querystring from 'querystring';
+import { IUser } from '../../models/user';
+import { IApp } from '../../models/app';
 
 export const streamLogger = new Logger('stream', 'cyan');
 
-let connCount = 0;
-
 module.exports = (server: http.Server) => {
-	// Init websocket server
-	const ws = new websocket.server({
-		httpServer: server
-	});
+	const wss = new webSocket.WebSocketServer({ noServer: true });
 
-	ws.on('request', async (request) => {
-		// auth
-		const q = request.resourceURL.query as ParsedUrlQuery;
-		const [user, app] = await authenticate(q.i as string);
+	// 2. ユーザー認証後はここにくる
+	wss.on('connection', (ws: webSocket.WebSocket, request: http.IncomingMessage, user: IUser | null, app: IApp | null) => {
+		streamLogger.debug(`connect: user=${user?.username}`);
 
-		if (user?.isSuspended || user?.isDeleted) {
-			request.reject(400);
-			return;
-		}
+		ws.on('error', e => streamLogger.error(e));
 
-		const connection = request.accept();
-
-		// connection log
-		connCount++;
-		const connHash = rndstr(8);
-		const connPeer = `${connection?.remoteAddress}`;
-		const connUser = user ? `${user._id} (${user.username})` : 'anonymous';
-		streamLogger.info(`connect ${connHash} (${connPeer} ${connUser} total=${connCount}`);
+		ws.on('message', data => {
+			streamLogger.debug(`recv ${data}`);
+			if (data.toString() === 'ping') {
+				ws.send('pong');
+			}
+		});
 
 		// events
 		let ev: EventEmitter;
@@ -56,7 +46,8 @@ module.exports = (server: http.Server) => {
 				ev.emit(obj.channel, obj.message);
 			});
 
-			connection.once('close', () => {
+			ws.once('close', (code, reason) => {
+				streamLogger.debug(`close ${code}`);
 				redisSubscriber.unsubscribe();
 				redisSubscriber.quit();
 			});
@@ -64,30 +55,68 @@ module.exports = (server: http.Server) => {
 			ev = new Xev();
 		}
 
-		const main = new MainStreamConnection(connection, ev, user, app);
+		const main = new MainStreamConnection(ws, ev, user, app);
 
-		// active user chart
-		const intervalId = user ? setInterval(() => {
-			activeUsersChart.update(user);
-		}, 1000 * 60 * 5) : null;
-
-		if (user) activeUsersChart.update(user);
-
-		connection.once('close', () => {
-			// connection log
-			connCount--;
-			if (intervalId) clearInterval(intervalId);
-			streamLogger.info(`close ${connHash} (${connPeer} ${connUser}) total=${connCount}`);
-
+		ws.once('close', () => {
 			ev.removeAllListeners();
 			main.dispose();
 		});
+	});
 
-		// ping
-		connection.on('message', async (data) => {
-			if (data.utf8Data == 'ping') {
-				connection.send('pong');
+	// 1. 認証
+	server.on('upgrade', async (request, socket, head) => {
+		function onSocketError(e: any) {
+			streamLogger.error(e);
+		}
+
+		socket.on('error', onSocketError);
+
+		// Auth
+		try {
+			const [user, app] = await auth(request);
+
+			if (user?.isSuspended) {
+				socket.write('HTTP/1.1 403 Forbidden\r\n\r\n');
+				socket.destroy();
+				return;
 			}
-		});
-	});	// ws on request
-};
+
+			if (user?.isDeleted) {
+				socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+				socket.destroy();
+				return;
+			}
+
+			socket.removeListener('error', onSocketError);
+
+			wss.handleUpgrade(request, socket, head, (ws) => {
+				wss.emit('connection', ws, request, user, app);
+			});
+
+			if (user) activeUsersChart.update(user);
+		} catch (e: any) {
+			if (e instanceof AuthenticationError) {
+				socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
+				socket.destroy();
+				return;
+			} else {
+				streamLogger.error(e);
+				socket.write('HTTP/1.1 500 Internal Server Error\r\n\r\n');
+				socket.destroy();
+				return;
+			}
+		}
+	});
+}
+
+function auth(request: http.IncomingMessage) {
+	if (!request.url) return [null, null];
+
+	const qs = request.url.split('?')[1];
+	if (!qs) return [null, null];
+
+	const q = querystring.parse(qs);
+	if (!q.i) return [null, null];
+
+	return authenticate(q.i as string);
+}
