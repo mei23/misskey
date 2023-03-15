@@ -1,5 +1,5 @@
 import * as http from 'http';
-import * as webSocket from 'ws';
+import * as WebSocket from 'ws';
 import { createConnection } from '../../db/redis';
 import Xev from 'xev';
 
@@ -16,10 +16,10 @@ import { IApp } from '../../models/app';
 export const streamLogger = new Logger('stream', 'cyan');
 
 module.exports = (server: http.Server) => {
-	const wss = new webSocket.WebSocketServer({ noServer: true });
+	const wss = new WebSocket.WebSocketServer({ noServer: true });
 
 	// 2. ユーザー認証後はここにくる
-	wss.on('connection', (ws: webSocket.WebSocket, request: http.IncomingMessage, user: IUser | null, app: IApp | null) => {
+	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, user: IUser | null, app: IApp | null) => {
 		streamLogger.debug(`connect: user=${user?.username}`);
 
 		ws.on('error', e => streamLogger.error(e));

@@ -1,5 +1,5 @@
 import autobind from 'autobind-decorator';
-import * as webSocket from 'ws'; 
+import * as WebSocket from 'ws'; 
 
 import User, { IUser } from '../../../models/user';
 import readNotification from '../common/read-notification';
@@ -20,7 +20,7 @@ import { PubSubMessage, NoteStreamBody } from '../../../services/stream';
 export default class Connection {
 	public user?: IUser | null;
 	public app?: IApp | null;
-	private wsConnection: webSocket.WebSocket;
+	private wsConnection: WebSocket.WebSocket;
 	public subscriber: EventEmitter;
 	private channels: Channel[] = [];
 	private subscribingNotes: any = {};
@@ -28,7 +28,7 @@ export default class Connection {
 	public muting: string[] = [];
 
 	constructor(
-		wsConnection: webSocket.WebSocket,
+		wsConnection: WebSocket.WebSocket,
 		subscriber: EventEmitter,
 		user: IUser | null | undefined,
 		app: IApp | null | undefined,
@@ -50,7 +50,7 @@ export default class Connection {
 	 * クライアントからメッセージ受信時
 	 */
 	@autobind
-	private async onWsConnectionMessage(data: webSocket.RawData) {
+	private async onWsConnectionMessage(data: WebSocket.RawData) {
 		if (data == null) return;
 		if (data.toString() === 'ping') return;
 
