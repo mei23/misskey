@@ -8,6 +8,8 @@ import { SIGKILL } from 'constants';
 import { getHtml } from '../src/misc/fetch';
 import { JSDOM } from 'jsdom';
 import * as FormData from 'form-data';
+import * as WebSocket from 'ws';
+import { inspect } from 'util';
 
 export const port = loadConfig().port;
 
@@ -183,3 +185,20 @@ export const getDocument = async (path: string): Promise<Document> => {
 	const doc = window.document;
 	return doc;
 };
+
+export function connectWs(token?: string) {
+	return new Promise((res, rej) => {
+		const ws = new WebSocket(`ws://localhost:${port}/streaming${ token ? `?i=${token}` : ''}`);
+
+		ws.on('open', () => {
+			res(0);
+			ws.close();
+		});
+
+		ws.on('error', e => {
+			const m = e.message.match(/(\d{3})$/);
+			res(Number(m?.[1]) ?? 999);
+			ws.close();
+		});
+	});
+}
