@@ -1,0 +1,40 @@
+name: Node.js CI
+
+on: [push]
+
+jobs:
+  build_and_test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    services:
+      mongo:
+        image: mongo:5-focal
+        ports:
+          - 57010:27017
+      redis:
+        image: redis:6.2-alpine
+        ports:
+          - 56310:6379
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2.2.4
+      with:
+        version: 7
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - run: node cli/diag-environment.js
+    - run: sudo apt-get update -y
+    - run: sudo apt-get install -y --no-install-recommends ffmpeg
+    - run: pnpm i --frozen-lockfile
+    - run: pnpm build
+    - run: ls built/meta.json
+    - run: cp test/test.yml .config/
+    - run: pnpm test
