@@ -36,7 +36,7 @@ specifiers:
   '@types/koa__cors': 3.3.1
   '@types/koa__multer': 2.0.4
   '@types/koa__router': 8.0.11
-  '@types/lodash': 4.14.191
+  '@types/lodash': 4.14.192
   '@types/mocha': 10.0.1
   '@types/mongodb': 4.0.6
   '@types/node': 18.11.18
@@ -377,7 +377,7 @@ devDependencies:
   '@types/koa__cors': 3.3.1
   '@types/koa__multer': 2.0.4
   '@types/koa__router': 8.0.11
-  '@types/lodash': 4.14.191
+  '@types/lodash': 4.14.192
   '@types/mocha': 10.0.1
   '@types/mongodb': 4.0.6
   '@types/node': 18.11.18
@@ -2148,8 +2148,8 @@ packages:
       '@types/koa': 2.13.6
     dev: true
 
-  /@types/lodash/4.14.191:
-    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+  /@types/lodash/4.14.192:
+    resolution: {integrity: sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A==}
     dev: true
 
   /@types/mime/3.0.1:
@@ -2166,7 +2166,7 @@ packages:
   /@types/mongodb/4.0.6:
     resolution: {integrity: sha512-XTbn1Z1j7fHzC1Vkd9LYO48lO2C581r+oRCi/KNzcTHIri7hEaya8r9vxoHJiKr+oeUWVK69+9xr84Mp+aReaw==}
     dependencies:
-      mongodb: 3.7.0
+      mongodb: 3.7.3
     transitivePeerDependencies:
       - aws4
       - bson-ext
