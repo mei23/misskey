@@ -178,7 +178,7 @@
 		"xmlbuilder": "15.1.1"
 	},
 	"devDependencies": {
-		"@redocly/openapi-core": "1.0.0-beta.124",
+		"@redocly/openapi-core": "1.0.0-beta.125",
 		"@types/bcryptjs": "2.4.2",
 		"@types/double-ended-queue": "2.1.2",
 		"@types/fluent-ffmpeg": "2.1.21",
