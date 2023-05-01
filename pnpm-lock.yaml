@@ -152,7 +152,7 @@ specifiers:
   promise-sequential: 1.1.1
   pug: 3.0.2
   punycode: 2.3.0
-  qrcode: 1.5.1
+  qrcode: 1.5.3
   ratelimiter: 3.4.1
   reconnecting-websocket: 4.4.0
   redis-lock: 0.1.4
@@ -302,7 +302,7 @@ dependencies:
   promise-sequential: 1.1.1
   pug: 3.0.2
   punycode: 2.3.0
-  qrcode: 1.5.1
+  qrcode: 1.5.3
   ratelimiter: 3.4.1
   reconnecting-websocket: 4.4.0
   redis-lock: 0.1.4
@@ -5580,7 +5580,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -9103,8 +9103,8 @@ packages:
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
     dev: false
 
-  /qrcode/1.5.1:
-    resolution: {integrity: sha512-nS8NJ1Z3md8uTjKtP+SGGhfqmTCs5flU/xR623oI0JX+Wepz9R8UrRVCTBTJm3qGw3rH6jJ6MUHjkDx15cxSSg==}
+  /qrcode/1.5.3:
+    resolution: {integrity: sha512-puyri6ApkEHYiVl4CFzo1tDkAZ+ATcnbJrJ6RiBM1Fhctdn/ix9MTE3hRph33omisEbC/2fcfemsseiKgBPKZg==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dependencies:
