@@ -36,7 +36,7 @@ specifiers:
   '@types/koa__cors': 3.3.1
   '@types/koa__multer': 2.0.4
   '@types/koa__router': 8.0.11
-  '@types/lodash': 4.14.192
+  '@types/lodash': 4.14.194
   '@types/mocha': 10.0.1
   '@types/mongodb': 4.0.6
   '@types/node': 18.11.18
@@ -377,7 +377,7 @@ devDependencies:
   '@types/koa__cors': 3.3.1
   '@types/koa__multer': 2.0.4
   '@types/koa__router': 8.0.11
-  '@types/lodash': 4.14.192
+  '@types/lodash': 4.14.194
   '@types/mocha': 10.0.1
   '@types/mongodb': 4.0.6
   '@types/node': 18.11.18
@@ -2138,8 +2138,8 @@ packages:
       '@types/koa': 2.13.6
     dev: true
 
-  /@types/lodash/4.14.192:
-    resolution: {integrity: sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A==}
+  /@types/lodash/4.14.194:
+    resolution: {integrity: sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==}
     dev: true
 
   /@types/mime/3.0.1:
@@ -5580,7 +5580,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
