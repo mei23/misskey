@@ -109,7 +109,7 @@ specifiers:
   http-signature: git+https://github.com/mei23/node-http-signature#v1.6.0-mei
   https-proxy-agent: 5.0.1
   insert-text-at-cursor: 0.3.0
-  ioredis: 4.28.5
+  ioredis: 5.3.2
   ip-cidr: 3.1.0
   js-yaml: 4.1.0
   jsdom: 20.0.3
@@ -260,7 +260,7 @@ dependencies:
   http-signature: github.com/mei23/node-http-signature/4a6ed5def40b9b24f52e44aab229d6dd74895275
   https-proxy-agent: 5.0.1
   insert-text-at-cursor: 0.3.0
-  ioredis: 4.28.5
+  ioredis: 5.3.2
   ip-cidr: 3.1.0
   js-yaml: 4.1.0
   jsdom: 20.0.3
@@ -3343,7 +3343,7 @@ packages:
       cron-parser: 4.7.1
       debuglog: 1.0.1
       get-port: 5.1.1
-      ioredis: 5.2.4
+      ioredis: 5.3.2
       lodash: 4.17.21
       msgpackr: 1.8.1
       semver: 7.3.8
@@ -5580,7 +5580,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -6327,27 +6327,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /ioredis/4.28.5:
-    resolution: {integrity: sha512-3GYo0GJtLqgNXj4YhrisLaNNvWSNwSS2wS4OELGfGxH8I69+XfNdnmV1AyN+ZqMh0i7eX+SWjrwFKDBDgfBC1A==}
-    engines: {node: '>=6'}
-    dependencies:
-      cluster-key-slot: 1.1.2
-      debug: 4.3.4
-      denque: 1.5.1
-      lodash.defaults: 4.2.0
-      lodash.flatten: 4.4.0
-      lodash.isarguments: 3.1.0
-      p-map: 2.1.0
-      redis-commands: 1.7.0
-      redis-errors: 1.2.0
-      redis-parser: 3.0.0
-      standard-as-callback: 2.1.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /ioredis/5.2.4:
-    resolution: {integrity: sha512-qIpuAEt32lZJQ0XyrloCRdlEdUUNGG9i0UOk6zgzK6igyudNWqEBxfH6OlbnOOoBBvr1WB02mm8fR55CnikRng==}
+  /ioredis/5.3.2:
+    resolution: {integrity: sha512-1DKMMzlIHM02eBBVOFQ1+AolGjs6+xEcM4PDL7NqOS6szq7H9jSaEkIUH6/a5Hl241LzW6JLSiAbNvTQjUupUA==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
@@ -8231,11 +8212,6 @@ packages:
       p-limit: 3.1.0
     dev: true
 
-  /p-map/2.1.0:
-    resolution: {integrity: sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==}
-    engines: {node: '>=6'}
-    dev: false
-
   /p-map/4.0.0:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
@@ -9263,10 +9239,6 @@ packages:
 
   /reconnecting-websocket/4.4.0:
     resolution: {integrity: sha512-D2E33ceRPga0NvTDhJmphEgJ7FUYF0v4lr1ki0csq06OdlxKfugGzN0dSkxM/NfqCxYELK4KcaTOUOjTV6Dcng==}
-    dev: false
-
-  /redis-commands/1.7.0:
-    resolution: {integrity: sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ==}
     dev: false
 
   /redis-errors/1.2.0:

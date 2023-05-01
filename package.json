@@ -80,7 +80,7 @@
 		"http-signature": "git+https://github.com/mei23/node-http-signature#v1.6.0-mei",
 		"https-proxy-agent": "5.0.1",
 		"insert-text-at-cursor": "0.3.0",
-		"ioredis": "4.28.5",
+		"ioredis": "5.3.2",
 		"ip-cidr": "3.1.0",
 		"js-yaml": "4.1.0",
 		"jsdom": "20.0.3",
