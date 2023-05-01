@@ -101,7 +101,7 @@ specifiers:
   gulp-replace: 1.1.4
   gulp-sourcemaps: 3.0.0
   gulp-stylus: 3.0.0
-  gulp-swc: 1.2.3
+  gulp-swc: 1.3.2
   gulp-terser: 2.1.0
   highlight.js: 10.6.0
   htmlescape: 1.1.1
@@ -252,7 +252,7 @@ dependencies:
   gulp-replace: 1.1.4
   gulp-sourcemaps: 3.0.0
   gulp-stylus: 3.0.0
-  gulp-swc: 1.2.3_h3hic74wnjc5uh34xf4n37ajhm
+  gulp-swc: 1.3.2_h3hic74wnjc5uh34xf4n37ajhm
   gulp-terser: 2.1.0
   highlight.js: 10.6.0
   htmlescape: 1.1.1
@@ -5932,16 +5932,16 @@ packages:
       - supports-color
     dev: false
 
-  /gulp-swc/1.2.3_h3hic74wnjc5uh34xf4n37ajhm:
-    resolution: {integrity: sha512-26++6kMzPlr0VxDhSTLurnQCvK+2YNoCJ2GIP9XbTAlQmKWll/s9K76hyjR0n1A2NankA1DQqwS4sy7ZZ/dDsA==}
-    engines: {node: '>=10'}
+  /gulp-swc/1.3.2_h3hic74wnjc5uh34xf4n37ajhm:
+    resolution: {integrity: sha512-4pthk23bhSiggxs6PWp4JFePLTA1NRNxOs3pDjWMWZNcrXvjB2W40TZWIHwNMh+EGTQ3ROrEq/tBOuPLr0kN3w==}
+    engines: {node: '>=14'}
     peerDependencies:
-      '@swc/core': ^1.2.106
+      '@swc/core': ^1.3.46
       gulp: ~3.9.0 || ^4.0.0
     dependencies:
       '@swc/core': 1.3.56
       gulp: 4.0.2
-      plugin-error: 1.0.1
+      plugin-error: 2.0.1
       replace-ext: 2.0.0
       vinyl-sourcemaps-apply: 0.2.1
     dev: false
