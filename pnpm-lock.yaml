@@ -118,7 +118,7 @@ specifiers:
   jsonld: 5.2.0
   katex: 0.16.4
   koa: 2.14.1
-  koa-bodyparser: 4.3.0
+  koa-bodyparser: 4.4.0
   koa-favicon: 2.1.0
   koa-json-body: 5.3.0
   koa-logger: 3.2.1
@@ -269,7 +269,7 @@ dependencies:
   jsonld: 5.2.0
   katex: 0.16.4
   koa: 2.14.1
-  koa-bodyparser: 4.3.0
+  koa-bodyparser: 4.4.0
   koa-favicon: 2.1.0
   koa-json-body: 5.3.0
   koa-logger: 3.2.1
@@ -7018,8 +7018,8 @@ packages:
     engines: {node: '>= 8'}
     dev: false
 
-  /koa-bodyparser/4.3.0:
-    resolution: {integrity: sha512-uyV8G29KAGwZc4q/0WUAjH+Tsmuv9ImfBUF2oZVyZtaeo0husInagyn/JH85xMSxM0hEk/mbCII5ubLDuqW/Rw==}
+  /koa-bodyparser/4.4.0:
+    resolution: {integrity: sha512-AXPY7wwKZUmbgb8VkTEUFoRNOlx6aWRJwEnQD+zfNf33/7KSAkN4Oo9BqlIk80D+5TvuqlhpQT5dPVcyxl5Zsw==}
     engines: {node: '>=8.0.0'}
     dependencies:
       co-body: 6.1.0
