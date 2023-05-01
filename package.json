@@ -57,7 +57,7 @@
 		"crc-32": "1.2.2",
 		"css-loader": "6.7.3",
 		"cssnano": "5.1.15",
-		"date-fns": "2.29.3",
+		"date-fns": "2.30.0",
 		"deepcopy": "0.6.3",
 		"double-ended-queue": "2.1.0-0",
 		"escape-regexp": "0.0.1",
