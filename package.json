@@ -87,7 +87,7 @@
 		"json5": "2.2.3",
 		"json5-loader": "4.0.1",
 		"jsonld": "5.2.0",
-		"katex": "0.16.4",
+		"katex": "0.16.7",
 		"koa": "2.14.2",
 		"koa-bodyparser": "4.4.0",
 		"koa-favicon": "2.1.0",
