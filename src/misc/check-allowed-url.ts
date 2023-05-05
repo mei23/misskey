@@ -1,4 +1,6 @@
 export function checkAllowedUrl(url: string | URL | undefined): boolean {
+	if (process.env.NODE_ENV !== 'production') return true;
+
 	try {
 		if (url == null) return false;
 
