@@ -7,13 +7,13 @@ import config from '../config';
 import * as chalk from 'chalk';
 import Logger from '../services/logger';
 import { checkPrivateIp } from './check-private-ip';
+import { checkAllowedUrl } from './check-allowed-url';
 
 const pipeline = util.promisify(stream.pipeline);
 
 export async function downloadUrl(url: string, path: string) {
-	const u = new URL(url);
-	if (!u.protocol.match(/^https?:$/) || u.hostname === 'unix') {
-		throw new StatusError('Invalid protocol', 400);
+	if (!checkAllowedUrl(url)) {
+		throw new StatusError('Invalid URL', 400);
 	}
 
 	const logger = new Logger('download-url');
@@ -43,6 +43,11 @@ export async function downloadUrl(url: string, path: string) {
 		},
 		http2: false,	// default
 		retry: 0,
+	}).on('redirect', (res: Got.Response, opts: Got.NormalizedOptions) => {
+		if (!checkAllowedUrl(opts.url)) {
+			logger.warn(`Invalid URL: ${opts.url}`);
+			req.destroy();
+		}
 	}).on('response', (res: Got.Response) => {
 		if (checkPrivateIp(res.ip)) {
 			logger.warn(`Blocked address: ${res.ip}`);
