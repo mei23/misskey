@@ -105,6 +105,8 @@ export default async (endpoint: string, user: IUser | null | undefined, app: IAp
 						reason: `cannot cast to ${param.validator.name}`,
 					})
 				}
+			} else if (param.validator.name === 'Array' && typeof data[k] === 'string') {
+				data[k] = (data[k] as string).split(',');
 			}
 		}
 	}

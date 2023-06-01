@@ -79,7 +79,7 @@ export default Vue.extend({
 				fileType: this.mediaOnly ? ['image/jpeg', 'image/png', 'image/apng', 'image/gif', 'image/webp', 'image/avif', 'video/mp4', 'video/webm'] : undefined,
 				excludeNsfw: this.filter === 'excludeNsfw',
 				excludeSfw: this.filter === 'excludeSfw',
-			}, false, false).then((notes: any[]) => {
+			}, false, !this.$store.getters.isSignedIn).then((notes: any[]) => {
 				this.notes = notes;
 				this.fetching = false;
 

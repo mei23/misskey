@@ -30,7 +30,7 @@ export default Vue.extend({
 				limit: limit + 1,
 				offset: cursor ? cursor : undefined,
 				query: this.q
-			}).then(notes => {
+			}, false, !this.$store.getters.isSignedIn).then(notes => {
 				if (notes.length == limit + 1) {
 					notes.pop();
 					return {

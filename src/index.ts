@@ -195,10 +195,6 @@ async function workerMain(config: Config) {
 	}
 
 	setInterval(() => {
-		clusterLogger.info(`memoryUsage(${workerType}:${process.pid}): ${JSON.stringify(process.memoryUsage())}`);
-	}, 60 * 60 * 1000);
-
-	setInterval(() => {
 		const restartMin =
 			workerType === 'server' ? config.workerStrategies?.serverWorkerRestartMin :
 			workerType === 'queue' ? config.workerStrategies?.queueWorkerRestartMin :

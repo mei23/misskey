@@ -16,6 +16,10 @@ export const meta = {
 
 	tags: ['notes', 'hashtags'],
 
+	requireCredential: false,
+	allowGet: true,
+	cacheSec: 60,
+
 	params: {
 		tag: {
 			validator: $.optional.str,

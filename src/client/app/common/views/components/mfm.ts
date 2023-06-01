@@ -65,6 +65,25 @@ export default Vue.component('misskey-flavored-markdown', {
 
 		const ast = (this.basic ? parseBasic : this.plain ? this.extra ? parsePlainX : parsePlain : parseFull)(this.text);
 
+		// カスタム絵文字を拡大しない判定
+		let customEmojiCount = 0;
+
+		function scan(nodes: MfmNode[]) {
+			for (const node of nodes) {
+				if (node.type === 'emoji' && node.props.name) customEmojiCount++;
+				scan(node.children);
+			}
+		}
+
+		const customEmojiNormal = ((): boolean => {
+			if (this.$store.state.device.customEmojiStyle === 'normal') return true;
+			if (this.$store.state.device.customEmojiStyle === 'stamp') {
+				scan(ast);
+				return customEmojiCount > 1;
+			}
+			return false;
+		})();
+
 		let bigCount = 0;
 		let motionCount = 0;
 
@@ -548,7 +567,7 @@ export default Vue.component('misskey-flavored-markdown', {
 						},
 						props: {
 							customEmojis: this.customEmojis || customEmojis,
-							normal: this.plain || fixedSize,
+							normal: this.plain || fixedSize || customEmojiNormal,
 							direction: this.direction,
 						}
 					})];

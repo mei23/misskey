@@ -30,7 +30,7 @@ export default Vue.extend({
 		return {
 			connection: null,
 			date: null as Date | null,
-			makePromise: (cursor: string) => this.$root.api('notes/search_by_tag', {
+			makePromise: (cursor: string) => this.$root.api('notes/search-by-tag', {
 				limit: fetchLimit + 1,
 				untilId: (!this.date && cursor) ? cursor : undefined,
 				untilDate: this.date ? this.date.getTime() : undefined,

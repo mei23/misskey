@@ -89,24 +89,17 @@
 				<ui-radio v-model="visibilityColoring" value="bg">{{ $t('@._settings.visibilityColoring-bg') }}</ui-radio>
 				<ui-radio v-model="visibilityColoring" value="left">{{ $t('@._settings.visibilityColoring-left') }}</ui-radio>
 			</section>
+
+			<section>
+				<header>{{ $t('@._settings.customEmojiStyle') }}</header>
+				<ui-radio v-model="customEmojiStyle" value="large">{{ $t('@._settings.customEmojiStyle-large') }}</ui-radio>
+				<ui-radio v-model="customEmojiStyle" value="normal">{{ $t('@._settings.customEmojiStyle-normal') }}</ui-radio>
+				<ui-radio v-model="customEmojiStyle" value="stamp">{{ $t('@._settings.customEmojiStyle-stamp') }}</ui-radio>
+			</section>
+
 			<section v-if="isAdvanced">
 				<ui-switch v-model="games_reversi_showBoardLabels">{{ $t('@._settings.show-reversi-board-labels') }}</ui-switch>
 				<ui-switch v-model="games_reversi_useAvatarStones">{{ $t('@._settings.use-avatar-reversi-stones') }}</ui-switch>
-			</section>
-			<section>
-				<header>{{ $t('@._settings.emojiFlavor') }}</header>
-				<!--
-				<ui-input v-model="emojiFlavor" :datalist="['default', 'google']"></ui-input>
-				-->
-				<ui-select v-model="emojiFlavor">
-					<template #label>{{ $t('@._settings.emojiFlavor') }}</template>
-					<option value="default">{{ $t('@._settings.emojiFlavor-default') }}</option>
-					<option value="google">{{ $t('@._settings.emojiFlavor-google') }}</option>
-					<option value="apple">{{ $t('@._settings.emojiFlavor-apple') }}</option>
-					<!--
-					<option value="facebook">{{ $t('@._settings.emojiFlavor-facebook') }}</option>
-					-->
-				</ui-select>
 			</section>
 		</ui-card>
 	</template>
@@ -451,9 +444,9 @@ export default Vue.extend({
 			set(value) { this.$store.commit('device/set', { key: 'visibilityColoring', value }); }
 		},
 
-		emojiFlavor: {
-			get() { return this.$store.state.device.emojiFlavor || 'default'; },
-			set(value) { this.$store.commit('device/set', { key: 'emojiFlavor', value }); }
+		customEmojiStyle: {
+			get() { return this.$store.state.device.customEmojiStyle || 'stamp'; },
+			set(value) { this.$store.commit('device/set', { key: 'customEmojiStyle', value }); }
 		},
 
 		enableSounds: {

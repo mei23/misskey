@@ -239,7 +239,47 @@ export default (opts) => ({
 					this.upload(file, name);
 				}
 			}
-		},
+
+		// Tweak pasted text
+		const text = e.clipboardData.getData('text');
+
+		// Tweak pasted text - tweet
+		if (text?.startsWith('https://twitter.com/intent/tweet')) {
+			e.preventDefault();
+
+			this.$root.dialog({
+				type: 'info',
+				text: this.$t('@.post-form.tweet-question'),
+				showCancelButton: true
+			}).then(({ canceled }) => {
+				if (canceled) {
+					insertTextAtCursor(this.$refs.text, text);
+					return;
+				}
+
+				try {
+					const twUri = new URL(text);
+					const twTitle = twUri.searchParams.get('title');
+					const twText = twUri.searchParams.get('text');
+					const twUrl = twUri.searchParams.get('url');
+					const twHashtags = twUri.searchParams.get('hashtags');
+
+					let t = '';
+					if (twTitle) t += `【${twTitle}】\n`;
+					if (twText) t += `${twText.trim()}\n`;
+					if (twUrl) t += `${twUrl.trim()}\n`;
+
+					if (twHashtags) {
+						const tags = twHashtags.split(',').map(x => `#${x}`).join(' ')
+						t += `${tags}`;
+					}
+
+					insertTextAtCursor(this.$refs.text, t.trim() + '\n');
+					return;
+				} catch { }
+			});
+		}
+	},
 
 		onDragover(e) {
 			const isFile = e.dataTransfer.items[0].kind == 'file';

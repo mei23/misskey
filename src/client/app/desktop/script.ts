@@ -174,6 +174,7 @@ init(async (launch, os) => {
 			{ path: '/selectdrive', component: () => import('./views/pages/selectdrive.vue').then(m => m.default) },
 			{ path: '/@:acct/room', props: true, component: () => import('../common/views/pages/room/room.vue').then(m => m.default) },
 			{ path: '/share', component: () => import('../common/views/pages/share.vue').then(m => m.default) },
+			{ path: '/intent/tweet', component: () => import('../common/views/pages/share.vue').then(m => m.default) },
 			{ path: '/games/reversi/:game?', component: () => import('./views/pages/games/reversi.vue').then(m => m.default) },
 			{ path: '/authorize-follow', component: () => import('../common/views/pages/follow.vue').then(m => m.default) },
 			{ path: '/reset-password/:token', props: true, component: () => import('../common/views/pages/reset-password.vue').then(m => m.default) },

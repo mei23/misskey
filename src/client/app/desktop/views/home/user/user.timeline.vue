@@ -52,7 +52,7 @@ export default Vue.extend({
 				withFiles: this.mode == 'with-media',
 				untilId: (!this.date && cursor) ? cursor : undefined,
 				untilDate: this.date ? this.date.getTime() : undefined,
-			}).then((notes: ThinPackedNote[]) => {
+			}, false, !this.$store.getters.isSignedIn).then((notes: ThinPackedNote[]) => {
 				this.date = null;
 				if (notes.length == fetchLimit + 1) {
 					notes.pop();

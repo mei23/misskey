@@ -13,6 +13,10 @@ export const meta = {
 
 	tags: ['users', 'notes'],
 
+	requireCredential: false,
+	allowGet: true,
+	cacheSec: 60,
+
 	params: {
 		userId: {
 			validator: $.type(ID),

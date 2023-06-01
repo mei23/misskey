@@ -149,6 +149,7 @@ init((launch, os) => {
 			{ path: '/explore/tags/:tag', name: 'explore-tag', props: true, component: () => import('./views/pages/explore.vue').then(m => m.default) },
 			{ path: '/about', name: 'about', component: () => import('./views/pages/about.vue').then(m => m.default) },
 			{ path: '/share', component: () => import('../common/views/pages/share.vue').then(m => m.default) },
+			{ path: '/intent/tweet', component: () => import('../common/views/pages/share.vue').then(m => m.default) },
 			{ path: '/games/reversi/:game?', name: 'reversi', component: () => import('./views/pages/games/reversi.vue').then(m => m.default) },
 			{ path: '/@:user', name: 'user', component: () => import('./views/pages/user/index.vue').then(m => m.default), children: [
 				{ path: 'following', component: () => import('../common/views/pages/following.vue').then(m => m.default) },

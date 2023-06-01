@@ -92,18 +92,17 @@ router.get('/*/*', async ctx => {
 	});
 	const md = await fs.promises.readFile(`${__dirname}/../../docs/${doc}.${lang}.md`, 'utf8');
 
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 
 	await ctx.render('docs-article', Object.assign({
 		id: doc,
 		html: conv.makeHtml(md),
 		title: md.match(/^# (.+?)\r?\n/)[1],
 		version: config.version,
-		nonce,
 	}, await genVars(lang)));
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 export default router;

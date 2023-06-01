@@ -7,6 +7,7 @@ export const meta = {
 	requireCredential: false,
 
 	allowGet: true,
+	cacheSec: 600,
 	canDenyPost: true,
 
 	desc: {

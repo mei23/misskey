@@ -23,14 +23,21 @@ export default Vue.extend({
 			text: new URLSearchParams(location.search).get('text'),
 			url: new URLSearchParams(location.search).get('url'),
 			title: new URLSearchParams(location.search).get('title'),
+			hashtags: new URLSearchParams(location.search).get('hashtags'),
 		};
 	},
 	computed: {
 		template(): string {
 			let t = '';
 			if (this.title) t += `【${this.title}】\n`;
-			if (this.text) t += `${this.text}\n`;
-			if (this.url) t += `${this.url}`;
+			if (this.text) t += `${this.text.trim()}\n`;
+			if (this.url) t += `${this.url.trim()}\n`;
+
+			if (this.hashtags) {
+				const tags = this.hashtags.split(',').map(x => `#${x}`).join(' ')
+				t += `${tags}`;
+			}
+
 			return t.trim();
 		}
 	},

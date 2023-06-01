@@ -42,7 +42,7 @@ export default Vue.extend({
 
 			this.$root.api('notes/show', {
 				noteId: this.$route.params.note
-			}).then(note => {
+			}, false, !this.$store.getters.isSignedIn).then(note => {
 				this.note = note;
 			}).catch((e: any) => {
 				this.$root.dialog({

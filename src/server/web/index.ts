@@ -25,19 +25,16 @@ import { getJSONFeed } from './feed/json';
 import { buildMeta } from '../../misc/build-meta';
 import Page, { packPage } from '../../models/page';
 import { fromHtml } from '../../mfm/from-html';
-import * as crypto from 'crypto';
 const htmlescape = require('htmlescape');
 
 const staticAssets = `${__dirname}/../../../assets/`;
 const client = `${__dirname}/../../client/`;
 
 export function genCsp() {
-	const nonce = crypto.randomBytes(16).toString('base64');
-
 	const csp
 	= `base-uri 'none'; `
 	+ `default-src 'none'; `
-	+ `script-src 'nonce-${nonce}' 'strict-dynamic' https:; `	// CSP3対応ブラウザはhttps:を無視する
+	+ `script-src 'self' https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/; `
 	+ `img-src 'self' https: data: blob:; `
 	+ `media-src 'self' https:; `
 	+ `style-src 'self' 'unsafe-inline'; `
@@ -47,7 +44,7 @@ export function genCsp() {
 	+ `connect-src 'self' data: blob: ${config.wsUrl} https://api.rss2json.com; `	// wssを指定しないとSafariで動かない https://github.com/w3c/webappsec-csp/issues/7#issuecomment-1086257826
 	+ `frame-ancestors 'none'`;
 
-	return { csp, nonce };
+	return { csp };
 }
 
 // Init app
@@ -85,7 +82,8 @@ router.get('/assets/*', async ctx => {
 // Apple touch icon
 router.get('/apple-touch-icon.png', async ctx => {
 	await send(ctx as any, '/assets/apple-touch-icon.png', {
-		root: client
+		root: client,
+		maxage: ms('7 days'),
 	});
 });
 
@@ -126,15 +124,14 @@ router.get('/robots.txt', async ctx => {
 // Docs
 router.use('/docs', docs.routes());
 router.get('/api-doc', async ctx => {
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 
 	await ctx.render('redoc', {
 		version: config.version,
-		nonce,
 	});
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 // URL preview endpoint
@@ -206,11 +203,10 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 				.map(field => field.value)
 			: [];
 
-		const { csp, nonce } = genCsp();
+		const { csp } = genCsp();
 	
 		await ctx.render('user', {
 			version: config.version,
-			nonce,
 			initialMeta: htmlescape(builded),
 			user,
 			me,
@@ -223,7 +219,7 @@ router.get(['/@:user', '/@:user/:sub'], async (ctx, next) => {
 		});
 
 		ctx.set('Content-Security-Policy', csp);
-		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+		ctx.set('Cache-Control', 'public, max-age=60');
 	}
 });
 
@@ -304,11 +300,10 @@ router.get('/notes/:note', async (ctx, next) => {
 	const width = 530;	// TODO: thumbnail width
 	const height = 255;
 
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 
 	await ctx.render('note', {
 		version: config.version,
-		nonce,
 		initialMeta: htmlescape(builded),
 		note: _note,
 		summary: getNoteSummary(_note),
@@ -322,7 +317,7 @@ router.get('/notes/:note', async (ctx, next) => {
 	});
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 
 	return;
 });
@@ -344,7 +339,7 @@ router.get('/notes/:note/embed', async ctx => {
 				.filter((file: any) => file.type.match(/^audio/) && !file.isSensitive)
 				.shift();
 
-			const { csp, nonce } = genCsp();
+			const { csp } = genCsp();
 
 			await ctx.render('note-embed', {
 				video: video?.url,
@@ -389,10 +384,9 @@ router.get('/@:user/pages/:page', async ctx => {
 		const _page = await packPage(page, user._id);
 		const meta = await fetchMeta();
 		const builded = await buildMeta(meta, false);
-		const { csp, nonce } = genCsp();
+		const { csp } = genCsp();
 		await ctx.render('page', {
 			version: config.version,
-			nonce,
 			initialMeta: htmlescape(builded),
 			page: _page,
 			instanceName: meta.name || 'Misskey',
@@ -402,7 +396,11 @@ router.get('/@:user/pages/:page', async ctx => {
 });
 
 		ctx.set('Content-Security-Policy', csp);
-		ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+		if (['public'].includes(page.visibility)) {
+			ctx.set('Cache-Control', 'public, max-age=60');
+		} else {
+			ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
+		}
 
 		return;
 	}
@@ -421,16 +419,14 @@ router.get('/info', async ctx => {
 			_id: false
 		}
 	});
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 	await ctx.render('info', {
 		version: config.version,
-		nonce,
 		emojis: emojis,
 		meta: meta,
 		desc,
 	});
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 });
 
 const override = (source: string, target: string, depth: number = 0) =>
@@ -440,15 +436,13 @@ router.get('/othello', async ctx => ctx.redirect(override(ctx.URL.pathname, 'gam
 router.get('/reversi', async ctx => ctx.redirect(override(ctx.URL.pathname, 'games')));
 
 router.get('/flush', async ctx => {
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 
 	await ctx.render('flush', {
 		version: config.version,
-		nonce,
 	});
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
 });
 
 // streamingに非WebSocketリクエストが来た場合にbase htmlをキャシュ付きで返すと、Proxy等でそのパスがキャッシュされておかしくなる
@@ -481,11 +475,10 @@ router.get('*', async ctx => {
 
 	const noindex = ctx.path.match(/^[/](search|tags[/]|explore|featured)/);
 
-	const { csp, nonce } = genCsp();
+	const { csp } = genCsp();
 
 	await ctx.render('base', {
 		version: config.version,
-		nonce,
 		initialMeta: htmlescape(builded),
 		img: meta.bannerUrl,
 		title: meta.name || 'Misskey',
@@ -498,7 +491,7 @@ router.get('*', async ctx => {
 	});
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+	ctx.set('Cache-Control', 'public, max-age=60');
 });
 
 // Register router

@@ -42,9 +42,9 @@ export default Vue.extend({
 	props: ['user'],
 	data() {
 		return {
-			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get_frequently_replied_users', {
+			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get-frequently-replied-users', {
 				userId: this.user.id
-			}).then(res => res.map(x => x.user)),
+			}, false, !this.$store.getters.isSignedIn).then(res => res.map(x => x.user)), 
 		};
 	}
 });

@@ -1,7 +1,7 @@
 <template>
 <div class="tagtl513">
 	<header>{{ `#${$route.params.tag}` }}</header>
-	<mk-post-form class="form" :fixedTag="$route.params.tag"/>
+	<mk-post-form v-if="$store.getters.isSignedIn" class="form" :fixedTag="$route.params.tag"/>
 	<mk-notes ref="timeline" :make-promise="makePromise" @inited="inited">
 	</mk-notes>
 </div>
@@ -19,11 +19,11 @@ export default Vue.extend({
 	data() {
 		return {
 			connection: null,
-			makePromise: cursor => this.$root.api('notes/search_by_tag', {
+			makePromise: cursor => this.$root.api('notes/search-by-tag', {
 				limit: limit + 1,
 				offset: cursor ? cursor : undefined,
 				tag: this.$route.params.tag
-			}).then(notes => {
+			}, false, !this.$store.getters.isSignedIn).then(notes => {
 				if (notes.length == limit + 1) {
 					notes.pop();
 					return {

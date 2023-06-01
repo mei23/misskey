@@ -2,7 +2,7 @@
 <div class="nav" :class="navbar">
 	<ul>
 		<li class="timeline" :class="{ active: $route.name == 'index' }" @click="goToTop">
-			<router-link to="/"><fa icon="home"/><p>{{ $t('@.timeline') }}</p></router-link>
+			<router-link to="/"><fa icon="home"/><p>{{ $store.getters.isSignedIn ? $t('@.timeline') : $t('@.top') }}</p></router-link>
 		</li>
 		<li class="featured" :class="{ active: $route.name == 'featured' }">
 			<router-link to="/featured"><fa :icon="faNewspaper"/><p>{{ $t('@.featured-notes') }}</p></router-link>
@@ -10,7 +10,7 @@
 		<li class="explore" :class="{ active: $route.name == 'explore' || $route.name == 'explore-tag' }">
 			<router-link to="/explore"><fa :icon="faUsers"/><p>{{ $t('@.explore') }}</p></router-link>
 		</li>
-		<li class="game">
+		<li v-if="$store.getters.isSignedIn" class="game">
 			<a @click="game">
 				<fa icon="gamepad"/>
 				<p>{{ $t('game') }}</p>

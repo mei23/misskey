@@ -16,6 +16,7 @@ export const meta = {
 	requireCredential: false,
 
 	allowGet: true,
+	cacheSec: 600,
 
 	params: {
 		minScore: {

@@ -156,7 +156,7 @@ export default Vue.extend({
 			this.$root.api('notes/children', {
 				noteId: this.appearNote.id,
 				limit: 30
-			}).then(replies => {
+			}, false, !this.$store.getters.isSignedIn).then(replies => {
 				this.replies = replies;
 			});
 		},

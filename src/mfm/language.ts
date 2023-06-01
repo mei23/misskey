@@ -327,13 +327,22 @@ export const mfmLanguage = P.createLanguage({
 		});
 	},
 	rj: r => {
-		return P.regexp(/(RJ\d{6,8})/, 1).map((x: any) => {
-			return createMfmNode('link',
-			{
-				silent: false,
-				url: `https://www.dlsite.com/home/announce/=/product_id/${x}.html`,
-			}, [createMfmNode('text', { text: x })]);
-		});
+		return P.alt(
+			P.regexp(/([RVB][JE]\d{6,8})/, 1).map((x: any) => {
+				return createMfmNode('link',
+				{
+					silent: false,
+					url: `https://www.dlsite.com/home/work/=/product_id/${x}.html`,
+				}, [createMfmNode('text', { text: x })]);
+			}),
+			P.regexp(/([RVB][G](\d{5}))/, 1).map((x: any) => {
+				return createMfmNode('link',
+				{
+					silent: false,
+					url: `https://www.dlsite.com/home/circle/profile/=/maker_id/${x}.html`,
+				}, [createMfmNode('text', { text: x })]);
+			}),
+		);
 	},
 
 	emoji: () => {

@@ -79,9 +79,10 @@ export default Vue.extend({
 		},
 		addRecent(reaction: any) {
 			// add history
+			const _reaction = reaction.replace('@.', '');
 			let recents = this.$store.state.device.recentReactions || [];
-			recents = recents.filter((x: string) => x !== reaction);
-			recents.unshift(reaction.replace('@.', ''));
+			recents = recents.filter((x: string) => x !== _reaction);
+			recents.unshift(_reaction);
 			this.$store.commit('device/set', { key: 'recentReactions', value: recents.splice(0, this.$store.state.device.recentReactionsCount) });
 		},
 		onMouseover() {

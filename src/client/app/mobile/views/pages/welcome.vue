@@ -86,7 +86,7 @@ export default Vue.extend({
 			fileType: image,
 			limit: 6,
 			excludeNsfw: true,
-		}, false, false).then((notes: any[]) => {
+		}, false, true).then((notes: any[]) => {
 			const files = concat(notes.map((n: any): any[] => n.files));
 			this.photos = files.filter(f => image.includes(f.type)).slice(0, 6);
 		});

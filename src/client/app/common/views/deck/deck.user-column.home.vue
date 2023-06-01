@@ -89,7 +89,7 @@ export default Vue.extend({
 			makePromise: null,
 			date: null as Date | null,
 			faCalendarAlt,
-			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get_frequently_replied_users', {
+			makeFrequentlyRepliedUsersPromise: () => this.$root.api('users/get-frequently-replied-users', {
 				userId: this.user.id,
 				limit: 5,
 			}).then(res => res.map(x => x.user)),

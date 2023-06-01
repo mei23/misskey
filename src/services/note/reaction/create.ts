@@ -86,7 +86,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 			if (isRemoteUser(reactee)) dm.addDirectRecipe(reactee);
 		}
 
-		if (!config.disableLikeBroadcast) {
+		if (!config.disableLikeBroadcast && ['public', 'home'].includes(note.visibility)) {
 			dm.addFollowersRecipe();
 		}
 

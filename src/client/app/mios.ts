@@ -218,7 +218,7 @@ export default class MiOS extends EventEmitter {
 					this.store.dispatch('login', me);
 					fetched();
 				} else {
-					this.initStream();
+					//this.initStream();
 
 					// Finish init
 					callback();

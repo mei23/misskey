@@ -23,7 +23,7 @@ export default Vue.extend({
 	mounted() {
 		this.$root.api('users/notes', {
 			userId: this.user.id,
-		}).then(notes => {
+		}, false, !this.$store.getters.isSignedIn).then(notes => {
 			this.notes = notes;
 			this.fetching = false;
 		});

@@ -60,8 +60,7 @@ export default async (ctx: Router.RouterContext) => {
 
 		// Check count
 		const restCount = ticket.restCount ?? 1;
-		const invitedCount = ticket.inviteeIds ? ticket.inviteeIds.length : 0;
-		if (restCount <= invitedCount) {
+		if (restCount < 1) {
 			ctx.body = 'limit exceeded';
 			ctx.status = 403;
 			return;

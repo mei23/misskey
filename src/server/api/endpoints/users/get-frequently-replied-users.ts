@@ -12,6 +12,8 @@ export const meta = {
 	tags: ['users'],
 
 	requireCredential: false,
+	allowGet: true,
+	cacheSec: 3600 * 24,
 
 	params: {
 		userId: {

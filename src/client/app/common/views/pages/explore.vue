@@ -246,14 +246,14 @@ export default Vue.extend({
 			sort: '+attachedLocalUsers',
 			attachedToLocalUserOnly: true,
 			limit: 30
-		}).then(tags => {
+		}, false, true).then(tags => {
 			this.tagsLocal = tags;
 		});
 		this.$root.api('hashtags/list', {
 			sort: '+attachedRemoteUsers',
 			attachedToRemoteUserOnly: true,
 			limit: 30
-		}).then(tags => {
+		}, false, true).then(tags => {
 			this.tagsRemote = tags;
 		});
 		this.$root.api('stats', {}, false, true).then(stats => {

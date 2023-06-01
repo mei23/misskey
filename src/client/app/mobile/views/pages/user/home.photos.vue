@@ -33,7 +33,7 @@ export default Vue.extend({
 			fileType: image,
 			excludeNsfw: !this.$store.state.device.alwaysShowNsfw,
 			limit: 9,
-		}).then(notes => {
+		}, false, !this.$store.getters.isSignedIn).then(notes => {
 			for (const note of notes) {
 				for (const media of note.files) {
 					if (this.images.length < 9) {

@@ -6,6 +6,7 @@ import { HttpProxyAgent } from 'http-proxy-agent';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 import config from '../config';
 import { checkPrivateIp } from './check-private-ip';
+import { checkAllowedUrl } from './check-allowed-url';
 
 export async function getJson(url: string, accept = 'application/json, */*', timeout = 10000, headers?: Record<string, string>): Promise<any> {
 	const res = await getResponse({
@@ -42,9 +43,8 @@ const OPERATION_TIMEOUT = 60 * 1000;
 const MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
 
 export async function getResponse(args: { url: string, method: 'GET' | 'POST', body?: string, headers: Record<string, string>, timeout?: number, size?: number }) {
-	const u = new URL(args.url);
-	if (!u.protocol.match(/^https?:$/) || u.hostname === 'unix') {
-		throw new StatusError('Invalid protocol', 400);
+	if (!checkAllowedUrl(args.url)) {
+		throw new StatusError('Invalid URL', 400);
 	}
 
 	const timeout = args.timeout || RESPONSE_TIMEOUT;
@@ -69,6 +69,12 @@ export async function getResponse(args: { url: string, method: 'GET' | 'POST', b
 		},
 		http2: false,
 		retry: 0,
+	});
+
+	req.on('redirect', (res, opts) => {
+		if (!checkAllowedUrl(opts.url)) {
+			req.cancel(`Invalid url: ${opts.url}`);
+		}
 	});
 
 	return await receiveResponce(req, args.size || MAX_RESPONSE_SIZE);
