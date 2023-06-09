@@ -46,8 +46,6 @@ module.exports = (server: http.Server) => {
 				const client: ClientInfo = { user, app };
 				wss.emit('connection', ws, request, client);
 			});
-
-			if (user) activeUsersChart.update(user);
 		} catch (e: any) {
 			if (e instanceof AuthenticationError) {
 				socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
