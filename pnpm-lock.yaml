@@ -16,7 +16,7 @@ specifiers:
   '@koa/multer': 3.0.0
   '@koa/router': 8.0.8
   '@prezzemolo/rap': 0.1.2
-  '@redocly/openapi-core': 1.0.0-beta.125
+  '@redocly/openapi-core': 1.0.0-beta.128
   '@swc/core': 1.3.56
   '@types/bcryptjs': 2.4.2
   '@types/double-ended-queue': 2.1.2
@@ -358,7 +358,7 @@ dependencies:
   xmlbuilder: 15.1.1
 
 devDependencies:
-  '@redocly/openapi-core': 1.0.0-beta.125
+  '@redocly/openapi-core': 1.0.0-beta.128
   '@types/bcryptjs': 2.4.2
   '@types/double-ended-queue': 2.1.2
   '@types/fluent-ffmpeg': 2.1.21
@@ -1781,8 +1781,8 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/openapi-core/1.0.0-beta.125:
-    resolution: {integrity: sha512-3kpvIP6nzqrXl59BXovm1aGcbqSJv37t9kjFxuEvsGZzVSUC8rGZl4tNEZ3Qfm+mbPs+XWDi/U43kf/u3bUCpw==}
+  /@redocly/openapi-core/1.0.0-beta.128:
+    resolution: {integrity: sha512-3tubjnSOuC/1QQ8NnOFMTudA4pwbWnVJXB64JYNgiE99cTQS+90wehvQiV71XHQMC9/+rPvt4Ft7GXw75hFoNQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
