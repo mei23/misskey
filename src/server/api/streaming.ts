@@ -12,6 +12,7 @@ import activeUsersChart from '../../services/chart/active-users';
 import * as querystring from 'querystring';
 import { IUser } from '../../models/user';
 import { IApp } from '../../models/app';
+import rndstr from 'rndstr';
 
 export const streamLogger = new Logger('stream', 'cyan');
 
@@ -63,14 +64,16 @@ module.exports = (server: http.Server) => {
 
 	// 2. ユーザー認証後はここにくる
 	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, client: ClientInfo) => {
-		streamLogger.debug(`connect: user=${client.user?.username}`);
+		const userHash = rndstr(8);
+
 		let lastActive = Date.now();
+		streamLogger.debug(`[${userHash}] connect: user=${client.user?.username}`);
 
 		ws.on('error', e => streamLogger.error(e));
 
 		ws.on('message', data => {
-			streamLogger.debug(`recv ${data}`);
 			lastActive = Date.now();
+			streamLogger.debug(`[${userHash}] recv ${data}`);
 
 			// implement app layer ping
 			if (data.toString() === 'ping') {
@@ -78,12 +81,13 @@ module.exports = (server: http.Server) => {
 			}
 		});
 
+		// handle protocol layer pong from client
 		ws.on('pong', () => {
-			streamLogger.debug(`recv pong`);
 			lastActive = Date.now();
+			streamLogger.debug(`[${userHash}] recv pong`);
 		});
 
-		// events
+		// setup events
 		let ev: EventEmitter;
 
 		if (config.redis) {
@@ -109,7 +113,7 @@ module.exports = (server: http.Server) => {
 		const main = new MainStreamConnection(ws, ev, client.user, client.app);
 
 		ws.once('close', () => {
-			streamLogger.debug(`close`);
+			streamLogger.debug(`[${userHash}] close`);
 			ev.removeAllListeners();
 			main.dispose();
 			clearInterval(intervalId);
@@ -117,11 +121,11 @@ module.exports = (server: http.Server) => {
 
 		// maintain connection
 		const intervalId = setInterval(() => {
-			streamLogger.debug(`send ping`);
+			streamLogger.debug(`[${userHash}] send ping`);
 			ws.ping();
 
 			if (Date.now() - lastActive > 30 * 60 * 1000) {
-				streamLogger.debug(`timeout`);
+				streamLogger.debug(`[${userHash}] timeout`);
 				ws.terminate();
 			}
 		}, 1 * 60 * 1000);
