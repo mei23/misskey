@@ -23,7 +23,7 @@ specifiers:
   '@types/fluent-ffmpeg': 2.1.21
   '@types/glob': 8.1.0
   '@types/js-yaml': 4.0.5
-  '@types/jsdom': 20.0.1
+  '@types/jsdom': 21.1.1
   '@types/jsonld': 1.5.8
   '@types/katex': 0.16.0
   '@types/koa': 2.13.6
@@ -364,7 +364,7 @@ devDependencies:
   '@types/fluent-ffmpeg': 2.1.21
   '@types/glob': 8.1.0
   '@types/js-yaml': 4.0.5
-  '@types/jsdom': 20.0.1
+  '@types/jsdom': 21.1.1
   '@types/jsonld': 1.5.8
   '@types/katex': 0.16.0
   '@types/koa': 2.13.6
@@ -2066,8 +2066,8 @@ packages:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
     dev: true
 
-  /@types/jsdom/20.0.1:
-    resolution: {integrity: sha512-d0r18sZPmMQr1eG35u12FZfhIXNrnsPU/g5wvRKCUf/tOGilKKwYMYGqh33BNR6ba+2gkHw1EUiHoN3mn7E5IQ==}
+  /@types/jsdom/21.1.1:
+    resolution: {integrity: sha512-cZFuoVLtzKP3gmq9eNosUL1R50U+USkbLtUQ1bYVgl/lKp0FZM7Cq4aIHAL8oIvQ17uSHi7jXPtfDOdjPwBE7A==}
     dependencies:
       '@types/node': 18.11.18
       '@types/tough-cookie': 4.0.2
