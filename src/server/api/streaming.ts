@@ -15,6 +15,11 @@ import { IApp } from '../../models/app';
 
 export const streamLogger = new Logger('stream', 'cyan');
 
+type ClientInfo = {
+	user: IUser | null | undefined;
+	app: IApp | null | undefined;
+};
+
 module.exports = (server: http.Server) => {
 	const wss = new WebSocket.WebSocketServer({ noServer: true });
 
@@ -36,8 +41,11 @@ module.exports = (server: http.Server) => {
 				return;
 			}
 
+			// main
+
 			wss.handleUpgrade(request, socket, head, (ws) => {
-				wss.emit('connection', ws, request, user, app);
+				const client: ClientInfo = { user, app };
+				wss.emit('connection', ws, request, client);
 			});
 
 			if (user) activeUsersChart.update(user);
@@ -56,8 +64,8 @@ module.exports = (server: http.Server) => {
 	});
 
 	// 2. ユーザー認証後はここにくる
-	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, user: IUser | null, app: IApp | null) => {
-		streamLogger.debug(`connect: user=${user?.username}`);
+	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, client: ClientInfo) => {
+		streamLogger.debug(`connect: user=${client.user?.username}`);
 
 		ws.on('error', e => streamLogger.error(e));
 
@@ -92,7 +100,7 @@ module.exports = (server: http.Server) => {
 			ev = new Xev();
 		}
 
-		const main = new MainStreamConnection(ws, ev, user, app);
+		const main = new MainStreamConnection(ws, ev, client.user, client.app);
 
 		ws.once('close', () => {
 			ev.removeAllListeners();
