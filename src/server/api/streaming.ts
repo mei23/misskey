@@ -74,6 +74,10 @@ module.exports = (server: http.Server) => {
 			}
 		});
 
+		ws.on('pong', () => {
+			streamLogger.debug(`recv pong`);
+		})
+
 		// events
 		let ev: EventEmitter;
 
@@ -90,7 +94,6 @@ module.exports = (server: http.Server) => {
 			});
 
 			ws.once('close', (code, reason) => {
-				streamLogger.debug(`close ${code}`);
 				redisSubscriber.unsubscribe();
 				redisSubscriber.quit();
 			});
@@ -100,9 +103,16 @@ module.exports = (server: http.Server) => {
 
 		const main = new MainStreamConnection(ws, ev, client.user, client.app);
 
+		const intervalId = setInterval(() => {
+			streamLogger.debug(`send ping`);
+			ws.ping();
+		}, 60 * 1000);
+
 		ws.once('close', () => {
+			streamLogger.debug(`close`);
 			ev.removeAllListeners();
 			main.dispose();
+			clearInterval(intervalId);
 		});
 	});
 }
