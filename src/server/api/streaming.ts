@@ -108,7 +108,7 @@ module.exports = (server: http.Server) => {
 }
 
 function auth(request: http.IncomingMessage) {
-	if (!request.url) return [null, null];
+	if (!request.url) throw new Error('request.url is null');
 
 	const qs = request.url.split('?')[1];
 	if (!qs) return [null, null];
