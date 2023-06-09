@@ -41,8 +41,6 @@ module.exports = (server: http.Server) => {
 				return;
 			}
 
-			// main
-
 			wss.handleUpgrade(request, socket, head, (ws) => {
 				const client: ClientInfo = { user, app };
 				wss.emit('connection', ws, request, client);
@@ -85,7 +83,7 @@ module.exports = (server: http.Server) => {
 
 			ev = new EventEmitter();
 
-			redisSubscriber.on('message', async (_, data) => {
+			redisSubscriber.on('message', async (_: any, data: any) => {
 				const obj = JSON.parse(data);
 
 				ev.emit(obj.channel, obj.message);
