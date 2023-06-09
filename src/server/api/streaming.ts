@@ -65,15 +65,22 @@ module.exports = (server: http.Server) => {
 	// 2. ユーザー認証後はここにくる
 	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, client: ClientInfo) => {
 		const userHash = rndstr(8);
-
-		let lastActive = Date.now();
 		streamLogger.debug(`[${userHash}] connect: user=${client.user?.username}`);
+
+		// init lastActive
+		let lastActive = Date.now();
+		const updateLastActive = () => {
+			streamLogger.debug(`[${userHash}] active`);
+			lastActive = Date.now();
+			if (client.user) activeUsersChart.update(client.user);
+		};
+		updateLastActive();
 
 		ws.on('error', e => streamLogger.error(e));
 
 		ws.on('message', data => {
-			lastActive = Date.now();
 			streamLogger.debug(`[${userHash}] recv ${data}`);
+			updateLastActive();
 
 			// implement app layer ping
 			if (data.toString() === 'ping') {
@@ -83,8 +90,8 @@ module.exports = (server: http.Server) => {
 
 		// handle protocol layer pong from client
 		ws.on('pong', () => {
-			lastActive = Date.now();
 			streamLogger.debug(`[${userHash}] recv pong`);
+			updateLastActive();
 		});
 
 		// setup events
