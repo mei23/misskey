@@ -18,51 +18,6 @@ export const streamLogger = new Logger('stream', 'cyan');
 module.exports = (server: http.Server) => {
 	const wss = new WebSocket.WebSocketServer({ noServer: true });
 
-	// 2. ユーザー認証後はここにくる
-	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, user: IUser | null, app: IApp | null) => {
-		streamLogger.debug(`connect: user=${user?.username}`);
-
-		ws.on('error', e => streamLogger.error(e));
-
-		ws.on('message', data => {
-			streamLogger.debug(`recv ${data}`);
-			if (data.toString() === 'ping') {
-				ws.send('pong');
-			}
-		});
-
-		// events
-		let ev: EventEmitter;
-
-		if (config.redis) {
-			const redisSubscriber = createConnection();
-			redisSubscriber.subscribe(config.host);
-
-			ev = new EventEmitter();
-
-			redisSubscriber.on('message', async (_, data) => {
-				const obj = JSON.parse(data);
-
-				ev.emit(obj.channel, obj.message);
-			});
-
-			ws.once('close', (code, reason) => {
-				streamLogger.debug(`close ${code}`);
-				redisSubscriber.unsubscribe();
-				redisSubscriber.quit();
-			});
-		} else {
-			ev = new Xev();
-		}
-
-		const main = new MainStreamConnection(ws, ev, user, app);
-
-		ws.once('close', () => {
-			ev.removeAllListeners();
-			main.dispose();
-		});
-	});
-
 	// 1. 認証
 	server.on('upgrade', async (request, socket, head) => {
 		function onSocketError(e: any) {
@@ -106,6 +61,51 @@ module.exports = (server: http.Server) => {
 				return;
 			}
 		}
+	});
+
+	// 2. ユーザー認証後はここにくる
+	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, user: IUser | null, app: IApp | null) => {
+		streamLogger.debug(`connect: user=${user?.username}`);
+
+		ws.on('error', e => streamLogger.error(e));
+
+		ws.on('message', data => {
+			streamLogger.debug(`recv ${data}`);
+			if (data.toString() === 'ping') {
+				ws.send('pong');
+			}
+		});
+
+		// events
+		let ev: EventEmitter;
+
+		if (config.redis) {
+			const redisSubscriber = createConnection();
+			redisSubscriber.subscribe(config.host);
+
+			ev = new EventEmitter();
+
+			redisSubscriber.on('message', async (_, data) => {
+				const obj = JSON.parse(data);
+
+				ev.emit(obj.channel, obj.message);
+			});
+
+			ws.once('close', (code, reason) => {
+				streamLogger.debug(`close ${code}`);
+				redisSubscriber.unsubscribe();
+				redisSubscriber.quit();
+			});
+		} else {
+			ev = new Xev();
+		}
+
+		const main = new MainStreamConnection(ws, ev, user, app);
+
+		ws.once('close', () => {
+			ev.removeAllListeners();
+			main.dispose();
+		});
 	});
 }
 
