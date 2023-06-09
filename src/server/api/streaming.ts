@@ -106,7 +106,7 @@ module.exports = (server: http.Server) => {
 		const intervalId = setInterval(() => {
 			streamLogger.debug(`send ping`);
 			ws.ping();
-		}, 60 * 1000);
+		}, 5 * 60 * 1000);
 
 		ws.once('close', () => {
 			streamLogger.debug(`close`);
