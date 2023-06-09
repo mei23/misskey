@@ -20,12 +20,6 @@ module.exports = (server: http.Server) => {
 
 	// 1. 認証
 	server.on('upgrade', async (request, socket, head) => {
-		function onSocketError(e: any) {
-			streamLogger.error(e);
-		}
-
-		socket.on('error', onSocketError);
-
 		// Auth
 		try {
 			const [user, app] = await auth(request);
@@ -41,8 +35,6 @@ module.exports = (server: http.Server) => {
 				socket.destroy();
 				return;
 			}
-
-			socket.removeListener('error', onSocketError);
 
 			wss.handleUpgrade(request, socket, head, (ws) => {
 				wss.emit('connection', ws, request, user, app);
