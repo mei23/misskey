@@ -64,11 +64,15 @@ module.exports = (server: http.Server) => {
 	// 2. ユーザー認証後はここにくる
 	wss.on('connection', (ws: WebSocket.WebSocket, request: http.IncomingMessage, client: ClientInfo) => {
 		streamLogger.debug(`connect: user=${client.user?.username}`);
+		let lastActive = Date.now();
 
 		ws.on('error', e => streamLogger.error(e));
 
 		ws.on('message', data => {
 			streamLogger.debug(`recv ${data}`);
+			lastActive = Date.now();
+
+			// implement app layer ping
 			if (data.toString() === 'ping') {
 				ws.send('pong');
 			}
@@ -76,7 +80,8 @@ module.exports = (server: http.Server) => {
 
 		ws.on('pong', () => {
 			streamLogger.debug(`recv pong`);
-		})
+			lastActive = Date.now();
+		});
 
 		// events
 		let ev: EventEmitter;
@@ -103,17 +108,23 @@ module.exports = (server: http.Server) => {
 
 		const main = new MainStreamConnection(ws, ev, client.user, client.app);
 
-		const intervalId = setInterval(() => {
-			streamLogger.debug(`send ping`);
-			ws.ping();
-		}, 5 * 60 * 1000);
-
 		ws.once('close', () => {
 			streamLogger.debug(`close`);
 			ev.removeAllListeners();
 			main.dispose();
 			clearInterval(intervalId);
 		});
+
+		// maintain connection
+		const intervalId = setInterval(() => {
+			streamLogger.debug(`send ping`);
+			ws.ping();
+
+			if (Date.now() - lastActive > 30 * 60 * 1000) {
+				streamLogger.debug(`timeout`);
+				ws.terminate();
+			}
+		}, 1 * 60 * 1000);
 	});
 }
 
