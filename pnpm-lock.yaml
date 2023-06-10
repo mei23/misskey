@@ -40,7 +40,7 @@ specifiers:
   '@types/mocha': 10.0.1
   '@types/mongodb': 4.0.6
   '@types/node': 18.11.18
-  '@types/nodemailer': 6.4.7
+  '@types/nodemailer': 6.4.8
   '@types/nprogress': 0.2.0
   '@types/oauth': 0.9.1
   '@types/parse5': 6.0.3
@@ -137,7 +137,7 @@ specifiers:
   multer: 1.4.5-lts.1
   neologd-normalizer: 0.0.3
   nested-property: 4.0.0
-  nodemailer: 6.9.1
+  nodemailer: 6.9.3
   nprogress: 0.2.0
   oauth: 0.10.0
   os-utils: 0.0.14
@@ -287,7 +287,7 @@ dependencies:
   multer: 1.4.5-lts.1
   neologd-normalizer: 0.0.3
   nested-property: 4.0.0
-  nodemailer: 6.9.1
+  nodemailer: 6.9.3
   nprogress: 0.2.0
   oauth: 0.10.0
   os-utils: 0.0.14
@@ -381,7 +381,7 @@ devDependencies:
   '@types/mocha': 10.0.1
   '@types/mongodb': 4.0.6
   '@types/node': 18.11.18
-  '@types/nodemailer': 6.4.7
+  '@types/nodemailer': 6.4.8
   '@types/nprogress': 0.2.0
   '@types/oauth': 0.9.1
   '@types/parse5': 6.0.3
@@ -2206,8 +2206,8 @@ packages:
   /@types/node/18.11.18:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
 
-  /@types/nodemailer/6.4.7:
-    resolution: {integrity: sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==}
+  /@types/nodemailer/6.4.8:
+    resolution: {integrity: sha512-oVsJSCkqViCn8/pEu2hfjwVO+Gb3e+eTWjg3PcjeFKRItfKpKwHphQqbYmPQrlMk+op7pNNWPbsJIEthpFN/OQ==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
@@ -7977,8 +7977,8 @@ packages:
   /node-releases/2.0.8:
     resolution: {integrity: sha512-dFSmB8fFHEH/s81Xi+Y/15DQY6VHW81nXRj86EMSL3lmuTmK1e+aT4wrFCkTbm+gSwkw4KpX+rT/pMM2c1mF+A==}
 
-  /nodemailer/6.9.1:
-    resolution: {integrity: sha512-qHw7dOiU5UKNnQpXktdgQ1d3OFgRAekuvbJLcdG5dnEo/GtcTHRYM7+UfJARdOFU9WUQO8OiIamgWPmiSFHYAA==}
+  /nodemailer/6.9.3:
+    resolution: {integrity: sha512-fy9v3NgTzBngrMFkDsKEj0r02U7jm6XfC3b52eoNV+GCrGj+s8pt5OqhiJdWKuw51zCTdiNR/IUD1z33LIIGpg==}
     engines: {node: '>=6.0.0'}
     dev: false
 
