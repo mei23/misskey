@@ -184,6 +184,7 @@ export interface ILocalUser extends IUserBase {
 		refreshToken: string;
 		expiresDate: number;
 		id: string;
+		global_name?: string;
 		username: string;
 		discriminator: string;
 	};
@@ -519,16 +520,17 @@ export async function pack(
 				twitter: db.twitter ? {
 					screenName: db.twitter?.screenName,
 					userId: db.twitter?.userId
-				} : undefined,
+				} : null,
 				github: db.github ? {
 					id: db.github?.id,
 					login: db.github?.login
-				} : undefined,
+				} : null,
 				discord: db.discord ? {
 					id: db.discord?.id,
+					global_name: db.discord?.global_name,
 					username: db.discord?.username,
 					discriminator: db.discord?.discriminator,
-				} : undefined,
+				} : null,
 			}: {}),
 		} : {}),
 

@@ -169,7 +169,7 @@ router.get('/dc/cb', async ctx => {
 					});
 				}));
 
-		const { id, username, discriminator } = await getJson('https://discord.com/api/users/@me', '*/*', 10 * 1000, {
+		const { id, global_name, username, discriminator } = await getJson('https://discord.com/api/users/@me', '*/*', 10 * 1000, {
 			'Authorization': `Bearer ${accessToken}`,
 		});
 
@@ -198,6 +198,7 @@ router.get('/dc/cb', async ctx => {
 					accessToken,
 					refreshToken,
 					expiresDate,
+					global_name,
 					username,
 					discriminator
 				}
@@ -244,7 +245,7 @@ router.get('/dc/cb', async ctx => {
 						});
 				}));
 
-		const { id, username, discriminator } = await getJson('https://discord.com/api/users/@me', '*/*', 10 * 1000, {
+		const { id, global_name, username, discriminator } = await getJson('https://discord.com/api/users/@me', '*/*', 10 * 1000, {
 			'Authorization': `Bearer ${accessToken}`,
 		});
 		if (!id || !username || !discriminator) {
@@ -262,6 +263,7 @@ router.get('/dc/cb', async ctx => {
 					refreshToken,
 					expiresDate,
 					id,
+					global_name,
 					username,
 					discriminator
 				}
