@@ -112,7 +112,6 @@ export type PackedUser = ThinPackedUser & {
 	};
 	discord?: {
 		id: string;
-		name: string;
 		global_name?: string;
 		username: string;
 		discriminator: string;
