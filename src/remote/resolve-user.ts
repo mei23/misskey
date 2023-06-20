@@ -5,7 +5,6 @@ import config from '../config';
 import { createPerson, updatePerson } from './activitypub/models/person';
 import { URL } from 'url';
 import { remoteLogger } from './logger';
-import * as chalk from 'chalk';
 
 const logger = remoteLogger.createSubLogger('resolve-user');
 
@@ -38,7 +37,7 @@ export default async (username: string, _host: string | null, option?: any, resy
 	if (user === null) {
 		const self = await resolveSelf(acctLower);
 
-		logger.succ(`return new remote user: ${chalk.magenta(acctLower)}`);
+		logger.succ(`return new remote user: ${acctLower}`);
 		return await createPerson(self.href);
 	}
 
@@ -92,14 +91,14 @@ export default async (username: string, _host: string | null, option?: any, resy
 };
 
 async function resolveSelf(acctLower: string) {
-	logger.info(`WebFinger for ${chalk.yellow(acctLower)}`);
+	logger.info(`WebFinger for ${acctLower}`);
 	const finger = await webFinger(acctLower).catch(e => {
-		logger.error(`Failed to WebFinger for ${chalk.yellow(acctLower)}: ${ e.statusCode || e.message }`);
+		logger.error(`Failed to WebFinger for ${acctLower}: ${ e.statusCode || e.message }`);
 		throw new Error(`Failed to WebFinger for ${acctLower}: ${ e.statusCode || e.message }`);
 	});
 	const self = finger.links.find(link => link.rel && link.rel.toLowerCase() === 'self');
 	if (!self) {
-		logger.error(`Failed to WebFinger for ${chalk.yellow(acctLower)}: self link not found`);
+		logger.error(`Failed to WebFinger for ${acctLower}: self link not found`);
 		throw new Error('self link not found');
 	}
 	return self;

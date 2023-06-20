@@ -4,7 +4,6 @@ import * as util from 'util';
 import got, * as Got from 'got';
 import { httpAgent, httpsAgent, StatusError } from './fetch';
 import config from '../config';
-import * as chalk from 'chalk';
 import Logger from '../services/logger';
 import { checkPrivateIp } from './check-private-ip';
 import { checkAllowedUrl } from './check-allowed-url';
@@ -18,7 +17,7 @@ export async function downloadUrl(url: string, path: string) {
 
 	const logger = new Logger('download-url');
 
-	logger.info(`Downloading ${chalk.cyan(url)} ...`);
+	logger.info(`Downloading ${url} ...`);
 
 	const timeout = 30 * 1000;
 	const operationTimeout = 60 * 1000;
@@ -79,5 +78,5 @@ export async function downloadUrl(url: string, path: string) {
 		}
 	}
 
-	logger.succ(`Download finished: ${chalk.cyan(url)}`);
+	logger.succ(`Download finished: ${url}`);
 }
