@@ -12,9 +12,15 @@ import Meta from '../../../models/meta';
 import { IdentifiableError } from '../../../misc/identifiable-error';
 import config from '../../../config';
 import Blocking from '../../../models/blocking';
+import * as mongo from 'mongodb';
 
 export default async (user: IUser, note: INote, reaction?: string, dislike = false): Promise<INoteReaction> => {
-	if (note.userId !== user._id) {
+	// detect direction
+	//   LL => local to local, LR => local to remote, RL => remote to local, RR => remote to remote
+	const direction = `${ isLocalUser(user) ? 'L' : 'R' }${ note._user.host == null ? 'L' : 'R' }`;
+
+	// check blocking
+	if ((direction === 'LL' || direction === 'RL') && note.userId !== user._id) {	// 受けがローカルユーザーであり本人からのリアクションではない？
 		const blocked = await Blocking.findOne({
 			blockeeId: user._id,
 			blockerId: note.userId,
@@ -27,28 +33,34 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 
 	reaction = await toDbReaction(reaction, true, user.host);
 
-	const inserted = await NoteReaction.insert({
+	const inserted = {
+		_id: new mongo.ObjectID(),
 		createdAt: new Date(),
 		noteId: note._id,
 		userId: user._id,
 		reaction,
 		dislike
-	}).catch(e => {
-		if (e.code === 11000) {
-			throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298', 'already reacted');
-		} else {
-			throw e;
-		}
-	});
+	};
 
-	// Increment reactions count
+	if (direction !== 'RR') {
+		await NoteReaction.insert(inserted).catch(e => {
+			if (e.code === 11000) {
+				throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298', 'already reacted');
+			} else {
+				throw e;
+			}
+		});
+	}
+
+	// Increment reactions count / note
 	await Note.update({ _id: note._id }, {
 		$inc: {
 			[`reactionCounts.${reaction}`]: 1,
 			score: (user.isBot || inserted.dislike) ? 0 : 1
 		}
 	});
-
+	
+	// Increment reactions count / stats
 	incReactionsCount(user);
 
 	const decodedReaction = decodeReaction(reaction);
