@@ -165,8 +165,8 @@ dependencies:
     specifier: 0.3.0
     version: 0.3.0
   ioredis:
-    specifier: 4.28.5
-    version: 4.28.5
+    specifier: 5.3.2
+    version: 5.3.2
   ip-cidr:
     specifier: 3.1.0
     version: 3.1.0
@@ -3565,7 +3565,7 @@ packages:
       cron-parser: 4.7.1
       debuglog: 1.0.1
       get-port: 5.1.1
-      ioredis: 5.2.4
+      ioredis: 5.3.2
       lodash: 4.17.21
       msgpackr: 1.8.1
       semver: 7.3.8
@@ -6526,27 +6526,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /ioredis@4.28.5:
-    resolution: {integrity: sha512-3GYo0GJtLqgNXj4YhrisLaNNvWSNwSS2wS4OELGfGxH8I69+XfNdnmV1AyN+ZqMh0i7eX+SWjrwFKDBDgfBC1A==}
-    engines: {node: '>=6'}
-    dependencies:
-      cluster-key-slot: 1.1.2
-      debug: 4.3.4(supports-color@8.1.1)
-      denque: 1.5.1
-      lodash.defaults: 4.2.0
-      lodash.flatten: 4.4.0
-      lodash.isarguments: 3.1.0
-      p-map: 2.1.0
-      redis-commands: 1.7.0
-      redis-errors: 1.2.0
-      redis-parser: 3.0.0
-      standard-as-callback: 2.1.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /ioredis@5.2.4:
-    resolution: {integrity: sha512-qIpuAEt32lZJQ0XyrloCRdlEdUUNGG9i0UOk6zgzK6igyudNWqEBxfH6OlbnOOoBBvr1WB02mm8fR55CnikRng==}
+  /ioredis@5.3.2:
+    resolution: {integrity: sha512-1DKMMzlIHM02eBBVOFQ1+AolGjs6+xEcM4PDL7NqOS6szq7H9jSaEkIUH6/a5Hl241LzW6JLSiAbNvTQjUupUA==}
     engines: {node: '>=12.22.0'}
     dependencies:
       '@ioredis/commands': 1.2.0
@@ -8421,11 +8402,6 @@ packages:
       p-limit: 3.1.0
     dev: true
 
-  /p-map@2.1.0:
-    resolution: {integrity: sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==}
-    engines: {node: '>=6'}
-    dev: false
-
   /p-map@4.0.0:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
@@ -9453,10 +9429,6 @@ packages:
 
   /reconnecting-websocket@4.4.0:
     resolution: {integrity: sha512-D2E33ceRPga0NvTDhJmphEgJ7FUYF0v4lr1ki0csq06OdlxKfugGzN0dSkxM/NfqCxYELK4KcaTOUOjTV6Dcng==}
-    dev: false
-
-  /redis-commands@1.7.0:
-    resolution: {integrity: sha512-nJWqw3bTFy21hX/CPKHth6sfhZbdiHP6bTawSgQBlKOVRG7EZkfHbbHwQJnrE4vsQf0CMNE+3gJ4Fmm16vdVlQ==}
     dev: false
 
   /redis-errors@1.2.0:

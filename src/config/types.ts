@@ -18,10 +18,12 @@ export type Source = {
 		options: Record<string, unknown>
 	};
 	redis: {
-		host: string;
-		port: number;
+		host?: string;
+		port?: number;
+		path?: string;
 		family?: number;
-		pass: string;
+		user?: string;
+		pass?: string;
 		db?: number;
 		prefix?: string;
 	};

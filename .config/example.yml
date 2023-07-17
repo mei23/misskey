@@ -20,7 +20,9 @@ mongodb:
 redis:
   host: localhost
   port: 6379
+  #path: /var/run/redis/redis-server.sock
   #family: 0 # 0=Both, 4=IPv4, 6=IPv6
+  #user: example-user
   #pass: example-pass
   #prefix: example-prefix
   #db: 0
