@@ -1,5 +1,5 @@
 import Instance from '../models/instance';
-import { getServerSubscriber } from '../services/server-subscriber';
+import { serverEventEmitter } from './server-event-emitter';
 import { toApHost } from '../misc/convert-host';
 import fetchMeta from '../misc/fetch-meta';
 
@@ -96,10 +96,8 @@ setInterval(() => {
 }, 300 * 1000);
 
 // イベントでアップデート
-const ev = getServerSubscriber();
-
-ev.on('serverEvent', (data: any) => {
-	if (data.type === 'instanceModUpdated') {
+serverEventEmitter.on('message', parsed => {
+	if (parsed.message.type === 'instanceModUpdated') {
 		Update();
 	}
 });

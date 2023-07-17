@@ -1,12 +1,10 @@
 import * as http from 'http';
 import * as WebSocket from 'ws';
-import { createConnection } from '../../db/redis';
-import Xev from 'xev';
+import { serverEventEmitter, ParsedServerMessage } from '../../services/server-event-emitter';
 
 import MainStreamConnection from './stream';
 import authenticate, { AuthenticationError } from './authenticate';
 import { EventEmitter } from 'events';
-import config from '../../config';
 import Logger from '../../services/logger';
 import activeUsersChart from '../../services/chart/active-users';
 import * as querystring from 'querystring';
@@ -92,27 +90,13 @@ module.exports = (server: http.Server) => {
 		});
 
 		// setup events
-		let ev: EventEmitter;
+		const ev = new EventEmitter();
 
-		if (config.redis) {
-			const redisSubscriber = createConnection();
-			redisSubscriber.subscribe(config.host);
+		const onServerMessage = (parsed: ParsedServerMessage) => {
+			ev.emit(parsed.channel, parsed.message);
+		};
 
-			ev = new EventEmitter();
-
-			redisSubscriber.on('message', async (_: any, data: any) => {
-				const obj = JSON.parse(data);
-
-				ev.emit(obj.channel, obj.message);
-			});
-
-			ws.once('close', (code, reason) => {
-				redisSubscriber.unsubscribe();
-				redisSubscriber.quit();
-			});
-		} else {
-			ev = new Xev();
-		}
+		serverEventEmitter.on('message', onServerMessage);
 
 		const main = new MainStreamConnection(ws, ev, client.user, client.app);
 
@@ -139,6 +123,7 @@ module.exports = (server: http.Server) => {
 			streamLogger.debug(`[${userHash}] close`);
 			ev.removeAllListeners();
 			main.dispose();
+			serverEventEmitter.off('message', onServerMessage);
 			clearInterval(intervalId);
 			clearInterval(intervalId2);
 		});
