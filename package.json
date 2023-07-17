@@ -149,7 +149,7 @@
 		"three": "0.131.3",
 		"tinycolor2": "1.4.2",
 		"tmp": "0.2.1",
-		"ts-loader": "9.4.3",
+		"ts-loader": "9.4.4",
 		"ts-node": "10.9.1",
 		"twemoji-parser": "git+https://github.com/mei23/twemoji-parser.git#15.0.1",
 		"typescript": "4.9.5",
