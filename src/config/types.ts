@@ -7,6 +7,7 @@ export type Source = {
 	url: string;
 	port?: number;
 	addr?: string;
+	socket?: string;
 	disableHsts?: boolean;
 	disableApiCors?: boolean;
 	mongodb: {

@@ -162,16 +162,16 @@ export default () => new Promise<void>(resolve => {
 	});
 
 	// Listen
-	if (config.addr?.startsWith('/')) {
+	if (config.socket) {
 		try {
-			fs.unlinkSync(config.addr);
+			fs.unlinkSync(config.socket);
 		} catch { }
 
 		server.listen({
-			path: config.addr
+			path: config.socket
 		}, resolve);
 
-		fs.chmodSync(config.addr, '777');
+		fs.chmodSync(config.socket, '777');
 	} else {
 		server.listen({
 			port: config.port,

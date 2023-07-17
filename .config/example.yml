@@ -5,8 +5,9 @@ url: https://example.tld/
 port: 3000
 
 # Listen address (default is probably any)
-# You can use unix socket with '/home/misskey/misskey/unix.sock'
-# addr: '127.0.0.0'
+#addr: '127.0.0.0'
+# or Listen UNIX socket
+#socket: '/home/misskey/misskey/unix.sock'
 
 mongodb:
   host: localhost
