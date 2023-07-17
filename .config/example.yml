@@ -10,6 +10,7 @@ port: 3000
 mongodb:
   host: localhost
   port: 27017
+  #path: /tmp/mongodb-27017.sock
   db: misskey
   user: example-misskey-user
   pass: example-misskey-pass

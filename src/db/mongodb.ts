@@ -2,8 +2,10 @@ import config from '../config';
 
 const u = config.mongodb.user ? encodeURIComponent(config.mongodb.user) : null;
 const p = config.mongodb.pass ? encodeURIComponent(config.mongodb.pass) : null;
+const path = config.mongodb.path ? encodeURIComponent(config.mongodb.path) : null;
+const peer =  path || `${config.mongodb.host}:${config.mongodb.port}`;
 
-const uri = `mongodb://${u && p ? `${u}:${p}@` : ''}${config.mongodb.host}:${config.mongodb.port}/${config.mongodb.db}`;
+const uri = `mongodb://${u && p ? `${u}:${p}@` : ''}${peer}/${config.mongodb.db}`;
 
 const logger: TMiddleware = context => next => (args, method) => {
 	console.log(method, args?.col?.s?.namespace?.collection);

@@ -10,8 +10,9 @@ export type Source = {
 	disableHsts?: boolean;
 	disableApiCors?: boolean;
 	mongodb: {
-		host: string;
-		port: number;
+		host?: string;
+		port?: number;
+		path?: string;
 		db: string;
 		user: string;
 		pass: string;
