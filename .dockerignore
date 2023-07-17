@@ -14,3 +14,4 @@ mongo_db/
 redis/
 files/
 elasticsearch/
+/unix.sock

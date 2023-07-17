@@ -85,7 +85,7 @@ function main() {
 			}
 
 			workerMain(config).then(() => {
-				bootLogger.succ(`Now listening on port ${config.port} on ${config.url}`, undefined, true);
+				bootLogger.succ(`Now listening on ${config.addr}:${config.port}`, undefined, true);
 
 				// ユニットテストから起動された場合用
 				if (process.send) {
@@ -103,7 +103,7 @@ function main() {
 			}
 
 			spawnWorkers(config).then(() => {
-				bootLogger.succ(`Now listening on port ${config.port} on ${config.url}`, undefined, true);
+				bootLogger.succ(`Now listening on ${config.addr}:${config.port}`, undefined, true);
 
 				// ユニットテストから起動された場合用
 				if (process.send) {

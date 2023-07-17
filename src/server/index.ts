@@ -1,8 +1,10 @@
+/* eslint-disable node/no-sync */
 /**
  * Core Server
  */
 
 import * as http from 'http';
+import * as fs from 'fs';
 import * as cluster from 'cluster';
 import * as Koa from 'koa';
 import * as Router from '@koa/router';
@@ -160,10 +162,22 @@ export default () => new Promise<void>(resolve => {
 	});
 
 	// Listen
-	server.listen({
-		port: config.port,
-		host: config.addr || undefined
-	}, resolve);
+	if (config.addr?.startsWith('/')) {
+		try {
+			fs.unlinkSync(config.addr);
+		} catch { }
+
+		server.listen({
+			path: config.addr
+		}, resolve);
+
+		fs.chmodSync(config.addr, '777');
+	} else {
+		server.listen({
+			port: config.port,
+			host: config.addr || undefined
+		}, resolve);
+	}
 
 	//#region Network stats
 	let queue: any[] = [];
