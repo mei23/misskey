@@ -18,9 +18,6 @@
 		<div class="tl">
 			<mk-welcome-timeline/>
 		</div>
-		<div class="hashtags">
-			<mk-tag-cloud/>
-		</div>
 		<div class="photos">
 			<div v-for="photo in photos" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
 		</div>
@@ -34,13 +31,6 @@
 				<div v-html="announcement.text"></div>
 			</article>
 		</div>
-		<div class="info" v-if="meta">
-			<p>Version: <b>{{ meta.version }}</b></p>
-			<p>Maintainer: <b><a :href="'mailto:' + meta.maintainer.email" target="_blank">{{ meta.maintainer.name }}</a></b></p>
-		</div>
-		<footer>
-			<small>{{ copyright }}</small>
-		</footer>
 	</div>
 </div>
 </template>
@@ -48,7 +38,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { constants, host } from '../../../config';
+import { host } from '../../../config';
 import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode/';
 
@@ -57,7 +47,6 @@ export default Vue.extend({
 	data() {
 		return {
 			meta: null,
-			copyright: constants.copyright,
 			stats: null,
 			banner: null,
 			host: toUnicode(host),
@@ -160,10 +149,6 @@ export default Vue.extend({
 				overflow auto
 				-webkit-overflow-scrolling touch
 
-		> .hashtags
-			padding 0 8px
-			height 200px
-
 		> .photos
 			display grid
 			grid-template-rows 1fr 1fr 1fr
@@ -241,15 +226,6 @@ export default Vue.extend({
 							width 100%
 							height 120px
 							object-fit cover
-
-		> .info
-			padding 16px 0
-			border solid 2px rgba(0, 0, 0, 0.1)
-			border-radius 8px
-			color var(--text)
-
-			> *
-				margin 0 16px
 
 		> footer
 			text-align center

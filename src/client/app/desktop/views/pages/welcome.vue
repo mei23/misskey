@@ -141,7 +141,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { host, constants } from '../../../config';
+import { host } from '../../../config';
 import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode/';
 
@@ -152,7 +152,6 @@ export default Vue.extend({
 			meta: null,
 			stats: null,
 			banner: null,
-			copyright: constants.copyright,
 			host: toUnicode(host),
 			name: 'Misskey',
 			description: '',
