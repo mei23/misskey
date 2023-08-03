@@ -5,18 +5,6 @@ common:
   misskey: "⭐ Fediwersum"
   about-title: "⭐ Fediwersum"
   about: "Dziękujemy za znalezienie Misskey. Misskey jest <b>zdecentralizowaną platformą mikroblogową</b> powstałą na Ziemi. Ponieważ działa ona w Fediwersum (uniwersum, w którego skład wchodzi wiele sieci społecznościowych), jest ona połączona z innymi platformami społecznościowymi. Spróbujesz odpocząć od zatłoczoneo miasta i zanurzyć się w nowym Internecie?"
-  intro:
-    title: "Czym jest Misskey?"
-    features: "Funkcje"
-    rich-contents: "Wpis"
-    rich-contents-desc: "Po prostu opublikuj swój pomysł, gorące tematy i wszystko, co chcesz udostępnić. Możesz ozdobić swoje słowa, dołączyć swoje ulubione zdjęcia, wysłać pliki, w tym filmy i utworzyć ankietę - to są rzeczy, które możesz zrobić w Misskey!"
-    reaction: "Reakcja"
-    ui: "Interfejs"
-    drive: "Dysk"
-    drive-desc: "Chcesz opublikować zdjęcie, które już przesłałeś? Chcesz uporządkować, nazwać i utworzyć folder dla przesłanych plików? Dysk Misskey to najlepsze rozwiązanie dla Ciebie. Bardzo łatwo udostępniać swoje pliki online."
-  adblock:
-    detected: "Spróbuj wyłączyć blokadę reklam."
-    warning: "<strong>Misskey nie zawiera reklam</strong>, ale część funkcji może nie działać prawidłowo z włączonym blokowaniem reklam."
   application-authorization: "Współpraca aplikacji"
   close: "Zamknij"
   load-more: "Załaduj więcej"

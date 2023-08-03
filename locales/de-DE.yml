@@ -5,15 +5,6 @@ common:
   misskey: "Ein ⭐ des Fediversums"
   about-title: "Ein ⭐ des Fediversums."
   about: "Danke, dass Du Misskey gefunden hast. Misskey ist eine <b>dezentralisierte Microblogging-Plattform</b>, welche auf der ganzen Welt verteilt ist. Da es innerhalb es Fediversums existiert (ein Universum, in dem verschiedene Soziale Netzwerke organisiert sind), ist es unmittelbar mit anderen sozialen Netzwerken verbunden. Warum nimmst du dir nicht einmal eine Auszeit von dem Trubel der Stadt und tauchst in das neue Internet hinein?"
-  intro:
-    title: "Was ist Misskey?"
-    features: "Funktionen"
-    rich-contents: "Notizen"
-    reaction: "Reaktionen"
-    ui: "Benutzeroberfläche"
-    drive: "Drive"
-  adblock:
-    detected: "Bitte deaktiviere den Werbeblocker."
   application-authorization: "Autorisierte Anwendungen"
   close: "Schließen"
   load-more: "Mehr laden"

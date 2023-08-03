@@ -5,18 +5,6 @@ common:
   misskey: "Una ⭐️ del fediverso"
   about-title: "Una ⭐️ del fediverso"
   about: "Gracias por encontrar Misskey. Misskey es una <b>plataforma descentralizada de microblogging</b> nacida en la Tierra. Porque el servicio existe dentro del Fediverso (un universo donde se organizan varias plataformas sociales), se encuentra enlazado mutuamente con otras plataformas sociales. ¿Por qué no te tomas un respiro del caos de la ciudad y te sumerges es una nueva manera de entender Internet?"
-  intro:
-    title: "¿Misskey?"
-    about: "Misskey es un <b>Servicio de red social descentralizada de microblogging</b> de código abierto. Contiene una interfaz de usuario altamente personalizable, reacciones a posts, almacenamiento para poder manejar archivos y otras funciones avanzadas. Además de conectarse con la red llamada Fediverso, puede intercambiar mensajes con otras redes sociales. Por ejemplo, si contribuyes con algo, esa contribución es transmitida no sólo a Misskey sino a otras redes sociales. Imagina que se parece a transmitir una onda de radio de un planeta a otro."
-    features: "Características"
-    rich-contents: "Posts"
-    rich-contents-desc: "Escribe sobre tus pensamientos, eventos, todo lo que quieras compartir. Si es necesario, puedes usar varias sintaxis, decorar tus posts y añadir tus imágenes favoritas, archivos de viddeo y encuestas."
-    reaction: "Reacciones"
-    ui: "Interfaz"
-    drive: "Drive"
-  adblock:
-    detected: "Por favor, desactive el bloqueador de publicidad."
-    warning: "<strong>Misskey no tiene anuncios publicitarios.</strong> Sin embargo, algunas características podrían no estar disponibles si el bloqueador de publicidad está habilitado."
   application-authorization: "Autorizaciones de la aplicación."
   close: "Cerrar"
   do-not-copy-paste: "Por favor no copies código aquí. Tu cuenta puede resultar comprometida."

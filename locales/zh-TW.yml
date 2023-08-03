@@ -2,13 +2,6 @@
 meta:
   lang: "中文（繁体）"
 common:
-  intro:
-    title: "什麽是 Misskey 呢?"
-    rich-contents: "發佈"
-    reaction: "回應"
-    drive: "雲端硬碟"
-  adblock:
-    detected: "請禁用廣告封鎖器"
   close: "關閉"
   enter-password: "請輸入密碼"
   2fa: "雙重身份驗證"

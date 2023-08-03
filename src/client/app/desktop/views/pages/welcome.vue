@@ -82,45 +82,6 @@
 		</div>
 	</main>
 
-	<modal name="about" class="about modal" width="800px" height="auto" scrollable>
-		<article class="fpdezooorhntlzyeszemrsqdlgbysvxq">
-			<h1>{{ $t('@.intro.title') }}</h1>
-			<p v-html="this.$t('@.intro.about')"></p>
-			<section>
-				<h2>{{ $t('@.intro.features') }}</h2>
-				<section>
-					<div class="body">
-						<h3>{{ $t('@.intro.rich-contents') }}</h3>
-						<p v-html="this.$t('@.intro.rich-contents-desc')"></p>
-					</div>
-					<div class="image"><img src="/assets/about/post.png" alt=""></div>
-				</section>
-				<section>
-					<div class="body">
-						<h3>{{ $t('@.intro.reaction') }}</h3>
-						<p v-html="this.$t('@.intro.reaction-desc')"></p>
-					</div>
-					<div class="image"><img src="/assets/about/reaction.png" alt=""></div>
-				</section>
-				<section>
-					<div class="body">
-						<h3>{{ $t('@.intro.ui') }}</h3>
-						<p v-html="this.$t('@.intro.ui-desc')"></p>
-					</div>
-					<div class="image"><img src="/assets/about/ui.png" alt=""></div>
-				</section>
-				<section>
-					<div class="body">
-						<h3>{{ $t('@.intro.drive') }}</h3>
-						<p v-html="this.$t('@.intro.drive-desc')"></p>
-					</div>
-					<div class="image"><img src="/assets/about/drive.png" alt=""></div>
-				</section>
-			</section>
-			<p v-html="this.$t('@.intro.outro')"></p>
-		</article>
-	</modal>
-
 	<modal name="signup" class="modal" width="450px" height="auto" scrollable>
 		<header class="formHeader">{{ $t('@.signup') }}</header>
 		<mk-signup class="form"/>
@@ -186,10 +147,6 @@ export default Vue.extend({
 	},
 
 	methods: {
-		about() {
-			this.$modal.show('about');
-		},
-
 		signup() {
 			this.$modal.show('signup');
 		},
@@ -245,10 +202,6 @@ export default Vue.extend({
 
 		.formHeader
 			border-bottom solid 1px rgba(#000, 0.2)
-
-.v--modal-overlay.about
-	.v--modal-box.v--modal
-		margin 32px 0
 
 .fpdezooorhntlzyeszemrsqdlgbysvxq
 	padding 64px

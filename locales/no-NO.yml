@@ -5,11 +5,6 @@ common:
   misskey: "En ⭐ av fediverse"
   about-title: "En ⭐ av fediverse"
   about: "Takk for at du fant Misskey. Misskey er en <b>desentralisert mikroblogging platform</b> født på jorden. Siden den eksisterer sammen med Fediverset (Et univers hvor forskjellige sosiale media-plattformer blir organisert), så blir den gjensidig tilknyttet med andre sosiale media-plattformer. Hvorfor ikke ta en pause fra kjas og mas fra storbyen og hoppe inn i en ny type internett?"
-  intro:
-    title: "Hva er Misskey?"
-    features: "Funksjoner"
-    rich-contents: "Innlegg"
-    drive: "Disk"
   close: "Lukk"
   got-it: "Skjønner!"
   notification:
