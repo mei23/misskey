@@ -285,11 +285,10 @@ export default Vue.extend({
 		> .body
 			> .main
 				border-radius 6px
-				height 390px
 
 				> div
 					padding 32px
-					min-height 100%
+					min-height 390px
 
 					> h1
 						margin 0

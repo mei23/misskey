@@ -1431,6 +1431,7 @@ admin/views/instance.vue:
   instance-name: "Instance name"
   instance-description: "Instance description"
   host: "Host"
+  logo-url: "Mascot image URL"
   banner-url: "Banner image URL"
   error-image-url: "Error image URL"
   languages: "Language of this instance"
