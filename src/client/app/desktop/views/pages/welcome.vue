@@ -48,37 +48,12 @@
 				</div>
 			</div>
 
-			<div class="photos block">
-				<header><fa :icon="['far', 'images']"/> {{ $t('photos') }}</header>
-				<div>
-					<div v-for="(photo, i) in photos" :key="i" :style="`background-image: url(${photo.thumbnailUrl})`"></div>
-				</div>
-			</div>
-
 			<div class="nav block">
 				<div>
 					<mk-nav class="nav"/>
 				</div>
 			</div>
 
-			<div class="side">
-				<div class="tl block">
-					<header><fa :icon="['far', 'comment-alt']"/> {{ $t('@.featured-notes') }}</header>
-					<div>
-						<mk-welcome-timeline class="tl" :max="20"/>
-					</div>
-				</div>
-
-				<div class="info block">
-					<header><fa icon="info-circle"/> {{ $t('info') }}</header>
-					<div>
-						<div v-if="meta" class="body">
-							<p>Version: <b>{{ meta.version }}</b></p>
-							<p>Maintainer: <b><a :href="'mailto:' + meta.maintainer.email" target="_blank">{{ meta.maintainer.name }}</a></b></p>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</main>
 
@@ -287,12 +262,13 @@ export default Vue.extend({
 		margin 0 auto
 		padding 32px 64px
 		width 100%
-		max-width 1200px
+		max-width 870px
 
 		.block
 			color var(--text)
 			background var(--face)
 			overflow auto
+			margin 1em
 
 			> header
 				z-index 1
@@ -307,16 +283,9 @@ export default Vue.extend({
 				overflow auto
 
 		> .body
-			display grid
-			grid-template-rows 390px 1fr 64px
-			grid-template-columns 1fr 1fr 350px
-			gap 16px
-			height 894px
-
 			> .main
-				grid-row 1
-				grid-column 1 / 3
 				border-radius 6px
+				height 390px
 
 				> div
 					padding 32px
@@ -371,9 +340,8 @@ export default Vue.extend({
 						z-index 1
 
 			> .announcements
-				grid-row 2
-				grid-column 1
 				border-radius 6px
+				height 390px
 
 				> div
 					padding 32px
@@ -387,56 +355,12 @@ export default Vue.extend({
 							margin 0
 							font-size 1.25em
 
-			> .photos
-				grid-row 2
-				grid-column 2
-				border-radius 6px
-
-				> div
-					display grid
-					grid-template-rows 1fr 1fr 1fr
-					grid-template-columns 1fr 1fr
-					gap 8px
-					height 100%
-					padding 16px
-
-					> div
-						//border-radius 4px
-						background-position center center
-						background-size cover
-
 			> .nav
 				display flex
 				justify-content center
 				align-items center
-				grid-row 3
-				grid-column 1 / 4
 				font-size 14px
 				border-radius 6px
-
-			> .side
-				display grid
-				grid-row 1 / 3
-				grid-column 3
-				gap 16px
-
-				> .tl
-					grid-row 1
-					grid-column 1
-					overflow auto
-					border-radius 6px
-
-				> .info
-					grid-row 2
-					grid-column 1
-					border-radius 6px
-
-					> div
-						padding 16px
-
-						> .body
-							> p
-								display block
-								margin 0
-
+				margin 1em
+				padding 1em
 </style>
