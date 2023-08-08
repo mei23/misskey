@@ -1,7 +1,7 @@
 import * as Router from '@koa/router';
 
 import { IEndpoint } from './endpoints';
-import authenticate, { AuthenticationError } from './authenticate';
+import authenticate, { AuthenticationError, AuthenticationLimitError } from './authenticate';
 import call from './call';
 import { ApiError } from './error';
 
@@ -29,7 +29,7 @@ export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((
 	};
 
 	// Authentication
-	authenticate(body['i']).then(([user, app]) => {
+	authenticate(body['i'], ctx.ip).then(([user, app]) => {
 		// API invoking
 		call(endpoint.name, user, app, body, ctx).then((res: any) => {
 			if (ctx.method === 'GET' && endpoint.meta.cacheSec && !body['i'] && !user && !app) {
@@ -45,6 +45,12 @@ export default (endpoint: IEndpoint, ctx: Router.RouterContext) => new Promise((
 				message: 'Authentication failed. Please ensure your token is correct.',
 				code: 'AUTHENTICATION_FAILED',
 				id: 'b0a7f5f8-dc2f-4171-b91f-de88ad238e14'
+			}));
+		} else if (e instanceof AuthenticationLimitError) {
+			reply(423, new ApiError({
+				message: 'Authentication limit exceeded. Please try again later.',
+				code: 'AUTHENTICATION_LIMIT_EXCEEDED',
+				id: 'ab9c1e8e-771e-4363-92bd-c0864ae1d25f'
 			}));
 		} else {
 			reply(500, new ApiError());

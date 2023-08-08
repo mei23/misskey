@@ -139,5 +139,5 @@ function auth(request: http.IncomingMessage) {
 	const q = querystring.parse(qs);
 	if (!q.i) return [null, null];
 
-	return authenticate(q.i as string);
+	return authenticate(q.i as string);	// TODO: RealIP取れない
 }

@@ -2,6 +2,8 @@ import App, { IApp } from '../../models/app';
 import { default as User, IUser } from '../../models/user';
 import AccessToken from '../../models/access-token';
 import isNativeToken from './common/is-native-token';
+import { IEndpoint } from './endpoints';
+import limiter from './limiter';
 
 export class AuthenticationError extends Error {
 	constructor(message: string) {
@@ -10,9 +12,33 @@ export class AuthenticationError extends Error {
 	}
 }
 
-export default async (token: string): Promise<[IUser | null | undefined, IApp | null | undefined]> => {
+export class AuthenticationLimitError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = 'AuthenticationLimitError';
+	}
+}
+
+export default async (token: string, ip?: string): Promise<[IUser | null | undefined, IApp | null | undefined]> => {
 	if (token == null) {
 		return [null, null];
+	}
+
+	const ep = {
+		name: 'authx300',
+		exec: null,
+		meta: {
+			limit: {
+				duration: 300 * 1000,
+				max: 300 * 10,
+			}
+		}
+	} as IEndpoint;
+
+	if (token != null && ip != null) {
+		await limiter(ep, undefined, ip).catch(e => {
+			throw new AuthenticationLimitError('AuthenticationLimitError');
+		});
 	}
 
 	if (isNativeToken(token)) {
