@@ -20,14 +20,17 @@ export async function incrementAndCheck(endpoint: IEndpoint, user: IUser | null 
 	// Prepare limiter
 	const target = genTargetKey(user, ip);
 	const key = genEpKey(endpoint);
-	const limiter = new Limiter({ db: limiterDB });
 
 	// Check min interval (minimum attempt interval)
 	if (typeof limitation.minInterval === 'number') {
-		const info = await limiter.get({
-			id: `${target}:${key}:min`,
+		const limiter = new Limiter({
+			db: limiterDB,
 			duration: limitation.minInterval,
 			max: 1,
+		});
+
+		const info = await limiter.get({
+			id: `${target}:${key}:min`,
 		});
 
 		logger.debug(`${target} ${key} min remaining: ${info.remaining}`);
@@ -37,10 +40,14 @@ export async function incrementAndCheck(endpoint: IEndpoint, user: IUser | null 
 
 	// Check max interval (general per-sec interval)
 	if (typeof limitation.duration === 'number' && typeof limitation.max === 'number') {
-		const info = await limiter.get({
-			id: `${target}:${key}`,
+		const limiter = new Limiter({
+			db: limiterDB,
 			duration: limitation.duration,
 			max: limitation.max,
+		});
+
+		const info = await limiter.get({
+			id: `${target}:${key}`,
 		});
 
 		logger.debug(`${target} ${key} max remaining: ${info.remaining}`);
