@@ -53,6 +53,9 @@ dependencies:
   apexcharts:
     specifier: 3.33.2
     version: 3.33.2
+  async-ratelimiter:
+    specifier: 1.3.9
+    version: 1.3.9
   autobind-decorator:
     specifier: 2.4.0
     version: 2.4.0
@@ -293,9 +296,6 @@ dependencies:
   qrcode:
     specifier: 1.5.1
     version: 1.5.1
-  ratelimiter:
-    specifier: 3.4.1
-    version: 3.4.1
   reconnecting-websocket:
     specifier: 4.4.0
     version: 4.4.0
@@ -3292,6 +3292,11 @@ packages:
 
   /async-each@1.0.3:
     resolution: {integrity: sha512-z/WhQ5FPySLdvREByI2vZiTWwCnF0moMJ1hK9YQwDTHKh6I7/uSckMetoRGb5UBZPC1z0jlw+n/XCgjeH7y1AQ==}
+    dev: false
+
+  /async-ratelimiter@1.3.9:
+    resolution: {integrity: sha512-OCtQ3fAoD1IHLKlheibvsFvSS+5QsbQfTUGoYoJvuTdsSImFIruUY/2TpNIbsU8AL+LGUtbdv3hB5/gplJYt+g==}
+    engines: {node: '>= 8'}
     dev: false
 
   /async-settle@1.0.0:
@@ -9324,10 +9329,6 @@ packages:
 
   /rangestr@0.0.1:
     resolution: {integrity: sha512-9CRCUX/w4+fNMzlYgA8GeJz7BZwBPwaGm3FhAm9Hi50k8wNy2CyiJQa8awygWJay87uVVCV0/FwbLcD6+/A9KQ==}
-    dev: false
-
-  /ratelimiter@3.4.1:
-    resolution: {integrity: sha512-5FJbRW/Jkkdk29ksedAfWFkQkhbUrMx3QJGwMKAypeIiQf4yrLW+gtPKZiaWt4zPrtw1uGufOjGO7UGM6VllsQ==}
     dev: false
 
   /raw-body@2.5.1:
