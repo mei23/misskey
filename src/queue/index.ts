@@ -32,7 +32,7 @@ deliverQueue
 	.on('completed', (job, result) => deliverLogger.info(`completed(${result}) ${getJobInfo(job, true)} to=${job.data.to}`))
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} to=${job.data.to}`;
-		job.log(msg);
+		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
 		deliverLogger.warn(msg);
 	})
 	.on('error', (error) => deliverLogger.error(`error ${error}`))
@@ -46,7 +46,7 @@ webpushDeliverQueue
 	.on('completed', (job, result) => webpushDeliverLogger.info(`completed(${result}) ${getJobInfo(job, true)} to=${job.data.pushSubscription.endpoint}`))
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} to=${job.data.pushSubscription.endpoint}`;
-		job.log(msg);
+		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
 		webpushDeliverLogger.warn(msg);
 	})
 	.on('error', (error) => webpushDeliverLogger.error(`error ${error}`))
@@ -61,7 +61,7 @@ inboxQueue
 	.on('completed', (job, result) => inboxLogger.info(`completed(${result}) ${getJobInfo(job, true)} activity=${job.data.activity ? job.data.activity.id : 'none'}`))
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`;
-		job.log(msg);
+		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
 		inboxLogger.warn(msg);
 	})
 	.on('error', (error) => inboxLogger.error(`error ${error}`))
