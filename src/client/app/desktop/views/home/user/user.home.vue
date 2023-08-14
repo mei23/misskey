@@ -15,7 +15,11 @@
 	<!-- リアクション -->
 	<x-reactions :user="user"/>
 	<!-- よく話すユーザー -->
-	<mk-user-list :make-promise="makeFrequentlyRepliedUsersPromise" :icon-only="true"><fa icon="users"/> {{ $t('@.frequently-replied-users') }}</mk-user-list>
+	<mk-user-list :make-promise="makeFrequentlyRepliedUsersPromise"
+		:expanded="$store.state.device.expandUsersFrequentlyRepliedUsers"
+		@toggle="expanded => $store.commit('device/set', { key: 'expandUsersFrequentlyRepliedUsers', value: expanded })"
+		:icon-only="true"
+	><fa icon="users"/> {{ $t('@.frequently-replied-users') }}</mk-user-list>
 	<!-- フォト -->
 	<x-photos :user="user"/>
 	<!-- タイムライン -->

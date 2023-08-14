@@ -20,7 +20,12 @@
 		</div>
 	</ui-container>
 	<x-reactions :user="user" style="margin-top: 16px; margin-bottom: 16px; "/>
-	<mk-user-list :make-promise="makeFrequentlyRepliedUsersPromise" :icon-only="true"><fa icon="users"/> {{ $t('frequently-replied-users') }}</mk-user-list>
+	<mk-user-list
+		:make-promise="makeFrequentlyRepliedUsersPromise"
+		:expanded="$store.state.device.expandUsersFrequentlyRepliedUsers"
+		@toggle="expanded => $store.commit('device/set', { key: 'expandUsersFrequentlyRepliedUsers', value: expanded })"
+		:icon-only="true"
+	><fa icon="users"/> {{ $t('frequently-replied-users') }}</mk-user-list>
 </div>
 </template>
 

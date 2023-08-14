@@ -100,6 +100,7 @@ export default Vue.extend({
 
 		onToggle(show: boolean) {
 			if (show && !this.initialized) this.init();
+			this.$emit('toggle', show);
 		}
 	}
 });
