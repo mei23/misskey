@@ -458,8 +458,8 @@ dependencies:
 
 devDependencies:
   '@redocly/openapi-core':
-    specifier: 1.0.0-beta.125
-    version: 1.0.0-beta.125
+    specifier: 1.0.2
+    version: 1.0.2
   '@types/bcryptjs':
     specifier: 2.4.2
     version: 2.4.2
@@ -1989,8 +1989,8 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/openapi-core@1.0.0-beta.125:
-    resolution: {integrity: sha512-3kpvIP6nzqrXl59BXovm1aGcbqSJv37t9kjFxuEvsGZzVSUC8rGZl4tNEZ3Qfm+mbPs+XWDi/U43kf/u3bUCpw==}
+  /@redocly/openapi-core@1.0.2:
+    resolution: {integrity: sha512-53dzhmG2bsi/8rcAAgBKk9ZLMR035VHgN7oSM3+BM4UAIoNBg6lMC/ChHSf9zO+GrX5qtuWVPqHhjjMti3SAlQ==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
