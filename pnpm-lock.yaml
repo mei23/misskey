@@ -345,8 +345,8 @@ dependencies:
     specifier: 7.1.3
     version: 7.1.3(stylus@0.59.0)(webpack@5.88.1)
   summaly:
-    specifier: mei23/summaly#3.8.2
-    version: github.com/mei23/summaly/6ecd8594c46be3d092583e9bc8a67fec1d0f4012
+    specifier: mei23/summaly#3.8.3
+    version: github.com/mei23/summaly/40c5faae6b4e2f2660f6acc28ab97beaeb580433
   suncalc:
     specifier: 1.9.0
     version: 1.9.0
@@ -11715,10 +11715,10 @@ packages:
       sshpk: 1.17.0
     dev: false
 
-  github.com/mei23/summaly/6ecd8594c46be3d092583e9bc8a67fec1d0f4012:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/6ecd8594c46be3d092583e9bc8a67fec1d0f4012}
+  github.com/mei23/summaly/40c5faae6b4e2f2660f6acc28ab97beaeb580433:
+    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/40c5faae6b4e2f2660f6acc28ab97beaeb580433}
     name: summaly
-    version: 3.8.2
+    version: 3.8.3
     dependencies:
       cheerio: 1.0.0-rc.12
       escape-regexp: 0.0.1
