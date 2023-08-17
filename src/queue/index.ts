@@ -14,6 +14,7 @@ import { INote } from '../models/note';
 import { IMute } from '../models/mute';
 import { IActivity } from '../remote/activitypub/type';
 import queueChart from '../services/chart/queue';
+import { cpus } from 'os';
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const webpushDeliverLogger = queueLogger.createSubLogger('webpushDeliver');
@@ -22,6 +23,9 @@ const dbLogger = queueLogger.createSubLogger('db');
 
 let deliverDeltaCounts = 0;
 let inboxDeltaCounts = 0;
+
+export const deliverJobConcurrency = config.deliverJobConcurrency || ((cpus().length || 4) * 8);
+export const inboxJobConcurrency = config.inboxJobConcurrency || ((cpus().length || 4) * 1);
 
 deliverQueue
 	.on('waiting', (jobId) => {
@@ -327,9 +331,9 @@ export function createImportUserListsJob(user: ILocalUser, fileId: IDriveFile['_
 }
 
 export default function() {
-	deliverQueue.process(config.deliverJobConcurrency || 128, processDeliver);
+	deliverQueue.process(deliverJobConcurrency, processDeliver);
 	webpushDeliverQueue.process(8, processWebpushDeliver);
-	inboxQueue.process(config.inboxJobConcurrency || 16, processInbox);
+	inboxQueue.process(inboxJobConcurrency, processInbox);
 	processDb(dbQueue);
 }
 

@@ -3,6 +3,7 @@ import Xev from 'xev';
 import { deliverQueue, inboxQueue } from '../queue/queues';
 import config from '../config';
 import { getWorkerStrategies } from '..';
+import { deliverJobConcurrency, inboxJobConcurrency } from '../queue';
 
 const ev = new Xev();
 
@@ -14,9 +15,6 @@ const interval = 3000;
 export default function() {
 	const st = getWorkerStrategies(config);
 	const workers = st.workers + st.queues || 1;
-
-	const deliverConcurrencyPerWorker = config.deliverJobConcurrency || 128;
-	const inboxConcurrencyPerWorker = config.inboxJobConcurrency || 16;
 
 	const log = new Deque<any>();
 
@@ -41,14 +39,14 @@ export default function() {
 
 		const stats = {
 			deliver: {
-				limit: deliverConcurrencyPerWorker * workers,
+				limit: deliverJobConcurrency * workers,
 				activeSincePrevTick: activeDeliverJobs,
 				active: deliverJobCounts.active,
 				waiting: deliverJobCounts.waiting,
 				delayed: deliverJobCounts.delayed
 			},
 			inbox: {
-				limit: inboxConcurrencyPerWorker * workers,
+				limit: inboxJobConcurrency * workers,
 				activeSincePrevTick: activeInboxJobs,
 				active: inboxJobCounts.active,
 				waiting: inboxJobCounts.waiting,

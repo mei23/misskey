@@ -181,11 +181,11 @@ themeColor: '#fb4e4e'
 # IP address family used for outgoing request (ipv4, ipv6 or dual)
 #outgoingAddressFamily: ipv4
 
-# Job concurrency per worker
+# Job concurrency per worker (Default: deliver=cpu x 8, inbox=cpu x 1)
 # deliverJobConcurrency: 128
 # inboxJobConcurrency: 16
 
-# Job late limiter
+# Job late limiter (Default: nolimit, 変更しないことを推奨)
 # deliverJobPerSec: 128
 # inboxJobPerSec: 16
 
