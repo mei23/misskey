@@ -141,8 +141,8 @@ dependencies:
     specifier: 3.0.0
     version: 3.0.0
   gulp-stylus:
-    specifier: 3.0.0
-    version: 3.0.0
+    specifier: 3.0.1
+    version: 3.0.1
   gulp-swc:
     specifier: 1.3.2
     version: 1.3.2(@swc/core@1.3.80)(gulp@4.0.2)
@@ -6196,8 +6196,8 @@ packages:
       - supports-color
     dev: false
 
-  /gulp-stylus@3.0.0:
-    resolution: {integrity: sha512-mm9ls0pzhcBFiCYmKwgMz6tKQyUljXJK4GW/puIseYxzzm2G1M1kj7Gk95Tt7YPr9pSxgGNgEVIOLdDNmkARlQ==}
+  /gulp-stylus@3.0.1:
+    resolution: {integrity: sha512-sHX61bEX1xNnpN7CKnvxsQUXtXI5nSs/tRKqG1OqGPVA/XaHKJ9n2iZc7Nf1EYxnkkR4qIT+4IuDh3AayxhqFQ==}
     engines: {node: '>= 4.2.0'}
     dependencies:
       accord: 0.30.0
