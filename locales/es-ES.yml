@@ -102,8 +102,6 @@ common:
   search: "Buscar"
   delete: "eliminar"
   loading: "cargando"
-  update-available-title: "Actualización disponible"
-  update-available: "Hay disponible una nueva versión de Misskey ({newer}, la versión actual es {current}). Refresca la página para aplicar las actualizaciones."
   my-token-regenerated: "Tu token se ha regenerado vas a ser desconectado."
   verified-user: "Cuenta verificada"
   do-not-use-in-production: "Esto está en desarrollo, no usarlo para producción."

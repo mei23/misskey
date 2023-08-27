@@ -16,7 +16,6 @@ import 'highlight.js/styles/monokai.css';
 import VueHotkey from './common/hotkey';
 import VueSize from './common/size';
 import App from './app.vue';
-import checkForUpdate from './common/scripts/check-for-update';
 import MiOS from './mios';
 import { version, codename, lang, locale } from './config';
 import { builtinThemes, applyTheme, lightTheme } from './theme';
@@ -470,12 +469,6 @@ export default (callback: (launch: (router: VueRouter) => [Vue, MiOS], os: MiOS)
 
 			// マウント
 			app.$mount('#app');
-
-			//#region 更新チェック
-			setTimeout(() => {
-				checkForUpdate(app);
-			}, 3000);
-			//#endregion
 
 			return [app, os] as [Vue, MiOS];
 		};

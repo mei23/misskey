@@ -49,7 +49,6 @@ common:
   search: "Zoeken"
   delete: "Verwijderen"
   loading: "Bezig met laden"
-  update-available: "Er is een nieuwe versie van Misskey beschikbaar: {newer} (de huidige versie is {current}). Herlaad de pagina om de update toe te passen."
   my-token-regenerated: "Je sleutel is gegenereerd; je wordt nu uitgelogd."
   widgets:
     profile: "Je profiel"

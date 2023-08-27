@@ -44,7 +44,7 @@
 	//#endregion
 
 	// Script version
-	const ver = localStorage.getItem('v') || VERSION;
+	const ver = VERSION;
 
 	const env = ENV;
 
@@ -129,6 +129,7 @@
 	//
 	// 読み込まれたスクリプトからこのタイマーを解除できるように、
 	// グローバルにタイマーIDを代入しておく
+	/*
 	window.mkBootTimer = window.setTimeout(async () => {
 		// Fetch meta
 		const res = await fetch('/api/meta', {
@@ -151,6 +152,7 @@
 			refresh();
 		}
 	}, ENV === 'production' ? 3000 : 1000);
+	*/
 
 	function refresh() {
 		localStorage.setItem('shouldFlush', 'false');

@@ -76,8 +76,6 @@ common:
   search: "Buscar"
   delete: "Apagar"
   loading: "Carregando"
-  update-available-title: "Atualização disponível"
-  update-available: "Uma nova versão de Misskey está disponível ({newer}). A versão atual é {current}. Recarregue a página para atualizar."
   my-token-regenerated: "Seu token foi recriado, portanto você foi deslogado."
   verified-user: "Conta verificada"
   reversi:

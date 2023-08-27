@@ -70,7 +70,6 @@ common:
   search: "Søk"
   delete: "Slett"
   loading: "Laster inn..."
-  update-available: "En ny versjon av Misskey er nå tilgjengelig ({newer}, nåværende versjon er {current}). Last inn siden igjen for at oppdateringen skal tre i kraft."
   my-token-regenerated: "Ditt synbol har blitt generert. Du vil nå bli utlogget."
   reversi:
     black: "Sort"

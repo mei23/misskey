@@ -491,7 +491,12 @@ router.get('*', async ctx => {
 	});
 
 	ctx.set('Content-Security-Policy', csp);
-	ctx.set('Cache-Control', 'public, max-age=60');
+
+	if (process.env.NODE_ENV === 'production') {
+		ctx.set('Cache-Control', 'public, max-age=60');
+	} else {
+		ctx.set('Cache-Control', 'private, max-age=0, must-revalidate');
+	}
 });
 
 // Register router

@@ -135,8 +135,6 @@ common:
   delete: "Supprimer"
   loading: "Chargement en cours …"
   cancel: "Quitter"
-  update-available-title: "Mise à jour disponible"
-  update-available: "Une nouvelle version de Misskey est disponible ({newer}, version actuelle: {current}). Veuillez recharger la page pour appliquer la mise à jour."
   my-token-regenerated: "Votre jeton vient d’être généré, vous allez maintenant être déconnecté."
   verified-user: "Compte vérifié"
   hide-password: "Masquer le mot de passe"

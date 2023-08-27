@@ -2,11 +2,8 @@
 <div>
 	<!-- (今は繋がってるけど) 切断履歴があったときに出るやつ -->
 	<div class="disconnect-notify" v-if="stream.state == 'connected' && hasDisconnected
-		&& ($store.state.device.hasDisconnectedAction !== 'nothing' || newVersion != null)" @click="resetDisconnected">
+		&& ($store.state.device.hasDisconnectedAction !== 'nothing')" @click="resetDisconnected">
 		<div><fa icon="exclamation-triangle"/> {{ $t('has-disconnected') }} ({{ disconnectedTime }})</div>
-		<div v-if="newVersion != null">
-			{{ $t('update-available') }} ({{ newVersion }})<br />
-		</div>
 		<div class="command">
 			<button @click="reload">{{ $t('reload') }}</button>
 			<button>{{ $t('ignore') }}</button>
@@ -34,7 +31,6 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import anime from 'animejs';
-import checkForUpdate from '../../scripts/check-for-update';
 import { env } from '../../../config';
 
 export default Vue.extend({
@@ -44,7 +40,6 @@ export default Vue.extend({
 			hasDisconnected: false,
 			t0: 0,
 			tSum: 0,
-			newVersion: null,
 			reloadTimer: null,
 		}
 	},
@@ -85,9 +80,6 @@ export default Vue.extend({
 						this.reload();
 					}, 5000);
 				}
-				checkForUpdate(this.$root, true, true).then(newer => {
-					this.newVersion = newer;
-				});
 			}
 			setTimeout(() => {
 				anime({

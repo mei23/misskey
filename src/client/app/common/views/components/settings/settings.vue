@@ -314,23 +314,6 @@
 
 	<template v-if="page == null || page == 'other'">
 		<ui-card>
-			<template #title><fa icon="sync-alt"/> {{ $t('@._settings.update') }}</template>
-			<section>
-				<p>
-					<span>{{ $t('@._settings.version') }} <i>{{ version }}</i></span>
-					<template v-if="latestVersion !== undefined">
-						<br>
-						<span>{{ $t('@._settings.latest-version') }} <i>{{ latestVersion ? latestVersion : version }}</i></span>
-					</template>
-				</p>
-				<ui-button @click="checkForUpdate" :disabled="checkingForUpdate">
-					<template v-if="checkingForUpdate">{{ $t('@._settings.update-checking') }}<mk-ellipsis/></template>
-					<template v-else>{{ $t('@._settings.do-update') }}</template>
-				</ui-button>
-			</section>
-		</ui-card>
-
-		<ui-card>
 			<template #title><fa icon="cogs"/> {{ $t('@._settings.advanced-settings') }}</template>
 			<section>
 				<ui-switch v-model="debug" v-if="isAdvanced">
@@ -364,7 +347,6 @@ import XNotification from './notification.vue';
 import MkReactionPicker from '../reaction-picker.vue';
 import { emojilist } from '../../../../../../misc/emojilist';
 import { url, version } from '../../../../config';
-import checkForUpdate from '../../../scripts/check-for-update';
 
 import { faSave, faEye } from '@fortawesome/free-regular-svg-icons';
 import { faUndoAlt, faRandom } from '@fortawesome/free-solid-svg-icons';
@@ -726,24 +708,6 @@ export default Vue.extend({
 		deleteWallpaper() {
 			this.$root.api('i/update', {
 				wallpaperId: null
-			});
-		},
-		checkForUpdate() {
-			this.checkingForUpdate = true;
-			checkForUpdate(this.$root, true, true).then(newer => {
-				this.checkingForUpdate = false;
-				this.latestVersion = newer;
-				if (newer == null) {
-					this.$root.dialog({
-						title: this.$t('@._settings.no-updates'),
-						text: this.$t('@._settings.no-updates-desc')
-					});
-				} else {
-					this.$root.dialog({
-						title: this.$t('@._settings.update-available'),
-						text: this.$t('@._settings.update-available-desc')
-					});
-				}
 			});
 		},
 		soundTest() {
