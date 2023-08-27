@@ -217,7 +217,7 @@ dependencies:
     version: 2.1.0
   koa-views:
     specifier: 8.0.0
-    version: 8.0.0(@types/koa@2.13.6)(lodash@4.17.21)(pug@3.0.2)
+    version: 8.0.0(@types/koa@2.13.8)(lodash@4.17.21)(pug@3.0.2)
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -485,8 +485,8 @@ devDependencies:
     specifier: 0.16.0
     version: 0.16.0
   '@types/koa':
-    specifier: 2.13.6
-    version: 2.13.6
+    specifier: 2.13.8
+    version: 2.13.8
   '@types/koa-bodyparser':
     specifier: 4.3.10
     version: 4.3.10
@@ -2317,46 +2317,46 @@ packages:
   /@types/koa-bodyparser@4.3.10:
     resolution: {integrity: sha512-6ae05pjhmrmGhUR8GYD5qr5p9LTEMEGfGXCsK8VaSL+totwigm8+H/7MHW7K4854CMeuwRAubT8qcc/EagaeIA==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa-compose@3.2.5:
     resolution: {integrity: sha512-B8nG/OoE1ORZqCkBVsup/AKcvjdgoHnfi4pZMn5UwAPCbhk/96xyv284eBYW8JlQbQ7zDmnpFr68I/40mFoIBQ==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
 
   /@types/koa-favicon@2.0.21:
     resolution: {integrity: sha512-paH1nheVhijx/VduoR/RCD/qTCiX+OI/6fHLi3mZae053Ts+gUBOrKtzl3pMTDbdEBqdLolfLje3PZbb6jW0jQ==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa-logger@3.1.2:
     resolution: {integrity: sha512-sioTA1xlKYiIgryANWPRHBkG3XGbWftw9slWADUPC+qvPIY/yRLSrhvX7zkJwMrntub5dPO0GuAoyGGf0yitfQ==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa-mount@4.0.2:
     resolution: {integrity: sha512-XnuGwV8bzw22nv2WqOs5a8wCHR2VgSnLLLuBQPzNTmhyiAvH0O6c+994rQVbMaBuwQJKefUInkvKoKuk+21uew==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa-send@4.1.3:
     resolution: {integrity: sha512-daaTqPZlgjIJycSTNjKpHYuKhXYP30atFc1pBcy6HHqB9+vcymDgYTguPdx9tO4HMOqNyz6bz/zqpxt5eLR+VA==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa-views@2.0.4:
     resolution: {integrity: sha512-aGFBVLiPC7FkXTqHLhnmjKhx3COV+GeJHO9OkLX/p/iAQTgDB5bbnsddx3XgrS6aACWyxR3BpQJVDdSqCNY1lw==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
-  /@types/koa@2.13.6:
-    resolution: {integrity: sha512-diYUfp/GqfWBAiwxHtYJ/FQYIXhlEhlyaU7lB/bWQrx4Il9lCET5UwpFy3StOAohfsxxvEQ11qIJgT1j2tfBvw==}
+  /@types/koa@2.13.8:
+    resolution: {integrity: sha512-Ugmxmgk/yPRW3ptBTh9VjOLwsKWJuGbymo1uGX0qdaqqL18uJiiG1ZoV0rxCOYSaDGhvEp5Ece02Amx0iwaxQQ==}
     dependencies:
       '@types/accepts': 1.3.5
       '@types/content-disposition': 0.5.5
@@ -2370,19 +2370,19 @@ packages:
   /@types/koa__cors@3.3.1:
     resolution: {integrity: sha512-aFGYhTFW7651KhmZZ05VG0QZJre7QxBxDj2LF1lf6GA/wSXEfKVAJxiQQWzRV4ZoMzQIO8vJBXKsUcRuvYK9qw==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa__multer@2.0.4:
     resolution: {integrity: sha512-WRkshXhE5rpYFUbbtAjyMhdOOSdbu1XX+2AQlRNM6AZtgxd0/WXMU4lrP7e9tk5HWVTWbx8DOOsVBmfHjSGJ4w==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/koa__router@8.0.11:
     resolution: {integrity: sha512-WXgKWpBsbS14kzmzD9LeFapOIa678h7zvUHxDwXwSx4ETKXhXLVUAToX6jZ/U7EihM7qwyD9W/BZvB0MRu7MTQ==}
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
     dev: true
 
   /@types/lodash@4.14.195:
@@ -7279,7 +7279,7 @@ packages:
       q: 1.4.1
     dev: false
 
-  /koa-views@8.0.0(@types/koa@2.13.6)(lodash@4.17.21)(pug@3.0.2):
+  /koa-views@8.0.0(@types/koa@2.13.8)(lodash@4.17.21)(pug@3.0.2):
     resolution: {integrity: sha512-nvGKdG8yVyomhouwN060SWd7Q9kGYRr322dwN6jvI04hgiDEW9vsPXEje9OEtBgGXxHURe7xOzo3bxQ3DBc1Nw==}
     peerDependencies:
       '@types/koa': ^2.13.1
@@ -7287,7 +7287,7 @@ packages:
       '@types/koa':
         optional: true
     dependencies:
-      '@types/koa': 2.13.6
+      '@types/koa': 2.13.8
       consolidate: 0.16.0(lodash@4.17.21)(pug@3.0.2)
       debug: 4.3.4(supports-color@8.1.1)
       get-paths: 0.0.7
