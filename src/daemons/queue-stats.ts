@@ -24,7 +24,7 @@ export default function() {
 
 	let activeDeliverJobs = 0;
 	let activeInboxJobs = 0;
-	let activeInboxLazyJobs = 1;
+	let activeInboxLazyJobs = 0;
 
 	deliverQueue.on('global:active', () => {
 		activeDeliverJobs++;

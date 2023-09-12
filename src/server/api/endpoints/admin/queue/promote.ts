@@ -1,6 +1,6 @@
 import $ from 'cafy';
 import define from '../../../define';
-import { deliverQueue, inboxQueue } from '../../../../../queue/queues';
+import { deliverQueue, inboxQueue, inboxLazyQueue } from '../../../../../queue/queues';
 
 export const meta = {
 	tags: ['admin'],
@@ -24,6 +24,7 @@ export default define(meta, async (ps) => {
 	const queue =
 		ps.domain === 'deliver' ? deliverQueue :
 		ps.domain === 'inbox' ? inboxQueue :
+		ps.domain === 'inboxLazy' ? inboxLazyQueue :
 		null;
 
 		if (queue == null) throw(`invalid domain`);

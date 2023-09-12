@@ -1,6 +1,6 @@
 import $ from 'cafy';
 import define from '../../../define';
-import { deliverQueue, inboxQueue, dbQueue } from '../../../../../queue/queues';
+import { deliverQueue, inboxQueue, inboxLazyQueue, dbQueue } from '../../../../../queue/queues';
 import * as Bull from 'bull';
 
 export const meta = {
@@ -29,6 +29,7 @@ export default define(meta, async (ps) => {
 	const queue =
 		ps.domain === 'deliver' ? deliverQueue :
 		ps.domain === 'inbox' ? inboxQueue :
+		ps.domain === 'inboxLazy' ? inboxLazyQueue :
 		ps.domain === 'db' ? dbQueue :
 		null;
 
