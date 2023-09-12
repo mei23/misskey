@@ -27,6 +27,8 @@ import { toUnicode } from 'punycode/';
 import Logger from '../services/logger';
 import limiter from './api/limiter';
 import { IEndpoint } from './api/endpoints';
+import { IActivity } from '../remote/activitypub/type';
+import { toSingle } from '../prelude/array';
 
 const logger = new Logger('activitypub');
 
@@ -65,15 +67,16 @@ async function inbox(ctx: Router.RouterContext) {
 	}
 
 	const actor = signature.keyId.replace(/[^0-9A-Za-z]/g, '_');
+	const activity = ctx.request.body as IActivity;
 
-	if (actor) {
+	if (actor && ['Delete', 'Undo'].includes(toSingle(activity.type)!)) {
 		const ep = {
-			name: `inboxx120-${actor}`,
+			name: `inboxDeletex60-${actor}`,
 			exec: null,
 			meta: {
 				limit: {
 					duration: 120 * 1000,
-					max: 20,
+					max: 10,
 				}
 			}
 		} as IEndpoint;
@@ -87,7 +90,7 @@ async function inbox(ctx: Router.RouterContext) {
 		}
 	}
 	
-	const queue = await processInbox(ctx.request.body, signature, {
+	const queue = await processInbox(activity, signature, {
 		ip: ctx.request.ip
 	});
 
