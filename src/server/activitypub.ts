@@ -76,7 +76,7 @@ async function inbox(ctx: Router.RouterContext) {
 			meta: {
 				limit: {
 					duration: 120 * 1000,
-					max: 10,
+					max: 10, //TODO
 				}
 			}
 		} as IEndpoint;
