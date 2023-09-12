@@ -66,14 +66,14 @@ async function inbox(ctx: Router.RouterContext) {
 
 	const actor = signature.keyId.replace(/[^0-9A-Za-z]/g, '_');
 
-	if (actor) {
+	if (actor && actor.includes('pawoo')) {
 		const ep = {
 			name: `inboxx120-${actor}`,
 			exec: null,
 			meta: {
 				limit: {
 					duration: 120 * 1000,
-					max: 120,
+					max: 20,
 				}
 			}
 		} as IEndpoint;
