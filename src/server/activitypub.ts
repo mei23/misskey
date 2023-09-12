@@ -25,6 +25,8 @@ import fetchMeta from '../misc/fetch-meta';
 import { isBlockedHost } from '../services/instance-moderation';
 import { toUnicode } from 'punycode/';
 import Logger from '../services/logger';
+import limiter from './api/limiter';
+import { IEndpoint } from './api/endpoints';
 
 const logger = new Logger('activitypub');
 
@@ -62,6 +64,29 @@ async function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
+	const actor = signature.keyId.replace(/[^0-9A-Za-z]/g, '_');
+
+	if (actor && actor.includes('pawoo')) {
+		const ep = {
+			name: `inboxx120-${actor}`,
+			exec: null,
+			meta: {
+				limit: {
+					duration: 120 * 1000,
+					max: 20,
+				}
+			}
+		} as IEndpoint;
+
+		try {
+			await limiter(ep, undefined, undefined);
+		} catch (e) {
+			console.log(`InboxLimit: ${actor}`);
+			ctx.status = 202;
+			return;
+		}
+	}
+	
 	const queue = await processInbox(ctx.request.body, signature, {
 		ip: ctx.request.ip
 	});
