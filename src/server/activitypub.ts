@@ -15,7 +15,7 @@ import Outbox, { packActivity } from './activitypub/outbox';
 import Followers from './activitypub/followers';
 import Following from './activitypub/following';
 import Featured from './activitypub/featured';
-import { inbox as processInbox } from '../queue';
+import { inbox as processInbox, inboxLazy as processInboxLazy } from '../queue';
 import { isSelfHost } from '../misc/convert-host';
 import NoteReaction from '../models/note-reaction';
 import { renderLike } from '../remote/activitypub/renderer/like';
@@ -69,6 +69,8 @@ async function inbox(ctx: Router.RouterContext) {
 	const actor = signature.keyId.replace(/[^0-9A-Za-z]/g, '_');
 	const activity = ctx.request.body as IActivity;
 
+	let lazy = false;
+
 	if (actor && ['Delete', 'Undo'].includes(toSingle(activity.type)!)) {
 		const ep = {
 			name: `inboxDeletex60-${actor}`,
@@ -85,12 +87,11 @@ async function inbox(ctx: Router.RouterContext) {
 			await limiter(ep, undefined, undefined);
 		} catch (e) {
 			console.log(`InboxLimit: ${actor}`);
-			ctx.status = 202;
-			return;
+			lazy = true;
 		}
 	}
 	
-	const queue = await processInbox(activity, signature, {
+	const queue = await (lazy ? processInboxLazy : processInbox)(activity, signature, {
 		ip: ctx.request.ip
 	});
 

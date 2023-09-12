@@ -1,7 +1,7 @@
 import * as httpSignature from 'http-signature';
 import config from '../config';
 import { InboxInfo, InboxRequestData, WebpushDeliverJobData } from './types';
-import { deliverQueue, webpushDeliverQueue, inboxQueue, dbQueue } from './queues';
+import { deliverQueue, webpushDeliverQueue, inboxQueue, inboxLazyQueue, dbQueue } from './queues';
 import { getJobInfo } from './get-job-info';
 import processDeliver from './processors/deliver';
 import processWebpushDeliver from './processors/webpushDeliver';
@@ -19,6 +19,7 @@ import { cpus } from 'os';
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const webpushDeliverLogger = queueLogger.createSubLogger('webpushDeliver');
 const inboxLogger = queueLogger.createSubLogger('inbox');
+const inboxLazyLogger = queueLogger.createSubLogger('inboxLazy');
 const dbLogger = queueLogger.createSubLogger('db');
 
 let deliverDeltaCounts = 0;
@@ -70,6 +71,20 @@ inboxQueue
 	})
 	.on('error', (error) => inboxLogger.error(`error ${error}`))
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
+
+inboxLazyQueue
+	.on('waiting', (jobId) => {
+		inboxLazyLogger.debug(`waiting id=${jobId}`);
+	})
+	.on('active', (job) => inboxLazyLogger.info(`active ${getJobInfo(job, true)} activity=${job.data.activity ? job.data.activity.id : 'none'}`))
+	.on('completed', (job, result) => inboxLazyLogger.info(`completed(${result}) ${getJobInfo(job, true)} activity=${job.data.activity ? job.data.activity.id : 'none'}`))
+	.on('failed', (job, err) => {
+		const msg = `failed(${err}) ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`;
+		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
+		inboxLazyLogger.warn(msg);
+	})
+	.on('error', (error) => inboxLazyLogger.error(`error ${error}`))
+	.on('stalled', (job) => inboxLazyLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
 
 dbQueue
 	.on('waiting', (jobId) => dbLogger.debug(`waiting id=${jobId}`))
@@ -158,6 +173,25 @@ export function inbox(activity: IActivity, signature: httpSignature.IParsedSigna
 		removeOnFail: true
 	});
 }
+
+export function inboxLazy(activity: IActivity, signature: httpSignature.IParsedSignature, request: InboxRequestData) {
+	const data = {
+		activity,
+		signature,
+		request,
+	};
+
+	return inboxLazyQueue.add(data, {
+		attempts: 1,
+		timeout: 1 * 60 * 1000,	// 1min
+		backoff: {
+			type: 'apBackoff'
+		},
+		removeOnComplete: true,
+		removeOnFail: true
+	});
+}
+
 
 export function createDeleteNotesJob(user: IUser) {
 	return dbQueue.add('deleteNotes', {
@@ -334,6 +368,7 @@ export default function() {
 	deliverQueue.process(deliverJobConcurrency, processDeliver);
 	webpushDeliverQueue.process(8, processWebpushDeliver);
 	inboxQueue.process(inboxJobConcurrency, processInbox);
+	inboxLazyQueue.process(1, processInbox);
 	processDb(dbQueue);
 }
 
@@ -350,6 +385,13 @@ export function destroy(domain?: string) {
 			inboxLogger.succ(`Cleaned ${jobs.length} ${status} jobs`);
 		});
 		inboxQueue.clean(0, 'delayed');
+	}
+
+	if (domain == null || domain === 'inboxLazy') {
+		inboxLazyQueue.once('cleaned', (jobs, status) => {
+			inboxLazyLogger.succ(`Cleaned ${jobs.length} ${status} jobs`);
+		});
+		inboxLazyQueue.clean(0, 'delayed');
 	}
 
 	if (domain === 'db') {

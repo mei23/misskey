@@ -66,6 +66,38 @@
 				<ui-button @click="removeJobs('inbox')">{{ $t('clearJobs') }}</ui-button>
 			</ui-horizon-group >
 		</section>
+
+		<!-- InboxLazy -->
+		<section class="wptihjuy">
+			<header><fa :icon="faInbox"/> Inbox (Lazy)</header>
+			<ui-horizon-group inputs v-if="latestStats" class="fit-bottom">
+				<ui-input :value="latestStats.inboxLazy.activeSincePrevTick" type="text" readonly>
+					<span>Process</span>
+					<template #prefix><fa :icon="fasPlayCircle"/></template>
+					<template #suffix>jobs/tick</template>
+				</ui-input>
+				<ui-input :value="latestStats.inboxLazy.active" type="text" readonly>
+					<span>Active</span>
+					<template #prefix><fa :icon="farPlayCircle"/></template>
+					<template #suffix>{{ `/ ${latestStats.inboxLazy.limit} jobs` }}</template>
+				</ui-input>
+				<ui-input :value="latestStats.inboxLazy.waiting" type="text" readonly>
+					<span>Waiting</span>
+					<template #prefix><fa :icon="faStopCircle"/></template>
+					<template #suffix>jobs</template>
+				</ui-input>
+				<ui-input :value="latestStats.inboxLazy.delayed" type="text" readonly>
+					<span>Delayed</span>
+					<template #prefix><fa :icon="faStopwatch"/></template>
+					<template #suffix>jobs</template>
+				</ui-input>
+			</ui-horizon-group>
+			<div ref="inboxLazyChart" class="chart"></div>
+			<ui-horizon-group v-if="$store.getters.isAdminOrModerator" inputs class="fit-bottom">
+				<ui-button @click="promoteJobs('inboxLazy')">{{ $t('promoteJobs') }}</ui-button>
+				<ui-button @click="removeJobs('inboxLazy')">{{ $t('clearJobs') }}</ui-button>
+			</ui-horizon-group >
+		</section>
 	</ui-card>
 
 	<!-- job queue list -->
@@ -78,6 +110,7 @@
 					<template #label>{{ $t('queue') }}</template>
 					<option value="deliver">{{ $t('domains.deliver') }}</option>
 					<option value="inbox">{{ $t('domains.inbox') }}</option>
+					<option value="inboxLazy">{{ $t('domains.inboxLazy') }}</option>
 					<option value="db">{{ $t('domains.db') }}</option>
 				</ui-select>
 				<ui-select v-model="state">
@@ -104,6 +137,9 @@
 							<span>{{ job.data.to }}</span>
 						</template>
 						<template v-if="domain === 'inbox'">
+							<span>{{ job.data.activity.id }}</span>
+						</template>
+						<template v-if="domain === 'inboxLazy'">
 							<span>{{ job.data.activity.id }}</span>
 						</template>
 						<template v-if="domain === 'db'">
@@ -140,6 +176,7 @@ export default Vue.extend({
 			stats: [],
 			deliverChart: null,
 			inboxChart: null,
+			inboxLazyChart: null,
 			jobs: [],
 			jobsLimit: 1000,
 			jobsFetched: Date.now(),
@@ -192,6 +229,23 @@ export default Vue.extend({
 				name: 'Delayed',
 				type: 'line',
 				data: stats.map((x, i) => ({ x: i, y: x.inbox.delayed }))
+			}]);
+			this.inboxLazyChart.updateSeries([{
+				name: 'Process',
+				type: 'area',
+				data: stats.map((x, i) => ({ x: i, y: x.inboxLazy.activeSincePrevTick }))
+			}, {
+				name: 'Active',
+				type: 'area',
+				data: stats.map((x, i) => ({ x: i, y: x.inboxLazy.active }))
+			}, {
+				name: 'Waiting',
+				type: 'line',
+				data: stats.map((x, i) => ({ x: i, y: x.inboxLazy.waiting }))
+			}, {
+				name: 'Delayed',
+				type: 'line',
+				data: stats.map((x, i) => ({ x: i, y: x.inboxLazy.delayed }))
 			}]);
 			this.deliverChart.updateSeries([{
 				name: 'Process',
@@ -291,9 +345,11 @@ export default Vue.extend({
 		});
 
 		this.inboxChart = new ApexCharts(this.$refs.inboxChart, chartOpts('a'));
+		this.inboxLazyChart = new ApexCharts(this.$refs.inboxLazyChart, chartOpts('a'));
 		this.deliverChart = new ApexCharts(this.$refs.deliverChart, chartOpts('b'));
 
 		this.inboxChart.render();
+		this.inboxLazyChart.render();
 		this.deliverChart.render();
 
 		const connection = this.$root.stream.useSharedConnection('queueStats');
@@ -307,6 +363,7 @@ export default Vue.extend({
 		this.$once('hook:beforeDestroy', () => {
 			connection.dispose();
 			this.inboxChart.destroy();
+			this.inboxLazyChart.destroy();
 			this.deliverChart.destroy();
 		});
 	},
