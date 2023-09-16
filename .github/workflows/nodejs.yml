@@ -31,8 +31,8 @@ jobs:
     - run: node cli/diag-environment.js
     - run: sudo apt-get update -y
     - run: sudo apt-get install -y --no-install-recommends ffmpeg
-    - run: pnpm i --frozen-lockfile
-    - run: pnpm build
+    - run: NODE_ENV=production pnpm i --frozen-lockfile
+    - run: NODE_ENV=production pnpm build
     - run: ls built/meta.json
     - run: cp test/test.yml .config/
     - run: pnpm test
