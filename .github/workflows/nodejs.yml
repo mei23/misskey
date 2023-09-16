@@ -9,11 +9,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [16.x, 18.17.1]
 
     services:
       mongo:
-        image: mongo:4.4-bionic
+        image: mongo:4.4.24-bionic
         ports:
           - 57010:27017
       redis:
