@@ -29,6 +29,7 @@ import loadConfig from './config/load';
 import { Config } from './config/types';
 import { envOption } from './env';
 import { showMachineInfo } from './misc/show-machine-info';
+import { checkMongoDB } from './misc/check-mongodb';
 
 const logger = new Logger('core', 'cyan');
 const bootLogger = logger.createSubLogger('boot', 'magenta', false);
@@ -240,6 +241,14 @@ async function init(config: Config) {
 	nodejsLogger.info(`Version ${runningNodejsVersion.join('.')}`);
 
 	await showMachineInfo(bootLogger);
+
+	// Try to connect to MongoDB
+	try {
+		await checkMongoDB(config, bootLogger);
+	} catch (e) {
+		bootLogger.error('Cannot connect to database', null, true);
+		process.exit(1);
+	}
 }
 
 async function spawnWorkers(config: Config) {
