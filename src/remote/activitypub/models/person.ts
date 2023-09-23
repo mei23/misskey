@@ -621,12 +621,25 @@ export async function fetchOutbox(user: IUser) {
 	}
 }
 
-function parseSearchableBy(actor: IActor) {
-	if (actor.searchableBy == null) return null;
+/**
+ * リモートユーザーのsearchable検出
+ */
+function parseSearchableBy(actor: IActor): 'public' | 'none' | null {
+	// indexableで明示的に許可されていればpublic
+	if (actor.indexable === true) return 'public';
+
+	// searchableByでpublicならpublic
 	const searchableBy = toArray(actor.searchableBy);
 	if (searchableBy.includes('https://www.w3.org/ns/activitystreams#Public')) return 'public';
-	if (searchableBy.includes(getApId(actor.followers))) return 'none';
-	return 'none';
+
+	// indexableで明示的に拒否されていればnone
+	if (actor.indexable === false) return 'none';
+
+	// searchableByで明示的に拒否されていればnone (followersは未対応なので拒否扱い)
+	if (actor.searchableBy != null) return 'none';
+
+	// default
+	return null;
 }
 
 export const exportedForTesting = {

@@ -310,7 +310,7 @@ describe('ActivityPub', () => {
 	describe('parseSearchableBy', () => {
 		const parseSearchableBy = exportedForTesting.parseSearchableBy;
 
-		it('parseSearchableBy - public', () => {
+		it('parseSearchableBy - indexable: undef, public', () => {
 			assert.strictEqual(parseSearchableBy({
 				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
 				followers: 'https://example.com/users/a/followers',
@@ -318,7 +318,7 @@ describe('ActivityPub', () => {
 			}), 'public');
 		});
 
-		it('parseSearchableBy - follower', () => {
+		it('parseSearchableBy - indexable: undef, followers', () => {
 			assert.strictEqual(parseSearchableBy({
 				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
 				followers: 'https://example.com/users/a/followers',
@@ -326,11 +326,81 @@ describe('ActivityPub', () => {
 			}), 'none');
 		});
 
-		it('parseSearchableBy - reaction', () => {
+		it('parseSearchableBy - indexable: undef, reaction', () => {
 			assert.strictEqual(parseSearchableBy({
 				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
 				followers: 'https://example.com/users/a/followers',
 				searchableBy: [],
+			}), 'none');
+		});
+
+		it('parseSearchableBy - indexable: true, public', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [ 'https://www.w3.org/ns/activitystreams#Public' ],
+				indexable: true,
+			}), 'public');
+		});
+
+		it('parseSearchableBy - indexable: true, followers', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [ 'https://example.com/users/a/followers' ],
+				indexable: true,
+			}), 'public');
+		});
+
+		it('parseSearchableBy - indexable: true, reaction', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [],
+				indexable: true,
+			}), 'public');
+		});
+
+		it('parseSearchableBy - indexable: false, public', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [ 'https://www.w3.org/ns/activitystreams#Public' ],
+				indexable: false,
+			}), 'public');
+		});
+
+		it('parseSearchableBy - indexable: false, followers', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [ 'https://example.com/users/a/followers' ],
+				indexable: false,
+			}), 'none');
+		});
+
+		it('parseSearchableBy - indexable: false, reaction', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				searchableBy: [],
+				indexable: false,
+			}), 'none');
+		});
+
+		it('parseIndexable - true', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				indexable: true,
+			}), 'public');
+		});
+
+		it('parseIndexable - false', () => {
+			assert.strictEqual(parseSearchableBy({
+				type: 'Person', preferredUsername: 'a', inbox: 'b', outbox: 'c', '@context': 'd',
+				followers: 'https://example.com/users/a/followers',
+				indexable: false,
 			}), 'none');
 		});
 
