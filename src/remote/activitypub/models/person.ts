@@ -635,7 +635,7 @@ function parseSearchableBy(actor: IActor): 'public' | 'none' | null {
 	// indexableで明示的に拒否されていればnone
 	if (actor.indexable === false) return 'none';
 
-	// searchableByで明示的に拒否されていればnone (followersは未対応なので拒否扱い)
+	// searchableByでpublic以外ならnone (followersは未対応なので拒否扱い)
 	if (actor.searchableBy != null) return 'none';
 
 	// default
