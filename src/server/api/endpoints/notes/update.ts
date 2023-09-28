@@ -85,7 +85,6 @@ export default define(meta, async (ps, user, app) => {
 		updatedAt: new Date(),
 		text: ps.text?.trim(),
 		cw: ps.cw ?? null,
-		// TODO: tags, mentions, emojis
 	};
 
 	await Note.update({ _id: note._id }, {
