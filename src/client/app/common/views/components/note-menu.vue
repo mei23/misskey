@@ -9,6 +9,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { url } from '../../../config';
 import copyToClipboard from '../../../common/scripts/copy-to-clipboard';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { faPlaneArrival, faPlaneDeparture, faUserFriends, faPaperPlane, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -113,15 +114,15 @@ export default Vue.extend({
 			// 編集
 			if (this.isSelf) {
 				it.push({
-					icon: ['fa', 'undo-alt'],
-					text: this.$t('@.edit'),
-					action: this.edit
+					icon: faEdit,
+					text: this.$t('@.edit2'),
+					action: this.edit2
 				});
 
 				it.push({
 					icon: ['fa', 'undo-alt'],
-					text: this.$t('@.edit2'),
-					action: this.edit2
+					text: this.$t('@.edit'),
+					action: this.edit
 				});
 			}
 

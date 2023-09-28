@@ -114,6 +114,7 @@ common:
   mobile-mode: 'Mobile mode'
   empty: 'Empty'
   edit: 'Edit'
+  edit2: 'Reliable edit'
   aboutInstance: "About this instance"
   favoriteReactions: "Favorite reactions"
   mostReacteds: "Most reacteds"
