@@ -499,8 +499,8 @@ export default (opts) => ({
 				localOnly,
 				copyOnce,
 				viaMobile,
-				geo: null,
 				noteId: this.updateMode ? this.initialNote?.id : undefined,
+				geo: null
 			}).then(data => {
 				if (this.initialNote && this.initialNote._edit) {
 					this.$root.api('notes/delete', {
