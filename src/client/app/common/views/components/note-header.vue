@@ -8,7 +8,7 @@
 	<div class="info" v-if="!noInfo">
 		<router-link v-if="noteUrl.startsWith('/')" class="created-at" :to="noteUrl"><mk-time :time="note.createdAt"/></router-link>
 		<a v-else class="created-at" :href="noteUrl"><mk-time :time="note.createdAt"/></a>
-		<span class="edited" v-if="note.updatedAt != null"><fa :icon="faEdit"/></span>
+		<span class="edited" :title="$t('@.edited')" v-if="note.updatedAt != null"><fa :icon="faEdit"/></span>
 		<x-visibility-icon class="visibility" :v="note.visibility" :localOnly="note.localOnly" :copyOnce="note.copyOnce"/>
 		<span class="remote" title="Remote post" v-if="note.user.host != null"><fa :icon="faGlobeAmericas"/></span>
 	</div>

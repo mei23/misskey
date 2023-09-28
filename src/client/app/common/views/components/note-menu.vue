@@ -114,15 +114,15 @@ export default Vue.extend({
 			// 編集
 			if (this.isSelf) {
 				it.push({
-					icon: faEdit,
-					text: this.$t('@.edit2'),
-					action: this.edit2
-				});
-
-				it.push({
 					icon: ['fa', 'undo-alt'],
 					text: this.$t('@.edit'),
 					action: this.edit
+				});
+
+				it.push({
+					icon: faEdit,
+					text: this.$t('@.edit2'),
+					action: this.edit2
 				});
 			}
 
@@ -263,10 +263,17 @@ export default Vue.extend({
 		},
 
 		edit2() {
-			this.$post({
+			this.$root.dialog({
+				type: 'warning',
+				text: this.$t('edit2-confirm'),
+				showCancelButton: true
+			}).then(({ canceled }) => {
+				if (canceled) return;
+				this.$post({
 				initialNote: Object.assign({ }, this.note),
 				reply: this.note.reply,
 				updateMode: true,
+			});
 			});
 		},
 
