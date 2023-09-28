@@ -82,6 +82,7 @@ export default prop => ({
 			const { type, id, body } = data;
 
 			if (id !== this.$_ns_target.id) return;
+			console.log(data);
 
 			switch (type) {
 				case 'reacted': {
@@ -169,6 +170,13 @@ export default prop => ({
 					this.$_ns_target.poll = null;
 					this.$_ns_target.geo = null;
 					this.$_ns_target.cw = null;
+					break;
+				}
+
+				case 'updated': {
+					Vue.set(this.$_ns_target, 'cw', body.cw);
+					Vue.set(this.$_ns_target, 'text', body.text);
+					// TODO: key
 					break;
 				}
 			}

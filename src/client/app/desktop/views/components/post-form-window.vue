@@ -18,6 +18,7 @@
 			:mention="mention"
 			:initial-text="initialText"
 			:initial-note="initialNote"
+			:update-mode="updateMode"
 			:instant="instant"
 
 			@posted="onPosted"
@@ -63,6 +64,12 @@ export default Vue.extend({
 		initialNote: {
 			type: Object,
 			required: false
+		},
+
+		updateMode: {
+			type: Boolean,
+			required: false,
+			default: false
 		},
 
 		instant: {

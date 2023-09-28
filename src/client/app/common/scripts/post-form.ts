@@ -44,7 +44,12 @@ export default (opts) => ({
 			type: Boolean,
 			required: false,
 			default: false
-		}
+		},
+		updateMode: {
+			type: Boolean,
+			required: false,
+			default: false
+		},
 	},
 
 	data() {
@@ -482,7 +487,7 @@ export default (opts) => ({
 				text = `${text.replace(/\s+$/, '')}\n#${this.fixedTag}`;
 			}
 
-			this.$root.api('notes/create', {
+			this.$root.api(this.updateMode ? 'notes/update' : 'notes/create', {
 				text,
 				fileIds: this.files.length > 0 ? this.files.map(f => f.id) : undefined,
 				replyId: this.reply ? this.reply.id : undefined,
@@ -494,7 +499,8 @@ export default (opts) => ({
 				localOnly,
 				copyOnce,
 				viaMobile,
-				geo: null
+				geo: null,
+				noteId: this.updateMode ? this.initialNote?.id : undefined,
 			}).then(data => {
 				if (this.initialNote && this.initialNote._edit) {
 					this.$root.api('notes/delete', {

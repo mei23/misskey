@@ -184,6 +184,7 @@ export default [
   "notes/show",
   "notes/state",
   "notes/timeline",
+  "notes/update",
   "notes/user-list-timeline",
   "notes/watching/create",
   "notes/watching/delete-all",

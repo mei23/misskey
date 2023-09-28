@@ -117,6 +117,12 @@ export default Vue.extend({
 					text: this.$t('@.edit'),
 					action: this.edit
 				});
+
+				it.push({
+					icon: ['fa', 'undo-alt'],
+					text: this.$t('@.edit2'),
+					action: this.edit2
+				});
 			}
 
 			// 削除
@@ -252,6 +258,14 @@ export default Vue.extend({
 					initialNote: Object.assign({ _edit: true }, this.note),
 					reply: this.note.reply,
 				});
+			});
+		},
+
+		edit2() {
+			this.$post({
+				initialNote: Object.assign({ }, this.note),
+				reply: this.note.reply,
+				updateMode: true,
 			});
 		},
 
