@@ -81,18 +81,16 @@ export default define(meta, async (ps, user, app) => {
 		throw new ApiError(meta.errors.noSuchNote);
 	}
 
-	const updatedAt = new Date();
-	const text = ps.text?.trim();
-	const cw = ps.cw ?? null;
+	const updates = {
+		updatedAt: new Date(),
+		text: ps.text?.trim(),
+		cw: ps.cw ?? null,
+		// TODO: tags, mentions, emojis
+	};
 
 	await Note.update({ _id: note._id }, {
-		$set: {
-			updatedAt, text, cw,
-			// TODO: tags, mentions, emojis
-		}
+		$set: updates
 	});
 
-	publishNoteStream(note._id, 'updated', {
-		updatedAt, text, cw,
-	});
+	publishNoteStream(note._id, 'updated', updates);
 });
