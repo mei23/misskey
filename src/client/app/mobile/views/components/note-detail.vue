@@ -56,6 +56,11 @@
 			{{ }}
 			<mk-time :time="appearNote.createdAt" mode="detail"/>
 		</router-link>
+		<div  class="time" v-if="appearNote.updatedAt != null">
+			<fa :icon="faEdit"/>
+			{{ }}
+			<mk-time :time="appearNote.updatedAt" mode="detail"/>
+		</div>
 		<div class="visibility-info">
 			<x-visibility-icon class="visibility" :v="appearNote.visibility" :localOnly="appearNote.localOnly" :copyOnce="appearNote.copyOnce" :withText="true"/>
 		</div>
@@ -107,6 +112,7 @@ import XSub from './note.sub.vue';
 import noteSubscriber from '../../../common/scripts/note-subscriber';
 import noteMixin from '../../../common/scripts/note-mixin';
 import { faClock, faLaugh } from '@fortawesome/free-regular-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 import XInstanceInfo from '../../../common/views/components/instance-info.vue';
 
@@ -133,7 +139,7 @@ export default Vue.extend({
 
 	data() {
 		return {
-			faClock, faLaugh,
+			faClock, faLaugh, faEdit,
 			conversation: [],
 			conversationFetching: false,
 			replies: []

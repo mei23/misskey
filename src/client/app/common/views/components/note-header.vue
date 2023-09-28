@@ -9,6 +9,7 @@
 		<span class="mobile" v-if="note.viaMobile"><fa icon="mobile-alt"/></span>
 		<router-link v-if="noteUrl.startsWith('/')" class="created-at" :to="noteUrl"><mk-time :time="note.createdAt"/></router-link>
 		<a v-else class="created-at" :href="noteUrl"><mk-time :time="note.createdAt"/></a>
+		<span class="edited" v-if="note.updatedAt != null"><fa :icon="faEdit"/></span>
 		<x-visibility-icon class="visibility" :v="note.visibility" :localOnly="note.localOnly" :copyOnce="note.copyOnce"/>
 		<span class="remote" title="Remote post" v-if="note.user.host != null"><fa :icon="faGlobeAmericas"/></span>
 	</div>
@@ -18,7 +19,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import i18n from '../../../i18n';
-import { faGlobeAmericas } from '@fortawesome/free-solid-svg-icons';
+import { faGlobeAmericas, faEdit } from '@fortawesome/free-solid-svg-icons';
 import XVisibilityIcon from '../../../common/views/components/visibility-icon.vue';
 import XUserBadges from '../../../common/views/components/user-badges.vue';
 import getAcct from '../../../../../misc/acct/render';
@@ -31,7 +32,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			faGlobeAmericas,
+			faGlobeAmericas, faEdit,
 		}
 	},
 	props: {
@@ -102,8 +103,8 @@ export default Vue.extend({
 		> *
 			color var(--noteHeaderInfo)
 
-		> .mobile
-			margin-right 8px
+		> .edited
+			margin-left 8px
 
 		> .visibility
 			margin-left 0.5em
