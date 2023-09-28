@@ -17,7 +17,7 @@
 				:note="note"
 				:next="_notes[i + 1]"
 				:prev="_notes[i - 1]"
-				:key="`${note.id}-${note._hash}`"
+				:key="`${note.id}-${note.updatedAt}`"
 				@update:note="onNoteUpdated(i, $event)"
 				:compact="true"
 			/>
