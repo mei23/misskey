@@ -82,7 +82,6 @@ export default prop => ({
 			const { type, id, body } = data;
 
 			if (id !== this.$_ns_target.id) return;
-			console.log(data);
 
 			switch (type) {
 				case 'reacted': {
