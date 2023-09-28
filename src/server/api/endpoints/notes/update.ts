@@ -91,7 +91,7 @@ export default define(meta, async (ps, user, app) => {
 		}
 	});
 
-	publishNoteStream(note._id, 'deleted', {
+	publishNoteStream(note._id, 'updated', {
 		text, cw,
 	});
 });
