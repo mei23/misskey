@@ -113,8 +113,8 @@ common:
   desktop-mode: 'Desktop mode'
   mobile-mode: 'Mobile mode'
   empty: 'Empty'
-  edit: 'Edit'
-  edit2: 'Reliable edit'
+  edit: 'Reliable edit'
+  edit2: 'Edit'
   aboutInstance: "About this instance"
   favoriteReactions: "Favorite reactions"
   mostReacteds: "Most reacteds"
