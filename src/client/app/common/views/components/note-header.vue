@@ -6,7 +6,6 @@
 	<span class="username"><mk-acct :user="note.user"/></span>
 	<x-user-badges :user="note.user" :key="note.user.id"/>
 	<div class="info" v-if="!noInfo">
-		<span class="mobile" v-if="note.viaMobile"><fa icon="mobile-alt"/></span>
 		<router-link v-if="noteUrl.startsWith('/')" class="created-at" :to="noteUrl"><mk-time :time="note.createdAt"/></router-link>
 		<a v-else class="created-at" :href="noteUrl"><mk-time :time="note.createdAt"/></a>
 		<span class="edited" v-if="note.updatedAt != null"><fa :icon="faEdit"/></span>
