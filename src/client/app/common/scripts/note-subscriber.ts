@@ -176,7 +176,7 @@ export default prop => ({
 				case 'updated': {
 					Vue.set(this.$_ns_target, 'cw', body.cw);
 					Vue.set(this.$_ns_target, 'text', body.text);
-					// TODO: key
+					Vue.set(this.$_ns_target, '_hash', Math.random().toString());
 					break;
 				}
 			}
