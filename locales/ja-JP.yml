@@ -115,8 +115,8 @@ common:
   desktop-mode: 'デスクトップ版'
   mobile-mode: 'モバイル版'
   empty: 'ありません！'
-  edit: '確実な編集'
-  edit2: '編集'
+  edit: '編集'
+  edit2: '確実な編集'
   aboutInstance: "このインスタンスについて"
   favoriteReactions: "よくするリアクション"
   mostReacteds: "よくされるリアクション"
