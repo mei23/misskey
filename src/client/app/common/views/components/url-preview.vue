@@ -46,7 +46,7 @@
 		<a v-else-if="twitterUser" :href="`https://${nitter}/${twitterUser}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
 	</div>
 	<div class="altYoutube" v-if="this.$store.state.device.altYoutube && youtubePath">
-		<a :href="`https://${this.$store.state.device.altYoutube}${youtubePath}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
+		<a :href="`https://${$store.state.device.altYoutube}${youtubePath}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
 	</div>
 </div>
 </template>
@@ -109,11 +109,12 @@ export default Vue.extend({
 			misskeyUrl,
 			nitter: null,
 			youtubePath: null,
+			youtubeId: null,
 		};
 	},
 
 	created() {
-		const requestUrl = new URL(this.url);
+		let requestUrl = new URL(this.url);
 
 		if (this.isBlokedUrl(requestUrl)) {
 			return;
@@ -139,8 +140,23 @@ export default Vue.extend({
 			}
 		}
 
-		if (requestUrl.hostname === 'www.youtube.com' || requestUrl.hostname === 'm.youtube.com' || requestUrl.hostname === 'youtu.be') {
-			this.youtubePath = `${requestUrl.pathname}${requestUrl.search}`;
+		// Alt YouTube
+		if (this.$store.state.device.altYoutube) {
+			if (requestUrl.hostname === 'www.youtube.com' || requestUrl.hostname === 'm.youtube.com') {
+				this.youtubePath = `${requestUrl.pathname}${requestUrl.search}`;
+
+				if (requestUrl.pathname === '/watch' && requestUrl.searchParams.get('v')) {
+					this.youtubeId = requestUrl.searchParams.get('v')
+				}
+			} else if (requestUrl.hostname === 'youtu.be') {
+				this.youtubePath = `${requestUrl.pathname}${requestUrl.search}`;
+				this.youtubeId = requestUrl.pathname.replace(/^[/]/, '') || null;
+			}
+		}
+
+		// Rewrite preview URL to alts
+		if (this.youtubePath) {
+			requestUrl = new URL(`https://${this.$store.state.device.altYoutube}${this.youtubePath}`);
 		}
 
 		if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/(?:watch|channel)')) {
