@@ -45,6 +45,9 @@
 		<a v-if="tweetId" :href="`https://${nitter}/${twitterUser}/status/${tweetId}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
 		<a v-else-if="twitterUser" :href="`https://${nitter}/${twitterUser}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
 	</div>
+	<div class="altYoutube" v-if="this.$store.state.device.altYoutube && youtubePath">
+		<a :href="`https://${this.$store.state.device.altYoutube}${youtubePath}`" rel="nofollow noopener" target="_blank">{{ $t('alternativeLink') }}</a>
+	</div>
 </div>
 </template>
 
@@ -105,6 +108,7 @@ export default Vue.extend({
 			playerEnabled: false,
 			misskeyUrl,
 			nitter: null,
+			youtubePath: null,
 		};
 	},
 
@@ -133,6 +137,10 @@ export default Vue.extend({
 			if (mUser) {
 				this.twitterUser = mUser[1];
 			}
+		}
+
+		if (requestUrl.hostname === 'www.youtube.com' || requestUrl.hostname === 'm.youtube.com' || requestUrl.hostname === 'youtu.be') {
+			this.youtubePath = `${requestUrl.pathname}${requestUrl.search}`;
 		}
 
 		if (requestUrl.hostname === 'music.youtube.com' && requestUrl.pathname.match('^/(?:watch|channel)')) {

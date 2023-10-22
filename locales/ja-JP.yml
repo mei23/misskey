@@ -397,6 +397,7 @@ common:
         cheep: "最低"
       useOrthographicCamera: "平行投影カメラを使用"
     nitter: "Twitterの代替ドメイン"
+    altYoutube: "YouTubeの代替ドメイン"
 
   search: "検索"
   delete: "削除"

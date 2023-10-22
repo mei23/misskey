@@ -382,6 +382,7 @@ common:
         cheep: "Cheep"
       useOrthographicCamera: "Use Orthographic Camera"
     nitter: "Alternate domains for Twitter"
+    altYoutube: "Alternate domains for YouTube"
   search: "Search"
   delete: "Delete"
   loading: "Loading"

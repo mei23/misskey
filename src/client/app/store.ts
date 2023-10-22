@@ -98,6 +98,7 @@ const defaultDeviceSettings = Object.assign({
 	appType: 'auto',
 	emojiSkinTone: null,
 	nitter: '',
+	altYoutube: '',
 }, mods.defaultDeviceSettings || {});
 
 export default (os: MiOS) => new Vuex.Store({
