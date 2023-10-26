@@ -31,7 +31,9 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 		}
 	}
 
-	reaction = await toDbReaction(reaction, true, user.host);
+	const reactee = await User.findOne({ _id: note.userId });
+
+	reaction = await toDbReaction(reaction, true, user, reactee);
 
 	const inserted = {
 		_id: new mongo.ObjectID(),
@@ -94,7 +96,6 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 		const dm = new DeliverManager(user, content)
 
 		if (isRemoteUser(note._user)) {
-			const reactee = await User.findOne({ _id: note.userId });
 			if (isRemoteUser(reactee)) dm.addDirectRecipe(reactee);
 		}
 
