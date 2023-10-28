@@ -68,6 +68,10 @@ module.exports = async (ctx: Router.RouterContext) => {
 		if (summary.player) summary.player.url = sanitizeUrl(summary.player.url);
 		summary.url = sanitizeUrl(summary.url);
 
+		if (summary.medias) {
+			summary.medias = summary.medias.map((x: string) => sanitizeUrl(x));
+		}
+
 		if (summary.player?.url?.startsWith('https://player.twitch.tv/')) {
 			summary.player.url = summary.player.url.replace('parent=meta.tag', `parent=${config.url.replace(/^https?:[/][/]/, '')}`);
 		}

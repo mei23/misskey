@@ -22,7 +22,7 @@
 </div>
 <div v-else class="mk-url-preview">
 	<a :class="{ mini: narrow, compact }" :href="landingUrl" rel="nofollow noopener" target="_blank" :title="landingUrl" v-if="!fetching">
-		<div class="thumbnail" v-if="thumbnail && (!sensitive || $store.state.device.alwaysShowNsfw)" :style="`background-image: url('${thumbnail}')`">
+		<div class="thumbnail" v-if="thumbnail && (!sensitive || $store.state.device.alwaysShowNsfw)" :style="`background-image: url('${thumbnail}')`" @click="onClickThumbnail">
 			<button v-if="!playerEnabled && player.url" @click.prevent="playerEnabled = true" :title="$t('enable-player')"><fa :icon="['far', 'play-circle']"/></button>
 		</div>
 		<article>
@@ -52,6 +52,7 @@
 import Vue from 'vue';
 import i18n from '../../../i18n';
 import { url as misskeyUrl } from '../../../config';
+import ImageViewer from './image-viewer.vue';
 
 export default Vue.extend({
 	i18n: i18n('common/views/components/url-preview.vue'),
@@ -87,6 +88,7 @@ export default Vue.extend({
 			title: null,
 			description: null,
 			thumbnail: null,
+			medias: [],
 			icon: null,
 			sitename: null,
 			sensitive: false,
@@ -156,6 +158,7 @@ export default Vue.extend({
 				this.title = info.title;
 				this.description = info.description;
 				this.thumbnail = info.thumbnail;
+				this.medias = info.medias;
 				this.icon = info.icon;
 				this.sitename = info.sitename;
 				this.sensitive = !!info.sensitive;
@@ -198,6 +201,16 @@ export default Vue.extend({
 			const height = embed?.params[0]?.height;
 			if (height) this.tweetHeight = height;
  		},
+
+		onClickThumbnail(event: Event) {
+			if (this.medias?.length > 0) {
+				event.preventDefault();
+				this.$root.new(ImageViewer, {
+					images: this.medias.map(x => ({ url: x })),
+					index: 0,
+				});
+			}
+		}
 	},
 
 	beforeDestroy() {
