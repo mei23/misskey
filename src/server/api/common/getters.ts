@@ -1,7 +1,19 @@
 import * as mongo from 'mongodb';
 import Note, { pack } from '../../../models/note';
 import User, { isRemoteUser, isLocalUser, ILocalUser } from '../../../models/user';
-import { IdentifiableError } from '../../../misc/identifiable-error';
+
+//#region Error
+type GetterErrorType = 'noSuchNote' | 'noSuchUser';
+
+export class GetterError extends Error {
+	public type?: GetterErrorType;
+	constructor(type?: GetterErrorType) {
+		super('getter error');
+		this.name = 'GetterError';
+		this.type = type;
+	}
+}
+//#endregion Error
 
 /**
  * Get note for API processing
@@ -14,13 +26,13 @@ export async function getNote(noteId: mongo.ObjectID, user?: ILocalUser, visible
 	});
 
 	if (note == null) {
-		throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
+		throw new GetterError('noSuchNote');
 	}
 
 	if (visibleOnly && note.visibility !== 'public' && note.visibility !== 'home') {
-		if (!user) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
+		if (!user) throw new GetterError('noSuchNote');
 		const packed = await pack(note, user);
-		if (packed.isHidden) throw new IdentifiableError('9725d0ce-ba28-4dde-95a7-2cbb2c15de24', 'No such note.');
+		if (packed.isHidden) throw new GetterError('noSuchNote');
 	}
 
 	return note;
@@ -46,7 +58,7 @@ export async function getUser(userId: mongo.ObjectID) {
 	});
 
 	if (user == null) {
-		throw new IdentifiableError('15348ddd-432d-49c2-8a5a-8069753becff', 'No such user.');
+		throw new GetterError('noSuchUser');
 	}
 
 	return user;

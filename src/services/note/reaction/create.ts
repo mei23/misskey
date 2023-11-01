@@ -9,10 +9,22 @@ import { renderActivity } from '../../../remote/activitypub/renderer';
 import { toDbReaction, decodeReaction } from '../../../misc/reaction-lib';
 import { packEmojis } from '../../../misc/pack-emojis';
 import Meta from '../../../models/meta';
-import { IdentifiableError } from '../../../misc/identifiable-error';
 import config from '../../../config';
 import Blocking from '../../../models/blocking';
 import * as mongo from 'mongodb';
+
+//#region Error
+type ReactionErrorType = 'youHaveBeenBlocked' | 'alreadyReacted';
+
+export class ReactionError extends Error {
+	public type?: ReactionErrorType;
+	constructor(type?: ReactionErrorType) {
+		super('reaction error');
+		this.name = 'ReactionError';
+		this.type = type;
+	}
+}
+//#endregion Error
 
 export default async (user: IUser, note: INote, reaction?: string, dislike = false): Promise<INoteReaction> => {
 	// detect direction
@@ -27,7 +39,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 		});
 
 		if (blocked) {
-			throw new IdentifiableError('e70412a4-7197-4726-8e74-f3e0deb92aa7');
+			throw new ReactionError('youHaveBeenBlocked');
 		}
 	}
 
@@ -45,7 +57,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 	if (direction !== 'RR') {
 		await NoteReaction.insert(inserted).catch(e => {
 			if (e.code === 11000) {
-				throw new IdentifiableError('51c42bb4-931a-456b-bff7-e5a8a70dd298', 'already reacted');
+				throw new ReactionError('alreadyReacted');
 			} else {
 				throw e;
 			}

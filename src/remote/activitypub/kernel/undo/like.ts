@@ -1,6 +1,6 @@
 import { IRemoteUser } from '../../../../models/user';
 import { ILike, getApId } from '../../type';
-import deleteReaction from '../../../../services/note/reaction/delete';
+import deleteReaction, { ReactionDeleteError } from '../../../../services/note/reaction/delete';
 import { fetchNote } from '../../models/note';
 
 /**
@@ -13,7 +13,7 @@ export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 	if (!note) return `skip: target note not found ${targetUri}`;
 
 	await deleteReaction(actor, note).catch(e => {
-		if (e.id === '60527ec9-b4cb-4a88-a6bd-32d3ad26817d') return;
+		if (e instanceof ReactionDeleteError && e.type === 'notReacted') return;
 		throw e;
 	});
 

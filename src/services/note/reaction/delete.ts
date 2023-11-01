@@ -6,9 +6,21 @@ import { renderLike } from '../../../remote/activitypub/renderer/like';
 import renderUndo from '../../../remote/activitypub/renderer/undo';
 import { renderActivity } from '../../../remote/activitypub/renderer';
 import { deliverToUser, deliverToFollowers } from '../../../remote/activitypub/deliver-manager';
-import { IdentifiableError } from '../../../misc/identifiable-error';
 import { decodeReaction } from '../../../misc/reaction-lib';
 import Notification from '../../../models/notification';
+
+//#region Error
+type ReactionDeleteErrorType = 'notReacted';
+
+export class ReactionDeleteError extends Error {
+	public type?: ReactionDeleteErrorType;
+	constructor(type?: ReactionDeleteErrorType) {
+		super('reaction delete error');
+		this.name = 'ReactionDeleteError';
+		this.type = type;
+	}
+}
+//#endregion Error
 
 export default async (user: IUser, note: INote) => {
 	// if already unreacted
@@ -19,7 +31,7 @@ export default async (user: IUser, note: INote) => {
 	});
 
 	if (exist == null) {
-		throw new IdentifiableError('60527ec9-b4cb-4a88-a6bd-32d3ad26817d', 'not reacted');
+		throw new ReactionDeleteError('notReacted');
 	}
 
 	// Delete reaction
@@ -28,7 +40,7 @@ export default async (user: IUser, note: INote) => {
 	});
 
 	if (result.deletedCount !== 1) {
-		throw new IdentifiableError('60527ec9-b4cb-4a88-a6bd-32d3ad26817d', 'not reacted');
+		throw new ReactionDeleteError('notReacted');
 	}
 
 	const dec: any = {};

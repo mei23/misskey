@@ -1,6 +1,6 @@
 import { IRemoteUser } from '../../../models/user';
 import { ILike, getApId, getApType } from '../type';
-import create from '../../../services/note/reaction/create';
+import create, { ReactionError } from '../../../services/note/reaction/create';
 import { extractEmojis, fetchNote } from '../models/note';
 import config from '../../../config';
 
@@ -21,9 +21,11 @@ export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 
 	try {
 		await create(actor, note, activity._misskey_reaction || activity.content || activity.name, getApType(activity) === 'Dislike');
-	} catch (e: any) {
-		if (e.id === '51c42bb4-931a-456b-bff7-e5a8a70dd298') return `skip: reacted`;
-		if (e.id === 'e70412a4-7197-4726-8e74-f3e0deb92aa7') return `skip: bloked`;
+	} catch (e: unknown) {
+		if (e instanceof ReactionError) {
+			if (e.type === 'alreadyReacted') return `skip: reacted`; 
+			if (e.type === 'youHaveBeenBlocked') return `skip: bloked`; 
+		}
 		throw e;
 	}
 

@@ -1,8 +1,8 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
 import define from '../../../define';
-import deleteReaction from '../../../../../services/note/reaction/delete';
-import { getNote } from '../../../common/getters';
+import deleteReaction, { ReactionDeleteError } from '../../../../../services/note/reaction/delete';
+import { GetterError, getNote } from '../../../common/getters';
 import { ApiError } from '../../../error';
 
 export const meta = {
@@ -49,11 +49,11 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const note = await getNote(ps.noteId).catch(e => {
-		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
+		if (e instanceof GetterError && e.type === 'noSuchNote') throw new ApiError(meta.errors.noSuchNote);
 		throw e;
 	});
 	await deleteReaction(user, note).catch(e => {
-		if (e.id === '60527ec9-b4cb-4a88-a6bd-32d3ad26817d') throw new ApiError(meta.errors.notReacted);
+		if (e instanceof ReactionDeleteError && e.type === 'notReacted') throw new ApiError(meta.errors.notReacted);
 		throw e;
 	});
 });

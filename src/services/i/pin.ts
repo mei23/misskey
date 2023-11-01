@@ -5,9 +5,21 @@ import Note, { packMany } from '../../models/note';
 import renderAdd from '../../remote/activitypub/renderer/add';
 import renderRemove from '../../remote/activitypub/renderer/remove';
 import { renderActivity } from '../../remote/activitypub/renderer';
-import { IdentifiableError } from '../../misc/identifiable-error';
 import { deliverToFollowers } from '../../remote/activitypub/deliver-manager';
 import { deliverToRelays } from '../relay';
+
+//#region Error
+type PinErrorType = 'noSuchNote' | 'pinLimitExceeded' | 'alreadyPinned';
+
+export class PinError extends Error {
+	public type?: PinErrorType;
+	constructor(type?: PinErrorType) {
+		super('pin error');
+		this.name = 'PinError';
+		this.type = type;
+	}
+}
+//#endregion Error
 
 /**
  * 指定した投稿をピン留めします
@@ -24,7 +36,7 @@ export async function addPinned(user: IUser, noteId: mongo.ObjectID) {
 	});
 
 	if (note === null) {
-		throw new IdentifiableError('70c4e51f-5bea-449c-a030-53bee3cce202', 'No such note.');
+		throw new PinError('noSuchNote');
 	}
 
 	let pinnedNoteIds = user.pinnedNoteIds || [];
@@ -41,11 +53,11 @@ export async function addPinned(user: IUser, noteId: mongo.ObjectID) {
 	//#endregion
 
 	if (pinnedNoteIds.length >= 5) {
-		throw new IdentifiableError('15a018eb-58e5-4da1-93be-330fcc5e4e1a', 'You can not pin notes any more.');
+		throw new PinError('pinLimitExceeded');
 	}
 
 	if (pinnedNoteIds.some(id => id.equals(note._id))) {
-		throw new IdentifiableError('23f0cf4e-59a3-4276-a91d-61a5891c1514', 'That note has already been pinned.');
+		throw new PinError('alreadyPinned');
 	}
 
 	pinnedNoteIds.unshift(note._id);

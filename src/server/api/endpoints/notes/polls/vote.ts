@@ -9,7 +9,7 @@ import { createNotification } from '../../../../../services/create-notification'
 import define from '../../../define';
 import User, { IRemoteUser } from '../../../../../models/user';
 import { ApiError } from '../../../error';
-import { getNote } from '../../../common/getters';
+import { GetterError, getNote } from '../../../common/getters';
 import { deliver, createNotifyPollFinishedJob } from '../../../../../queue';
 import { renderActivity } from '../../../../../remote/activitypub/renderer';
 import renderVote from '../../../../../remote/activitypub/renderer/vote';
@@ -81,7 +81,7 @@ export default define(meta, async (ps, user) => {
 
 	// Get votee
 	const note = await getNote(ps.noteId, user, true).catch(e => {
-		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
+		if (e instanceof GetterError && e.type === 'noSuchNote') throw new ApiError(meta.errors.noSuchNote);
 		throw e;
 	});
 

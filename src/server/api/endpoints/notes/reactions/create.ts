@@ -1,8 +1,8 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
-import createReaction from '../../../../../services/note/reaction/create';
+import createReaction, { ReactionError } from '../../../../../services/note/reaction/create';
 import define from '../../../define';
-import { getNote } from '../../../common/getters';
+import { GetterError, getNote } from '../../../common/getters';
 import { ApiError } from '../../../error';
 import { pack } from '../../../../../models/note-reaction';
 
@@ -80,14 +80,15 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const note = await getNote(ps.noteId, user, true).catch(e => {
-		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
+		if (e instanceof GetterError && e.type === 'noSuchNote') throw new ApiError(meta.errors.noSuchNote);
 		throw e;
 	});
 
-	const reaction = await createReaction(user, note, ps.reaction, ps.dislike).catch(e => {
-		if (e.id === '2d8e7297-1873-4c00-8404-792c68d7bef0') throw new ApiError(meta.errors.isMyNote);
-		if (e.id === '51c42bb4-931a-456b-bff7-e5a8a70dd298') throw new ApiError(meta.errors.alreadyReacted);
-		if (e.id === 'e70412a4-7197-4726-8e74-f3e0deb92aa7') throw new ApiError(meta.errors.youHaveBeenBlocked);
+	const reaction = await createReaction(user, note, ps.reaction, ps.dislike).catch((e: unknown) => {
+		if (e instanceof ReactionError) {
+			if (e.type === 'alreadyReacted') throw new ApiError(meta.errors.alreadyReacted);
+			if (e.type === 'youHaveBeenBlocked') throw new ApiError(meta.errors.youHaveBeenBlocked);
+		}
 		throw e;
 	});
 

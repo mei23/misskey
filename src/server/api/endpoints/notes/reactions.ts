@@ -2,7 +2,7 @@ import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
 import NoteReaction, { pack } from '../../../../models/note-reaction';
 import define from '../../define';
-import { getNote } from '../../common/getters';
+import { GetterError, getNote } from '../../common/getters';
 import { ApiError } from '../../error';
 import { toDbReaction, toDbReactionNoResolve } from '../../../../misc/reaction-lib';
 import { getHideUserIdsById } from '../../common/get-hide-users';
@@ -70,7 +70,7 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	const note = await getNote(ps.noteId, user, true).catch(e => {
-		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
+		if (e instanceof GetterError && e.type === 'noSuchNote') throw new ApiError(meta.errors.noSuchNote);
 		throw e;
 	});
 
