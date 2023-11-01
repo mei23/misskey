@@ -13,7 +13,7 @@ export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 	if (!note) return `skip: target note not found ${targetUri}`;
 
 	await deleteReaction(actor, note).catch(e => {
-		if (e instanceof ReactionDeleteError && e.type === 'notReacted') return;
+		if (e instanceof ReactionDeleteError) return;
 		throw e;
 	});
 
