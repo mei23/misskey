@@ -6,7 +6,7 @@ import renderAccept from '../../../remote/activitypub/renderer/accept';
 import { deliver } from '../../../queue';
 import { publishMainStream } from '../../stream';
 import { insertFollowingDoc } from '../create';
-import { IdentifiableError } from '../../../misc/identifiable-error';
+import { FollowingError } from '../following-error';
 
 export default async function(followee: IUser, follower: IUser) {
 	const request = await FollowRequest.findOne({
@@ -15,7 +15,7 @@ export default async function(followee: IUser, follower: IUser) {
 	});
 
 	if (request == null) {
-		throw new IdentifiableError('8884c2dd-5795-4ac9-b27e-6a01d38190f9', 'No follow request.');
+		throw new FollowingError('noFollowRequest');
 	}
 
 	await insertFollowingDoc(followee, follower);
