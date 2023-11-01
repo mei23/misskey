@@ -4,7 +4,6 @@ import * as assert from 'assert';
 import * as childProcess from 'child_process';
 import { async, startServer, signup, api, shutdownServer, uploadFile } from './utils';
 import { PackedNote, PackedUser } from '../src/models/packed-schemas';
-import { inspect } from 'util';
 import { setTimeout } from 'timers/promises';
 
 const db = require('../built/db/mongodb').default;

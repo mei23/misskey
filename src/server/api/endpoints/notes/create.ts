@@ -274,7 +274,7 @@ export default define(meta, async (ps, user, app) => {
 	}
 
 	const isPureRenote = (target: INote) => {
-		return target.renoteId && target.text == null && (target.fileIds == null || target.fileIds.length == 0) && target.poll == null;
+		return target.renoteId && target.text == null && (target.fileIds == null || target.fileIds.length === 0) && target.poll == null;
 	};
 
 	// Renote/引用
