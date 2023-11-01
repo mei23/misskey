@@ -87,7 +87,7 @@ export async function removePinned(user: IUser, noteId: mongo.ObjectID) {
 	});
 
 	if (note === null) {
-		throw new IdentifiableError('b302d4cf-c050-400a-bbb3-be208681f40c', 'No such note.');
+		throw new PinError('noSuchNote');
 	}
 
 	const pinnedNoteIds = (user.pinnedNoteIds || []).filter(id => !id.equals(note._id));
