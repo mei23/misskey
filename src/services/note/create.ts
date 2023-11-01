@@ -195,12 +195,12 @@ export default async (user: IUser, data: Option, silent = false) => {
 
 	// PureRenoteはRenote/引用できない
 	if (data.renote && targetIsPureRenote(data.renote)) {
-		throw new NoteError('You can not Renote a pure Renote.', 'cannotReRenote');
+		throw new NoteError('You can not Renote a pure Renote', 'cannotReRenote');
 	}
 
 	// PureRenoteには返信できない
 	if (data.reply && targetIsPureRenote(data.reply)) {
-		throw new NoteError('You can not reply to a pure Renote.', 'cannotReplyToPureRenote');
+		throw new NoteError('You can not reply to a pure Renote', 'cannotReplyToPureRenote');
 	}
 
 	// PureRenoteの最大公開範囲はHomeにする
