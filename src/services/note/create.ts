@@ -141,9 +141,9 @@ export default async (user: IUser, data: Option, silent = false) => {
 	if (config.disablePosts) throw { status: 451 };
 
 	const isFirstNote = user.notesCount === 0;
-	const isPureRenote = data.renote && data.text == null && data.poll == null && (data.files == null || data.files.length == 0);
+	const thisIsPureRenote = data.renote && data.text == null && data.poll == null && (data.files == null || data.files.length == 0);
 
-	const targetIsPureRenote = (target: INote) => {
+	const isPureRenote = (target: INote) => {
 		return target.renoteId && target.text == null && (target.fileIds == null || target.fileIds.length === 0) && target.poll == null;
 	};
 
@@ -194,17 +194,17 @@ export default async (user: IUser, data: Option, silent = false) => {
 	}
 
 	// PureRenoteはRenote/引用できない
-	if (data.renote && targetIsPureRenote(data.renote)) {
+	if (data.renote && isPureRenote(data.renote)) {
 		throw new NoteError('You can not Renote a pure Renote', 'cannotReRenote');
 	}
 
 	// PureRenoteには返信できない
-	if (data.reply && targetIsPureRenote(data.reply)) {
+	if (data.reply && isPureRenote(data.reply)) {
 		throw new NoteError('You can not reply to a pure Renote', 'cannotReplyToPureRenote');
 	}
 
 	// PureRenoteの最大公開範囲はHomeにする
-	if (isPureRenote && data.visibility === 'public') {
+	if (thisIsPureRenote && data.visibility === 'public') {
 		data.visibility = 'home';
 	}
 
