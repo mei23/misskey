@@ -99,7 +99,7 @@ class NotificationManager {
 }
 
 //#region NoteError
-type NoteErrorType = 'cannotReRenote' | 'cannotReplyToPureRenote';
+type NoteErrorType = 'cannotReRenote' | 'cannotReplyToPureRenote' | 'contentRequired';
 
 export class NoteError extends Error {
 	public type?: NoteErrorType;
@@ -188,19 +188,24 @@ export default async (user: IUser, data: Option, silent = false) => {
 		throw new NoteError('Renote target is not public or home');
 	}
 
-	// Renote/Quote対象がホームだったらホームに
-	if (data.renote && data.visibility === 'public' && data.renote.visibility === 'home') {
-		data.visibility = 'home';
-	}
-
 	// PureRenoteはRenote/引用できない
 	if (data.renote && isPureRenote(data.renote)) {
-		throw new NoteError('You can not Renote a pure Renote', 'cannotReRenote');
+		throw new NoteError('You can not Renote a pure Renote.', 'cannotReRenote');
 	}
 
 	// PureRenoteには返信できない
 	if (data.reply && isPureRenote(data.reply)) {
-		throw new NoteError('You can not reply to a pure Renote', 'cannotReplyToPureRenote');
+		throw new NoteError('You can not reply to a pure Renote.', 'cannotReplyToPureRenote');
+	}
+
+	// テキストが無いかつ添付ファイルが無いかつRenoteも無いかつ投票も無かったらエラー
+	if (data.renote == null && data.text == null && data.poll == null && (data.files == null || data.files.length === 0)) {
+		throw new NoteError('Content required. You need to set text, fileIds, renoteId or poll.', 'contentRequired');
+	}
+
+	// Renote/Quote対象がホームだったらホームに
+	if (data.renote && data.visibility === 'public' && data.renote.visibility === 'home') {
+		data.visibility = 'home';
 	}
 
 	// PureRenoteの最大公開範囲はHomeにする

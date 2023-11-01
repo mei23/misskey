@@ -319,11 +319,6 @@ export default define(meta, async (ps, user, app) => {
 		}
 	}
 
-	// テキストが無いかつ添付ファイルが無いかつRenoteも無いかつ投票も無かったらエラー
-	if (!(ps.text || files.length || renote || ps.poll)) {
-		throw new ApiError(meta.errors.contentRequired);
-	}
-
 	// 後方互換性のため
 	if (ps.visibility == 'private') {
 		ps.visibility = 'specified';
@@ -363,6 +358,7 @@ export default define(meta, async (ps, user, app) => {
 		if (err instanceof NoteError) {
 			if (err.type === 'cannotReRenote') throw new ApiError(meta.errors.cannotReRenote);
 			if (err.type === 'cannotReplyToPureRenote') throw new ApiError(meta.errors.cannotReplyToPureRenote);
+			if (err.type === 'contentRequired') throw new ApiError(meta.errors.contentRequired);
 			throw new ApiError({ ...meta.errors.noteError, ...{ message: err.message } });
 		}
 		throw err;
