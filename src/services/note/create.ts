@@ -160,32 +160,32 @@ export default async (user: IUser, data: Option, silent = false) => {
 	// 本文/CW/投票のハードリミット
 	// サロゲートペアは2文字扱い/合字は複数文字扱いでかける
 	if (data.text && data.text.length > 16384) {
-		throw 'text limit exceeded';
+		throw new NoteError('text limit exceeded');
 	}
 	if (data.cw && data.cw.length > 16384) {
-		throw 'cw limit exceeded';
+		throw new NoteError('cw limit exceeded');
 	}
 	if (data.poll && JSON.stringify(data.poll).length > 16384) {
-		throw 'poll limit exceeded';
+		throw new NoteError('poll limit exceeded');
 	}
 
 	if (data.copyOnce && data.visibility === 'specified') {
-		throw 'Deny remote follower only';
+		throw new NoteError('Deny remote follower only');
 	}
 
 	// リプライ対象が削除された投稿だったらreject
 	if (data.reply && data.reply.deletedAt != null) {
-		throw 'Reply target has been deleted';
+		throw new NoteError('Reply target has been deleted');
 	}
 
 	// Renote/Quote対象が削除された投稿だったらreject
 	if (data.renote && data.renote.deletedAt != null) {
-		throw 'Renote target has been deleted';
+		throw new NoteError('Renote target has been deleted');
 	}
 
 	// Renote/Quote対象が「ホームまたは全体」以外の公開範囲ならreject
 	if (data.renote && data.renote.visibility != 'public' && data.renote.visibility != 'home') {
-		throw 'Renote target is not public or home';
+		throw new NoteError('Renote target is not public or home');
 	}
 
 	// Renote/Quote対象がホームだったらホームに
