@@ -98,6 +98,19 @@ class NotificationManager {
 	}
 }
 
+//#region NoteError
+type NoteErrorType = 'cannotReRenote' | 'cannotReplyToPureRenote';
+
+export class NoteError extends Error {
+	public type?: NoteErrorType;
+	constructor(message: string, type?: NoteErrorType) {
+		super(message);
+		this.name = 'NoteError';
+		this.type = type;
+	}
+}
+//#endregion NoteError
+
 type Option = {
 	createdAt?: Date;
 	expiresAt?: Date;
@@ -128,7 +141,11 @@ export default async (user: IUser, data: Option, silent = false) => {
 	if (config.disablePosts) throw { status: 451 };
 
 	const isFirstNote = user.notesCount === 0;
-	const isPureRenote = data.text == null && data.poll == null && (data.files == null || data.files.length == 0);
+	const isPureRenote = data.renote && data.text == null && data.poll == null && (data.files == null || data.files.length == 0);
+
+	const targetIsPureRenote = (target: INote) => {
+		return target.renoteId && target.text == null && (target.fileIds == null || target.fileIds.length === 0) && target.poll == null;
+	};
 
 	if (data.createdAt == null) data.createdAt = new Date();
 	if (data.visibility == null) data.visibility = 'public';
@@ -174,6 +191,16 @@ export default async (user: IUser, data: Option, silent = false) => {
 	// Renote/Quote対象がホームだったらホームに
 	if (data.renote && data.visibility === 'public' && data.renote.visibility === 'home') {
 		data.visibility = 'home';
+	}
+
+	// PureRenoteはRenote/引用できない
+	if (data.renote && targetIsPureRenote(data.renote)) {
+		throw new NoteError('You can not Renote a pure Renote.', 'cannotReRenote');
+	}
+
+	// PureRenoteには返信できない
+	if (data.reply && targetIsPureRenote(data.reply)) {
+		throw new NoteError('You can not reply to a pure Renote.', 'cannotReplyToPureRenote');
 	}
 
 	// PureRenoteの最大公開範囲はHomeにする

@@ -5,7 +5,7 @@ import { length } from 'stringz';
 import Note, { INote, isValidCw, pack } from '../../../../models/note';
 import User, { IUser } from '../../../../models/user';
 import DriveFile, { IDriveFile } from '../../../../models/drive-file';
-import create from '../../../../services/note/create';
+import create, { NoteError } from '../../../../services/note/create';
 import define from '../../define';
 import fetchMeta from '../../../../misc/fetch-meta';
 import { ApiError } from '../../error';
@@ -236,6 +236,12 @@ export const meta = {
 			id: '6f57e42b-c348-439b-bc45-993995cc515a'
 		},
 
+		noteError: {
+			message: 'Note error.',
+			code: 'NOTE_ERROR',
+			id: '98ca3924-0b21-4690-ab03-9059fba4453d'
+		},
+
 		cannotCreateAlreadyExpiredPoll: {
 			message: 'Poll is already expired.',
 			code: 'CANNOT_CREATE_ALREADY_EXPIRED_POLL',
@@ -273,10 +279,6 @@ export default define(meta, async (ps, user, app) => {
 		files = removeNull(_files);
 	}
 
-	const isPureRenote = (target: INote) => {
-		return target.renoteId && target.text == null && (target.fileIds == null || target.fileIds.length === 0) && target.poll == null;
-	};
-
 	// Renote/引用
 	let renote: INote | null | undefined = null;
 	if (ps.renoteId != null) {
@@ -286,10 +288,6 @@ export default define(meta, async (ps, user, app) => {
 
 		if (renote == null) {
 			throw new ApiError(meta.errors.noSuchRenoteTarget);
-		}
-
-		if (isPureRenote(renote)) {
-			throw new ApiError(meta.errors.cannotReRenote);
 		}
 	}
 
@@ -303,11 +301,6 @@ export default define(meta, async (ps, user, app) => {
 
 		if (reply == null) {
 			throw new ApiError(meta.errors.noSuchReplyTarget);
-		}
-
-		// 返信対象が引用でないRenoteだったらエラー
-		if (isPureRenote(reply)) {
-			throw new ApiError(meta.errors.cannotReplyToPureRenote);
 		}
 	}
 
@@ -337,32 +330,41 @@ export default define(meta, async (ps, user, app) => {
 	}
 
 	// 投稿を作成
-	const note = await create(user, {
-		preview: ps.preview,
-		createdAt: new Date(),
-		files: files,
-		poll: ps.poll ? {
-			choices: ps.poll.choices,
-			multiple: ps.poll.multiple || false,
-			expiresAt: ps.poll.expiresAt ? new Date(ps.poll.expiresAt) : null
-		} : undefined,
-		text: ps.text,
-		reply,
-		renote,
-		cw: ps.cw,
-		app,
-		viaMobile: ps.viaMobile,
-		localOnly: ps.localOnly,
-		copyOnce: ps.copyOnce,
-		visibility: ps.visibility,
-		visibleUsers,
-		apMentions: ps.noExtractMentions ? [] : undefined,
-		apHashtags: ps.noExtractHashtags ? [] : undefined,
-		apEmojis: ps.noExtractEmojis ? [] : undefined,
-		geo: ps.geo
-	});
+	try {
+		const note = await create(user, {
+			preview: ps.preview,
+			createdAt: new Date(),
+			files: files,
+			poll: ps.poll ? {
+				choices: ps.poll.choices,
+				multiple: ps.poll.multiple || false,
+				expiresAt: ps.poll.expiresAt ? new Date(ps.poll.expiresAt) : null
+			} : undefined,
+			text: ps.text,
+			reply,
+			renote,
+			cw: ps.cw,
+			app,
+			viaMobile: ps.viaMobile,
+			localOnly: ps.localOnly,
+			copyOnce: ps.copyOnce,
+			visibility: ps.visibility,
+			visibleUsers,
+			apMentions: ps.noExtractMentions ? [] : undefined,
+			apHashtags: ps.noExtractHashtags ? [] : undefined,
+			apEmojis: ps.noExtractEmojis ? [] : undefined,
+			geo: ps.geo
+		});
 
-	return {
-		createdNote: await pack(note, user)
-	};
+		return {
+			createdNote: await pack(note, user)
+		};
+	} catch (err: unknown) {
+		if (err instanceof NoteError) {
+			if (err.type === 'cannotReRenote') throw new ApiError(meta.errors.cannotReRenote);
+			if (err.type === 'cannotReplyToPureRenote') throw new ApiError(meta.errors.cannotReplyToPureRenote);
+			throw new ApiError({ ...meta.errors.noteError, ...{ message: err.message } });
+		}
+		throw err;
+	}
 });
