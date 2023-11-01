@@ -21,7 +21,7 @@ export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 
 	try {
 		await create(actor, note, activity._misskey_reaction || activity.content || activity.name, getApType(activity) === 'Dislike');
-	} catch (e: unknown) {
+	} catch (e: any) {
 		if (e instanceof ReactionError) {
 			if (e.type === 'alreadyReacted') return `skip: reacted`; 
 			if (e.type === 'youHaveBeenBlocked') return `skip: bloked`; 
