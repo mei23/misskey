@@ -273,20 +273,27 @@ export default define(meta, async (ps, user, app) => {
 		files = removeNull(_files);
 	}
 
+	const isPureRenote = (target: INote) => {
+		return target.renoteId && target.text == null && (target.fileIds == null || target.fileIds.length == 0) && target.poll == null;
+	};
+
+	// Renote/引用
 	let renote: INote | null | undefined = null;
 	if (ps.renoteId != null) {
-		// Fetch renote to note
 		renote = await Note.findOne({
 			_id: ps.renoteId
 		});
 
 		if (renote == null) {
 			throw new ApiError(meta.errors.noSuchRenoteTarget);
-		} else if (renote.renoteId && !renote.text && renote.fileIds.length === 0) {
+		}
+
+		if (isPureRenote(renote)) {
 			throw new ApiError(meta.errors.cannotReRenote);
 		}
 	}
 
+	// 返信
 	let reply: INote | null | undefined = null;
 	if (ps.replyId != null) {
 		// Fetch reply
@@ -299,7 +306,7 @@ export default define(meta, async (ps, user, app) => {
 		}
 
 		// 返信対象が引用でないRenoteだったらエラー
-		if (reply.renoteId && !reply.text && reply.fileIds.length === 0) {
+		if (isPureRenote(reply)) {
 			throw new ApiError(meta.errors.cannotReplyToPureRenote);
 		}
 	}
