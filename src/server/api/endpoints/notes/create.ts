@@ -299,7 +299,7 @@ export default define(meta, async (ps, user, app) => {
 		}
 
 		// 返信対象が引用でないRenoteだったらエラー
-		if (reply.replyId && !reply.text && reply.fileIds.length === 0) {
+		if (reply.renoteId && !reply.text && reply.fileIds.length === 0) {
 			throw new ApiError(meta.errors.cannotReplyToPureRenote);
 		}
 	}
