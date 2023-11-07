@@ -198,8 +198,8 @@ dependencies:
     specifier: 2.14.2
     version: 2.14.2
   koa-bodyparser:
-    specifier: 4.4.0
-    version: 4.4.0
+    specifier: 4.4.1
+    version: 4.4.1
   koa-favicon:
     specifier: 2.1.0
     version: 2.1.0
@@ -491,8 +491,8 @@ devDependencies:
     specifier: 2.13.8
     version: 2.13.8
   '@types/koa-bodyparser':
-    specifier: 4.3.10
-    version: 4.3.10
+    specifier: 4.3.12
+    version: 4.3.12
   '@types/koa-favicon':
     specifier: 2.0.21
     version: 2.0.21
@@ -2378,8 +2378,8 @@ packages:
       '@types/node': 18.11.18
     dev: false
 
-  /@types/koa-bodyparser@4.3.10:
-    resolution: {integrity: sha512-6ae05pjhmrmGhUR8GYD5qr5p9LTEMEGfGXCsK8VaSL+totwigm8+H/7MHW7K4854CMeuwRAubT8qcc/EagaeIA==}
+  /@types/koa-bodyparser@4.3.12:
+    resolution: {integrity: sha512-hKMmRMVP889gPIdLZmmtou/BijaU1tHPyMNmcK7FAHAdATnRcGQQy78EqTTxLH1D4FTsrxIzklAQCso9oGoebQ==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
@@ -7282,12 +7282,13 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  /koa-bodyparser@4.4.0:
-    resolution: {integrity: sha512-AXPY7wwKZUmbgb8VkTEUFoRNOlx6aWRJwEnQD+zfNf33/7KSAkN4Oo9BqlIk80D+5TvuqlhpQT5dPVcyxl5Zsw==}
+  /koa-bodyparser@4.4.1:
+    resolution: {integrity: sha512-kBH3IYPMb+iAXnrxIhXnW+gXV8OTzCu8VPDqvcDHW9SQrbkHmqPQtiZwrltNmSq6/lpipHnT7k7PsjlVD7kK0w==}
     engines: {node: '>=8.0.0'}
     dependencies:
       co-body: 6.1.0
       copy-to: 2.0.1
+      type-is: 1.6.18
     dev: false
 
   /koa-compose@4.1.0:
