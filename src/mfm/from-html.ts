@@ -2,6 +2,7 @@ import * as parse5 from 'parse5';
 import treeAdapter = require('parse5/lib/tree-adapters/default');
 import { URL } from 'url';
 import { urlRegexFull } from './utils';
+import { inspect } from 'util';
 
 export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 	if (html == null) return null;
@@ -198,6 +199,29 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 			{
 				text += '\n';
 				appendChildren(node.childNodes);
+				break;
+			}
+
+			case 'ruby':
+			{
+				const ts = [];
+				let rt = '';
+
+				for (const n of node.childNodes) {
+					if (treeAdapter.isTextNode(n)) {
+						ts.push(n.value);
+					} else if (treeAdapter.isElementNode(n)) {
+						if (n.nodeName === 'rt') {
+							rt = getText(n);
+						} else if (n.nodeName === 'rp') {
+							continue;
+						} else {
+							ts.push(getText(n));
+						}
+					}
+				}
+
+				text += `$[ruby ${ts.join('')} ${rt}]`;
 				break;
 			}
 

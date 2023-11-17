@@ -75,6 +75,12 @@
 	</section>
 
 	<section>
+		<header>ルビ</header>
+		<p><mfm :text="preview_ruby" :key="preview_ruby"/></p>
+		<ui-textarea :slim="true" class="text" v-model="preview_ruby"></ui-textarea>
+	</section>
+	
+	<section>
 		<header>上付き・下付き</header>
 		<p><mfm :text="preview_supsub" :key="preview_supsub"/></p>
 		<ui-textarea :slim="true" class="text" v-model="preview_supsub"></ui-textarea>
@@ -281,6 +287,7 @@ export default Vue.extend({
 			preview_italic: '<i>これは斜体</i>\n_a先頭がアルファベットとかと接着してれば斜体になる構文_\n*a先頭がアルファベットとかと接着してれば斜体になる構文*',
 			preview_strike: '~~環境によって意味が変わるとかめんどくさいこと言われる打ち消し線です~~',
 			preview_color: '<color #0000ff lightpink>前景色と背景色</color>',
+			preview_ruby: '$[ruby 魑魅魍魎 ちみもうりょう]',
 			preview_supsub: '上付き<sup>a</sup>\n下付き<sub>b</sub>',
 			preview_quote: `> これは引用です`,
 			preview_center: `<center>中央に</center>`,

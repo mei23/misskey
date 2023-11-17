@@ -263,6 +263,13 @@ export default Vue.component('misskey-flavored-markdown', {
 								}
 							}, genEl(node.children, fixedSize))];
 						}
+						case 'ruby': {
+							console.log('ruby', JSON.stringify(node, null, 2));
+							const rt = createElement('rt', node.props.args.rt);
+							const ruby = createElement('ruby', [node.children[0].props.text, rt]);
+							return [ruby];
+						}
+
 					}
 
 					return (createElement as any)('span', {

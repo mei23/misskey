@@ -361,11 +361,18 @@ export const mfmLanguage = P.createLanguage({
 			const argsPart = match[2];
 			const content = match[3];
 
-			if (!['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'rgbshift', 'x1', 'x2', 'x3', 'x4', 'font', 'blur'].includes(name)) {
+			if (!['tada', 'jelly', 'twitch', 'shake', 'spin', 'jump', 'bounce', 'flip', 'rgbshift', 'x1', 'x2', 'x3', 'x4', 'font', 'blur', 'ruby'].includes(name)) {
 				return P.makeFailure(i, 'unknown fn name');
 			}
 
 			const args: Record<string, boolean | string> = {};
+
+			if (['ruby'].includes(name)) {
+				const splited = content.split(' ', 2);
+				args.rt = splited[1] ?? '';
+				return P.makeSuccess(i + match[0].length, { name, args, content: splited[0] });
+			}
+
 			for (const arg of argsPart?.split(',') || []) {
 				const kv = arg.split('=');
 				if (kv[0] == '__proto__') return P.makeFailure(i, 'prototype pollution');

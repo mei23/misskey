@@ -141,6 +141,27 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 			return el;
 		}
 
+		if (node.type === 'fn') {
+			if (node.props.name === 'ruby') {
+				const ruby = doc.createElement('ruby');
+				ruby.textContent = node.children[0].props.text;
+
+				const rp1 = doc.createElement('rp');
+				rp1.textContent = '(';
+				ruby.appendChild(rp1);
+
+				const rt = doc.createElement('rt');
+				rt.textContent = node.props.args.rt;
+				ruby.appendChild(rt);
+
+				const rp2 = doc.createElement('rp');
+				rp2.textContent = ')';
+				ruby.appendChild(rp2);
+
+				return ruby;
+			}
+		}
+
 		/*
 		if (['sub', 'sup'].includes(node.type)) {
 			const el = doc.createElement(node.type);
