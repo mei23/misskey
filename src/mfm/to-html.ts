@@ -144,7 +144,12 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 		if (node.type === 'fn') {
 			if (node.props.name === 'ruby') {
 				const ruby = doc.createElement('ruby');
-				ruby.textContent = node.children[0].props.text;
+
+				if (node.children.length === 1 && node.children[0].type === 'text') {
+					ruby.textContent = node.children[0].props.text;
+				} else {
+					appendChildren(node.children, ruby);
+				}
 
 				const rp1 = doc.createElement('rp');
 				rp1.textContent = '(';
