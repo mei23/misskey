@@ -368,7 +368,7 @@ export const mfmLanguage = P.createLanguage({
 			const args: Record<string, boolean | string> = {};
 
 			if (['ruby'].includes(name)) {
-				const splited = content.split(' ', 2);
+				const splited = content.split(/ +/);
 				args.rt = splited[1] ?? '';
 				return P.makeSuccess(i + match[0].length, { name, args, content: splited[0] });
 			}
