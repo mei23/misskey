@@ -156,6 +156,8 @@ const fnDb: MfmDef[] = [
 
 	{ name: 'font.serif', head: '$[font.serif ', tail: ']', desc: '$[font.serif serif]' },
 	{ name: 'font.monospace', head: '$[font.monospace ', tail: ']', desc: '$[font.monospace monospace]' },
+
+	{ name: 'ruby', head: '$[ruby ', tail: ']', desc: '$[ruby 文字 ルビ]' },
 ];
 
 export default Vue.extend({
