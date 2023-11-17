@@ -212,7 +212,7 @@ export function fromHtml(html: string, hashtagNames?: string[]): string | null {
 						ts.push(n.value);
 					} else if (treeAdapter.isElementNode(n)) {
 						if (n.nodeName === 'rt') {
-							rt = getText(n);
+							rt += getText(n);
 						} else if (n.nodeName === 'rp') {
 							continue;
 						} else {

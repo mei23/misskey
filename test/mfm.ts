@@ -1413,8 +1413,13 @@ describe('fromHtml', () => {
 	});
 
 	it('ruby', () => {
-		assert.deepStrictEqual(fromHtml('<p><ruby>魑魅魍魎<rp>(</rp><rt>ちみもうりょう<rp>)</rp></ruby></p>'), '$[ruby 魑魅魍魎 ちみもうりょう]');
+		assert.deepStrictEqual(fromHtml('<p><ruby>魑魅魍魎<rp>(</rp><rt>ちみもうりょう</rt><rp>)</rp></ruby></p>'), '$[ruby 魑魅魍魎 ちみもうりょう]');
 	});
+
+	it('ruby', () => {
+		assert.deepStrictEqual(fromHtml('<p><ruby><rb>魑魅魍魎</rb>百鬼夜行<rp>(</rp><rt>ちみもうりょう</rt><rt>ひゃっきやこう</rt><rp>)</rp></ruby></p>'), '$[ruby 魑魅魍魎百鬼夜行 ちみもうりょうひゃっきやこう]');
+	});
+
 });
 
 describe('toHtml', () => {
