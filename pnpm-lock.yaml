@@ -599,8 +599,8 @@ devDependencies:
     specifier: 5.28.1
     version: 5.28.1(@swc/core@1.3.80)(webpack-cli@4.10.0)
   '@types/websocket':
-    specifier: 1.0.5
-    version: 1.0.5
+    specifier: 1.0.10
+    version: 1.0.10
   '@types/ws':
     specifier: 8.5.5
     version: 8.5.5
@@ -2641,8 +2641,8 @@ packages:
       - webpack-cli
     dev: true
 
-  /@types/websocket@1.0.5:
-    resolution: {integrity: sha512-NbsqiNX9CnEfC1Z0Vf4mE1SgAJ07JnRYcNex7AJ9zAVzmiGHmjKFEk7O4TJIsgv2B1sLEb6owKFZrACwdYngsQ==}
+  /@types/websocket@1.0.10:
+    resolution: {integrity: sha512-svjGZvPB7EzuYS94cI7a+qhwgGU1y89wUgjT6E2wVUfmAGIvRfT7obBvRtnhXCSsoMdlG4gBFGE7MfkIXZLoww==}
     dependencies:
       '@types/node': 18.11.18
     dev: true

@@ -226,7 +226,7 @@
 		"@types/uuid": "9.0.2",
 		"@types/web-push": "3.3.2",
 		"@types/webpack": "5.28.1",
-		"@types/websocket": "1.0.5",
+		"@types/websocket": "1.0.10",
 		"@types/ws": "8.5.5",
 		"@typescript-eslint/eslint-plugin": "5.59.11",
 		"@typescript-eslint/parser": "5.59.11",
