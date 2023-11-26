@@ -57,23 +57,9 @@ async function inbox(ctx: Router.RouterContext) {
 	let signature: httpSignature.IParsedSignature;
 
 	try {
-		signature = httpSignature.parseRequest(ctx.req, { 'headers': [] });
+		signature = httpSignature.parseRequest(ctx.req, { 'headers': ['(request-target)', 'digest', 'host', 'date'] });
 	} catch (e) {
 		logger.warn(`inbox: signature parse error: ${inspect(e)}`);
-		ctx.status = 401;
-		return;
-	}
-
-	// 署名必須ヘッダーの検証
-	if (!['host', 'digest'].every(h => signature.params.headers.includes(h))) {
-		logger.warn(`inbox: missing required header`);
-		ctx.status = 401;
-		return;
-	}
-
-	// Hostヘッダーの検証
-	if (ctx.headers.host !== config.host) {
-		logger.warn(`inbox: host headr missmatch`);
 		ctx.status = 401;
 		return;
 	}
