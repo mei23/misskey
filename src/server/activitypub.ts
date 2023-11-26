@@ -1,6 +1,7 @@
 import { ObjectID } from 'mongodb';
 import * as Router from '@koa/router';
-import * as json from 'koa-json-body';
+import * as coBody from 'co-body';
+import * as crypto from 'crypto';
 import * as httpSignature from 'http-signature';
 
 import { renderActivity } from '../remote/activitypub/renderer';
@@ -40,12 +41,74 @@ const router = new Router();
 async function inbox(ctx: Router.RouterContext) {
 	if (config.disableFederation) ctx.throw(404);
 
-	let signature;
+	// parse body
+	const text = await coBody.text(ctx);
+
+	// check length
+	if (text.length > 65535) {
+		ctx.status = 413;
+		return;
+	}
+
+	// to json
+	const json = await JSON.parse(text);
+	ctx.request.body = json;
+
+	let signature: httpSignature.IParsedSignature;
 
 	try {
 		signature = httpSignature.parseRequest(ctx.req, { 'headers': [] });
 	} catch (e) {
 		logger.warn(`inbox: signature parse error: ${inspect(e)}`);
+		ctx.status = 401;
+		return;
+	}
+
+	// 署名必須ヘッダーの検証
+	if (!['host', 'digest'].every(h => signature.params.headers.includes(h))) {
+		logger.warn(`inbox: missing required header`);
+		ctx.status = 401;
+		return;
+	}
+
+	// Hostヘッダーの検証
+	if (ctx.headers.host !== config.host) {
+		logger.warn(`inbox: host headr missmatch`);
+		ctx.status = 401;
+		return;
+	}
+
+	// Digestヘッダーの検証
+	const digest = ctx.req.headers.digest;
+
+	// 無いとか複数あるとかダメ！
+	if (typeof digest !== 'string') {
+		logger.warn(`inbox: unrecognized digest header 1`);
+		ctx.status = 401;
+		return;
+	}
+
+	const match = digest.match(/^([0-9A-Za-z-]+)=(.+)$/);
+
+	if (match == null) {
+		logger.warn(`inbox: unrecognized digest header 2`);
+		ctx.status = 401;
+		return;
+	}
+
+	const digestAlgo = match[1];
+	const digestExpected = match[2];
+
+	if (digestAlgo !== 'SHA-256') {	// TODO: lc?
+		logger.warn(`inbox: unsupported algorithm`);
+		ctx.status = 401;
+		return;
+	}
+
+	const digestActual = crypto.createHash('sha256').update(text).digest('base64')
+
+	if (digestExpected !== digestActual) {
+		logger.warn(`inbox: digest missmatch`);
 		ctx.status = 401;
 		return;
 	}
@@ -139,8 +202,8 @@ export function setResponseType(ctx: Router.RouterContext) {
 }
 
 // inbox
-router.post('/inbox', json({ limit: '64kb' }) as any, inbox);
-router.post('/users/:user/inbox', json({ limit: '64kb' }) as any, inbox);
+router.post('/inbox', inbox);
+router.post('/users/:user/inbox', inbox);
 
 const isNoteUserAvailable = async (note: INote) => {
 	const user = await User.findOne({

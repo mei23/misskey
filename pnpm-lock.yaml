@@ -47,6 +47,9 @@ dependencies:
   '@swc/core':
     specifier: 1.3.80
     version: 1.3.80
+  '@types/co-body':
+    specifier: 6.1.3
+    version: 6.1.3
   animejs:
     specifier: 3.2.1
     version: 3.2.1
@@ -89,6 +92,9 @@ dependencies:
   chalk:
     specifier: 4.1.2
     version: 4.1.2
+  co-body:
+    specifier: 6.1.0
+    version: 6.1.0
   content-disposition:
     specifier: 0.5.4
     version: 0.5.4
@@ -203,9 +209,6 @@ dependencies:
   koa-favicon:
     specifier: 2.1.0
     version: 2.1.0
-  koa-json-body:
-    specifier: 5.3.0
-    version: 5.3.0
   koa-logger:
     specifier: 3.2.1
     version: 3.2.1
@@ -2269,6 +2272,13 @@ packages:
       '@types/responselike': 1.0.0
     dev: false
 
+  /@types/co-body@6.1.3:
+    resolution: {integrity: sha512-UhuhrQ5hclX6UJctv5m4Rfp52AfG9o9+d9/HwjxhVB5NjXxr5t9oKgJxN8xRHgr35oo8meUEHUPFWiKg6y71aA==}
+    dependencies:
+      '@types/node': 18.11.18
+      '@types/qs': 6.9.7
+    dev: false
+
   /@types/connect@3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
@@ -3973,21 +3983,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /co-body@5.2.0:
-    resolution: {integrity: sha512-sX/LQ7LqUhgyaxzbe7IqwPeTr2yfpfUIQ/dgpKo6ZI4y4lpQA0YxAomWIY+7I7rHWcG02PG+OuPREzMW/5tszQ==}
-    dependencies:
-      inflation: 2.0.0
-      qs: 6.11.0
-      raw-body: 2.5.1
-      type-is: 1.6.18
-    dev: false
-
   /co-body@6.1.0:
     resolution: {integrity: sha512-m7pOT6CdLN7FuXUcpuz/8lfQ/L77x8SchHCF4G0RBTJO20Wzmhn5Sp4/5WsKy8OSpifBSUrmg83qEqaDHdyFuQ==}
     dependencies:
       inflation: 2.0.0
       qs: 6.11.0
-      raw-body: 2.5.1
+      raw-body: 2.5.2
       type-is: 1.6.18
     dev: false
 
@@ -7316,13 +7317,6 @@ packages:
       mz: 2.7.0
     dev: false
 
-  /koa-json-body@5.3.0:
-    resolution: {integrity: sha512-M2P3zLOs2XiYCpJLGSTXOKij4u5vJ8pbAMXXarXQnwsx4DwDav9qn081tYI2RdZ79B159Pdk4bRfvwl/sazL8A==}
-    engines: {node: '>= 4.0.0'}
-    dependencies:
-      co-body: 5.2.0
-    dev: false
-
   /koa-logger@3.2.1:
     resolution: {integrity: sha512-MjlznhLLKy9+kG8nAXKJLM0/ClsQp/Or2vI3a5rbSQmgl8IJBQO0KI5FA70BvW+hqjtxjp49SpH2E7okS6NmHg==}
     engines: {node: '>= 7.6.0'}
@@ -9439,8 +9433,8 @@ packages:
     resolution: {integrity: sha512-9CRCUX/w4+fNMzlYgA8GeJz7BZwBPwaGm3FhAm9Hi50k8wNy2CyiJQa8awygWJay87uVVCV0/FwbLcD6+/A9KQ==}
     dev: false
 
-  /raw-body@2.5.1:
-    resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
+  /raw-body@2.5.2:
+    resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
     dependencies:
       bytes: 3.1.2
