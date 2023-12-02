@@ -40,7 +40,7 @@ export class RemoteUserResolveService {
 	}
 
 	@bindThis
-	public async resolveUser(username: string, host: string | null): Promise<MiLocalUser | MiRemoteUser> {
+	public async resolveUser(username: string, host: string | null, resyncInterval = 1000 * 60 * 60 * 24): Promise<MiLocalUser | MiRemoteUser> {
 		const usernameLower = username.toLowerCase();
 
 		if (host == null) {
@@ -94,8 +94,8 @@ export class RemoteUserResolveService {
 			return await this.apPersonService.createPerson(self.href);
 		}
 
-		// ユーザー情報が古い場合は、WebFingerからやりなおして返す
-		if (user.lastFetchedAt == null || Date.now() - user.lastFetchedAt.getTime() > 1000 * 60 * 60 * 24) {
+		// For stale users, full resolve from WebFinger
+		if (user.lastFetchedAt == null || Date.now() - user.lastFetchedAt.getTime() > resyncInterval) {
 			// 繋がらないインスタンスに何回も試行するのを防ぐ, 後続の同様処理の連続試行を防ぐ ため 試行前にも更新する
 			await this.usersRepository.update(user.id, {
 				lastFetchedAt: new Date(),

@@ -15,6 +15,7 @@ import { bindThis } from '@/decorators.js';
 import { MiLocalUser, MiRemoteUser } from '@/models/User.js';
 import { getApId } from './type.js';
 import { ApPersonService } from './models/ApPersonService.js';
+import { RemoteUserResolveService } from '../RemoteUserResolveService.js';
 import type { IObject } from './type.js';
 
 export type UriParseResult = {
@@ -53,6 +54,7 @@ export class ApDbResolverService implements OnApplicationShutdown {
 
 		private cacheService: CacheService,
 		private apPersonService: ApPersonService,
+		private remoteUserResolveService: RemoteUserResolveService,
 	) {
 		this.publicKeyCache = new MemoryKVCache<MiUserPublickey | null>(Infinity);
 		this.publicKeyByUserIdCache = new MemoryKVCache<MiUserPublickey | null>(Infinity);
@@ -169,7 +171,7 @@ export class ApDbResolverService implements OnApplicationShutdown {
 	 */
 	@bindThis
 	public async refetchPublicKeyForApId(user: MiRemoteUser): Promise<MiUserPublickey | null> {
-		await this.apPersonService.updatePerson(user.uri!);
+		await this.remoteUserResolveService.resolveUser(user.username, user.host, 1000 * 60 * 15);
 		const key = this.userPublickeysRepository.findOneBy({ userId: user.id });
 		if (key != null) {
 			await this.publicKeyByUserIdCache.set(user.id, key);
