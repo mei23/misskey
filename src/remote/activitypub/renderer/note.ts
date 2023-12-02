@@ -93,18 +93,15 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 
 	const text = note.text;
 
-	let apText = text;
-	if (apText == null) apText = '';
+	let apAppend = '';
 
 	if (quote) {
-		apText += `\n\nRE: ${quote}`;
+		apAppend += `\n\nRE: ${quote}`;
 	}
 
 	const summary = note.cw === '' ? String.fromCharCode(0x200B) : note.cw;
 
-	const content = getNoteHtml(Object.assign({}, note, {
-		text: apText
-	}));
+	const { content, noMisskeyContent } = getNoteHtml(note, apAppend);
 
 	const emojis = await getEmojis(note.emojis);
 	const apemojis = emojis.map(emoji => renderEmoji(emoji));
@@ -123,9 +120,6 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 
 	const asPoll = note.poll ? {
 		type: 'Question',
-		content: getNoteHtml(Object.assign({}, note, {
-			text: text
-		})),
 		[expiresAt && expiresAt < new Date() ? 'closed' : 'endTime']: expiresAt,
 		[multiple ? 'anyOf' : 'oneOf']: choices.map(({ text, votes }) => ({
 			type: 'Note',
@@ -144,7 +138,7 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 		attributedTo,
 		summary,
 		content,
-		_misskey_content: text,
+		...(noMisskeyContent ? {} : { _misskey_content: text }),
 		_misskey_quote: quote,
 		quoteUri: quote,
 		published: note.createdAt.toISOString(),

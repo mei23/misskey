@@ -34,6 +34,10 @@ export function toHtml(nodes: MfmNode[] | null, mentionedRemoteUsers: INote['men
 		*/
 
 		if (node.type === 'text') {
+			if (!node.props.text.match(/[\r\n]/)) {
+				return doc.createTextNode(node.props.text);
+			}
+
 			const el = doc.createElement('span');
 			const nodes = (node.props.text as string).split(/\r\n|\r|\n/).map(x => doc.createTextNode(x) as Node);
 
