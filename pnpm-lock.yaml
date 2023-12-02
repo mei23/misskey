@@ -464,8 +464,8 @@ devDependencies:
     specifier: 1.0.2
     version: 1.0.2
   '@types/bcryptjs':
-    specifier: 2.4.2
-    version: 2.4.2
+    specifier: 2.4.6
+    version: 2.4.6
   '@types/co-body':
     specifier: 6.1.3
     version: 6.1.3
@@ -2255,8 +2255,8 @@ packages:
     dependencies:
       '@types/node': 18.11.18
 
-  /@types/bcryptjs@2.4.2:
-    resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
+  /@types/bcryptjs@2.4.6:
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
     dev: true
 
   /@types/body-parser@1.19.2:
