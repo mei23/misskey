@@ -1435,15 +1435,15 @@ describe('toHtml', () => {
 	});
 
 	it('blod', () => {
-		assert.equal(toHtml(parseFull('a**b**c')!), `<p><span>a</span><b><span>b</span></b><span>c</span></p>`);
+		assert.equal(toHtml(parseFull('a**b**c')!), `<p>a<b>b</b>c</p>`);
 	});
 
 	it('small', () => {
-		assert.equal(toHtml(parseFull('a<small>b</small>c')!), `<p><span>a</span><small><span>b</span></small><span>c</span></p>`);
+		assert.equal(toHtml(parseFull('a<small>b</small>c')!), `<p>a<small>b</small>c</p>`);
 	});
 
 	it('italic', () => {
-		assert.equal(toHtml(parseFull('a<i>b</i>c')!), `<p><span>a</span><i><span>b</span></i><span>c</span></p>`);
+		assert.equal(toHtml(parseFull('a<i>b</i>c')!), `<p>a<i>b</i>c</p>`);
 	});
 
 	/*
@@ -1457,15 +1457,15 @@ describe('toHtml', () => {
 	*/
 
 	it('strike', () => {
-		assert.equal(toHtml(parseFull('a~~b~~c')!), `<p><span>a</span><del><span>b</span></del><span>c</span></p>`);
+		assert.equal(toHtml(parseFull('a~~b~~c')!), `<p>a<del>b</del>c</p>`);
 	});
 
 	it('quote', () => {
-		assert.equal(toHtml(parseFull('a\n> b\nc')!), `<p><span>a<br></span><blockquote><span>b</span></blockquote><span>c</span></p>`);
+		assert.equal(toHtml(parseFull('a\n> b\nc')!), `<p><span>a<br></span><blockquote>b</blockquote>c</p>`);
 	});
 
 	it('inlineCode', () => {
-		assert.equal(toHtml(parseFull('a`b`c')!), `<p><span>a</span><code>b</code><span>c</span></p>`);
+		assert.equal(toHtml(parseFull('a`b`c')!), `<p>a<code>b</code>c</p>`);
 	});
 
 	it('blockCode', () => {
@@ -1477,7 +1477,7 @@ describe('toHtml', () => {
 	});
 
 	it('title', () => {
-		assert.equal(toHtml(parseFull('【a】')!), `<p><h1><span>a</span></h1></p>`);
+		assert.equal(toHtml(parseFull('【a】')!), `<p><h1>a</h1></p>`);
 	});
 
 	it('ruby', () => {
