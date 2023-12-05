@@ -169,7 +169,7 @@ export async function getJSONFeed(acct: string, untilId?: string) {
 			id: noteUrl,
 			url: noteUrl,
 			title: `New post by ${name}`,
-			content_html: note.text != null ? getNoteHtml(note, '').content : undefined,
+			content_html: note.text != null ? getNoteHtml(note).content : undefined,
 			content_text: note.text != null ? note.text : undefined,
 			summary: note.cw != null ? note.cw : undefined,
 			image: image ? getDriveFileUrl(image) : undefined,
