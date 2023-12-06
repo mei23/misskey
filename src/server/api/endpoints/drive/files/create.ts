@@ -2,7 +2,7 @@ import * as ms from 'ms';
 import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
 import { validateFileName, pack } from '../../../../../models/drive-file';
-import { addFile } from '../../../../../services/drive/add-file';
+import { FileTypeError, addFile } from '../../../../../services/drive/add-file';
 import define from '../../../define';
 import { apiLogger } from '../../../logger';
 import { ApiError } from '../../../error';
@@ -71,7 +71,13 @@ export const meta = {
 			message: 'Invalid file name.',
 			code: 'INVALID_FILE_NAME',
 			id: 'f449b209-0c60-4e51-84d5-29486263bfd4'
-		}
+		},
+
+		unsupportedFileTypeHeic: {
+			message: 'Unsupported file type. HEIC',
+			code: 'UNSUPPORTED_FILE_TYPE_HEIC',
+			id: 'c5384862-bc35-4d0f-9493-ba45ec96115d'
+		},
 	}
 };
 
@@ -95,6 +101,9 @@ export default define(meta, async (ps, user, app, file, cleanup) => {
 		const driveFile = await addFile({ user, path: file.path, name, folderId: ps.folderId, force: ps.force, sensitive: ps.isSensitive });
 		return pack(driveFile, { detail: true, self: true });
 	} catch (e) {
+		if (e instanceof FileTypeError) {
+			if (e.type === 'denyHeic') throw new ApiError(meta.errors.unsupportedFileTypeHeic);
+		}
 		apiLogger.error(e);
 		throw new ApiError();
 	} finally {

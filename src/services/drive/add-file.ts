@@ -30,6 +30,18 @@ import { InternalStorage } from './internal-storage';
 
 const logger = driveLogger.createSubLogger('register', 'yellow');
 
+type FileTypeErrorType = 'denyHeic';
+
+export class FileTypeError extends Error {
+	public type?: FileTypeErrorType;
+	constructor(type?: FileTypeErrorType) {
+		super('file type error');
+		this.name = 'FileTypeError';
+		this.type = type;
+	}
+}
+
+
 /***
  * Save file
  * @param path Path for original
@@ -40,6 +52,10 @@ const logger = driveLogger.createSubLogger('register', 'yellow');
 async function save(path: string, name: string, info: FileInfo, metadata: IMetadata, drive: DriveConfig): Promise<IDriveFile> {
 	// thunbnail, webpublic を必要なら生成
 	let animation = info.type.mime === 'image/apng' ? 'yes' : info.type.mime === 'image/png' ? 'no' : undefined;
+
+	if (!metadata.uri && ['image/heif', 'image/heif-sequence', 'image/heic', 'image/heic-sequence'].includes(info.type.mime)) {
+		throw new FileTypeError('denyHeic');
+	}
 
 	const alts = await generateAlts(path, info.type.mime, !metadata.uri).catch(err => {
 		if (err === 'ANIMATED') {

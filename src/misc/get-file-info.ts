@@ -44,6 +44,8 @@ const FILE_TYPE_DETECTS = [
 	'audio/aac',
 	'audio/x-flac',
 	'audio/vnd.wave',
+
+	'image/heif', 'image/heif-sequence', 'image/heic', 'image/heic-sequence',
 ];
 
 export const FILE_TYPE_BROWSERSAFE = [

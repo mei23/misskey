@@ -77,9 +77,22 @@ export default Vue.extend({
 			xhr.onload = (e: any) => {
 				if (xhr.status !== 200) {
 					this.uploads = (this.uploads as any[]).filter(x => x.id !== id);
+
+					let errMsg = `${xhr.status} ${xhr.statusText}`;
+					if (xhr.status === 413) {
+						errMsg = 'File too large';
+					} else {
+						try {
+							const errObj = JSON.parse(xhr.responseText);
+							if (errObj.error?.message) errMsg = errObj.error.message;
+						} catch (err) {
+							console.error(err);
+						}
+					}
+
 					this.$root.dialog({
 						type: 'error',
-						text: xhr.status === 413 ? `File to large` : `${xhr.status} ${xhr.statusText}`
+						text: errMsg
 					});
 					return;
 				}
