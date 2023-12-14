@@ -225,8 +225,8 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   memoji:
-    specifier: mei23/memoji#15.0.1
-    version: github.com/mei23/memoji/2ac2e9ba5b82b017373dda6ccf745dc315aa1592
+    specifier: mei23/memoji#15.0.2
+    version: github.com/mei23/memoji/455ed3b08cb916196cfb47cf2831e0a2a55782bd
   memory-streams:
     specifier: 0.1.3
     version: 0.1.3
@@ -381,8 +381,8 @@ dependencies:
     specifier: 10.9.1
     version: 10.9.1(@swc/core@1.3.80)(@types/node@18.11.18)(typescript@5.1.6)
   twemoji-parser:
-    specifier: git+https://github.com/mei23/twemoji-parser.git#15.0.1
-    version: github.com/mei23/twemoji-parser/75831bfddb415cefc1e89ac5232e883daf91a624
+    specifier: git+https://github.com/mei23/twemoji-parser.git#15.0.2
+    version: github.com/mei23/twemoji-parser/b92e0023f9f325d642f93c2ecbcd29e1c2267d4d
   typescript:
     specifier: 5.1.6
     version: 5.1.6
@@ -11851,10 +11851,10 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
-  github.com/mei23/memoji/2ac2e9ba5b82b017373dda6ccf745dc315aa1592:
-    resolution: {tarball: https://codeload.github.com/mei23/memoji/tar.gz/2ac2e9ba5b82b017373dda6ccf745dc315aa1592}
+  github.com/mei23/memoji/455ed3b08cb916196cfb47cf2831e0a2a55782bd:
+    resolution: {tarball: https://codeload.github.com/mei23/memoji/tar.gz/455ed3b08cb916196cfb47cf2831e0a2a55782bd}
     name: memoji
-    version: 15.0.1
+    version: 15.0.2
     dev: false
 
   github.com/mei23/summaly/aed7c5aa9df7d54b37c1935dd8b2277919f0dfb2:
@@ -11875,8 +11875,8 @@ packages:
       typescript: 5.2.2
     dev: false
 
-  github.com/mei23/twemoji-parser/75831bfddb415cefc1e89ac5232e883daf91a624:
-    resolution: {tarball: https://codeload.github.com/mei23/twemoji-parser/tar.gz/75831bfddb415cefc1e89ac5232e883daf91a624}
+  github.com/mei23/twemoji-parser/b92e0023f9f325d642f93c2ecbcd29e1c2267d4d:
+    resolution: {tarball: https://codeload.github.com/mei23/twemoji-parser/tar.gz/b92e0023f9f325d642f93c2ecbcd29e1c2267d4d}
     name: twemoji-parser
-    version: 15.0.1
+    version: 15.0.2
     dev: false
