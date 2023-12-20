@@ -470,8 +470,8 @@ devDependencies:
     specifier: 6.1.3
     version: 6.1.3
   '@types/double-ended-queue':
-    specifier: 2.1.3
-    version: 2.1.3
+    specifier: 2.1.7
+    version: 2.1.7
   '@types/fluent-ffmpeg':
     specifier: 2.1.21
     version: 2.1.21
@@ -2317,8 +2317,8 @@ packages:
       '@types/keygrip': 1.0.2
       '@types/node': 18.11.18
 
-  /@types/double-ended-queue@2.1.3:
-    resolution: {integrity: sha512-PWBSlai2jeSM3xOlr4JPI0oDiGFLVkVvylJ1nK1+oK9V/RiBIqDy8vCtsk+gOQN/I1gU6O1cR1OHheBanFdbCQ==}
+  /@types/double-ended-queue@2.1.7:
+    resolution: {integrity: sha512-OVbdb2iOJakEg/Ou6dVZsH0LLxlO+GFjc1FB2W8/jT7bnhoFVJwnZOqi/H26ospeMBaEbGiX3Qy2a7r6pfZKXQ==}
     dev: true
 
   /@types/eslint-scope@3.7.4:
