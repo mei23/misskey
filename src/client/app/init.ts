@@ -412,8 +412,15 @@ export default (callback: (launch: (router: VueRouter) => [Vue, MiOS], os: MiOS)
 				console.log(`Cannot reapply theme. ${e}`);
 			}
 
-			//#region line width
-			document.documentElement.style.setProperty('--lineWidth', `1px`);
+			//#region fontSize
+			if (os.store.state.device.fontSize >= -0.5) {
+				document.documentElement.style.setProperty('--fontSize', `${os.store.state.device.fontSize}em`);
+				os.store.watch(s => {
+					return s.device.fontSize;
+				}, v => {
+					document.documentElement.style.setProperty('--fontSize', `${os.store.state.device.fontSize}em`);
+				});
+			}
 			//#endregion
 
 			document.addEventListener('visibilitychange', () => {

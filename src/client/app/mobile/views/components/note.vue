@@ -320,7 +320,7 @@ export default Vue.extend({
 						color var(--noteText)
 						max-height 200px
 						overflow auto
-						font-size 1em
+						font-size calc(1em + var(--fontSize))
 
 						> .reply
 							margin-right 8px

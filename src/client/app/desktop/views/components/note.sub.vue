@@ -94,7 +94,7 @@ export default Vue.extend({
 					margin 0
 					padding 0
 					color var(--subNoteText)
-					font-size 1em
+					font-size calc(1em + var(--fontSize))
 
 					&.scroll
 						max-height 180px

@@ -355,7 +355,7 @@ export default Vue.extend({
 						padding 0
 						overflow-wrap break-word
 						color var(--noteText)
-						font-size 1m
+						font-size calc(1em + var(--fontSize))
 
 						&.scroll
 							max-height 200px
