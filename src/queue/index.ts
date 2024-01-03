@@ -15,6 +15,7 @@ import { IMute } from '../models/mute';
 import { IActivity } from '../remote/activitypub/type';
 import queueChart from '../services/chart/queue';
 import { cpus } from 'os';
+import { createDigest } from '../remote/activitypub/ap-request';
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const webpushDeliverLogger = queueLogger.createSubLogger('webpushDeliver');
@@ -119,12 +120,15 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
 
 	if (content == null) return null;
 
+	const contentBody = JSON.stringify(content);
+
 	const data = {
 		user: {
 			_id: `${user._id}`,
 			keypair: user.keypair
 		},
-		content,
+		content: contentBody,
+		digest: createDigest(contentBody),
 		to,
 		inboxInfo
 	};

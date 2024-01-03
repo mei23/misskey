@@ -2,7 +2,8 @@ import { isRemoteUser, IRemoteUser, isLocalUser, ILocalUser } from '../../models
 import Following from '../../models/following';
 import { deliver } from '../../queue';
 import { InboxInfo } from '../../queue/types';
-import { isBlockedHost, isClosedHost } from '../../services/instance-moderation';
+import { isBlockedHost, isClosedHost, isSelfSilencedHost } from '../../services/instance-moderation';
+import { publicToHome } from '../../queue/processors/deliver';
 
 //#region types
 interface IRecipe {
@@ -132,7 +133,14 @@ export default class DeliverManager {
 				const { host } = new URL(inbox.url);
 				if (await isBlockedHost(host)) continue;
 				if (await isClosedHost(host)) continue;
-				deliver(this.actor, this.activity, inbox.url, lowSeverity, inbox);
+
+				if (await isSelfSilencedHost(host)) {
+					const act = publicToHome(JSON.parse(JSON.stringify(this.activity)), this.actor); 
+					deliver(this.actor, act, inbox.url, lowSeverity, inbox);
+				} else {
+					deliver(this.actor, this.activity, inbox.url, lowSeverity, inbox);
+				}
+
 			} catch { }
 		}
 	}

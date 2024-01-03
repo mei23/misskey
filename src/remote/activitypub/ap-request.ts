@@ -16,9 +16,9 @@ type PrivateKey = {
 	keyId: string;
 };
 
-export function createSignedPost(args: { key: PrivateKey, url: string, body: string, additionalHeaders: Record<string, string> }) {
+export function createSignedPost(args: { key: PrivateKey, url: string, body: string, digest?: string, additionalHeaders: Record<string, string> }) {
 	const u = new URL(args.url);
-	const digestHeader = `SHA-256=${crypto.createHash('sha256').update(args.body).digest('base64')}`;
+	const digestHeader = args.digest ?? createDigest(args.body);
 
 	const request: Request = {
 		url: u.href,
@@ -39,6 +39,10 @@ export function createSignedPost(args: { key: PrivateKey, url: string, body: str
 		signature: result.signature,
 		signatureHeader: result.signatureHeader,
 	};
+}
+
+export function createDigest(body: string) {
+	return `SHA-256=${crypto.createHash('sha256').update(body).digest('base64')}`;
 }
 
 export function createSignedGet(args: { key: PrivateKey, url: string, additionalHeaders: Record<string, string> }) {

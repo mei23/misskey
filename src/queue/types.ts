@@ -15,7 +15,9 @@ export type DeliverJobData = {
 	/** Actor */
 	user: ThinUserWithKey;
 	/** Activity */
-	content: any;
+	content: string;
+	/** DigestHeader */
+	digest: string;
 	/** inbox URL to deliver */
 	to: string;
 	/** Detail information of inbox */

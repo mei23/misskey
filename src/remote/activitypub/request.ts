@@ -4,8 +4,8 @@ import { createSignedPost, createSignedGet } from './ap-request';
 import { ILocalUser } from '../../models/user';
 import { ThinUserWithKey } from '../../queue/types';
 
-export default async (user: ThinUserWithKey, url: string, object: any) => {
-	const body = JSON.stringify(object);
+export default async (user: ThinUserWithKey, url: string, object: any, digest?: string) => {
+	const body = typeof object === 'string' ? object : JSON.stringify(object);
 
 	const req = createSignedPost({
 		key: {
@@ -14,6 +14,7 @@ export default async (user: ThinUserWithKey, url: string, object: any) => {
 		},
 		url,
 		body,
+		digest,
 		additionalHeaders: {
 			'User-Agent': config.userAgent,
 		}
