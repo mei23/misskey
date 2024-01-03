@@ -16,7 +16,7 @@ export type DeliverJobData = {
 	user: ThinUserWithKey;
 	/** Activity */
 	content: string;
-	/** DigestHeader */
+	/** Digest header */
 	digest: string;
 	/** inbox URL to deliver */
 	to: string;
