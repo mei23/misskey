@@ -106,8 +106,10 @@ type DeliverContent = {
 	};
 };
 
-export function publicToHome(content: DeliverContent, user: ThinUser): DeliverContent {
-	if (content.type === 'Create' && content.object.type === 'Note') {
+export function publicToHome(org: DeliverContent, user: ThinUser): DeliverContent {
+	if (org.type === 'Create' && org.object.type === 'Note') {
+		const content: DeliverContent = JSON.parse(JSON.stringify(org));
+
 		const asPublic = 'https://www.w3.org/ns/activitystreams#Public';
 		const followers = `${config.url}/users/${user._id}/followers`;
 
@@ -127,6 +129,6 @@ export function publicToHome(content: DeliverContent, user: ThinUser): DeliverCo
 
 		return content;
 	} else {
-		return content;
+		return org;
 	}
 }

@@ -135,7 +135,7 @@ export default class DeliverManager {
 				if (await isClosedHost(host)) continue;
 
 				if (await isSelfSilencedHost(host)) {
-					const act = publicToHome(JSON.parse(JSON.stringify(this.activity)), this.actor); 
+					const act = publicToHome(this.activity, this.actor); 
 					deliver(this.actor, act, inbox.url, lowSeverity, inbox);
 				} else {
 					deliver(this.actor, this.activity, inbox.url, lowSeverity, inbox);
