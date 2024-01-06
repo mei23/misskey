@@ -495,11 +495,6 @@ export default Vue.extend({
 			set(value) { this.$store.dispatch('settings/set', { key: 'disableViaMobile', value }); }
 		},
 
-		lineWidth: {
-			get() { return this.$store.state.device.lineWidth; },
-			set(value) { this.$store.commit('device/set', { key: 'lineWidth', value }); }
-		},
-
 		fontSize: {
 			get() { return this.$store.state.device.fontSize; },
 			set(value) { this.$store.commit('device/set', { key: 'fontSize', value }); }
