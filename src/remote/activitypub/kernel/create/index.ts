@@ -4,6 +4,7 @@ import createNote from './note';
 import { ICreate, getApId, isPost, getApType } from '../../type';
 import { apLogger } from '../../logger';
 import { toArray, concat, unique } from '../../../../prelude/array';
+import { StatusError } from '../../../../misc/fetch';
 
 const logger = apLogger;
 
@@ -36,6 +37,9 @@ export default async (actor: IRemoteUser, activity: ICreate): Promise<string> =>
 		object = await resolver.resolve(activity.object);
 	} catch (e) {
 		logger.error(`Resolution failed: ${e}`);
+		if (e instanceof StatusError && e.isPermanentError) {
+			return `${e.statusCode} ${e.statusMessage}`;
+		}
 		throw e;
 	}
 

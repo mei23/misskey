@@ -66,8 +66,7 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 		try {
 			user = await resolvePerson(getApId(activity.actor), undefined, resolver, isDelete(activity) || isUndo(activity)) as IRemoteUser;
 		} catch (e) {
-			// 対象が4xxならスキップ
-			if (e instanceof StatusError && e.isClientError) {
+			if (e instanceof StatusError && e.isPermanentError) {
 				return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
 			}
 			throw `Error in actor ${activity.actor} - ${e.statusCode || e}`;
