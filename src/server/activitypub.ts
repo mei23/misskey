@@ -6,7 +6,7 @@ import * as httpSignature from '@peertube/http-signature';
 
 import { renderActivity } from '../remote/activitypub/renderer';
 import Note, { INote } from '../models/note';
-import User, { isLocalUser, ILocalUser, IUser } from '../models/user';
+import User, { isLocalUser, ILocalUser, IUser, isRemoteUser } from '../models/user';
 import Emoji from '../models/emoji';
 import renderNote from '../remote/activitypub/renderer/note';
 import renderKey from '../remote/activitypub/renderer/key';
@@ -408,8 +408,12 @@ router.get('/users/:user', async (ctx, next) => {
 		isDeleted: { $ne: true },
 		isSuspended: { $ne: true },
 		noFederation: { $ne: true },
-		host: null
 	});
+
+	if (isRemoteUser(user)) {
+		ctx.redirect(user.uri);
+		return;
+	}
 
 	await userInfo(ctx, user);
 });
