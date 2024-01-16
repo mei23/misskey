@@ -13,6 +13,8 @@ export default NoteReaction;
 
 export interface INoteReaction {
 	_id: mongo.ObjectID;
+	/** AP id (remote only) */
+	uri?: string;
 	createdAt: Date;
 	noteId: mongo.ObjectID;
 	userId: mongo.ObjectID;

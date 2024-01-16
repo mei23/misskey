@@ -26,7 +26,7 @@ export class ReactionError extends Error {
 }
 //#endregion Error
 
-export default async (user: IUser, note: INote, reaction?: string, dislike = false): Promise<INoteReaction> => {
+export default async (user: IUser, note: INote, reaction?: string, dislike = false, uri?: string): Promise<INoteReaction> => {
 	// detect direction
 	//   LL => local to local, LR => local to remote, RL => remote to local, RR => remote to remote
 	const direction = `${ isLocalUser(user) ? 'L' : 'R' }${ note._user.host == null ? 'L' : 'R' }`;
@@ -47,6 +47,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 
 	const inserted = {
 		_id: new mongo.ObjectID(),
+		uri,
 		createdAt: new Date(),
 		noteId: note._id,
 		userId: user._id,

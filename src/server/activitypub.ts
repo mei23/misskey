@@ -12,6 +12,7 @@ import renderNote from '../remote/activitypub/renderer/note';
 import renderKey from '../remote/activitypub/renderer/key';
 import renderPerson from '../remote/activitypub/renderer/person';
 import renderEmoji from '../remote/activitypub/renderer/emoji';
+import Likes from './activitypub/likes';
 import Outbox, { packActivity } from './activitypub/outbox';
 import Followers from './activitypub/followers';
 import Following from './activitypub/following';
@@ -239,7 +240,7 @@ export function setResponseType(ctx: Router.RouterContext) {
 router.post('/inbox', inbox);
 router.post('/users/:user/inbox', inbox);
 
-const isNoteUserAvailable = async (note: INote) => {
+export const isNoteUserAvailable = async (note: INote) => {
 	const user = await User.findOne({
 		_id: note.userId,
 		isDeleted: { $ne: true },
@@ -329,6 +330,9 @@ router.get('/notes/:note/activity', async ctx => {
 	setCacheHeader(ctx, note);
 	setResponseType(ctx);
 });
+
+// likes
+router.get('/notes/:note/likes', Likes);
 
 // outbox
 router.get('/users/:user/outbox', Outbox);

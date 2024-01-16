@@ -20,7 +20,7 @@ export default async (actor: IRemoteUser, activity: ILike): Promise<string> => {
 	await extractEmojis(activity.tag, actor.host).catch(() => null);
 
 	try {
-		await create(actor, note, activity._misskey_reaction || activity.content || activity.name, getApType(activity) === 'Dislike');
+		await create(actor, note, activity._misskey_reaction || activity.content || activity.name, getApType(activity) === 'Dislike', getApId(activity));
 	} catch (e: any) {
 		if (e instanceof ReactionError) {
 			return `skip: ${e.type}`;
