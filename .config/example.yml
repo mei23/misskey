@@ -125,7 +125,7 @@ proxyIpHeader: 'X-Forwarded-For'
 #signToActivityPubGet: flase
 
 # 最初に作成したユーザーを管理者にする (default: false)
-autoAdmin: true
+#autoAdmin: true
 
 # アイコン等の設定
 # favicon.urlをpngにする場合は、favicon.typeを'image/png'にする
