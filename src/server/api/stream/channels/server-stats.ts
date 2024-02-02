@@ -1,6 +1,7 @@
 import autobind from 'autobind-decorator';
 import Xev from 'xev';
 import Channel from '../channel';
+import config from '../../../../config';
 
 const ev = new Xev();
 
@@ -15,11 +16,13 @@ export default class extends Channel {
 
 	@autobind
 	private onStats(stats: any) {
+		if (config.hideServerInfo) return;
 		this.send('stats', stats);
 	}
 
 	@autobind
 	public onMessage(type: string, body: any) {
+		if (config.hideServerInfo) return;
 		switch (type) {
 			case 'requestLog':
 				ev.once(`serverStatsLog:${body.id}`, statsLog => {
