@@ -473,8 +473,8 @@ devDependencies:
     specifier: 2.1.7
     version: 2.1.7
   '@types/fluent-ffmpeg':
-    specifier: 2.1.21
-    version: 2.1.21
+    specifier: 2.1.24
+    version: 2.1.24
   '@types/glob':
     specifier: 8.1.0
     version: 8.1.0
@@ -2355,8 +2355,8 @@ packages:
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.0
 
-  /@types/fluent-ffmpeg@2.1.21:
-    resolution: {integrity: sha512-+n3dy/Tegt6n+YwGZUiGq6i8Jrnt8+MoyPiW1L6J5EWUl7GSt18a/VyReecfCsvTTNBXNMIKOMHDstiQM8nJLA==}
+  /@types/fluent-ffmpeg@2.1.24:
+    resolution: {integrity: sha512-g5oQO8Jgi2kFS3tTub7wLvfLztr1s8tdXmRd8PiL/hLMLzTIAyMR2sANkTggM/rdEDAg3d63nYRRVepwBiCw5A==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
