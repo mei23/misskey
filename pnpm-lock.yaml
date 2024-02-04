@@ -479,8 +479,8 @@ devDependencies:
     specifier: 8.1.0
     version: 8.1.0
   '@types/js-yaml':
-    specifier: 4.0.5
-    version: 4.0.5
+    specifier: 4.0.9
+    version: 4.0.9
   '@types/jsdom':
     specifier: 20.0.1
     version: 20.0.1
@@ -2378,8 +2378,8 @@ packages:
   /@types/http-errors@2.0.1:
     resolution: {integrity: sha512-/K3ds8TRAfBvi5vfjuz8y6+GiAYBZ0x4tXv1Av6CWBWn0IlADc+ZX9pMq7oU0fNQPnBwIZl3rmeLp6SBApbxSQ==}
 
-  /@types/js-yaml@4.0.5:
-    resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
+  /@types/js-yaml@4.0.9:
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
     dev: true
 
   /@types/jsdom@20.0.1:
