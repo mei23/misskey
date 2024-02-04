@@ -485,8 +485,8 @@ devDependencies:
     specifier: 20.0.1
     version: 20.0.1
   '@types/jsonld':
-    specifier: 1.5.9
-    version: 1.5.9
+    specifier: 1.5.13
+    version: 1.5.13
   '@types/katex':
     specifier: 0.16.0
     version: 0.16.0
@@ -2397,8 +2397,8 @@ packages:
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
 
-  /@types/jsonld@1.5.9:
-    resolution: {integrity: sha512-K76ImkErPYL2wGPZpNFSKp6wE+h/APecZLJrU7UfDaGqt/f+D9Rrg1aR7VdRrQ6k5DUNRZ2vn9yACwmpOr9QcA==}
+  /@types/jsonld@1.5.13:
+    resolution: {integrity: sha512-n7fUU6W4kSYK8VQlf/LsE9kddBHPKhODoVOjsZswmve+2qLwBy6naWxs/EiuSZN9NU0N06Ra01FR+j87C62T0A==}
     dev: true
 
   /@types/katex@0.16.0:
