@@ -524,8 +524,8 @@ devDependencies:
     specifier: 4.14.202
     version: 4.14.202
   '@types/mocha':
-    specifier: 10.0.1
-    version: 10.0.1
+    specifier: 10.0.6
+    version: 10.0.6
   '@types/mongodb':
     specifier: 3.6.20
     version: 3.6.20
@@ -2496,8 +2496,8 @@ packages:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
     dev: true
 
-  /@types/mocha@10.0.1:
-    resolution: {integrity: sha512-/fvYntiO1GeICvqbQ3doGDIP97vWmvFt83GKguJ6prmQM2iXZfFcq6YE8KteFyRtX2/h5Hf91BYvPodJKFYv5Q==}
+  /@types/mocha@10.0.6:
+    resolution: {integrity: sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==}
     dev: true
 
   /@types/mongodb@3.6.20:
