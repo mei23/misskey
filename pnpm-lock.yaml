@@ -515,8 +515,8 @@ devDependencies:
     specifier: 3.3.1
     version: 3.3.1
   '@types/koa__multer':
-    specifier: 2.0.4
-    version: 2.0.4
+    specifier: 2.0.7
+    version: 2.0.7
   '@types/koa__router':
     specifier: 8.0.11
     version: 8.0.11
@@ -2473,8 +2473,8 @@ packages:
       '@types/koa': 2.13.8
     dev: true
 
-  /@types/koa__multer@2.0.4:
-    resolution: {integrity: sha512-WRkshXhE5rpYFUbbtAjyMhdOOSdbu1XX+2AQlRNM6AZtgxd0/WXMU4lrP7e9tk5HWVTWbx8DOOsVBmfHjSGJ4w==}
+  /@types/koa__multer@2.0.7:
+    resolution: {integrity: sha512-O7hiAEpdgW1nly93jQ8TVL2nPC7Bg1HHRf1/LGNQb7ygGBjNgZWpliCm7tswNW3MjcgYbTtz0+Sca5wHne+RyA==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
