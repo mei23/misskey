@@ -503,8 +503,8 @@ devDependencies:
     specifier: 3.1.5
     version: 3.1.5
   '@types/koa-mount':
-    specifier: 4.0.2
-    version: 4.0.2
+    specifier: 4.0.5
+    version: 4.0.5
   '@types/koa-send':
     specifier: 4.1.6
     version: 4.1.6
@@ -2437,8 +2437,8 @@ packages:
       '@types/koa': 2.13.8
     dev: true
 
-  /@types/koa-mount@4.0.2:
-    resolution: {integrity: sha512-XnuGwV8bzw22nv2WqOs5a8wCHR2VgSnLLLuBQPzNTmhyiAvH0O6c+994rQVbMaBuwQJKefUInkvKoKuk+21uew==}
+  /@types/koa-mount@4.0.5:
+    resolution: {integrity: sha512-pV1njJ7r94iqAFzT9D5sGSYKUHFGudCLAnmr4WFli7V5tJf5MAgRQK9leTPJ4gjvgr+hnTf86fZsKoFN358c7w==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
