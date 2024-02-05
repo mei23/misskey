@@ -545,8 +545,8 @@ devDependencies:
     specifier: 6.0.3
     version: 6.0.3
   '@types/parsimmon':
-    specifier: 1.10.6
-    version: 1.10.6
+    specifier: 1.10.9
+    version: 1.10.9
   '@types/probe-image-size':
     specifier: 7.2.0
     version: 7.2.0
@@ -2540,8 +2540,8 @@ packages:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
     dev: true
 
-  /@types/parsimmon@1.10.6:
-    resolution: {integrity: sha512-FwAQwMRbkhx0J6YELkwIpciVzCcgEqXEbIrIn3a2P5d3kGEHQ3wVhlN3YdVepYP+bZzCYO6OjmD4o9TGOZ40rA==}
+  /@types/parsimmon@1.10.9:
+    resolution: {integrity: sha512-O2M2x1w+m7gWLen8i5DOy6tWRnbRcsW6Pke3j3HAsJUrPb4g0MgjksIUm2aqUtCYxy7Qjr3CzjjwQBzhiGn46A==}
     dev: true
 
   /@types/probe-image-size@7.2.0:
