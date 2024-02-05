@@ -205,7 +205,7 @@
 		"@types/mongodb": "3.6.20",
 		"@types/node": "18.11.18",
 		"@types/nodemailer": "6.4.14",
-		"@types/nprogress": "0.2.0",
+		"@types/nprogress": "0.2.3",
 		"@types/oauth": "0.9.4",
 		"@types/parse5": "6.0.3",
 		"@types/parsimmon": "1.10.6",

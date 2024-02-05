@@ -536,8 +536,8 @@ devDependencies:
     specifier: 6.4.14
     version: 6.4.14
   '@types/nprogress':
-    specifier: 0.2.0
-    version: 0.2.0
+    specifier: 0.2.3
+    version: 0.2.3
   '@types/oauth':
     specifier: 0.9.4
     version: 0.9.4
@@ -2526,8 +2526,8 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
-  /@types/nprogress@0.2.0:
-    resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
+  /@types/nprogress@0.2.3:
+    resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
     dev: true
 
   /@types/oauth@0.9.4:
