@@ -539,8 +539,8 @@ devDependencies:
     specifier: 0.2.0
     version: 0.2.0
   '@types/oauth':
-    specifier: 0.9.1
-    version: 0.9.1
+    specifier: 0.9.4
+    version: 0.9.4
   '@types/parse5':
     specifier: 6.0.3
     version: 6.0.3
@@ -2530,8 +2530,8 @@ packages:
     resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
     dev: true
 
-  /@types/oauth@0.9.1:
-    resolution: {integrity: sha512-a1iY62/a3yhZ7qH7cNUsxoI3U/0Fe9+RnuFrpTKr+0WVOzbKlSLojShCKe20aOD1Sppv+i8Zlq0pLDuTJnwS4A==}
+  /@types/oauth@0.9.4:
+    resolution: {integrity: sha512-qk9orhti499fq5XxKCCEbd0OzdPZuancneyse3KtR+vgMiHRbh+mn8M4G6t64ob/Fg+GZGpa565MF/2dKWY32A==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
