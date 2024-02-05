@@ -551,8 +551,8 @@ devDependencies:
     specifier: 7.2.0
     version: 7.2.0
   '@types/pug':
-    specifier: 2.0.6
-    version: 2.0.6
+    specifier: 2.0.10
+    version: 2.0.10
   '@types/punycode':
     specifier: 2.1.0
     version: 2.1.0
@@ -2551,8 +2551,8 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
-  /@types/pug@2.0.6:
-    resolution: {integrity: sha512-SnHmG9wN1UVmagJOnyo/qkk0Z7gejYxOYYmaAwr5u2yFYfsupN3sg10kyzN8Hep/2zbHxCnsumxOoRIRMBwKCg==}
+  /@types/pug@2.0.10:
+    resolution: {integrity: sha512-Sk/uYFOBAB7mb74XcpizmH0KOR2Pv3D2Hmrh1Dmy5BmK3MpdSa5kqZcg6EKBdklU0bFXX9gCfzvpnyUehrPIuA==}
     dev: true
 
   /@types/punycode@2.1.0:
