@@ -533,8 +533,8 @@ devDependencies:
     specifier: 18.11.18
     version: 18.11.18
   '@types/nodemailer':
-    specifier: 6.4.8
-    version: 6.4.8
+    specifier: 6.4.14
+    version: 6.4.14
   '@types/nprogress':
     specifier: 0.2.0
     version: 0.2.0
@@ -2520,8 +2520,8 @@ packages:
   /@types/node@18.11.18:
     resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
 
-  /@types/nodemailer@6.4.8:
-    resolution: {integrity: sha512-oVsJSCkqViCn8/pEu2hfjwVO+Gb3e+eTWjg3PcjeFKRItfKpKwHphQqbYmPQrlMk+op7pNNWPbsJIEthpFN/OQ==}
+  /@types/nodemailer@6.4.14:
+    resolution: {integrity: sha512-fUWthHO9k9DSdPCSPRqcu6TWhYyxTBg382vlNIttSe9M7XfsT06y0f24KHXtbnijPGGRIcVvdKHTNikOI6qiHA==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
