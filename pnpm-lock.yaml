@@ -506,8 +506,8 @@ devDependencies:
     specifier: 4.0.2
     version: 4.0.2
   '@types/koa-send':
-    specifier: 4.1.3
-    version: 4.1.3
+    specifier: 4.1.6
+    version: 4.1.6
   '@types/koa-views':
     specifier: 2.0.4
     version: 2.0.4
@@ -2443,8 +2443,8 @@ packages:
       '@types/koa': 2.13.8
     dev: true
 
-  /@types/koa-send@4.1.3:
-    resolution: {integrity: sha512-daaTqPZlgjIJycSTNjKpHYuKhXYP30atFc1pBcy6HHqB9+vcymDgYTguPdx9tO4HMOqNyz6bz/zqpxt5eLR+VA==}
+  /@types/koa-send@4.1.6:
+    resolution: {integrity: sha512-vgnNGoOJkx7FrF0Jl6rbK1f8bBecqAchKpXtKuXzqIEdXTDO6dsSTjr+eZ5m7ltSjH4K/E7auNJEQCAd0McUPA==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
