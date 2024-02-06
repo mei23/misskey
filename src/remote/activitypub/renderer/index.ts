@@ -4,90 +4,82 @@ import { IActivity } from '../type';
 import { LdSignature } from '../misc/ld-signature';
 import { ILocalUser } from '../../../models/user';
 
-export const renderActivity = (x: any): IActivity | null => {
-	if (x == null) return null;
+const references = [
+	'https://www.w3.org/ns/activitystreams',
+	'https://w3id.org/security/v1',
+];
 
-	if (x !== null && typeof x === 'object' && x.id == null) {
-		x.id = `${config.url}/${uuid()}`;
+// namespaces (null means already defined in references)
+const nss: Record<string, string | null> = {
+	as: null,	// defined in 'https://www.w3.org/ns/activitystreams'
+	vcard: null,	// defined in 'https://www.w3.org/ns/activitystreams'
+	sec: null,	// defined in 'https://w3id.org/security/v1'
+	// :
+
+	// Some extra or vendor namespaces
+	toot: 'http://joinmastodon.org/ns#',	// Mastodon
+	schema: 'http://schema.org#',
+	misskey: 'https://misskey-hub.net/ns#',
+	fedibird: 'http://fedibird.com/ns#',
+};
+
+// Definitions! (required ns => key => value)
+const defs: Record<string, Record<string, string | object>> = {
+	sec: {
+		Key: 'sec:Key',
+	},
+	as: {	// Not defined by the activitystreams, but defined in Mastodon.
+		manuallyApprovesFollowers: 'as:manuallyApprovesFollowers',
+		sensitive: 'as:sensitive',
+		Hashtag: 'as:Hashtag',
+	},
+	toot: {
+		Emoji: 'toot:Emoji',
+		featured: 'toot:featured',
+		discoverable: 'toot:discoverable',
+		indexable: 'toot:indexable',
+	},
+	schema: {
+		PropertyValue: 'schema:PropertyValue',
+		value: 'schema:value',
+	},
+	misskey: {
+		_misskey_content: 'misskey:_misskey_content',
+		_misskey_quote: 'misskey:_misskey_quote',
+		_misskey_reaction: 'misskey:_misskey_reaction',
+		_misskey_votes: 'misskey:_misskey_votes',
+		isCat: 'misskey:isCat',
+	},
+	fedibird: {
+		quoteUri: 'fedibird:quoteUri',
+		searchableBy: { '@id': 'fedibird:searchableBy', '@type': '@id' },
+	},
+};
+
+// flatten defs for processing
+type Def = {
+	/*** Key, eg: '_misskey_content' */
+	key: string;
+	/*** Resolved value, eg: 'misskey:_misskey_content' */
+	value: string | Object;
+	/*** Required namaspace, eg: 'misskey' */
+	ns: string;
+};
+
+const fdefs = new Map<string, Def>();
+
+for (const [ns, keyval] of Object.entries(defs)) {
+	for (const [key, value] of Object.entries(keyval)) {
+		fdefs.set(key, { key, ns, value })
 	}
+}
 
-	const imports = [
-		'https://www.w3.org/ns/activitystreams',
-		'https://w3id.org/security/v1',
-	];
+// builds
+const buildContext = (extraKeys: string[]) => {
+	const extraNss = new Map<string, string>();
+	const extraDefs = new Map<string, string | object>();
 
-	// namespaces (null means already defined in imports)
-	const nss: Record<string, string | null> = {
-		as: null,	// defined in 'https://www.w3.org/ns/activitystreams'
-		vcard: null,	// defined in 'https://www.w3.org/ns/activitystreams'
-		sec: null,	// defined in 'https://w3id.org/security/v1'
-		// :
-
-		// Some extra or vendor namespaces
-		toot: 'http://joinmastodon.org/ns#',	// So-called Mastodon
-		schema: 'http://schema.org#',
-		misskey: 'https://misskey-hub.net/ns#',
-		fedibird: 'http://fedibird.com/ns#',
-	};
-
-	// Definitions! (required ns => key => value)
-	const defs: Record<string, Record<string, string | object>> = {
-		sec: {
-			Key: 'sec:Key',
-		},
-		as: {	// Not defined by the activitystreams, but defined in Mastodon.
-			manuallyApprovesFollowers: 'as:manuallyApprovesFollowers',
-			sensitive: 'as:sensitive',
-			Hashtag: 'as:Hashtag',
-		},
-		toot: {
-			Emoji: 'toot:Emoji',
-			featured: 'toot:featured',
-			discoverable: 'toot:discoverable',
-			indexable: 'toot:indexable',
-		},
-		schema: {
-			PropertyValue: 'schema:PropertyValue',
-			value: 'schema:value',
-		},
-		misskey: {
-			'_misskey_content': 'misskey:_misskey_content',
-			'_misskey_quote': 'misskey:_misskey_quote',
-			'_misskey_reaction': 'misskey:_misskey_reaction',
-			'_misskey_votes': 'misskey:_misskey_votes',
-			'isCat': 'misskey:isCat',
-		},
-		fedibird: {
-			quoteUri: 'fedibird:quoteUri',
-			searchableBy: { '@id': 'fedibird:searchableBy', '@type': '@id' },
-		},
-	};
-
-	// flatten defs for processing
-	type Def = {
-		/*** Key, eg: '_misskey_content' */
-		key: string;
-		/*** Resolved value, eg: 'misskey:_misskey_content' */
-		value: string | Object;
-		/*** Required namaspace, eg: 'misskey' */
-		ns: string;
-	};
-
-	const fdefs = new Map<string, Def>();
-
-	for (const [ns, nsdef] of Object.entries(defs)) {
-		for (const [key, value] of Object.entries(nsdef)) {
-			fdefs.set(key, { key, ns, value })
-		}
-	}
-
-	// とりま全部
-	const requiredKeys = Array.from(fdefs.keys());
-
-	// builds
-	const exporseNss = new Map<string, string>();
-	const exposeDefs = new Map<string, string | object>();
-	for (const key of requiredKeys) {
+	for (const key of extraKeys) {
 		const def = fdefs.get(key);
 		if (def == null) {
 			console.warn(`JSON-LD: key=${key} is not in defs, bug?`);
@@ -98,22 +90,67 @@ export const renderActivity = (x: any): IActivity | null => {
 			} else if (nsValue === null) {
 				// alredy in imported one, so safety ignore it
 			} else {
-				exporseNss.set(def.ns, nsValue)
+				extraNss.set(def.ns, nsValue)
 			}
 
-			exposeDefs.set(key, def.value)
- 		}
+			extraDefs.set(key, def.value)
+		}
 	}
 
-	const context = [
-		imports,
+	return [
+		...references,
 		{
-			...Object.fromEntries(exporseNss),
-			...Object.fromEntries(exposeDefs),
+			...Object.fromEntries(extraNss),
+			...Object.fromEntries(extraDefs),
 		}
 	];
-	
-	console.log(JSON.stringify(context));	// ★
+};
+
+const prebuildContexts = {
+	Any: buildContext(Array.from(fdefs.keys())),
+	Actor: buildContext([
+		'Key',
+		'manuallyApprovesFollowers',
+		'sensitive',
+		'Hashtag',
+		'Emoji',
+		'featured',
+		'discoverable',
+		'indexable',
+		'PropertyValue',
+		'value',
+		'isCat',
+		'searchableBy'
+	]),
+	Like: buildContext([
+		'Emoji',
+		'_misskey_reaction',
+	]),
+	Note: buildContext([
+		'sensitive',
+		'Hashtag',
+		'Emoji',
+		'_misskey_content',
+		'_misskey_quote',
+		'_misskey_votes',
+		'quoteUri',
+	]),
+};
+
+console.log('prebuildContexts', prebuildContexts);
+
+export const renderActivity = (x: any, p?: 'Actor' | 'Like' | 'Note' | 'Any'): IActivity | null => {
+	if (x == null) return null;
+
+	if (x !== null && typeof x === 'object' && x.id == null) {
+		x.id = `${config.url}/${uuid()}`;
+	}
+
+	const context =
+		p === 'Actor' ? prebuildContexts.Actor :
+		p === 'Like' ? prebuildContexts.Like :
+		p === 'Note' ? prebuildContexts.Note :
+		prebuildContexts.Any;
 
 	return Object.assign({
 		'@context': context
