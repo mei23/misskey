@@ -124,7 +124,10 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	const cw = note.summary === '' ? null : note.summary;
 
 	// テキストのパース
-	const text = note._misskey_content || (note.content ? htmlToMfm(note.content, note.tag) : null);
+	const text = (typeof note._misskey_content === 'string') ? note._misskey_content
+		: (typeof note.source?.mediaType === 'string' && note.source.mediaType.match(/^text\/x\.misskeymarkdown(;.*)?$/) && typeof note.source.content === 'string') ? note.source.content
+		: note.content ? htmlToMfm(note.content, note.tag)
+		: null;
 
 	// 投票
 	if (reply && reply.poll) {
