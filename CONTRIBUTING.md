@@ -8,25 +8,4 @@ If you find the existing issue, please add your reaction or comment to the issue
 
 ## Tips
 
-### ローカルでテストを動かす方法
-```
-cp test/test.yml .config/
-```
-
-```
-docker-compose -f test/docker-compose.yml up
-```
-でテスト用のDBとRedisを上げる。
-または、空の (データが消去されてもいい) DBを準備して`.config/test.yml`を調整する。
-
-```
-pnpm test
-```
-
-### API endpointを追加削除したら
-
-以下のコマンドでインデックスを更新する必要があります。
-
-```
-npx ts-node --swc src/tools/dev/gen-api-endpoints.ts
-```
+開発手順は [docs/development.ja.md](docs/development.ja.md) を参照してください
