@@ -548,8 +548,8 @@ devDependencies:
     specifier: 1.10.9
     version: 1.10.9
   '@types/probe-image-size':
-    specifier: 7.2.0
-    version: 7.2.0
+    specifier: 7.2.4
+    version: 7.2.4
   '@types/pug':
     specifier: 2.0.10
     version: 2.0.10
@@ -2544,8 +2544,8 @@ packages:
     resolution: {integrity: sha512-O2M2x1w+m7gWLen8i5DOy6tWRnbRcsW6Pke3j3HAsJUrPb4g0MgjksIUm2aqUtCYxy7Qjr3CzjjwQBzhiGn46A==}
     dev: true
 
-  /@types/probe-image-size@7.2.0:
-    resolution: {integrity: sha512-R5H3vw62gHNHrn+JGZbKejb+Z2D/6E5UNVlhCzIaBBLroMQMOFqy5Pap2gM+ZZHdqBtVU0/cx/M6to+mOJcoew==}
+  /@types/probe-image-size@7.2.4:
+    resolution: {integrity: sha512-HVqYj3L+D+S/6qpQRv5qMxrD/5pglzZuhP7ZIqgVSZ+Ck4z1TCFkNIRG8WesFueQTqWFTSgkkAl6f8lwxFPQSw==}
     dependencies:
       '@types/needle': 3.2.0
       '@types/node': 18.11.18
