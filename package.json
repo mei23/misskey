@@ -213,7 +213,7 @@
 		"@types/pug": "2.0.10",
 		"@types/punycode": "2.1.0",
 		"@types/qrcode": "1.5.0",
-		"@types/ratelimiter": "3.4.4",
+		"@types/ratelimiter": "3.4.6",
 		"@types/redis": "2.8.32",
 		"@types/rename": "1.0.4",
 		"@types/request-stats": "3.0.0",

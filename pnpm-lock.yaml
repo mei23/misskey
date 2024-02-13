@@ -560,8 +560,8 @@ devDependencies:
     specifier: 1.5.0
     version: 1.5.0
   '@types/ratelimiter':
-    specifier: 3.4.4
-    version: 3.4.4
+    specifier: 3.4.6
+    version: 3.4.6
   '@types/redis':
     specifier: 2.8.32
     version: 2.8.32
@@ -2575,8 +2575,8 @@ packages:
   /@types/range-parser@1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
 
-  /@types/ratelimiter@3.4.4:
-    resolution: {integrity: sha512-GSMb93iSA8KKFDgVL2Wzs/kqrHMJcU8xhLdwI5omoACcj7K18SacklLtY1C4G02HC5drd6GygtsIaGbfxJSe0g==}
+  /@types/ratelimiter@3.4.6:
+    resolution: {integrity: sha512-Bv6WLSXPGLVsBjkizXtn+ef78R92e36/DFQo2wXPTHtp1cYXF6rCULMqf9WcZPAtyMZMvQAtIPeYMA1xAyxghw==}
     dev: true
 
   /@types/redis@2.8.32:
