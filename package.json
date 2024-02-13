@@ -216,7 +216,7 @@
 		"@types/ratelimiter": "3.4.4",
 		"@types/redis": "2.8.32",
 		"@types/rename": "1.0.4",
-		"@types/request-stats": "3.0.0",
+		"@types/request-stats": "3.0.3",
 		"@types/seedrandom": "3.0.5",
 		"@types/sharp": "0.31.1",
 		"@types/showdown": "2.0.1",

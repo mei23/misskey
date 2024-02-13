@@ -569,8 +569,8 @@ devDependencies:
     specifier: 1.0.4
     version: 1.0.4
   '@types/request-stats':
-    specifier: 3.0.0
-    version: 3.0.0
+    specifier: 3.0.3
+    version: 3.0.3
   '@types/seedrandom':
     specifier: 3.0.5
     version: 3.0.5
@@ -2589,8 +2589,8 @@ packages:
     resolution: {integrity: sha512-eV81+6bVv2mdCBahkMefjEUwAjKDAP3AuyhqWCWRxcRaeVdUeHUBaoq2zSz+5HNHF2jzTajMcfLvJsy4K3cbwA==}
     dev: true
 
-  /@types/request-stats@3.0.0:
-    resolution: {integrity: sha512-POsDF7nETH8up49iBNvbZuO0pEk9F+TG0rXCkvjxCClcOS99xfF+mKmJteYlwKYpuRKkixzysKlL8rwN1hU2lw==}
+  /@types/request-stats@3.0.3:
+    resolution: {integrity: sha512-fy2RPh8qQcEfHVKFD5VANUhDftPVwLkD3rQS5tkHMPLNFAHFQbrGorzWZTgDMOqCX6N4E1g0X/sBwTz8ro7qIA==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
