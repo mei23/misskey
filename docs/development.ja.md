@@ -20,7 +20,9 @@ pnpm start
 
 `package.json`の`version`を変更する必要があります。
 
-また、ソース公開用に公開インスタンスで表示されるリポジトリURLを変更したい場合は`src/const.json`から設定が出来ます。
+Misskey及びMeisskeyは、AGPLなので改修した場合ソースコードは (少なくともインスタンスを公開していて要求されれば) 公開する必要があります。  
+GitHub等のリポジトリで公開して、[src/const.json](../src/const.json) の `repositoryUrl` にURLを設定して、ビルド等を行った上で公開すると便利です。  
+※ `src/const.json` の `copyright` は、旧Misskey部分のコードからしか参照されてないため、変更しても意味ないですし変更するべきではありません。
 
 ### ローカルでテストを動かす方法
 ```
@@ -46,8 +48,3 @@ pnpm test
 ```
 npx ts-node --swc src/tools/dev/gen-api-endpoints.ts
 ```
-
-### ソースコードの公開
-
-Misskey及びMeisskeyは、AGPLなので改修した場合ソースコードは (少なくともインスタンスを公開していて要求されれば) 公開する必要があります。  
-GitHub等のリポジトリで公開して、[src/const.json](src/const.json) の `repositoryUrl` にURLを設定して、ビルド等を行った上で公開すると便利です。
