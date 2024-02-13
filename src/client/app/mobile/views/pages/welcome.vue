@@ -14,6 +14,9 @@
 			<div class="explore" v-if="meta && !(meta.disableProfileDirectory)">
 				<router-link class="explore" to="/explore">{{ $t('@.explore') }}</router-link>
 			</div>
+			<div class="repository">
+				<a :href="repositoryUrl" rel="noopener" target="_blank">{{ $t('@.repository') }}</a>
+			</div>
 		</div>
 		<div class="announcements" v-if="announcements && announcements.length > 0">
 			<article v-for="(announcement, i) in announcements" :key="i">
@@ -31,6 +34,7 @@ import i18n from '../../../i18n';
 import { host } from '../../../config';
 import { concat } from '../../../../../prelude/array';
 import { toUnicode } from 'punycode/';
+import { constants } from '../../../config';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/pages/welcome.vue'),
@@ -42,7 +46,8 @@ export default Vue.extend({
 			host: toUnicode(host),
 			name: 'Misskey',
 			description: '',
-			announcements: []
+			announcements: [],
+			repositoryUrl: constants.repositoryUrl,
 		};
 	},
 	created() {
@@ -116,6 +121,7 @@ export default Vue.extend({
 			> .signup
 			> .signin
 			> .explore
+			> .repository
 				margin 0.5em
 
 		> .announcements

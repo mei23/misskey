@@ -90,6 +90,7 @@ common:
   timeline: "Timeline"
   top: "Top"
   explore: "Explore"
+  repository: "Repository"
   new-post: "New post"
   featured: "Featured notes"
   game: "Games"
@@ -1928,6 +1929,7 @@ mobile/views/components/ui.nav.vue:
   admin: "Admin"
   about: "About Misskey"
   mark-all-as-read: "Mark all as read"
+  repository: "Repository"
 mobile/views/components/user-timeline.vue:
   fetch-posts: Fetch posts
 mobile/views/pages/drive.vue:

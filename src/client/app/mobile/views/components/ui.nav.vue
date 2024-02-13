@@ -54,6 +54,7 @@
 					</article>
 				</div>
 				<a :href="aboutUrl"><p class="about">{{ $t('about') }}</p></a>
+				<a :href="repositoryUrl" rel="noopener" target="_blank"><p class="repository">{{ $t('@.repository') }}</p></a>
 			</div>
 			<div class="notifications" v-if="showNotifications">
 				<header>
@@ -75,6 +76,7 @@ import Vue from 'vue';
 import i18n from '../../../i18n';
 import { faNewspaper, faUsers, faHome, faColumns, faSync, faDesktop, faMobileAlt, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faMoon, faSun, faStickyNote } from '@fortawesome/free-regular-svg-icons';
+import { constants } from '../../../config';
 
 export default Vue.extend({
 	i18n: i18n('mobile/views/components/ui.nav.vue'),
@@ -90,6 +92,7 @@ export default Vue.extend({
 			hasGameInvitation: false,
 			connection: null,
 			aboutUrl: `/docs/ja-JP/about`,
+			repositoryUrl: constants.repositoryUrl,
 			announcements: [],
 			searching: false,
 			showNotifications: false,
@@ -367,9 +370,9 @@ export default Vue.extend({
 					> .title
 						font-weight bold
 
-			.about
+			.about, .repository
 				margin 0 0 8px 0
-				padding 1em 0
+				padding 0.3em 0
 				text-align center
 				font-size 0.8em
 				color $color

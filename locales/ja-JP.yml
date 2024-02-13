@@ -92,6 +92,7 @@ common:
   timeline: "タイムライン"
   top: "トップ"
   explore: "みつける"
+  repository: "リポジトリ"
   new-post: "新規投稿"
   featured: "ハイライト"
   game: "ゲーム"
@@ -2124,6 +2125,7 @@ mobile/views/components/ui.nav.vue:
   about: "Misskeyについて"
   aboutInstance: "このインスタンスについて"
   mark-all-as-read: "全て既読にする"
+  repository: "リポジトリ"
 
 mobile/views/components/user-timeline.vue:
   fetch-posts: 投稿を取得
