@@ -8,4 +8,4 @@ If you find the existing issue, please add your reaction or comment to the issue
 
 ## Tips
 
-開発手順は [docs/development.ja.md](docs/development.ja.md) を参照してください
+開発手順は [docs/development.ja.md](docs/development.ja.md) を参照してください。
