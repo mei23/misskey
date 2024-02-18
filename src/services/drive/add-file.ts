@@ -297,7 +297,7 @@ async function upload(key: string, stream: fs.ReadStream | Buffer, type: string,
 		Key: key,
 		Body: stream,
 		ContentType: type,
-		CacheControl: 'max-age=2592000, s-maxage=172800, immutable',
+		CacheControl: 'max-age=2592000, s-maxage=172800, stale-while-revalidate=300, stale-if-error=86400 immutable',
 	} as PutObjectCommandInput;
 
 	if (filename) params.ContentDisposition = contentDisposition('inline', filename);

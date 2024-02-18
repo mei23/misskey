@@ -184,7 +184,7 @@ async function sendNormal(ctx: Router.RouterContext, body: Buffer | stream.Strea
 			return;
 		}
 	} else {
-		ctx.set('Cache-Control', 'max-age=2592000, s-maxage=172800, immutable');
+		ctx.set('Cache-Control', 'max-age=2592000, s-maxage=172800, stale-while-revalidate=300, stale-if-error=86400, immutable');
 	}
 
 	ctx.body = body;
