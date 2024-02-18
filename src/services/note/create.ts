@@ -85,12 +85,14 @@ class NotificationManager {
 	public async deliver() {
 		// サイレンスされていたらスキップ
 		if (this.notifier.isSilenced) {
+			return;
+		}
 
 		if (this.queue.length === 0) return;
 
 		for (const atc of this.note._files || []) {
 			if (await isMutedFile(atc.md5)) {
-				noteLogger(`muted file: note=${this.note._id} md5=${atc.md5}`);
+				noteLogger.info(`muted file: note=${this.note._id} md5=${atc.md5}`);
 				return;
 			}
 		}
