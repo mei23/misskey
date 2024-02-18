@@ -22,7 +22,6 @@ import { getApLock } from '../../../misc/app-lock';
 import { isBlockedHost } from '../../../services/instance-moderation';
 import { parseAudience } from '../audience';
 import DbResolver from '../db-resolver';
-import { tryStockEmoji } from '../../../services/emoji-store';
 import { parseDate, parseDateWithLimit } from '../misc/date';
 import { StatusError } from '../../../misc/fetch';
 
@@ -259,8 +258,6 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 						}) as IEmoji;
 				}
 
-				await tryStockEmoji(exists).catch(() => {});
-
 				return exists;
 			}
 
@@ -274,8 +271,6 @@ export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 				updatedAt: tag.updated ? new Date(tag.updated) : undefined,
 				aliases: []
 			});
-
-			await tryStockEmoji(emoji).catch(() => {});
 
 			return emoji;
 		})
