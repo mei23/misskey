@@ -88,7 +88,7 @@ export const meta = {
 		mutedFiles: {
 			validator: $.optional.nullable.arr($.str),
 			desc: {
-				'ja-JP': 'mutedFiles'
+				'ja-JP': 'ミュートする添付ファイル'
 			}
 		},
 
@@ -399,7 +399,7 @@ export default define(meta, async (ps) => {
 	}
 
 	if (Array.isArray(ps.mutedFiles)) {
-		set.mutedFiles = ps.mutedFiles.map(x => x.trim()).filter(x => x !== '').map(x => toApHost(x));
+		set.mutedFiles = ps.mutedFiles.map(x => x.trim()).filter(x => x !== '');
 	}
 
 	if (typeof ps.exposeHome === 'boolean') {
