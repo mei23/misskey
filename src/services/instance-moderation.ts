@@ -8,6 +8,7 @@ let blockedHostsRegExp: Set<RegExp>;
 let selfSilencedHosts: Set<string>;
 let selfSilencedHostsRegExp: Set<RegExp>;
 let closedHosts: Set<string>;
+let mutedFiles: Set<string>;
 
 export async function isBlockedHost(host: string | null) {
 	if (host == null) return false;
@@ -29,6 +30,12 @@ export async function isSelfSilencedHost(host: string | null) {
 	if (selfSilencedHostsRegExp && Array.from(selfSilencedHostsRegExp).some(x => x.test(toApHost(host)))) return true;
 
 	return false;
+}
+
+export async function isMutedFile(md5: string | null | undefined) {
+	if (md5 == null) return false;
+	if (!mutedFiles) await Update();
+	return mutedFiles?.has(md5);
 }
 
 export async function isClosedHost(host: string | null) {
@@ -78,6 +85,17 @@ async function Update() {
 
 		selfSilencedHosts = literals;
 		selfSilencedHostsRegExp = regExps;
+	}
+
+	// mutedFiles from meta
+	{
+		const literals = new Set<string>();
+
+		for (const b of (meta.mutedFiles || [])) {
+			literals.add(b);
+		}
+
+		mutedFiles = literals;
 	}
 
 	// closed from instance

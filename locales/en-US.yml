@@ -1747,6 +1747,8 @@ admin/views/instanceblocks.vue:
   ignoredInstances-info: "Instances that don't send/receive and fetch. One host per line. You can use /RegExp/."
   selfSilencedInstances: "Self-silenced instances"
   selfSilencedInstances-info: "Instances to deliver with maximum visibility home. One host per line. You can use /RegExp/."
+  mutedFiles: "Attachments to mute"
+  mutedFiles-info: "Mute the specified file if it is attached. MD5 lower case."
   exposeHome: "If fetched from remote, max visibility to home."
   exposeHome-info: "If posts are retrieved from instances with no followers, etc., set the maximum visibility to Home."
 

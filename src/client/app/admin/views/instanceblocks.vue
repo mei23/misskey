@@ -16,6 +16,12 @@
 		</section>
 
 		<section>
+			<header>{{ $t('mutedFiles') }}</header>
+			<ui-textarea v-model="mutedFiles"></ui-textarea>
+			<ui-info>{{ $t('mutedFiles-info') }}</ui-info>
+		</section>
+
+		<section>
 			<ui-switch v-model="exposeHome">{{ $t('exposeHome') }}</ui-switch>
 			<ui-info>{{ $t('exposeHome-info') }}</ui-info>
 		</section>
@@ -38,6 +44,7 @@ export default defineComponent({
 			$root: getCurrentInstance() as any,
 			blockedInstances: '',
 			selfSilencedInstances: '',
+			mutedFiles: '',
 			exposeHome: false,
 		};
 	},
@@ -49,6 +56,7 @@ export default defineComponent({
 			this.$root.api('admin/meta').then((meta: any) => {
 				this.blockedInstances = meta.blockedInstances.join('\n');
 				this.selfSilencedInstances = meta.selfSilencedInstances.join('\n');
+				this.mutedFiles = meta.mutedFiles.join('\n');
 				this.exposeHome = meta.exposeHome;
 			});
 		},
@@ -56,6 +64,7 @@ export default defineComponent({
 			this.$root.api('admin/update-meta', {
 				blockedInstances: this.blockedInstances ? this.blockedInstances.split('\n') : [],
 				selfSilencedInstances: this.selfSilencedInstances ? this.selfSilencedInstances.split('\n') : [],
+				mutedFiles: this.mutedFiles ? this.mutedFiles.split('\n') : [],
 				exposeHome: !!this.exposeHome,
 			}).then(() => {
 				this.$root.dialog({
