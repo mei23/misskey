@@ -27,7 +27,7 @@ type Nodeinfo = {
 		localPosts?: number;
 		localComments?: number;
 	};
-	metadata: {
+	metadata?: {
 		name?: string;
 		nodeName?: string;
 		description?: string;
@@ -35,6 +35,9 @@ type Nodeinfo = {
 		maintainer?: {
 			name?: string;
 			email?: string;
+		};
+		upstream?: {
+			name?: string;
 		};
 	};
 };
@@ -145,16 +148,17 @@ export async function fetchInstanceinfo(host: string) {
 
 	let name = info?.metadata?.nodeName || info?.metadata?.name || null;
 	let description = info?.metadata?.nodeDescription || info?.metadata?.description || null;
-	const maintainerName = info?.metadata?.maintainer?.name || null;
+	let maintainerName = info?.metadata?.maintainer?.name || null;
 	let maintainerEmail = info?.metadata?.maintainer?.email || null;
 
 	// fetch Mastodon API
-	if (!name) {
+	if (info?.software.name === 'mastodon' || info?.metadata?.upstream?.name === 'mastodon') {
 		const mastodon = await fetchMastodonInstance(toApHost(host)!).catch(() => {});
 		if (mastodon) {
 			name = mastodon.title;
 			description = mastodon.description;
 			maintainerEmail = mastodon.email;
+			maintainerName = mastodon.contact_account?.acct ? `acct:${mastodon.contact_account?.acct}` : null;
 		}
 	}
 
@@ -202,6 +206,9 @@ async function fetchMastodonInstance(host: string) {
 		short_description: string;
 		description: string;
 		email: string;
+		contact_account?: {
+			acct?: string
+		};
 	};
 
 	return json;
