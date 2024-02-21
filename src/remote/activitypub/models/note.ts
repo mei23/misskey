@@ -128,6 +128,11 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		: note.content ? htmlToMfm(note.content, note.tag)
 		: null;
 
+	if (text?.match(/xn--68j5e377y|ctkpaarr/)) {
+		logger.warn(`rejected: note=${note.id}`);
+		return null;
+	}
+
 	// 投票
 	if (reply && reply.poll) {
 		const tryCreateVote = async (name: string, index: number): Promise<null> => {
