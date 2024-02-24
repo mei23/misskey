@@ -20,6 +20,7 @@
 			<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('ignore') }}</ui-switch>
 			<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('marked-as-closed') }}</ui-switch>
 			<ui-info>{{ $t('flag-info') }}</ui-info>
+			<ui-button v-if="instance.isBlocked || instance.isMarkedAsClosed || instance.matchBlocked" @click="deleteInstanceUsers()">{{ $t('deleteInstanceUsers') }}</ui-button>
 		</section>
 
 		<!-- meta -->
@@ -287,6 +288,29 @@ export default defineComponent({
 				this.$root.dialog({
 					type: 'success',
 					splash: true
+				});
+			});
+		},
+
+		async deleteInstanceUsers() {
+			if (!this.instance) return;
+
+			const confirm = await this.$root.dialog({
+				type: 'warning',
+				showCancelButton: true,
+				title: 'confirm',
+				text: this.$t('deleteInstanceUsers-confirm'),
+			});
+
+			if (confirm.canceled) return;
+
+			this.$root.api('admin/delete-instance-users', {
+				host: this.instance.host,
+				limit: 1000,
+			}).catch((e: any) => {
+				this.$root.dialog({
+					type: 'error',
+					text: e.message || e
 				});
 			});
 		},

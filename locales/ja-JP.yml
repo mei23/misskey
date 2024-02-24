@@ -1847,6 +1847,8 @@ admin/views/federation.vue:
   instance-not-registered: "そのインスタンスは登録されていません"
   matchBlocked: "インスタンスモデレーションで無視に一致しています"
   matchSelfSilenced: "インスタンスモデレーションでセルフサイレンスに一致しています"
+  deleteInstanceUsers: "インスタンスのユーザーを削除"
+  deleteInstanceUsers-confirm: "インスタンス内のユーザーを削除しますか (最大1000件削除されます)"
   sort: "ソート"
   sorts:
     caughtAtAsc: "登録日時が古い順"

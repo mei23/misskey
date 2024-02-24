@@ -1686,6 +1686,8 @@ admin/views/federation.vue:
   instance-not-registered: "The instance has not been discovered"
   matchBlocked: "Matching ignore in instance moderation"
   matchSelfSilenced: "Matching self-silencing in instance moderation"
+  deleteInstanceUsers: "Delete an instance user"
+  deleteInstanceUsers-confirm: "Do you want to delete users in the instance (up to 1000 will be deleted)"
   sort: "Sort by"
   sorts:
     caughtAtAsc: "Date of discovery (Ascending)"

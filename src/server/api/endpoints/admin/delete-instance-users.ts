@@ -6,6 +6,7 @@ import { doPostSuspend } from '../../../../services/suspend-user';
 import { createDeleteNotesJob, createDeleteDriveFilesJob } from '../../../../queue';
 import { toDbHost } from '../../../../misc/convert-host';
 import { isBlockedHost, isClosedHost } from '../../../../services/instance-moderation';
+import { ApiError } from '../../error';
 
 export const meta = {
 	desc: {
@@ -31,13 +32,21 @@ export const meta = {
 			validator: $.optional.num.range(1, 1000),
 			default: 50,
 		},
-	}
+	},
+
+	errors: {
+		hostIsAvailable: {
+			message: 'Host is available.',
+			code: 'HOST_IS_AVAILABLE',
+			id: '66dcfd00-1905-4e89-b2ac-b588fb1348fd'
+		},
+	},
 };
 
 export default define(meta, async (ps) => {
 	const host = toDbHost(ps.host);
 
-	if (!await isBlockedHost(host) && !await isClosedHost(host)) throw new Error('instance はブロックでもクローズでもない');
+	if (!await isBlockedHost(host) && !await isClosedHost(host)) throw new ApiError(meta.errors.hostIsAvailable);
 
 	const users = await User.find({
 		host,
