@@ -1,5 +1,6 @@
 <template>
 <div>
+	<!-- 照会 -->
 	<ui-card>
 		<template #title><fa :icon="faTerminal"/> {{ $t('instance') }}</template>
 		<section class="fit-top">
@@ -7,126 +8,56 @@
 				<span>{{ $t('host') }}</span>
 			</ui-input>
 			<ui-button @click="showInstance()"><fa :icon="faSearch"/> {{ $t('lookup') }}</ui-button>
-
-			<div class="instance" v-if="instance">
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.host" type="text" readonly>
-						<span>{{ $t('host') }}</span>
-					</ui-input>
-					<ui-input :value="instance.caughtAt | date" type="text" readonly>
-						<span>{{ $t('caught-at') }}</span>
-					</ui-input>
-					<ui-input :value="instance.infoUpdatedAt | date" type="text" readonly>
-						<span>{{ $t('infoUpdatedAt') }}</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.notesCount" type="text" readonly>
-						<span>{{ $t('notes') }}</span>
-					</ui-input>
-					<ui-input :value="instance.usersCount" type="text" readonly>
-						<span>{{ $t('users') }}</span>
-					</ui-input>
-					<ui-input :value="instance.activeHalfyear" type="text" readonly>
-						<span>{{ $t('activeHalfyear') }}</span>
-					</ui-input>
-					<ui-input :value="instance.activeMonth" type="text" readonly>
-						<span>{{ $t('activeMonth') }}</span>
-					</ui-input>
-					<ui-input :value="instance.followingCount" type="text" readonly>
-						<span>{{ $t('following') }}</span>
-					</ui-input>
-					<ui-input :value="instance.followersCount" type="text" readonly>
-						<span>{{ $t('followers') }}</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.latestRequestSentAt | date" type="text" readonly>
-						<span>{{ $t('latest-request-sent-at') }}</span>
-					</ui-input>
-					<ui-input :value="instance.latestStatus" type="text" readonly>
-						<span>{{ $t('status') }}</span>
-					</ui-input>
-					<ui-input :value="instance.latestRequestReceivedAt | date" type="text" readonly>
-						<span>{{ $t('latest-request-received-at') }}</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.cc" type="text" readonly>
-						<template #prefix><mfm :text="ccToEmoji(instance.cc)" :plain="true" :nowrap="true" :key="instance.cc"/></template>
-						<span>CC</span>
-					</ui-input>
-					<ui-input :value="instance.isp" type="text" readonly>
-						<span>ISP</span>
-					</ui-input>
-					<ui-input :value="instance.org" type="text" readonly>
-						<span>ORG</span>
-					</ui-input>
-					<ui-input :value="instance.as" type="text" readonly>
-						<span>AS</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.softwareName" type="text" readonly>
-						<span>{{ $t('softwareName') }}</span>
-					</ui-input>
-					<ui-input :value="instance.softwareVersion" type="text" readonly>
-						<span>{{ $t('softwareVersion') }}</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.name" type="text" readonly>
-						<span>{{ $t('name') }}</span>
-					</ui-input>
-					<ui-input :value="instance.description" type="text" readonly>
-						<span>{{ $t('description') }}</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-horizon-group inputs>
-					<ui-input :value="instance.maintainerName" type="text" readonly>
-						<span>{{ $t('maintainerName') }}</span>
-					</ui-input>
-					<ui-input :value="instance.maintainerEmail" type="text" readonly>
-						<span>{{ $t('maintainerEmail') }}</span>
-					</ui-input>
-				</ui-horizon-group>
-				<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('ignore') }}</ui-switch>
-				<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('marked-as-closed') }}</ui-switch>
-				<ui-info>{{ $t('flag-info') }}</ui-info>
-				<details :open="true">
-					<summary>{{ $t('charts') }}</summary>
-					<ui-horizon-group inputs>
-						<ui-select v-model="chartSrc">
-							<option value="requests">{{ $t('chart-srcs.requests') }}</option>
-							<option value="users">{{ $t('chart-srcs.users') }}</option>
-							<option value="users-total">{{ $t('chart-srcs.users-total') }}</option>
-							<option value="notes">{{ $t('chart-srcs.notes') }}</option>
-							<option value="notes-total">{{ $t('chart-srcs.notes-total') }}</option>
-							<option value="ff">{{ $t('chart-srcs.ff') }}</option>
-							<option value="ff-total">{{ $t('chart-srcs.ff-total') }}</option>
-							<option value="drive-usage">{{ $t('chart-srcs.drive-usage') }}</option>
-							<option value="drive-usage-total">{{ $t('chart-srcs.drive-usage-total') }}</option>
-							<option value="drive-files">{{ $t('chart-srcs.drive-files') }}</option>
-							<option value="drive-files-total">{{ $t('chart-srcs.drive-files-total') }}</option>
-						</ui-select>
-						<ui-select v-model="chartSpan">
-							<option value="hour">{{ $t('chart-spans.hour') }}</option>
-							<option value="day">{{ $t('chart-spans.day') }}</option>
-						</ui-select>
-					</ui-horizon-group>
-					<div ref="chart"></div>
-				</details>
-				<!--
-				<details v-if="$store.getters.isAdminOrModerator">
-					<summary>{{ $t('remove-all-following') }}</summary>
-					<ui-button @click="removeAllFollowing()" style="margin-top: 16px;"><fa :icon="faMinusCircle"/> {{ $t('remove-all-following') }}</ui-button>
-					<ui-info warn>{{ $t('remove-all-following-info', { host: instance.host }) }}</ui-info>
-				</details>
-				-->
-			</div>
 		</section>
 	</ui-card>
 
+	<!-- インスタンス -->
+	<ui-card v-if="instance">
+		<template #title>{{ instance.host }}</template>
+		<section>
+			<ui-info :warn="true" v-if="instance.matchBlocked">{{ $t('matchBlocked') }}</ui-info>
+			<ui-info :warn="true" v-if="instance.matchSelfSilenced">{{ $t('matchSelfSilenced') }}</ui-info>
+			<ui-switch v-model="instance.isBlocked" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('ignore') }}</ui-switch>
+			<ui-switch v-model="instance.isMarkedAsClosed" @change="updateInstance()" :disabled="!$store.getters.isAdminOrModerator">{{ $t('marked-as-closed') }}</ui-switch>
+			<ui-info>{{ $t('flag-info') }}</ui-info>
+		</section>
+
+		<!-- meta -->
+		<section>
+			<details :open="false">
+				<ui-textarea :value="instance | json5" readonly tall style="margin-top:16px;"></ui-textarea>
+			</details>
+		</section>
+
+		<!-- チャート -->
+		<section>
+			<details :open="false">
+			<summary>{{ $t('charts') }}</summary>
+				<ui-horizon-group inputs>
+					<ui-select v-model="chartSrc">
+						<option value="requests">{{ $t('chart-srcs.requests') }}</option>
+						<option value="users">{{ $t('chart-srcs.users') }}</option>
+						<option value="users-total">{{ $t('chart-srcs.users-total') }}</option>
+						<option value="notes">{{ $t('chart-srcs.notes') }}</option>
+						<option value="notes-total">{{ $t('chart-srcs.notes-total') }}</option>
+						<option value="ff">{{ $t('chart-srcs.ff') }}</option>
+						<option value="ff-total">{{ $t('chart-srcs.ff-total') }}</option>
+						<option value="drive-usage">{{ $t('chart-srcs.drive-usage') }}</option>
+						<option value="drive-usage-total">{{ $t('chart-srcs.drive-usage-total') }}</option>
+						<option value="drive-files">{{ $t('chart-srcs.drive-files') }}</option>
+						<option value="drive-files-total">{{ $t('chart-srcs.drive-files-total') }}</option>
+					</ui-select>
+					<ui-select v-model="chartSpan">
+						<option value="hour">{{ $t('chart-spans.hour') }}</option>
+						<option value="day">{{ $t('chart-spans.day') }}</option>
+					</ui-select>
+				</ui-horizon-group>
+				<div ref="chart"></div>
+			</details>
+		</section>
+	</ui-card>
+
+	<!-- 一覧 -->
 	<ui-card>
 		<template #title><fa :icon="faServer"/> {{ $t('instances') }}</template>
 		<section class="fit-top">
@@ -182,21 +113,15 @@
 					<span>{{ $t('system') }}</span>
 					<span>{{ $t('notes') }}</span>
 					<span>{{ $t('users') }}</span>
-					<span>{{ $t('activeHalfyear') }}</span>
-					<span>{{ $t('activeMonth') }}</span>
-					<span>{{ $t('status') }}</span>
 				</header>
 				<div v-for="instance in instances" :key="instance.host" :style="{ opacity: instance.isNotResponding ? 0.5 : 1 }">
 					<a @click.prevent="showInstance(instance.host)" rel="nofollow noopener" target="_blank" :href="`https://${instance.host}`" :title="instance.name" :style="{ textDecoration: instance.isMarkedAsClosed ? 'line-through' : 'none', display: 'inline-flex', overflow: 'hidden', 'word-break': 'break-all' }">
 						<img v-if="instance.iconUrl != null" :src="`/proxy/icon.ico?${urlQuery({ url: instance.iconUrl })}`" :style="{ width: '1em', height: '1em' }"/>
 						{{ `${instance.host }` }}
 					</a>
-					<span>{{ `${instance.softwareName || 'unknown'}` }} <small :style="{ opacity: 0.7 }">{{ `${instance.softwareVersion || ''}` }}</small></span>
+					<span>{{ `${instance.softwareName || 'unknown'}` }}<br><small :style="{ opacity: 0.7 }">{{ `${instance.softwareVersion || ''}` }}</small></span>
 					<span>{{ instance.notesCount | kmg }}</span>
 					<span>{{ instance.usersCount | kmg }}</span>
-					<span>{{ instance.activeHalfyear | kmg }}</span>
-					<span>{{ instance.activeMonth | kmg }}</span>
-					<span>{{ instance.latestStatus }}</span>
 				</div>
 			</div>
 
@@ -231,7 +156,7 @@ export default defineComponent({
 			$root: getCurrentInstance() as any,
 			instance: null as Record<string, any> | null,
 			target: null as any,
-			sort: '+infoUpdatedAt',
+			sort: '+caughtAt',
 			state: 'all',
 			softwareName: '',
 			softwareVersion: '',
@@ -467,13 +392,6 @@ export default defineComponent({
 		format(arr) {
 			return arr.map((v, i) => ({ x: this.getDate(i).getTime(), y: v }));
 		},
-
-		ccToEmoji(cc: string | null | undefined) {
-			if (cc == null) return '';
-			if (cc === '??') return '';
-			return cc.toUpperCase().replace(/./g, c => String.fromCodePoint(c.charCodeAt(0) + 127397));
-		},
-
 		requestsChart(): any {
 			return {
 				series: [{
