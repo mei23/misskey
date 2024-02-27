@@ -91,6 +91,27 @@ function validateActor(x: IObject, uri: string): IActor {
 		}
 	}
 
+	if (x.additionalPublicKeys) {
+		if (!x.publicKey) {
+			throw new Error('invalid Actor: additionalPublicKeys is set but publicKey is not');
+		}
+
+		if (!Array.isArray(x.additionalPublicKeys)) {
+			throw new Error('invalid Actor: additionalPublicKeys is not an array');
+		}
+
+		for (const key of x.additionalPublicKeys) {
+			if (typeof key.id !== 'string') {
+				throw new Error('invalid Actor: additionalPublicKeys.id is not a string');
+			}
+
+			const keyIdHost = toUnicode(new URL(x.publicKey.id).hostname.toLowerCase());
+			if (keyIdHost !== expectHost) {
+				throw new Error('invalid Actor: additionalPublicKeys.id has different host');
+			}
+		}
+	}
+
 	return x;
 }
 
@@ -169,6 +190,10 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 				id: person.publicKey.id,
 				publicKeyPem: person.publicKey.publicKeyPem
 			} : undefined,
+			additionalPublicKeys: (person.additionalPublicKeys || []).map(x => ({
+				id: x.id,
+				publicKeyPem: x.publicKeyPem
+			})),
 			inbox: person.inbox,
 			sharedInbox: person.sharedInbox || (person.endpoints ? person.endpoints.sharedInbox : undefined),
 			outbox: person.outbox,
@@ -390,6 +415,10 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 			id: person.publicKey.id,
 			publicKeyPem: person.publicKey.publicKeyPem
 		} : undefined,
+		additionalPublicKeys: (person.additionalPublicKeys || []).map(x => ({
+			id: x.id,
+			publicKeyPem: x.publicKeyPem
+		})),
 	} as any;
 
 	if (avatar) {
