@@ -8,7 +8,7 @@ import RegistrationTicket, { IRegistrationTicket } from '../../../models/registr
 import usersChart from '../../../services/chart/users';
 import fetchMeta from '../../../misc/fetch-meta';
 import { verifyRecaptcha } from '../../../misc/captcha';
-import { genRsaKeyPair } from '../../../misc/keypair';
+import { genEd25519KeyPair, genRsaKeyPair } from '../../../misc/keypair';
 
 export default async (ctx: Router.RouterContext) => {
 	const body = ctx.request.body;
@@ -107,6 +107,7 @@ export default async (ctx: Router.RouterContext) => {
 	const secret = generateUserToken();
 
 	const keyPair = await genRsaKeyPair();
+	const ed25519KeyPair = await genEd25519KeyPair();
 
 	// Create account
 	const account: IUser = await User.insert({
@@ -122,6 +123,7 @@ export default async (ctx: Router.RouterContext) => {
 		usernameLower: username.toLowerCase(),
 		host: null,
 		keypair: keyPair.privateKey,
+		ed25519Key: ed25519KeyPair.privateKey,
 		token: secret,
 		password: hash,
 		isAdmin: config.autoAdmin && usersCount === 0,

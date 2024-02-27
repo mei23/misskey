@@ -125,7 +125,8 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
 	const data = {
 		user: {
 			_id: `${user._id}`,
-			keypair: user.keypair
+			keypair: user.keypair,
+			ed25519Key: user.ed25519Key,
 		},
 		content: contentBody,
 		digest: createDigest(contentBody),

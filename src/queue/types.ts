@@ -9,6 +9,8 @@ export type ThinUser = {
 export type ThinUserWithKey = ThinUser & {
 	/** privateKeyPem */
 	keypair: string;
+	/** ed25519 privateKeyPem */
+	ed25519Key?: string;
 };
 
 export type DeliverJobData = {
