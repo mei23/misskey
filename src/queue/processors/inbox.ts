@@ -80,7 +80,10 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	//#endregion
 
 	// http-signature signerのpublicKeyを元にhttp-signatureを検証
-	const httpSignatureValidated = httpSignature.verifySignature(signature, user.publicKey.publicKeyPem);
+	const mainKey = user.publicKey;
+	const matchedAdditionalPublicKey = user.additionalPublicKeys?.filter(x => x.id === signature.keyId)[0];
+
+	const httpSignatureValidated = httpSignature.verifySignature(signature, (matchedAdditionalPublicKey || mainKey).publicKeyPem);
 
 	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新をトリガしておく (24時間以上古い場合に発動)
 	if (!httpSignatureValidated) {
