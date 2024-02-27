@@ -371,7 +371,7 @@ router.get('/users/:user/publickey', async ctx => {
 	}
 
 	if (isLocalUser(user)) {
-		ctx.body = renderActivity(renderKey(user));
+		ctx.body = renderActivity(renderKey(user, user.keypair));
 		ctx.set('Cache-Control', 'public, max-age=180');
 		setResponseType(ctx);
 	} else {
