@@ -21,7 +21,7 @@ import { createPerson, exportedForTesting } from '../src/remote/activitypub/mode
 import { createNote } from '../src/remote/activitypub/models/note';
 import { tryProcessInbox } from '../src/queue/processors/inbox';
 import { LdSignature } from '../src/remote/activitypub/misc/ld-signature';
-import { genRsaKeyPair, genEcKeyPair } from '../src/misc/gen-key-pair';
+import { genRsaKeyPair, genEcKeyPair } from '../src/misc/keypair';
 
 //#region Mock
 type MockResponse = {

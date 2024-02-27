@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { genRsaKeyPair } from '../src/misc/gen-key-pair';
+import { genRsaKeyPair } from '../src/misc/keypair';
 import { createSignedPost, createSignedGet } from '../src/remote/activitypub/ap-request';
 const httpSignature = require('@peertube/http-signature');
 

@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
 import User from '../models/user';
 import generateNativeUserToken from '../server/api/common/generate-native-user-token';
-import { genRsaKeyPair } from '../misc/gen-key-pair';
+import { genRsaKeyPair } from '../misc/keypair';
 
 export async function createSystemUser(username: string) {
 	const password = uuid();
