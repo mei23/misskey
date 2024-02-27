@@ -58,19 +58,14 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	//#region resolve http-signature signer
 	let user: IRemoteUser | null;
 
-	// keyIdを元にDBから取得
-	user = await dbResolver.getRemoteUserFromKeyId(signature.keyId);
-
-	// || activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
-	if (user == null) {
-		try {
-			user = await resolvePerson(getApId(activity.actor), undefined, resolver, isDelete(activity) || isUndo(activity)) as IRemoteUser;
-		} catch (e) {
-			if (e instanceof StatusError && e.isPermanentError) {
-				return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
-			}
-			throw `Error in actor ${activity.actor} - ${e.statusCode || e}`;
+	// activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
+	try {
+		user = await resolvePerson(getApId(activity.actor), undefined, resolver, isDelete(activity) || isUndo(activity)) as IRemoteUser;
+	} catch (e) {
+		if (e instanceof StatusError && e.isPermanentError) {
+			return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
 		}
+		throw `Error in actor ${activity.actor} - ${e.statusCode || e}`;
 	}
 
 	// http-signature signer がわからなければ終了
