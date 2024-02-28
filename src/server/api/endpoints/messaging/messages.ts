@@ -5,7 +5,7 @@ import { pack } from '../../../../models/messaging-message';
 import read from '../../common/read-messaging-message';
 import define from '../../define';
 import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
+import { GetterError, getUser } from '../../common/getters';
 
 export const meta = {
 	desc: {
@@ -69,7 +69,7 @@ export const meta = {
 export default define(meta, async (ps, user) => {
 	// Fetch recipient
 	const recipient = await getUser(ps.userId).catch(e => {
-		if (e.id === '15348ddd-432d-49c2-8a5a-8069753becff') throw new ApiError(meta.errors.noSuchUser);
+		if (e instanceof GetterError && e.type === 'noSuchUser') throw new ApiError(meta.errors.noSuchUser);
 		throw e;
 	});
 

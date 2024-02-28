@@ -1,6 +1,6 @@
 import * as mongo from 'mongodb';
 import config from '../../config';
-import User, { IUser, IRemoteUser } from '../../models/user';
+import User, { IUser } from '../../models/user';
 import Note, { INote } from '../../models/note';
 import { IObject, getApId } from './type';
 import * as escapeRegexp from 'escape-regexp';
@@ -51,16 +51,6 @@ export default class DbResolver {
 		}
 
 		return null;
-	}
-
-	public async getRemoteUserFromKeyId(keyId: string): Promise<IRemoteUser | null> {
-		const user = await User.findOne({
-			host: { $ne: null },
-			'publicKey.id': keyId,
-			deletedAt: { $exists: false }
-		}) as IRemoteUser;
-
-		return user || null;
 	}
 
 	/**

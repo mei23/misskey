@@ -307,6 +307,11 @@ export default defineComponent({
 			this.$root.api('admin/delete-instance-users', {
 				host: this.instance.host,
 				limit: 1000,
+			}).then(() => {
+				this.$root.dialog({
+					type: 'success',
+					splash: true
+				});
 			}).catch((e: any) => {
 				this.$root.dialog({
 					type: 'error',

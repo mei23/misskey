@@ -1,7 +1,7 @@
 import $ from 'cafy';
 import ID, { transform } from '../../../../misc/cafy-id';
 import User, { pack } from '../../../../models/user';
-import { removePinned } from '../../../../services/i/pin';
+import { PinError, removePinned } from '../../../../services/i/pin';
 import define from '../../define';
 import { ApiError } from '../../error';
 import { publishMainStream } from '../../../../services/stream';
@@ -41,7 +41,9 @@ export const meta = {
 
 export default define(meta, async (ps, user) => {
 	await removePinned(user, ps.noteId).catch(e => {
-		if (e.id === 'b302d4cf-c050-400a-bbb3-be208681f40c') throw new ApiError(meta.errors.noSuchNote);
+		if (e instanceof PinError) {
+			if (e.type === 'noSuchNote') throw new ApiError(meta.errors.noSuchNote);
+		}
 		throw e;
 	});
 

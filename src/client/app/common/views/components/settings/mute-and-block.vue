@@ -68,7 +68,10 @@ export default Vue.extend({
 	computed: {
 		_mutedWords: {
 			get() { return this.$store.state.settings.mutedWords; },
-			set(value) { this.$store.dispatch('settings/set', { key: 'mutedWords', value }); }
+			set(value) {
+				this.$store.dispatch('settings/set', { key: 'mutedWords', value });
+				this.$root.dialog({ type: 'success', splash: true });
+			}
 		},
 	},
 

@@ -6,8 +6,9 @@ import Following from '../../../../models/following';
 import create from '../../../../services/following/create';
 import define from '../../define';
 import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
+import { GetterError, getUser } from '../../common/getters';
 import config from '../../../../config';
+import { FollowingError } from '../../../../services/following/following-error';
 
 export const meta = {
 	stability: 'stable',
@@ -88,7 +89,7 @@ export default define(meta, async (ps, user) => {
 
 	// Get followee
 	const followee = await getUser(ps.userId).catch(e => {
-		if (e.id === '15348ddd-432d-49c2-8a5a-8069753becff') throw new ApiError(meta.errors.noSuchUser);
+		if (e instanceof GetterError && e.type === 'noSuchUser') throw new ApiError(meta.errors.noSuchUser);
 		throw e;
 	});
 
@@ -115,8 +116,11 @@ export default define(meta, async (ps, user) => {
 	try {
 		await create(follower, followee);
 	} catch (e) {
-		if (e.id === '710e8fb0-b8c3-4922-be49-d5d93d8e6a6e') throw new ApiError(meta.errors.blocking);
-		if (e.id === '3338392a-f764-498d-8855-db939dcf8c48') throw new ApiError(meta.errors.blocked);
+		if (e instanceof FollowingError) {
+			if (e.type === 'blocking') throw new ApiError(meta.errors.blocking);
+			if (e.type === 'blocked') throw new ApiError(meta.errors.blocked);
+
+		}
 		throw e;
 	}
 

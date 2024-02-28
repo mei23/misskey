@@ -6,7 +6,7 @@ import Blocking from '../../../../models/blocking';
 import deleteBlocking from '../../../../services/blocking/delete';
 import define from '../../define';
 import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
+import { GetterError, getUser } from '../../common/getters';
 
 export const meta = {
 	stability: 'stable',
@@ -79,7 +79,7 @@ export default define(meta, async (ps, user) => {
 
 	// Get blockee
 	const blockee = await getUser(ps.userId).catch(e => {
-		if (e.id === '15348ddd-432d-49c2-8a5a-8069753becff') {
+		if (e instanceof GetterError && e.type === 'noSuchUser') {
 			return null;
 		}
 		throw e;

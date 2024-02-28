@@ -4,7 +4,8 @@ import cancelFollowRequest from '../../../../../services/following/requests/canc
 import { pack } from '../../../../../models/user';
 import define from '../../../define';
 import { ApiError } from '../../../error';
-import { getUser } from '../../../common/getters';
+import { GetterError, getUser } from '../../../common/getters';
+import { FollowingError } from '../../../../../services/following/following-error';
 
 export const meta = {
 	desc: {
@@ -47,14 +48,16 @@ export const meta = {
 export default define(meta, async (ps, user) => {
 	// Fetch followee
 	const followee = await getUser(ps.userId).catch(e => {
-		if (e.id === '15348ddd-432d-49c2-8a5a-8069753becff') throw new ApiError(meta.errors.noSuchUser);
+		if (e instanceof GetterError && e.type === 'noSuchUser') throw new ApiError(meta.errors.noSuchUser);
 		throw e;
 	});
 
 	try {
 		await cancelFollowRequest(followee, user);
 	} catch (e) {
-		if (e.id === '17447091-ce07-46dd-b331-c1fd4f15b1e7') throw new ApiError(meta.errors.followRequestNotFound);
+		if (e instanceof FollowingError) {
+			if (e.type === 'followRequestNotFound') throw new ApiError(meta.errors.followRequestNotFound);
+		}
 		throw e;
 	}
 
