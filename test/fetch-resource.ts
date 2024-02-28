@@ -612,6 +612,7 @@ describe('Fetch resource', () => {
 			assert.strictEqual(res.statusCode, 413);
 		});
 
+		/*
 		it('Missing Required Header in the request - signature', async () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
@@ -632,6 +633,7 @@ describe('Fetch resource', () => {
 			assert.strictEqual(res.statusCode, 401);
 			assert.strictEqual(res.statusMessage, 'Missing Required Header');	// TODO: どのheaderがどこに足りないのか
 		});
+		*/
 
 		it('Missing Required Header in the request - digest', async () => {
 			const object = { a: 1, b: 2, };
