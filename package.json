@@ -110,7 +110,7 @@
 		"multer": "1.4.5-lts.1",
 		"neologd-normalizer": "0.0.3",
 		"nested-property": "4.0.0",
-		"node-http-message-signatures": "misskey-dev/node-http-message-signatures#ce596e052a7f351e4573838781c94ba5c00b397d",
+		"node-http-message-signatures": "misskey-dev/node-http-message-signatures#2080095ec8441a6a97c6ef2025a7ebc6a8c02448",
 		"nodemailer": "6.9.9",
 		"nprogress": "0.2.0",
 		"oauth": "0.10.0",
