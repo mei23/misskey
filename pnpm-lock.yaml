@@ -254,6 +254,9 @@ dependencies:
   nested-property:
     specifier: 4.0.0
     version: 4.0.0
+  node-http-message-signatures:
+    specifier: misskey-dev/node-http-message-signatures#155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7
+    version: github.com/misskey-dev/node-http-message-signatures/155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7
   nodemailer:
     specifier: 6.9.9
     version: 6.9.9
@@ -11916,4 +11919,10 @@ packages:
       jschardet: 3.0.0
       private-ip: 2.3.4
       typescript: 5.3.3
+    dev: false
+
+  github.com/misskey-dev/node-http-message-signatures/155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7:
+    resolution: {tarball: https://codeload.github.com/misskey-dev/node-http-message-signatures/tar.gz/155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7}
+    name: '@misskey-dev/node-http-message-signatures'
+    version: 0.0.0-alpha.0
     dev: false

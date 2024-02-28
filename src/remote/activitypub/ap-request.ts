@@ -4,6 +4,7 @@
  */
 
 import * as crypto from 'crypto';
+import { signAsDraftToRequest } from 'node-http-message-signatures';
 
 type Request = {
 	url: string;
@@ -31,7 +32,7 @@ export function createSignedPost(args: { key: PrivateKey, url: string, body: str
 		}, args.additionalHeaders),
 	};
 
-	const result = signToRequest(request, args.key, ['(request-target)', 'date', 'host', 'digest']);
+	const result = signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'digest']);
 
 	return {
 		request,
@@ -58,7 +59,7 @@ export function createSignedGet(args: { key: PrivateKey, url: string, additional
 		}, args.additionalHeaders),
 	};
 
-	const result = signToRequest(request, args.key, ['(request-target)', 'date', 'host', 'accept']);
+	const result = signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'accept']);
 
 	return {
 		request,
@@ -68,6 +69,7 @@ export function createSignedGet(args: { key: PrivateKey, url: string, additional
 	};
 }
 
+/* use devs one
 function signToRequest(request: Request, key: PrivateKey, includeHeaders: string[]) {
 	const signingString = genSigningString(request, includeHeaders);
 	const signature = crypto.sign('sha256', Buffer.from(signingString), key.privateKeyPem).toString('base64');
@@ -100,6 +102,7 @@ function genSigningString(request: Request, includeHeaders: string[]) {
 
 	return results.join('\n');
 }
+*/
 
 function lcObjectKey(src: Record<string, string>) {
 	const dst: Record<string, string> = {};
