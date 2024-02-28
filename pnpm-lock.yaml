@@ -255,8 +255,8 @@ dependencies:
     specifier: 4.0.0
     version: 4.0.0
   node-http-message-signatures:
-    specifier: misskey-dev/node-http-message-signatures#155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7
-    version: github.com/misskey-dev/node-http-message-signatures/155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7
+    specifier: misskey-dev/node-http-message-signatures#ce596e052a7f351e4573838781c94ba5c00b397d
+    version: github.com/misskey-dev/node-http-message-signatures/ce596e052a7f351e4573838781c94ba5c00b397d
   nodemailer:
     specifier: 6.9.9
     version: 6.9.9
@@ -11921,8 +11921,8 @@ packages:
       typescript: 5.3.3
     dev: false
 
-  github.com/misskey-dev/node-http-message-signatures/155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7:
-    resolution: {tarball: https://codeload.github.com/misskey-dev/node-http-message-signatures/tar.gz/155ed4d46c9e1b1755cf211d3bd4f9ac5105cbe7}
+  github.com/misskey-dev/node-http-message-signatures/ce596e052a7f351e4573838781c94ba5c00b397d:
+    resolution: {tarball: https://codeload.github.com/misskey-dev/node-http-message-signatures/tar.gz/ce596e052a7f351e4573838781c94ba5c00b397d}
     name: '@misskey-dev/node-http-message-signatures'
     version: 0.0.0-alpha.0
     dev: false
