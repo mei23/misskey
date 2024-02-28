@@ -3,7 +3,7 @@ import ID, { transform } from '../../../../misc/cafy-id';
 import Mute from '../../../../models/mute';
 import define from '../../define';
 import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
+import { GetterError, getUser } from '../../common/getters';
 import { publishMutingChanged } from '../../../../services/server-event';
 import { createExpireMuteJob } from '../../../../queue';
 
@@ -71,7 +71,7 @@ export default define(meta, async (ps, user) => {
 
 	// Get mutee
 	const mutee = await getUser(ps.userId).catch(e => {
-		if (e.id === '15348ddd-432d-49c2-8a5a-8069753becff') throw new ApiError(meta.errors.noSuchUser);
+		if (e instanceof GetterError && e.type === 'noSuchUser') throw new ApiError(meta.errors.noSuchUser);
 		throw e;
 	});
 
