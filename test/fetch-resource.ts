@@ -626,6 +626,7 @@ describe('Fetch resource', () => {
 			});
 
 			delete req.request.headers.signature;	// ★署名されてない
+			delete req.request.headers.Signature;	// ★署名されてない
 
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
