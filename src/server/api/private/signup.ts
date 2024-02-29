@@ -8,7 +8,7 @@ import RegistrationTicket, { IRegistrationTicket } from '../../../models/registr
 import usersChart from '../../../services/chart/users';
 import fetchMeta from '../../../misc/fetch-meta';
 import { verifyRecaptcha } from '../../../misc/captcha';
-import { genEd25519KeyPair, genRsaKeyPair } from '../../../misc/keypair';
+import { genEd25519KeyPair, genRsaKeyPair } from 'node-http-message-signatures';
 
 export default async (ctx: Router.RouterContext) => {
 	const body = ctx.request.body;
