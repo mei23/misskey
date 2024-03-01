@@ -28,9 +28,11 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 		return 'skip (closed)';
 	}
 
+	// TODO: cache
+	const _instance = await registerOrFetchInstanceDoc(host);
 
 	try {
-		const res = await request(job.data.user, job.data.to, job.data.content, job.data.digest);
+		const res = await request(job.data.user, job.data.to, job.data.content, _instance.httpMessageSignaturesImplementationLevel);
 
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {

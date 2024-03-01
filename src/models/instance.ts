@@ -91,6 +91,8 @@ export interface IInstance {
 	 */
 	isMarkedAsClosed: boolean;
 
+	httpMessageSignaturesImplementationLevel?: string;
+
 	infoUpdatedAt?: Date;
 	softwareName?: string;
 	softwareVersion?: string;

@@ -39,6 +39,7 @@ type Nodeinfo = {
 		upstream?: {
 			name?: string;
 		};
+		httpMessageSignaturesImplementationLevel?: string;
 	};
 };
 
@@ -50,14 +51,12 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 		if (!_instance.infoUpdatedAt) return true;
 
 		const now = Date.now();
-		if (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 24) return true; 
-
-		if (request?.ip && !_instance.isp && (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 1)) return true;
+		if (now - _instance.infoUpdatedAt.getTime() > 1000 * 60 * 60 * 3) return true; 
 
 		return false;
 	};
 
-	if (!updateNeeded()) return;
+	//if (!updateNeeded()) return; TODO: 戻す
 
 	await Instance.update({ _id: instance._id }, {
 		$set: {
@@ -80,6 +79,7 @@ export async function UpdateInstanceinfo(instance: IInstance, request?: InboxReq
 		maintainerEmail: info.maintainerEmail,
 		activeHalfyear: info.activeHalfyear,
 		activeMonth: info.activeMonth,
+		httpMessageSignaturesImplementationLevel: info.httpMessageSignaturesImplementationLevel,
 	} as IInstance;
 
 	if (info.notesCount) set.notesCount = info.notesCount;
@@ -174,6 +174,7 @@ export async function fetchInstanceinfo(host: string) {
 		activeMonth: expectNumber(info?.usage?.users?.activeMonth),
 		usersCount: expectNumber(info?.usage?.users.total),
 		notesCount: expectNumber(info?.usage?.localPosts),
+		httpMessageSignaturesImplementationLevel: info?.metadata?.httpMessageSignaturesImplementationLevel || '00',
 	};
 }
 
