@@ -1,5 +1,5 @@
 import * as Bull from 'bull';
-import * as httpSignature from '@peertube/http-signature';
+import { verifyDraftSignature } from '@misskey-dev/node-http-message-signatures';
 import { IRemoteUser } from '../../models/user';
 import perform from '../../remote/activitypub/perform';
 import { resolvePerson } from '../../remote/activitypub/models/person';
@@ -36,7 +36,7 @@ type ApContext = {
 };
 
 export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Promise<string> => {
-	const signature = data.signature;
+	const signature = 'version' in data.signature ? data.signature.value : data.signature;
 	const activity = data.activity;
 
 	const resolver = ctx?.resolver || new Resolver();
@@ -81,8 +81,11 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	// http-signature signerのpublicKeyを元にhttp-signatureを検証
 	const mainKey = user.publicKey;
 	const matchedAdditionalPublicKey = user.additionalPublicKeys?.filter(x => x.id === signature.keyId)[0];
+	
+	const errorLogger = (ms: any) => logger.error(ms);
 
-	const httpSignatureValidated = httpSignature.verifySignature(signature, (matchedAdditionalPublicKey || mainKey).publicKeyPem);
+	const httpSignatureValidated = verifyDraftSignature(signature, (matchedAdditionalPublicKey || mainKey).publicKeyPem, errorLogger);
+
 
 	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新をトリガしておく (24時間以上古い場合に発動)
 	if (!httpSignatureValidated) {

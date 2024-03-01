@@ -4,7 +4,7 @@ import { deliver } from '../../queue';
 import { InboxInfo } from '../../queue/types';
 import { isBlockedHost, isClosedHost, isSelfSilencedHost } from '../../services/instance-moderation';
 import { publicToHome } from '../../queue/processors/deliver';
-import { genEd25519KeyPair } from 'node-http-message-signatures';
+import { genEd25519KeyPair } from '@misskey-dev/node-http-message-signatures';
 
 //#region types
 interface IRecipe {

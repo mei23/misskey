@@ -3,14 +3,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { genRFC3230DigestHeader, RequestLike, signAsDraftToRequest } from '@misskey-dev/node-http-message-signatures';
 import * as crypto from 'crypto';
-import { signAsDraftToRequest } from 'node-http-message-signatures';
-
-type Request = {
-	url: string;
-	method: string;
-	headers: Record<string, string>;
-};
 
 type PrivateKey = {
 	privateKeyPem: string;
@@ -19,26 +13,26 @@ type PrivateKey = {
 
 export function createSignedPost(args: { key: PrivateKey, url: string, body: string, digest?: string, additionalHeaders: Record<string, string> }) {
 	const u = new URL(args.url);
-	const digestHeader = args.digest ?? createDigest(args.body);
 
-	const request: Request = {
+	const request: RequestLike = {
 		url: u.href,
 		method: 'POST',
 		headers:  objectAssignWithLcKey({
 			'Date': new Date().toUTCString(),
 			'Host': u.hostname,
 			'Content-Type': 'application/activity+json',
-			'Digest': digestHeader,
 		}, args.additionalHeaders),
 	};
+
+	// TODO: levelによって処理を分ける
+	const digestHeader = genRFC3230DigestHeader(args.body);
+	request.headers['Digest'] = digestHeader;
 
 	const result = signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'digest']);
 
 	return {
 		request,
-		signingString: result.signingString,
-		signature: result.signature,
-		signatureHeader: result.signatureHeader,
+		...result,
 	};
 }
 
@@ -49,7 +43,7 @@ export function createDigest(body: string) {
 export function createSignedGet(args: { key: PrivateKey, url: string, additionalHeaders: Record<string, string> }) {
 	const u = new URL(args.url);
 
-	const request: Request = {
+	const request: RequestLike = {
 		url: u.href,
 		method: 'GET',
 		headers:  objectAssignWithLcKey({
@@ -59,13 +53,12 @@ export function createSignedGet(args: { key: PrivateKey, url: string, additional
 		}, args.additionalHeaders),
 	};
 
+	// TODO: levelによって処理を分ける
 	const result = signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'accept']);
 
 	return {
 		request,
-		signingString: result.signingString,
-		signature: result.signature,
-		signatureHeader: result.signatureHeader,
+		...result,
 	};
 }
 

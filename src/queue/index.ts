@@ -1,4 +1,4 @@
-import * as httpSignature from '@peertube/http-signature';
+import { ParsedSignature } from '@misskey-dev/node-http-message-signatures';
 import config from '../config';
 import { InboxInfo, InboxRequestData, WebpushDeliverJobData } from './types';
 import { deliverQueue, webpushDeliverQueue, inboxQueue, inboxLazyQueue, dbQueue } from './queues';
@@ -162,7 +162,7 @@ export function webpushDeliver(data: WebpushDeliverJobData) {
  * @param activity Activity
  * @param signature Signature
  */
-export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature, request: InboxRequestData) {
+export function inbox(activity: IActivity, signature: ParsedSignature, request: InboxRequestData) {
 	const data = {
 		activity,
 		signature,
@@ -180,7 +180,7 @@ export function inbox(activity: IActivity, signature: httpSignature.IParsedSigna
 	});
 }
 
-export function inboxLazy(activity: IActivity, signature: httpSignature.IParsedSignature, request: InboxRequestData) {
+export function inboxLazy(activity: IActivity, signature: ParsedSignature, request: InboxRequestData) {
 	const data = {
 		activity,
 		signature,

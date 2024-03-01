@@ -17,7 +17,7 @@ import * as openapi from '@redocly/openapi-core';
 import rndstr from 'rndstr';
 import { randomUUID } from 'crypto';
 import { createSignedPost } from '../src/remote/activitypub/ap-request';
-import { genRsaKeyPair } from 'node-http-message-signatures';
+import { genRsaKeyPair } from '@misskey-dev/node-http-message-signatures';
 import { StatusError, getResponse } from '../src/misc/fetch';
 import * as crypto from 'crypto';
 

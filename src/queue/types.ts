@@ -1,6 +1,19 @@
-import * as httpSignature from '@peertube/http-signature';
+import { ParsedSignature } from '@misskey-dev/node-http-message-signatures';
 import { IActivity } from '../remote/activitypub/type';
 import * as webpush from 'web-push';
+
+export interface OldParsedSignature {
+	scheme: 'Signature';
+	params: {
+		keyId: string;
+		algorithm: string;
+		headers: string[];
+		signature: string;
+	};
+	signingString: string;
+	algorithm: string;
+	keyId: string;
+};
 
 export type ThinUser = {
 	_id: string;
@@ -43,7 +56,7 @@ export type InboxInfo = {
 
 export type InboxJobData = {
 	activity: IActivity;
-	signature: httpSignature.IParsedSignature;
+	signature: ParsedSignature | OldParsedSignature;
 	request?: InboxRequestData;
 };
 
