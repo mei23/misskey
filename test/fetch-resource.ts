@@ -631,7 +631,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Missing Required Header');	// TODO: どのheaderがどこに足りないのか
+			assert.strictEqual(res.statusMessage, 'Unauthorized');
 		});
 
 		it('Missing Required Header in the request - digest', async () => {
@@ -648,11 +648,12 @@ describe('Fetch resource', () => {
 			});
 
 			delete req.request.headers.digest;	// ★署名されているがrequestにDigestヘッダーがない
+			delete req.request.headers.Digest;	// ★署名されているがrequestにDigestヘッダーがない
 
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Missing Required Header');	// TODO: どのheaderがどこに足りないのか
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');	// TODO: どのheaderがどこに足りないのか
 		});
 
 		it('Expired Request Error', async () => {
@@ -672,7 +673,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Expired Request Error');
+			assert.strictEqual(res.statusMessage, 'Unauthorized');
 		});
 
 		// TODO: signatureの方に必須ヘッダーがないパターン
@@ -695,7 +696,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Invalid Digest Header');
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');
 		});
 
 		it('Unsupported Digest Algorithm', async () => {
@@ -716,7 +717,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Unsupported Digest Algorithm');
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');
 		});
 
 		it('Digest Missmath', async () => {
@@ -737,7 +738,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Digest Missmatch');
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');
 		});
 	});
 });

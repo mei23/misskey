@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
 import * as Router from '@koa/router';
 import * as coBody from 'co-body';
-import { verifyDigestHeader, parseRequestSignature, ParsedSignature } from '@misskey-dev/node-http-message-signatures';
+import { verifyDigestHeader, parseRequestSignature, ParsedSignature, DraftSignatureHeaderContentLackedError, ClockSkewInvalidError } from '@misskey-dev/node-http-message-signatures';
 import { renderActivity } from '../remote/activitypub/renderer';
 import Note, { INote } from '../models/note';
 import User, { isLocalUser, ILocalUser, IUser, isRemoteUser } from '../models/user';
@@ -59,18 +59,17 @@ async function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
-	let signature: ParsedSignature | null;
+	let signature: ReturnType<typeof parseRequestSignature>;
 
 	try {
-		signature = parseRequestSignature(ctx.req);
-	} catch (e) {
-		logger.warn(`inbox: signature parse error: ${inspect(e)}`);
-		ctx.status = 401;
-		return;
-	}
-
-	if (!signature) {	// TODO: parseRequestSignatureが例外にしてほしい
-		logger.warn(`inbox: no signature`);
+		signature = parseRequestSignature(ctx.req, {
+			requiredInputs: {
+				draft: ['(request-target)', 'digest', 'host', 'date'],
+				rfc9421: ['(request-target)', 'digest', 'host', 'date'],
+			}
+		});
+	} catch (e: any) {
+		logger.warn(`inbox: ${e.message}`);
 		ctx.status = 401;
 		return;
 	}
