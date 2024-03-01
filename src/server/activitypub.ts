@@ -74,12 +74,6 @@ async function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
-	if (!signature?.value.params.headers.includes('host')) {	// TODO: parseRequestSignatureで必須ヘッダーチェックしてほしい
-		logger.warn(`inbox: host not signed`);
-		ctx.status = 401;
-		return;
-	}
-
 	// Digestヘッダーの検証
 	if (!verifyDigestHeader(ctx.req, raw, true)) {
 		logger.warn(`inbox: invalid Digest`);
