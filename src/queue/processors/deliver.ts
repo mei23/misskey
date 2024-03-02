@@ -10,6 +10,7 @@ import { DeliverJobData, ThinUser } from '../types';
 import { publishInstanceModUpdated } from '../../services/server-event';
 import { StatusError } from '../../misc/fetch';
 import config from '../../config';
+import { getHttpMessageSignaturesImplementationLevel } from '../../services/instance-info';
 
 const logger = new Logger('deliver');
 
@@ -28,11 +29,10 @@ export default async (job: Bull.Job<DeliverJobData>) => {
 		return 'skip (closed)';
 	}
 
-	// TODO: cache
-	const _instance = await registerOrFetchInstanceDoc(host);
+	const httpMessageSignaturesImplementationLevel = await getHttpMessageSignaturesImplementationLevel(host);
 
 	try {
-		const res = await request(job.data.user, job.data.to, job.data.content, _instance.httpMessageSignaturesImplementationLevel);
+		const res = await request(job.data.user, job.data.to, job.data.content, httpMessageSignaturesImplementationLevel);
 
 		// Update stats
 		registerOrFetchInstanceDoc(host).then(i => {

@@ -6,7 +6,7 @@ import { apGet } from './request';
 import config from '../../config';
 import { extractApHost } from '../../misc/convert-host';
 import { isBlockedHost } from '../../services/instance-moderation';
-import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-instance-doc';
+import { getHttpMessageSignaturesImplementationLevel } from '../../services/instance-info';
 
 export default class Resolver {
 	private history: Set<string>;
@@ -67,10 +67,9 @@ export default class Resolver {
 			this.user = await getInstanceActor();
 		}
 
-		// TODO: cache
-		const instance = await registerOrFetchInstanceDoc(host);
+		const httpMessageSignaturesImplementationLevel = await getHttpMessageSignaturesImplementationLevel(host);
 
-		const object = await apGet(value, this.user, instance.httpMessageSignaturesImplementationLevel);
+		const object = await apGet(value, this.user, httpMessageSignaturesImplementationLevel);
 
 		if (object === null || (
 			Array.isArray(object['@context']) ?
