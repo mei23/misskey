@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
 import * as Router from '@koa/router';
 import * as coBody from 'co-body';
-import { verifyDigestHeader, parseRequestSignature, ParsedSignature, DraftSignatureHeaderContentLackedError, ClockSkewInvalidError } from '@misskey-dev/node-http-message-signatures';
+import { verifyDigestHeader, parseRequestSignature } from '@misskey-dev/node-http-message-signatures';
 import { renderActivity } from '../remote/activitypub/renderer';
 import Note, { INote } from '../models/note';
 import User, { isLocalUser, ILocalUser, IUser, isRemoteUser } from '../models/user';
@@ -19,7 +19,6 @@ import { inbox as processInbox, inboxLazy as processInboxLazy } from '../queue';
 import { isSelfHost } from '../misc/convert-host';
 import NoteReaction from '../models/note-reaction';
 import { renderLike } from '../remote/activitypub/renderer/like';
-import { inspect } from 'util';
 import config from '../config';
 import fetchMeta from '../misc/fetch-meta';
 import { isBlockedHost } from '../services/instance-moderation';
@@ -61,24 +60,24 @@ async function inbox(ctx: Router.RouterContext) {
 
 	let signature: ReturnType<typeof parseRequestSignature>;
 
-	try {
-		signature = parseRequestSignature(ctx.req, {
-			requiredInputs: {
-				draft: ['(request-target)', 'digest', 'host', 'date'],
-				rfc9421: ['(request-target)', 'digest', 'host', 'date'],
-			}
-		});
-	} catch (e: any) {
-		logger.warn(`inbox: ${e.message}`);
-		ctx.status = 401;
-		return;
-	}
-
 	// Digestヘッダーの検証
 	if (!verifyDigestHeader(ctx.req, raw, true)) {
 		logger.warn(`inbox: invalid Digest`);
 		ctx.status = 401;
 		ctx.message = 'Invalid Digest';
+		return;
+	}
+
+	try {
+		signature = parseRequestSignature(ctx.req, {
+			requiredInputs: {
+				draft: ['(request-target)', 'digest', 'host', 'date'],
+				// rfc9421: ['(request-target)', 'digest', 'host', 'date'], TODO
+			}
+		});
+	} catch (e: any) {
+		logger.warn(`inbox: ${e.message}`);
+		ctx.status = 401;
 		return;
 	}
 
