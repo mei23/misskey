@@ -61,7 +61,7 @@ async function inbox(ctx: Router.RouterContext) {
 	let signature: ReturnType<typeof parseRequestSignature>;
 
 	// Digestヘッダーの検証
-	if (!verifyDigestHeader(ctx.req, raw, true)) {
+	if (await verifyDigestHeader(ctx.req, raw, true) !== true) {
 		logger.warn(`inbox: invalid Digest`);
 		ctx.status = 401;
 		ctx.message = 'Invalid Digest';

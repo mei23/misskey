@@ -11,7 +11,7 @@ type PrivateKey = {
 	keyId: string;
 };
 
-export function createSignedPost(args: { key: PrivateKey, url: string, body: string, digest?: string, additionalHeaders: Record<string, string> }) {
+export async function createSignedPost(args: { key: PrivateKey, url: string, body: string, digest?: string, additionalHeaders: Record<string, string> }) {
 	const u = new URL(args.url);
 
 	const request: RequestLike = {
@@ -25,10 +25,10 @@ export function createSignedPost(args: { key: PrivateKey, url: string, body: str
 	};
 
 	// TODO: levelによって処理を分ける
-	const digestHeader = genRFC3230DigestHeader(args.body);
+	const digestHeader = await genRFC3230DigestHeader(args.body, 'SHA-256');
 	request.headers['Digest'] = digestHeader;
 
-	const result = signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'digest']);
+	const result = await signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'digest']);
 
 	return {
 		request,
@@ -40,7 +40,7 @@ export function createDigest(body: string) {
 	return `SHA-256=${crypto.createHash('sha256').update(body).digest('base64')}`;
 }
 
-export function createSignedGet(args: { key: PrivateKey, url: string, additionalHeaders: Record<string, string> }) {
+export async function createSignedGet(args: { key: PrivateKey, url: string, additionalHeaders: Record<string, string> }) {
 	const u = new URL(args.url);
 
 	const request: RequestLike = {
@@ -54,7 +54,7 @@ export function createSignedGet(args: { key: PrivateKey, url: string, additional
 	};
 
 	// TODO: levelによって処理を分ける
-	const result = signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'accept']);
+	const result = await signAsDraftToRequest(request, args.key, ['(request-target)', 'date', 'host', 'accept']);
 
 	return {
 		request,

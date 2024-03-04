@@ -45,8 +45,8 @@ dependencies:
     specifier: 8.0.8
     version: 8.0.8
   '@misskey-dev/node-http-message-signatures':
-    specifier: 0.0.0-alpha.10
-    version: 0.0.0-alpha.10
+    specifier: 0.0.1
+    version: 0.0.1
   '@prezzemolo/rap':
     specifier: 0.1.2
     version: 0.1.2
@@ -1548,8 +1548,14 @@ packages:
       - supports-color
     dev: false
 
-  /@misskey-dev/node-http-message-signatures@0.0.0-alpha.10:
-    resolution: {integrity: sha512-4weLJVBm06bx4fLJHL9YtKXQ8ofKSNDI4UAaoI0JkzbbU8pyJHK4LFGfERrpUX9C+WsvSwVFZAgAzOxFwJ7z2w==}
+  /@lapo/asn1js@1.2.4:
+    resolution: {integrity: sha512-mdInpQZaYUWu5QbKIB2+Vd+j6Y7cc6xQYNwYBPC9jri2rwy3tbxom0IhhT4G5WOKWO7Iht10SxYpKq+AfuH6dw==}
+    dev: false
+
+  /@misskey-dev/node-http-message-signatures@0.0.1:
+    resolution: {integrity: sha512-BaMYEOSBwBtDW0NJcljE4S39gFpgNigVzbVFlVsKzu4+k7snL72mXEaAoMCHWCw7XmdY3+fKADbQoqc4SFrpLw==}
+    dependencies:
+      '@lapo/asn1js': 1.2.4
     dev: false
 
   /@msgpackr-extract/msgpackr-extract-darwin-arm64@2.2.0:

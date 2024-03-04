@@ -1,4 +1,4 @@
-FROM node:18.19.1-bullseye AS builder
+FROM node:20.11.1-bookworm AS builder
 
 ENV NODE_ENV=production
 WORKDIR /misskey
@@ -16,7 +16,7 @@ COPY . ./
 
 RUN pnpm build
 
-FROM node:18.19.1-bullseye-slim AS runner
+FROM node:20.11.1-bookworm-slim AS runner
 
 WORKDIR /misskey
 

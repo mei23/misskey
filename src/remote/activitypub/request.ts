@@ -10,7 +10,7 @@ export default async (user: ThinUserWithKey, url: string, object: any, httpMessa
 
 	const key = getPrivateKey(user, httpMessageSignaturesImplementationLevel);
 
-	const req = createSignedPost({
+	const req = await createSignedPost({
 		key,
 		url,
 		body,
@@ -44,7 +44,7 @@ export async function apGet(url: string, user?: ILocalUser, httpMessageSignature
 	if (user) {
 		const key = getPrivateKey(user, httpMessageSignaturesImplementationLevel);
 
-		const req = createSignedGet({
+		const req = await createSignedGet({
 			key,
 			url,
 			additionalHeaders: {

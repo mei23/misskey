@@ -84,11 +84,11 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	
 	const errorLogger = (ms: any) => logger.error(ms);
 
-	const httpSignatureValidated = verifyDraftSignature(signature, (matchedAdditionalPublicKey || mainKey).publicKeyPem, errorLogger);
+	const httpSignatureValidated = await verifyDraftSignature(signature, (matchedAdditionalPublicKey || mainKey).publicKeyPem, errorLogger);
 
 
 	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新をトリガしておく (24時間以上古い場合に発動)
-	if (!httpSignatureValidated) {
+	if (httpSignatureValidated !== true) {
 		resolveUser(user.username, user.host);
 	}
 

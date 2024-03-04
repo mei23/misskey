@@ -561,7 +561,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -579,7 +579,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -598,7 +598,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 'x'.repeat(70000), };	// ★でかすぎ
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -616,7 +616,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -638,7 +638,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -660,7 +660,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -682,7 +682,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -703,7 +703,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -724,7 +724,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
