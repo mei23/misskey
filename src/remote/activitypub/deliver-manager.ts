@@ -5,6 +5,9 @@ import { InboxInfo } from '../../queue/types';
 import { isBlockedHost, isClosedHost, isSelfSilencedHost } from '../../services/instance-moderation';
 import { publicToHome } from '../../queue/processors/deliver';
 import { genEd25519KeyPair } from '@misskey-dev/node-http-message-signatures';
+import { renderActivity } from './renderer';
+import renderPerson from '../../remote/activitypub/renderer/person';
+import renderUpdate from '../../remote/activitypub/renderer/update';
 
 //#region types
 interface IRecipe {
@@ -182,5 +185,12 @@ async function prepareEd25519Key(actor: ILocalUser) {
 			ed25519Key: ed25519KeyPair.privateKey,
 		}
 	});
+
+	// Update.Person
+	const fresh = await User.findOne({ _id: actor._id });
+	if (fresh == null) return;
+	if (isLocalUser(fresh) !== true) return;
+	const content = renderActivity(renderUpdate(await renderPerson(fresh), fresh));
+	deliverToFollowers(fresh, content);
 }
 //#endregion
