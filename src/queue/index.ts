@@ -15,7 +15,6 @@ import { IMute } from '../models/mute';
 import { IActivity } from '../remote/activitypub/type';
 import queueChart from '../services/chart/queue';
 import { cpus } from 'os';
-import { createDigest } from '../remote/activitypub/ap-request';
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const webpushDeliverLogger = queueLogger.createSubLogger('webpushDeliver');
@@ -129,7 +128,6 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
 			ed25519Key: user.ed25519Key,
 		},
 		content: contentBody,
-		digest: createDigest(contentBody),
 		to,
 		inboxInfo
 	};

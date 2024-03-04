@@ -4,7 +4,6 @@
  */
 
 import { genRFC3230DigestHeader, RequestLike, signAsDraftToRequest } from '@misskey-dev/node-http-message-signatures';
-import * as crypto from 'crypto';
 
 type PrivateKey = {
 	privateKeyPem: string;
@@ -34,10 +33,6 @@ export async function createSignedPost(args: { key: PrivateKey, url: string, bod
 		request,
 		...result,
 	};
-}
-
-export function createDigest(body: string) {
-	return `SHA-256=${crypto.createHash('sha256').update(body).digest('base64')}`;
 }
 
 export async function createSignedGet(args: { key: PrivateKey, url: string, additionalHeaders: Record<string, string> }) {
