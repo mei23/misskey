@@ -151,16 +151,21 @@ export async function fetchInstanceinfo(host: string) {
 	let maintainerName = info?.metadata?.maintainer?.name || null;
 	let maintainerEmail = info?.metadata?.maintainer?.email || null;
 
+	let httpMessageSignaturesImplementationLevel = info?.metadata?.httpMessageSignaturesImplementationLevel;
+	if (httpMessageSignaturesImplementationLevel !== '01' && httpMessageSignaturesImplementationLevel !== '11') httpMessageSignaturesImplementationLevel = '00';
+
 	// fetch Mastodon API
-	if (info?.software.name === 'mastodon' || info?.metadata?.upstream?.name === 'mastodon') {
-		const mastodon = await fetchMastodonInstance(toApHost(host)!).catch(() => {});
-		if (mastodon) {
-			name = mastodon.title;
-			description = mastodon.description;
-			maintainerEmail = mastodon.email;
-			maintainerName = mastodon.contact_account?.acct ? `acct:${mastodon.contact_account?.acct}` : null;
+	try {
+		if (info?.software.name === 'mastodon' || info?.metadata?.upstream?.name === 'mastodon') {
+			const mastodon = await fetchMastodonInstance(toApHost(host)!).catch(() => {});
+			if (mastodon) {
+				name = mastodon.title;
+				description = mastodon.description;
+				maintainerEmail = mastodon.email;
+				maintainerName = mastodon.contact_account?.acct ? `acct:${mastodon.contact_account?.acct}` : null;
+			}
 		}
-	}
+	} catch {}
 
 	return {
 		softwareName: info?.software?.name,
@@ -170,11 +175,11 @@ export async function fetchInstanceinfo(host: string) {
 		description,
 		maintainerName,
 		maintainerEmail,
+		httpMessageSignaturesImplementationLevel,
 		activeHalfyear: expectNumber(info?.usage?.users?.activeHalfyear),
 		activeMonth: expectNumber(info?.usage?.users?.activeMonth),
 		usersCount: expectNumber(info?.usage?.users.total),
 		notesCount: expectNumber(info?.usage?.localPosts),
-		httpMessageSignaturesImplementationLevel: info?.metadata?.httpMessageSignaturesImplementationLevel || '00',
 	};
 }
 
