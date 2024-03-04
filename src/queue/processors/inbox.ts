@@ -79,17 +79,18 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	//#endregion
 
 	// http-signature signerのpublicKeyを元にhttp-signatureを検証
-	const mainKey = user.publicKey;
-	const matchedAdditionalPublicKey = user.additionalPublicKeys?.filter(x => x.id === signature.keyId)[0];
+	const matchedPublicKey = [user.publicKey, ...(user.additionalPublicKeys || [])].filter(x => x.id === signature.keyId)[0];
 	
 	const errorLogger = (ms: any) => logger.error(ms);
 
-	const httpSignatureValidated = await verifyDraftSignature(signature, (matchedAdditionalPublicKey || mainKey).publicKeyPem, errorLogger);
+	const httpSignatureValidated = await verifyDraftSignature(signature, (matchedPublicKey ?? user.publicKey).publicKeyPem, errorLogger);
 
-
-	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新をトリガしておく (24時間以上古い場合に発動)
+	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新を期間を短めにしてトリガしてお。次回リトライする
 	if (httpSignatureValidated !== true) {
-		resolveUser(user.username, user.host);
+		if (user.lastFetchedAt == null || Date.now() - user.lastFetchedAt.getTime() > 1000 * 60 * 5) {
+			resolveUser(user.username, user.host, {}, true);
+		}
+		throw new Error(`HTTP-Signature validation failed. keyId=${signature.keyId}, matchedPublicKey=${matchedPublicKey.id}`);
 	}
 
 	// また、http-signatureのsignerは、activity.actorと一致する必要がある
