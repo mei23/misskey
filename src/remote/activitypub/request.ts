@@ -1,14 +1,14 @@
 import config from '../../config';
 import { getResponse } from '../../misc/fetch';
 import { createSignedPost, createSignedGet } from './ap-request';
-import { ILocalUser } from '../../models/user';
-import { ThinUserWithKey } from '../../queue/types';
+import User, { ILocalUser, isLocalUser } from '../../models/user';
+import { ThinUser } from '../../queue/types';
 import type { Response } from 'got';
 
-export default async (user: ThinUserWithKey, url: string, object: any, httpMessageSignaturesImplementationLevel?: string) => {
+export default async (user: ThinUser, url: string, object: any, httpMessageSignaturesImplementationLevel?: string) => {
 	const body = typeof object === 'string' ? object : JSON.stringify(object);
 
-	const key = getPrivateKey(user, httpMessageSignaturesImplementationLevel);
+	const key = await getPrivateKey(user, httpMessageSignaturesImplementationLevel);
 
 	const req = await createSignedPost({
 		key,
@@ -42,7 +42,7 @@ export async function apGet(url: string, user?: ILocalUser, httpMessageSignature
 	let res: Response<string>;
 
 	if (user) {
-		const key = getPrivateKey(user, httpMessageSignaturesImplementationLevel);
+		const key = await getPrivateKey(user, httpMessageSignaturesImplementationLevel);
 
 		const req = await createSignedGet({
 			key,
@@ -87,7 +87,11 @@ function validateContentType(contentType: string | null | undefined): boolean {
 	return parts.slice(1).some(part => part.trim() === 'profile="https://www.w3.org/ns/activitystreams"');
 }
 
-function getPrivateKey(user: ThinUserWithKey, level?: string) {
+async function getPrivateKey(_user: ThinUser, level?: string) {
+	const user = await User.findOne({ _id: _user._id });	// TODO: cache
+	if (user == null) throw new Error(`user not found`);
+	if (isLocalUser(user) !== true) throw new Error(`user is not local`);
+
 	if (level != null && level !== '00' && user.ed25519Key) {
 		return {
 			privateKeyPem: user.ed25519Key,
