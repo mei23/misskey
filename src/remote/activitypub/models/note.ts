@@ -1,4 +1,3 @@
-import config from '../../../config';
 import Resolver from '../resolver';
 import { INote } from '../../../models/note';
 import post from '../../../services/note/create';
@@ -17,7 +16,7 @@ import vote from '../../../services/note/polls/vote';
 import { apLogger } from '../logger';
 import { IDriveFile } from '../../../models/drive-file';
 import { deliverQuestionUpdate } from '../../../services/note/polls/update';
-import { extractApHost } from '../../../misc/convert-host';
+import { extractApHost, isSelfOrigin } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
 import { isBlockedHost } from '../../../services/instance-moderation';
 import { parseAudience } from '../audience';
@@ -210,7 +209,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver |
 		}
 		//#endregion
 
-		if (uri.startsWith(config.url)) {
+		if (isSelfOrigin(uri)) {
 			throw new StatusError('cannot resolve local note', 400, 'cannot resolve local note');
 		}
 

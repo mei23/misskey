@@ -3,7 +3,6 @@ import * as promiseLimit from 'promise-limit';
 import { toUnicode } from 'punycode/';
 
 import $, { Context } from 'cafy';
-import config from '../../../config';
 import User, { IUser, IRemoteUser, isRemoteUser } from '../../../models/user';
 import Resolver from '../resolver';
 import { resolveImage } from './image';
@@ -26,7 +25,7 @@ import { INote } from '../../../models/note';
 import { updateUsertags } from '../../../services/update-hashtag';
 import { toArray, toSingle } from '../../../prelude/array';
 import { UpdateInstanceinfo } from '../../../services/update-instanceinfo';
-import { extractDbHost } from '../../../misc/convert-host';
+import { extractDbHost, isSelfOrigin } from '../../../misc/convert-host';
 import DbResolver from '../db-resolver';
 import resolveUser from '../../resolve-user';
 import { normalizeTag } from '../../../misc/normalize-tag';
@@ -112,7 +111,7 @@ export async function fetchPerson(uri: string): Promise<IUser | null> {
 export async function createPerson(uri: string, resolver?: Resolver): Promise<IRemoteUser> {
 	if (typeof uri !== 'string') throw 'uri is not string';
 
-	if (uri.startsWith(config.url)) {
+	if (isSelfOrigin(uri)) {
 		throw new StatusError('cannot resolve local user', 400, 'cannot resolve local user');
 	}
 
@@ -303,7 +302,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 	if (typeof uri !== 'string') throw 'uri is not string';
 
 	// URIがこのサーバーを指しているならスキップ
-	if (uri.startsWith(config.url + '/')) {
+	if (isSelfOrigin(uri)) {
 		return;
 	}
 
