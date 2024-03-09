@@ -6,9 +6,9 @@ import Note, { INote } from '../../../../models/note';
 import { isSelfOrigin } from '../../../../misc/convert-host';
 
 export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Promise<string> => {
-	const targetUri = getApId(activity.object );
+	const targetUri = getApId(activity.object);
 
-	let note: INote;
+	let note: INote | undefined;
 
 	if (isSelfOrigin(targetUri)) {
 		// 対象がローカルの場合
