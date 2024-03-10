@@ -45,8 +45,8 @@ dependencies:
     specifier: 8.0.8
     version: 8.0.8
   '@misskey-dev/node-http-message-signatures':
-    specifier: 0.0.8
-    version: 0.0.8
+    specifier: https://github.com/misskey-dev/node-http-message-signatures.git#3599f4bea155a77c50e162f537ea88d49b0530e7
+    version: github.com/misskey-dev/node-http-message-signatures/3599f4bea155a77c50e162f537ea88d49b0530e7
   '@prezzemolo/rap':
     specifier: 0.1.2
     version: 0.1.2
@@ -1550,15 +1550,6 @@ packages:
 
   /@lapo/asn1js@1.2.4:
     resolution: {integrity: sha512-mdInpQZaYUWu5QbKIB2+Vd+j6Y7cc6xQYNwYBPC9jri2rwy3tbxom0IhhT4G5WOKWO7Iht10SxYpKq+AfuH6dw==}
-    dev: false
-
-  /@misskey-dev/node-http-message-signatures@0.0.8:
-    resolution: {integrity: sha512-ymyjluFpY2xK/3UYyj+MiRfA7752BIWwSb+uFU0mFK1Yq2fGI6lAGZg3+D2lD8W/OkltnMQm1gSOXzE3CNIgtA==}
-    engines: {node: '>=18.4.0'}
-    dependencies:
-      '@lapo/asn1js': 1.2.4
-      rfc4648: 1.5.3
-      structured-headers: 1.0.1
     dev: false
 
   /@msgpackr-extract/msgpackr-extract-darwin-arm64@2.2.0:
@@ -11840,4 +11831,15 @@ packages:
       jschardet: 3.0.0
       private-ip: 2.3.4
       typescript: 5.3.3
+    dev: false
+
+  github.com/misskey-dev/node-http-message-signatures/3599f4bea155a77c50e162f537ea88d49b0530e7:
+    resolution: {tarball: https://codeload.github.com/misskey-dev/node-http-message-signatures/tar.gz/3599f4bea155a77c50e162f537ea88d49b0530e7}
+    name: '@misskey-dev/node-http-message-signatures'
+    version: 0.0.8
+    engines: {node: '>=18.4.0'}
+    dependencies:
+      '@lapo/asn1js': 1.2.4
+      rfc4648: 1.5.3
+      structured-headers: 1.0.1
     dev: false
