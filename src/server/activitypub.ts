@@ -81,6 +81,12 @@ async function inbox(ctx: Router.RouterContext) {
 		return;
 	}
 
+	if (signature.version === 'rfc9421') {
+		logger.warn(`inbox: RFC9421 not supported`);
+		ctx.status = 401;
+		return;
+	}
+
 	try {
 		/** peer host (リレーから来たらリレー) */
 		const host = toUnicode(new URL(signature.value.keyId).hostname.toLowerCase());

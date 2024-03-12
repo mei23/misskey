@@ -34,18 +34,11 @@ type ApContext = {
 
 export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Promise<string> => {
 	//#region Signatureパース＆バージョンチェック
-	const signature = data.signature ?
-		'version' in data.signature ? data.signature.value : data.signature
-		: null;
+	const signature = 'version' in data.signature ? data.signature.value : data.signature;
 
 	// RFC 9401はsignatureが配列になるが、とりあえずエラーにする
 	if (Array.isArray(signature)) {
 		throw new Error('signature is array');
-	}
-
-	// signatureが取得できない謎アクティビティも、とりあえずエラーにする
-	if (signature == null) {
-		throw new Error('signature is null');
 	}
 
 	const activity = data.activity;
