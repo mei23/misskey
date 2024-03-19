@@ -60,8 +60,8 @@ dependencies:
     specifier: 3.2.1
     version: 3.2.1
   apexcharts:
-    specifier: 3.33.2
-    version: 3.33.2
+    specifier: 3.48.0
+    version: 3.48.0
   async-ratelimiter:
     specifier: 1.3.9
     version: 1.3.9
@@ -3021,6 +3021,10 @@ packages:
   /@xtuc/long@4.2.2:
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
+  /@yr/monotone-cubic-spline@1.0.3:
+    resolution: {integrity: sha512-FQXkOta0XBSUPHndIKON2Y9JeQz5ZeMqLYZVVK93FliNBFm7LNMIZmY6FrMEB9XPcDbE2bekMbZD6kzDkxwYjA==}
+    dev: false
+
   /abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
     dev: false
@@ -3229,9 +3233,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /apexcharts@3.33.2:
-    resolution: {integrity: sha512-GkHZ3o36ZT/jSBh5y1pxxRzwM3tvtladtkcUTfXwP0wYAHK8Qj0X4ZPsupP7emRIjhOVpGsCxW9xeO3F5w+AOQ==}
+  /apexcharts@3.48.0:
+    resolution: {integrity: sha512-Lhpj1Ij6lKlrUke8gf+P+SE6uGUn+Pe1TnCJ+zqrY0YMvbqM3LMb1lY+eybbTczUyk0RmMZomlTa2NgX2EUs4Q==}
     dependencies:
+      '@yr/monotone-cubic-spline': 1.0.3
       svg.draggable.js: 2.2.2
       svg.easing.js: 2.0.0
       svg.filter.js: 2.0.2
