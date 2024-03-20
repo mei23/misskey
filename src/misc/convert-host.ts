@@ -11,6 +11,16 @@ export function isSelfHost(host: string | null) {
 	return toApHost(config.host) === toApHost(host);
 }
 
+export function isSelfOrigin(src: unknown) {
+	if (typeof src !== 'string') return null;
+	try {
+		const u = new URL(src);
+		return u.origin === config.url;
+	} catch {
+		return false;
+	}
+}
+
 export function extractDbHost(uri: string) {
 	const url = new URL(uri);
 	return toDbHost(url.hostname);

@@ -7,7 +7,7 @@ import Note, { pack as packNote, INote } from '../../../../models/note';
 import { createNote, extractEmojis } from '../../../../remote/activitypub/models/note';
 import Resolver from '../../../../remote/activitypub/resolver';
 import { ApiError } from '../../error';
-import { extractApHost } from '../../../../misc/convert-host';
+import { extractApHost, isSelfOrigin } from '../../../../misc/convert-host';
 import { isActor, isPost, getApId, isEmoji } from '../../../../remote/activitypub/type';
 import { isBlockedHost } from '../../../../services/instance-moderation';
 import * as ms from 'ms';
@@ -73,7 +73,7 @@ export default define(meta, async (ps) => {
  */
 async function fetchAny(uri: string) {
 	// URIがこのサーバーを指しているなら、ローカルユーザーIDとしてDBからフェッチ
-	if (uri.startsWith(config.url + '/')) {
+	if (isSelfOrigin(uri)) {
 		const result = await processLocal(uri);
 		if (result != null) return result;
 	}

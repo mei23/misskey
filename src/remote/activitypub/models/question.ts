@@ -1,8 +1,8 @@
-import config from '../../../config';
 import Note, { IChoice, IPoll } from '../../../models/note';
 import Resolver from '../resolver';
 import { IObject, IQuestion, isQuestion,  } from '../type';
 import { apLogger } from '../logger';
+import { isSelfOrigin } from '../../../misc/convert-host';
 
 export async function extractPollFromQuestion(source: string | IObject, resolver?: Resolver): Promise<IPoll> {
 	if (resolver == null) resolver = new Resolver();
@@ -45,7 +45,7 @@ export async function updateQuestion(value: any, resolver?: Resolver) {
 	const uri = typeof value == 'string' ? value : value.id;
 
 	// URIがこのサーバーを指しているならスキップ
-	if (uri.startsWith(config.url + '/')) throw 'uri points local';
+	if (isSelfOrigin(uri)) throw 'uri points local';
 
 	//#region このサーバーに既に登録されているか
 	const note = await Note.findOne({ uri });

@@ -1,7 +1,7 @@
 {
 	"name": "misskey",
 	"author": "mei23 <m@m544.net>",
-	"version": "10.102.692-m544",
+	"version": "10.102.693-m544",
 	"codename": "m544",
 	"repository": {
 		"type": "git",
@@ -142,7 +142,7 @@
 		"stringz": "2.1.0",
 		"stylus": "0.59.0",
 		"stylus-loader": "7.1.3",
-		"summaly": "mei23/summaly#3.11.0",
+		"summaly": "mei23/summaly#3.13.0",
 		"suncalc": "1.9.0",
 		"systeminformation": "5.21.7",
 		"syuilo-password-strength": "0.0.1",

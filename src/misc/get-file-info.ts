@@ -120,6 +120,16 @@ const TYPE_MP4_AS_AUDIO = {
 	ext: 'mp4'
 };
 
+const TYPE_WEBM = {
+	mime: 'video/webm',
+	ext: 'webm'
+};
+
+const TYPE_WEBM_AS_AUDIO  = {
+	mime: 'audio/webm',
+	ext: 'webm'
+};
+
 /**
  * Get file information
  */
@@ -189,13 +199,27 @@ export async function detectTypeWithCheck(path: string): Promise<Type> {
 	// 実際にストリームを含んでるかによってvideo/audioを分ける
 	// ブラウザで再生できるかもしれないので全部mp4扱いにしてしまう
 	if (['video/quicktime', 'video/mp4', 'audio/mp4', 'video/x-m4v', 'audio/x-m4a', 'video/3gpp', 'video/3gpp2'].includes(type.mime)) {
-		const props = await getVideoProps(path);
-		const hasVideo = props.streams.filter(s => s.codec_type === 'video').length > 0;
+		const hasVideo = await getVideoProps(path)
+			.then(props => props.streams.filter(s => s.codec_type === 'video').length > 0)
+			.catch(() => true);
 
 		if (hasVideo) {
 			type = TYPE_MP4;
 		} else {
 			type = TYPE_MP4_AS_AUDIO;
+		}
+	}
+
+	// audio/webmを認識出来るように
+	if (['video/webm'].includes(type.mime)) {
+		const hasVideo = await getVideoProps(path)
+			.then(props => props.streams.filter(s => s.codec_type === 'video').length > 0)
+			.catch(() => true);
+
+		if (hasVideo) {
+			type = TYPE_WEBM;
+		} else {
+			type = TYPE_WEBM_AS_AUDIO;
 		}
 	}
 

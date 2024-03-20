@@ -190,7 +190,7 @@ export default Vue.extend({
 		},
 
 		copyLink() {
-			copyToClipboard(`${url}/notes/${this.note.id}`);
+			copyToClipboard(this.note.url || this.note.uri || `${url}/notes/${this.note.id}`);
 			this.$root.dialog({
 				type: 'success',
 				splash: true

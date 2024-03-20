@@ -1,16 +1,16 @@
 import * as mongo from 'mongodb';
-import config from '../../../../config';
 import { IRemoteUser } from '../../../../models/user';
-import { IAnnounce } from '../../type';
+import { IAnnounce, getApId } from '../../type';
 import deleteNote from '../../../../services/note/delete';
 import Note, { INote } from '../../../../models/note';
+import { isSelfOrigin } from '../../../../misc/convert-host';
 
 export const undoAnnounce = async (actor: IRemoteUser, activity: IAnnounce): Promise<string> => {
-	const targetUri = typeof activity.object == 'string' ? activity.object : activity.object.id;
+	const targetUri = getApId(activity.object);
 
-	let note: INote;
+	let note: INote | undefined;
 
-	if (targetUri.startsWith(config.url + '/')) {
+	if (isSelfOrigin(targetUri)) {
 		// 対象がローカルの場合
 		const id = new mongo.ObjectID(targetUri.split('/').pop());
 		note = await Note.findOne({

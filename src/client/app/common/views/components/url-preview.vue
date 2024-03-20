@@ -27,9 +27,9 @@
 		</div>
 		<article>
 			<header>
-				<h1 :title="title">{{ title.length > 50 ? title.slice(0, 50) + '…' : title }}</h1>
+				<h1 :title="title">{{ title.length > 100 ? title.slice(0, 100) + '…' : title }}</h1>
 			</header>
-			<p v-if="description" :title="description">{{ description.length > 85 ? description.slice(0, 85) + '…' : description }}</p>
+			<p v-if="description" :title="description">{{ description.length > 100 ? description.slice(0, 100) + '…' : description }}</p>
 			<footer>
 				<img class="icon" v-if="icon" :src="icon"/>
 				<p :title="sitename">{{ sitename }}</p>
