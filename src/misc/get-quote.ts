@@ -1,18 +1,37 @@
 import { removeNull, toArray } from '../prelude/array';
 import { IObject, IPost, isLink } from '../remote/activitypub/type';
 
-export function getQuote(post: IPost) {
+/**
+ * rels treated as quote
+ */
+const relQuotes = new Set<string>([
+	'https://misskey-hub.net/ns#_misskey_quote',
+	'http://fedibird.com/ns#quoteUri',
+]);
+
+/**
+ * Misskey like quote
+ */
+type Quote = {
+	/** Target AP object ID */
+	href: string;
+	/** Fallback text */
+	name?: string;
+};
+
+/**
+ * Get one Misskey like quote
+ */
+export function getQuote(post: IPost): Quote | null {
 	// Misskey
 	if (typeof post._misskey_quote === 'string') return { href: post._misskey_quote }
 	// Fedibird
 	if (typeof post.quoteUri === 'string') return { href: post.quoteUri }
-	// Biwakodon
-	if (typeof post.quoteUrl === 'string') return { href: post.quoteUrl }
 
 	// FEP-e232: Object Links
 	// https://codeberg.org/fediverse/fep/src/branch/main/fep/e232/fep-e232.md
 	const fepe232Tags = parseFepE232Tags(toArray(post.tag));
-	const fepe232Quote = fepe232Tags.filter(x => x.rel === 'https://misskey-hub.net/ns#_misskey_quote')[0];
+	const fepe232Quote = fepe232Tags.filter(x => x.rel && relQuotes.has(x.rel))[0];
 	if (fepe232Quote) {
 		return {
 			href: fepe232Quote.href,
@@ -21,6 +40,17 @@ export function getQuote(post: IPost) {
 	}
 
 	return null;
+}
+
+/**
+ * Get AP links (experimental)
+ */
+export function getApLinks(post: IPost) {
+	const fepe232Tags = parseFepE232Tags(toArray(post.tag));
+	
+	// other attachements?
+
+	return fepe232Tags;
 }
 
 //#region FEP-e232

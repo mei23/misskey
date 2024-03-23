@@ -607,7 +607,7 @@ export async function fetchOutbox(user: IUser) {
 				// Note
 				if (object.inReplyTo) {
 					// skip reply
-				} else if (object._misskey_quote || object.quoteUri || object.quoteUrl) {
+				} else if (object._misskey_quote || object.quoteUri) {
 					// skip quote
 				} else {
 					if (++itemCount > 10) break;

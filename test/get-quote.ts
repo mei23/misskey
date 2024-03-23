@@ -18,14 +18,6 @@ describe('getQuote', () => {
 		});
 	});
 
-	it('quoteUrl', () => {
-		assert.deepStrictEqual(getQuote({
-			quoteUrl: 'https://example.com/notes/quote',
-		} as any), {
-			href: 'https://example.com/notes/quote',
-		});
-	});
-
 	it('FEP-e232', () => {
 		assert.deepStrictEqual(getQuote({
 			tag: [
