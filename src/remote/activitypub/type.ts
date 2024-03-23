@@ -230,6 +230,16 @@ export const isHashtag = (object: IObject): object is IApHashtag =>
 	getApType(object) === 'Hashtag' &&
 	typeof object.name === 'string';
 
+export interface IApLink extends IObject {
+	type: 'Link';
+	href?: string;
+	rel?: string;
+	mediaType?: string;
+	name?: string;
+};
+
+export const isLink = (object: IObject): object is IApLink => getApType(object) === 'Link';
+
 export interface IActor extends IObject {
 	type: 'Person' | 'Service' | 'Organization' | 'Group' | 'Application';
 	name?: string;
