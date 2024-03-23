@@ -23,6 +23,7 @@ import { parseAudience } from '../audience';
 import DbResolver from '../db-resolver';
 import { parseDate, parseDateWithLimit } from '../misc/date';
 import { StatusError } from '../../../misc/fetch';
+import { getQuote } from '../../../misc/get-quote';
 
 const logger = apLogger;
 
@@ -113,8 +114,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	const reply = note.inReplyTo ? await resolveNote(getOneApId(note.inReplyTo), resolver) : null;
 
 	// 引用
-	const q = note._misskey_quote || note.quoteUri || note.quoteUrl;
-	const quote = q ? await resolveNote(q, resolver) : null;
+	const quoteInfo = getQuote(note);
+	const quote = quoteInfo?.href ? await resolveNote(quoteInfo?.href, resolver) : null;
 
 	// 参照
 	const references = await fetchReferences(note, resolver).catch(() => []);
@@ -126,6 +127,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		: (typeof note.source?.mediaType === 'string' && note.source.mediaType.match(/^text\/x\.misskeymarkdown(;.*)?$/) && typeof note.source.content === 'string') ? note.source.content
 		: note.content ? htmlToMfm(note.content, note.tag)
 		: null;
+
+	if (text && quoteInfo?.name) text.replace(quoteInfo.name, '');
 
 	// 投票
 	if (reply && reply.poll) {
