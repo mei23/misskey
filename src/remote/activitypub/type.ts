@@ -240,10 +240,8 @@ export interface IActor extends IObject {
 	indexable?: boolean;
 	inbox: string;
 	sharedInbox?: string;
-	publicKey?: {
-		id: string;
-		publicKeyPem: string;
-	};
+	publicKey?: IKey;
+	additionalPublicKeys?: IKey[];
 	followers?: string | ICollection | IOrderedCollection;
 	following?: string | ICollection | IOrderedCollection;
 	featured?: string | IOrderedCollection;
@@ -259,6 +257,13 @@ export const validActor = ['Person', 'Service', 'Group', 'Organization', 'Applic
 
 export const isActor = (object: IObject): object is IActor =>
 	validActor.includes(getApType(object));
+
+export interface IKey extends IObject {
+	type: 'Key';
+	id: string;
+	owner: string;
+	publicKeyPem: string;
+}
 
 export interface IApEmoji extends IObject {
 	type: 'Emoji';

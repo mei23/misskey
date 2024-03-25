@@ -12,10 +12,10 @@ const router = new Router();
 const nodeinfo2_1path = '/nodeinfo/2.1';
 const nodeinfo2_0path = '/nodeinfo/2.0';
 
-export const links = [/* (awaiting release) {
+export const links = [{
 	rel: 'http://nodeinfo.diaspora.software/ns/schema/2.1',
 	href: config.url + nodeinfo2_1path
-}, */{
+}, {
 	rel: 'http://nodeinfo.diaspora.software/ns/schema/2.0',
 	href: config.url + nodeinfo2_0path
 }];
@@ -61,6 +61,13 @@ const nodeinfo2 = async () => {
 			localComments
 		},
 		metadata: {
+			/**
+			 * '00': Draft, RSA only
+			 * '01': Draft, Ed25519 suported
+			 * '11': RFC 9421, Ed25519 supported
+			 */
+			httpMessageSignaturesImplementationLevel: '01',
+
 			nodeName,
 			nodeDescription,
 			name: nodeName,
@@ -105,7 +112,7 @@ router.get(nodeinfo2_0path, async ctx => {
 	delete (base.software as any).repository;
 
 	ctx.body = { version: '2.0', ...base };
-	ctx.set('Cache-Control', 'public, max-age=3600');
+	ctx.set('Cache-Control', 'public, max-age=600');
 });
 
 export default router;

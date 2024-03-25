@@ -1,9 +1,8 @@
 import * as Bull from 'bull';
-import * as httpSignature from '@peertube/http-signature';
-import { IRemoteUser } from '../../models/user';
+import { verifyDraftSignature } from '@misskey-dev/node-http-message-signatures';
+import { IRemoteUser, isRemoteUser } from '../../models/user';
 import perform from '../../remote/activitypub/perform';
 import { resolvePerson } from '../../remote/activitypub/models/person';
-import { toUnicode } from 'punycode/';
 import { URL } from 'url';
 import Logger from '../../services/logger';
 import { registerOrFetchInstanceDoc } from '../../services/register-or-fetch-instance-doc';
@@ -16,12 +15,10 @@ import { InboxJobData } from '../types';
 import Resolver from '../../remote/activitypub/resolver';
 import DbResolver from '../../remote/activitypub/db-resolver';
 import { inspect } from 'util';
-import { extractApHost } from '../../misc/convert-host';
 import { LdSignature } from '../../remote/activitypub/misc/ld-signature';
 import resolveUser from '../../remote/resolve-user';
 import config from '../../config';
 import { publishInstanceModUpdated } from '../../services/server-event';
-import { StatusError } from '../../misc/fetch';
 
 const logger = new Logger('inbox');
 
@@ -36,107 +33,164 @@ type ApContext = {
 };
 
 export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Promise<string> => {
-	const signature = data.signature;
-	const activity = data.activity;
+	//#region Signatureパース＆バージョンチェック
+	const signature = 'version' in data.signature ? data.signature.value : data.signature;
 
-	const resolver = ctx?.resolver || new Resolver();
+	// RFC 9401はsignatureが配列になるが、とりあえずエラーにする
+	if (Array.isArray(signature)) {
+		throw new Error('signature is array');
+	}
+
+	const activity = data.activity;
+	//#endregion
 
 	//#region Log
 	logger.debug(inspect(signature));
 	logger.debug(inspect(activity));
 	//#endregion
 
-	/** peer host (リレーから来たらリレー) */
-	const host = toUnicode(new URL(signature.keyId).hostname.toLowerCase());
-
-	// ブロックしてたら中断  TODO: routeでもチェックしているので消す
-	if (await isBlockedHost(host)) {
-		return `skip: Blocked instance: ${host}`;
+	//#region check blocking
+	const actorHost = new URL(getApId(activity.actor)).hostname;
+	if (await isBlockedHost(actorHost)) {
+		return `skip: Blocked instance in actor: ${actorHost}`;
 	}
 
-	//#region resolve http-signature signer
-	let user: IRemoteUser | null;
-
-	// activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
-	try {
-		user = await resolvePerson(getApId(activity.actor), undefined, resolver, isDelete(activity) || isUndo(activity)) as IRemoteUser;
-	} catch (e) {
-		if (e instanceof StatusError && e.isPermanentError) {
-			return `skip: Ignored actor ${activity.actor} - ${e.statusCode}`;
-		}
-		throw `Error in actor ${activity.actor} - ${e.statusCode || e}`;
-	}
-
-	// http-signature signer がわからなければ終了
-	if (user == null) {
-		return `skip: failed to resolve http-signature signer`;
-	}
-
-	// publicKey がなくても終了
-	if (user.publicKey == null) {
-		return `skip: failed to resolve user publicKey`;
+	// 一時的にリレーを抑制したいような用途で使う
+	const keyIdHost = new URL(signature.keyId).hostname;
+	if (await isBlockedHost(keyIdHost)) {
+		return `skip: Blocked instance in keyId: ${keyIdHost}`;
 	}
 	//#endregion
 
-	// http-signature signerのpublicKeyを元にhttp-signatureを検証
-	const httpSignatureValidated = httpSignature.verifySignature(signature, user.publicKey.publicKeyPem);
+	const resolver = ctx?.resolver || new Resolver();
 
-	// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新をトリガしておく (24時間以上古い場合に発動)
-	if (!httpSignatureValidated) {
-		resolveUser(user.username, user.host);
-	}
+	/** DBにないユーザーの削除系でリモート解決しても意味ないので抑制するフラグ */
+	const suppressResolve = isDelete(activity) || isUndo(activity);
 
-	// また、http-signatureのsignerは、activity.actorと一致する必要がある
-	if (!httpSignatureValidated || user.uri !== activity.actor) {
-		// でもLD-Signatureがありそうならそっちも見る
-		if (!config.ignoreApForwarded && activity.signature?.creator) {
-			if (activity.signature.type !== 'RsaSignature2017') {
-				return `skip: unsupported LD-signature type ${activity.signature.type}`;
-			}
+	/**
+	 * Fetch user and validate by HTTP-Signature
+	 * @returns user on success or null
+	 */
+	const authUserByHttpSignature = async (): Promise<IRemoteUser | null> => {
+		// 別サーバーで署名しているのは失敗にする
+		if (keyIdHost !== actorHost) {
+			logger.debug(`HTTP-Signature: keyIdHost=${keyIdHost} !== actorHost=${actorHost}`);
+			return null;
+		}
 
-			user = await resolvePerson(activity.signature.creator.replace(/#.*/, '')).catch(() => null) as IRemoteUser | null;
+		// actorを取得
+		const httpUser = await resolvePerson(getApId(activity.actor), undefined, resolver, suppressResolve);
 
-			if (user == null) {
-				return `skip: LD-Signatureのユーザーが取得できませんでした`;
-			}
+		// actorが取得できなければ失敗
+		if (httpUser == null) {
+			logger.warn(`HTTP-Signature: failed to resolve http-signature signer`);
+			return null;
+		}
 
-			if (user.publicKey == null) {
-				return `skip: LD-SignatureのユーザーはpublicKeyを持っていませんでした`;
-			}
+		// リモートユーザーでなければ失敗
+		if (isRemoteUser(httpUser) === false) {
+			logger.warn(`HTTP-Signature: actor is not remote`);
+			return null;
+		}
 
-			// LD-Signature検証
-			const ldSignature = new LdSignature();
-			const verified = await ldSignature.verifyRsaSignature2017(activity, user?.publicKey.publicKeyPem).catch(() => false);
-			if (!verified) {
-				return `skip: LD-Signatureの検証に失敗しました`;
-			}
+		// ユーザーのkeyIdに一致するキーを探す、なければ失敗
+		const availablePublicKeys = [...(httpUser.publicKey ? [httpUser.publicKey] : []), ...(httpUser.additionalPublicKeys ?? [])];
+		const matchedPublicKey = availablePublicKeys.filter(x => x.id === signature.keyId)[0];
+		if (matchedPublicKey == null) {
+			logger.warn(`HTTP-Signature: failed to find matchedPublicKey. keyId=${signature.keyId}`);
+			return null;
+		}
 
-			// もう一度actorチェック
-			if (user.uri !== activity.actor) {
-				return `skip: LD-Signature user(${user.uri}) !== activity.actor(${activity.actor})`;
-			}
+		// 署名検証
+		const errorLogger = (ms: any) => logger.error(ms);
+		const httpSignatureValidated = await verifyDraftSignature(signature, matchedPublicKey.publicKeyPem, errorLogger);
 
-			// ブロックしてたら中断
-			const ldHost = extractApHost(user.uri);
-			if (await isBlockedHost(ldHost)) {
-				return `skip: Blocked instance: ${ldHost}`;
-			}
+		if (httpSignatureValidated === true) {
+			return httpUser;	// 成功
 		} else {
-			return `skip: http-signature verification failed and ${config.ignoreApForwarded ? 'ignoreApForwarded' : 'no LD-Signature'}. keyId=${signature.keyId}`;
+			// 署名検証失敗時にはkeyが変わったことも想定して、WebFingerからのユーザー情報の更新を期間を短めにしてトリガしておく。次回リトライする
+			// なぜ即時フェッチでリトライしないのか？リバースプロキシでそれなりにキャッシュされるので急いでも意味がないから
+			if (httpUser.lastFetchedAt == null || Date.now() - httpUser.lastFetchedAt.getTime() > 1000 * 60 * 5) {
+				resolveUser(httpUser.username, httpUser.host, {}, true);
+			}
+			throw new Error(`HTTP-Signature validation failed. keyId=${signature.keyId}, matchedPublicKey=${matchedPublicKey.id}`);
 		}
+	};
+
+	// HTTP-Signatureで検証
+	let authedUser = await authUserByHttpSignature();
+
+	/**
+	 * Fetch user and validate by LD-Signature
+	 * @returns user on success or null
+	 */
+	const authUserByLdSignature = async () => {
+		// LD-Signatureあるか?
+		if (activity.signature == null) {
+			logger.warn(`LD-Signature: no LD-Signature`);
+			return null;
+		}
+
+		// LD-Signatureバージョンは的確か?
+		if (activity.signature.type !== 'RsaSignature2017') {
+			logger.warn(`LD-Signature: unsupported LD-signature type ${activity.signature.type}`);
+			return null;
+		}
+
+		// 別サーバーで署名しているのは失敗にする
+		const ldHost = new URL(activity.signature.creator).hostname;
+		if (ldHost !== actorHost) {
+			logger.debug(`LD-Signature: ldHost=${ldHost} !== actorHost=${actorHost}`);
+			return null;
+		}
+
+		// ユーザー取得 (ここでsignature.creatorのハッシュ以降を削除して探索するというキモいロジックが入る)
+		const ldUser = await resolvePerson(activity.signature.creator.replace(/#.*/, ''), undefined, resolver, suppressResolve).catch(() => null);
+
+		if (ldUser == null) {
+			logger.warn(`LD-Signature: signature.creatorが取得できませんでした`);
+			return null;
+		}
+
+		// リモートユーザーでなければ失敗
+		if (isRemoteUser(ldUser) === false) {
+			logger.warn(`LD-Signature: signature.creator is not remote`);
+			return null;
+		}
+
+		// 現状のLD-Signature実装に、RSA以外なんて想定されてません。ぷっぷくぷー
+		if (ldUser.publicKey == null) {
+			logger.warn(`LD-Signature: signature.creatorはpublicKeyを持っていませんでした`);
+			return null;
+		}
+
+		// LD-Signature検証
+		const ldSignature = new LdSignature();
+		const verified = await ldSignature.verifyRsaSignature2017(activity, ldUser.publicKey.publicKeyPem).catch(() => false);
+		if (verified === true) {
+			return ldUser;
+		} else {
+			logger.warn(`LD-Signature: 検証に失敗しました`);
+			return null;
+		}
+	};
+
+	// HTTP-Signature検証に失敗した場合、オプションで規制されない限りLD-Signatureも見る
+	if (authedUser == null) {
+		// LD-Signatureなんか使わないオプション
+		if (config.ignoreApForwarded ) {
+			return `skip: http-signature verification failed and ${config.ignoreApForwarded ? 'ignoreApForwarded' : 'no LD-Signature'}`;
+		}
+
+		authedUser = await authUserByLdSignature();
 	}
 
-	// activity.idがあればホストが署名者のホストであることを確認する
-	if (typeof activity.id === 'string') {
-		const signerHost = extractApHost(user.uri);
-		const activityIdHost = extractApHost(activity.id);
-		if (signerHost !== activityIdHost) {
-			return `skip: signerHost(${signerHost}) !== activity.id host(${activityIdHost}`;
-		}
+	if (authedUser == null) {
+		return `skip: HTTP-Signature and LD-Signature verification failed'}`;
 	}
 
 	// Update stats
-	registerOrFetchInstanceDoc(host).then(i => {
+	registerOrFetchInstanceDoc(keyIdHost).then(i => {
 		const set = {
 			latestRequestReceivedAt: new Date(),
 			lastCommunicatedAt: new Date(),
@@ -157,5 +211,5 @@ export const tryProcessInbox = async (data: InboxJobData, ctx?: ApContext): Prom
 	//#endregion
 
 	// アクティビティを処理
-	return (await perform(user, activity)) || 'ok';
+	return (await perform(authedUser, activity)) || 'ok';
 };

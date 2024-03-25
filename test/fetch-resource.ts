@@ -17,7 +17,7 @@ import * as openapi from '@redocly/openapi-core';
 import rndstr from 'rndstr';
 import { randomUUID } from 'crypto';
 import { createSignedPost } from '../src/remote/activitypub/ap-request';
-import { genRsaKeyPair } from '../src/misc/gen-key-pair';
+import { genRsaKeyPair } from '@misskey-dev/node-http-message-signatures';
 import { StatusError, getResponse } from '../src/misc/fetch';
 import * as crypto from 'crypto';
 
@@ -561,7 +561,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -579,7 +579,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -598,7 +598,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 'x'.repeat(70000), };	// ★でかすぎ
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -616,7 +616,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -626,18 +626,19 @@ describe('Fetch resource', () => {
 			});
 
 			delete req.request.headers.signature;	// ★署名されてない
+			delete req.request.headers.Signature;	// ★署名されてない
 
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Missing Required Header');	// TODO: どのheaderがどこに足りないのか
+			assert.strictEqual(res.statusMessage, 'Unauthorized');
 		});
 
 		it('Missing Required Header in the request - digest', async () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -647,18 +648,19 @@ describe('Fetch resource', () => {
 			});
 
 			delete req.request.headers.digest;	// ★署名されているがrequestにDigestヘッダーがない
+			delete req.request.headers.Digest;	// ★署名されているがrequestにDigestヘッダーがない
 
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Missing Required Header');	// TODO: どのheaderがどこに足りないのか
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');	// TODO: どのheaderがどこに足りないのか
 		});
 
 		it('Expired Request Error', async () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -671,7 +673,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Expired Request Error');
+			assert.strictEqual(res.statusMessage, 'Unauthorized');
 		});
 
 		// TODO: signatureの方に必須ヘッダーがないパターン
@@ -680,7 +682,7 @@ describe('Fetch resource', () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -694,14 +696,14 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Invalid Digest Header');
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');
 		});
 
 		it('Unsupported Digest Algorithm', async () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -715,14 +717,14 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Unsupported Digest Algorithm');
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');
 		});
 
 		it('Digest Missmath', async () => {
 			const object = { a: 1, b: 2, };
 			const body = JSON.stringify(object);
 
-			const req = createSignedPost({
+			const req = await createSignedPost({
 				key,
 				url: myInbox,
 				body,
@@ -736,7 +738,7 @@ describe('Fetch resource', () => {
 			const res = await inboxPost(myInbox, req.request.headers, body);
 
 			assert.strictEqual(res.statusCode, 401);
-			assert.strictEqual(res.statusMessage, 'Digest Missmatch');
+			assert.strictEqual(res.statusMessage, 'Invalid Digest');
 		});
 	});
 });

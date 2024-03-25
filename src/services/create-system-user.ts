@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
 import User from '../models/user';
 import generateNativeUserToken from '../server/api/common/generate-native-user-token';
-import { genRsaKeyPair } from '../misc/gen-key-pair';
+import { genEd25519KeyPair, genRsaKeyPair } from '@misskey-dev/node-http-message-signatures';
 
 export async function createSystemUser(username: string) {
 	const password = uuid();
@@ -15,6 +15,7 @@ export async function createSystemUser(username: string) {
 	const secret = generateNativeUserToken();
 
 	const keyPair = await genRsaKeyPair();
+	const ed25519KeyPair = await genEd25519KeyPair();
 
 	// Create user
 	const user = await User.insert({
@@ -30,6 +31,7 @@ export async function createSystemUser(username: string) {
 		usernameLower: username.toLowerCase(),
 		host: null,
 		keypair: keyPair.privateKey,
+		ed25519Key: ed25519KeyPair.privateKey,
 		token: secret,
 		password: hash,
 		isAdmin: false,

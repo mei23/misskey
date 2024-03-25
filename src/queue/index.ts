@@ -1,4 +1,4 @@
-import * as httpSignature from '@peertube/http-signature';
+import { ParsedSignature } from '@misskey-dev/node-http-message-signatures';
 import config from '../config';
 import { InboxInfo, InboxRequestData, WebpushDeliverJobData } from './types';
 import { deliverQueue, webpushDeliverQueue, inboxQueue, inboxLazyQueue, dbQueue } from './queues';
@@ -15,7 +15,6 @@ import { IMute } from '../models/mute';
 import { IActivity } from '../remote/activitypub/type';
 import queueChart from '../services/chart/queue';
 import { cpus } from 'os';
-import { createDigest } from '../remote/activitypub/ap-request';
 
 const deliverLogger = queueLogger.createSubLogger('deliver');
 const webpushDeliverLogger = queueLogger.createSubLogger('webpushDeliver');
@@ -40,7 +39,7 @@ deliverQueue
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} to=${job.data.to}`;
 		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
-		deliverLogger.warn(msg);
+		deliverLogger.warn(msg, { data: job?.data });
 	})
 	.on('error', (error) => deliverLogger.error(`error ${error}`))
 	.on('stalled', (job) => deliverLogger.warn(`stalled ${getJobInfo(job)} to=${job.data.to}`));
@@ -54,7 +53,7 @@ webpushDeliverQueue
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} to=${job.data.pushSubscription.endpoint}`;
 		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
-		webpushDeliverLogger.warn(msg);
+		webpushDeliverLogger.warn(msg, { data: job?.data });
 	})
 	.on('error', (error) => webpushDeliverLogger.error(`error ${error}`))
 	.on('stalled', (job) => webpushDeliverLogger.warn(`stalled ${getJobInfo(job)} to=${job.data.pushSubscription.endpoint}`));
@@ -69,7 +68,7 @@ inboxQueue
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`;
 		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
-		inboxLogger.warn(msg);
+		inboxLogger.warn(msg, { data: job?.data });
 	})
 	.on('error', (error) => inboxLogger.error(`error ${error}`))
 	.on('stalled', (job) => inboxLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
@@ -83,7 +82,7 @@ inboxLazyQueue
 	.on('failed', (job, err) => {
 		const msg = `failed(${err}) ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`;
 		if (job.opts.attempts && (job.opts.attempts > job.attemptsMade)) job.log(msg);
-		inboxLazyLogger.warn(msg);
+		inboxLazyLogger.warn(msg, { data: job?.data });
 	})
 	.on('error', (error) => inboxLazyLogger.error(`error ${error}`))
 	.on('stalled', (job) => inboxLazyLogger.warn(`stalled ${getJobInfo(job)} activity=${job.data.activity ? job.data.activity.id : 'none'}`));
@@ -92,7 +91,7 @@ dbQueue
 	.on('waiting', (jobId) => dbLogger.debug(`waiting id=${jobId}`))
 	.on('active', (job) => dbLogger.info(`${job.name} active ${getJobInfo(job, true)}`))
 	.on('completed', (job, result) => dbLogger.info(`${job.name} completed(${result}) ${getJobInfo(job, true)}`))
-	.on('failed', (job, err) => dbLogger.warn(`${job.name} failed(${err}) ${getJobInfo(job)}`))
+	.on('failed', (job, err) => dbLogger.warn(`${job.name} failed(${err}) ${getJobInfo(job)}`, { data: job?.data }))
 	.on('error', (error) => dbLogger.error(`error ${error}`))
 	.on('stalled', (job) => dbLogger.warn(`${job.name} stalled ${getJobInfo(job)}`));
 
@@ -125,10 +124,8 @@ export function deliver(user: ILocalUser, content: any, to: string, lowSeverity 
 	const data = {
 		user: {
 			_id: `${user._id}`,
-			keypair: user.keypair
 		},
 		content: contentBody,
-		digest: createDigest(contentBody),
 		to,
 		inboxInfo
 	};
@@ -161,7 +158,7 @@ export function webpushDeliver(data: WebpushDeliverJobData) {
  * @param activity Activity
  * @param signature Signature
  */
-export function inbox(activity: IActivity, signature: httpSignature.IParsedSignature, request: InboxRequestData) {
+export function inbox(activity: IActivity, signature: ParsedSignature, request: InboxRequestData) {
 	const data = {
 		activity,
 		signature,
@@ -179,7 +176,7 @@ export function inbox(activity: IActivity, signature: httpSignature.IParsedSigna
 	});
 }
 
-export function inboxLazy(activity: IActivity, signature: httpSignature.IParsedSignature, request: InboxRequestData) {
+export function inboxLazy(activity: IActivity, signature: ParsedSignature, request: InboxRequestData) {
 	const data = {
 		activity,
 		signature,

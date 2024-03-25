@@ -1,9 +1,7 @@
 import * as cluster from 'cluster';
-import * as os from 'os';
 import * as Chalk from 'chalk';
 import { format } from 'date-fns';
 import { envOption } from '../env';
-import Log from '../models/log';
 //import { processLabel } from '..';
 
 const chalk = new Chalk.Instance(process.env.NODE_ENV === 'production' ? { level: 0 } : {});
@@ -66,19 +64,11 @@ export default class Logger {
 		if (envOption.withLogTime) log = chalk.gray(time) + ' ' + log;
 		//log = `${processLabel} ${process.pid} ` + log;
 
-		console.log(important ? chalk.bold(log) : log);
-
-		if (store) {
-			Log.insert({
-				createdAt: new Date(),
-				machine: os.hostname(),
-				worker: worker,
-				domain: [this.domain].concat(subDomains).map(d => d.name),
-				level: level,
-				message: message,
-				data: data,
-			}).then(() => {});
+		const args: unknown[] = [important ? chalk.bold(log) : log];
+		if (data != null) {
+			args.push(data);
 		}
+		console.log(...args);
 	}
 
 	public error(x: string | Error, data?: Record<string, any> | null, important = false): void { // 実行を継続できない状況で使う

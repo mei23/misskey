@@ -1,26 +1,27 @@
 import config from '../../config';
 import { StatusError, getResponse } from '../../misc/fetch';
 import { createSignedPost, createSignedGet } from './ap-request';
-import { ILocalUser } from '../../models/user';
-import { ThinUserWithKey } from '../../queue/types';
+import User, { ILocalUser, isLocalUser } from '../../models/user';
+import { ThinUser } from '../../queue/types';
 import type { Response } from 'got';
 import { checkAllowedUrl } from '../../misc/check-allowed-url';
 
-export default async (user: ThinUserWithKey, url: string, object: any, digest?: string) => {
+export default async (user: ThinUser, url: string, object: any, httpMessageSignaturesImplementationLevel?: string) => {
 	const body = typeof object === 'string' ? object : JSON.stringify(object);
 
-	const req = createSignedPost({
-		key: {
-			privateKeyPem: user.keypair,
-			keyId: `${config.url}/users/${user._id}#main-key`
-		},
+	const key = await getPrivateKey(user, httpMessageSignaturesImplementationLevel);
+
+	const req = await createSignedPost({
+		key,
 		url,
 		body,
-		digest,
+		//digest,	TODO
 		additionalHeaders: {
 			'User-Agent': config.userAgent,
 		}
 	});
+
+	console.log(`deliver with: ${JSON.stringify(req, null, 2)}`);	// TODO消す
 
 	const res = await getResponse({
 		url,
@@ -38,7 +39,7 @@ export default async (user: ThinUserWithKey, url: string, object: any, digest?: 
  * @param user http-signature user
  * @param url URL to fetch
  */
-export async function apGet(url: string, user?: ILocalUser) {
+export async function apGet(url: string, user?: ILocalUser, httpMessageSignaturesImplementationLevel?: string) {
 	let res: Response<string>;
 
 	if (!checkAllowedUrl(url)) {
@@ -46,11 +47,10 @@ export async function apGet(url: string, user?: ILocalUser) {
 	}
 
 	if (user) {
-		const req = createSignedGet({
-			key: {
-				privateKeyPem: user.keypair,
-				keyId: `${config.url}/users/${user._id}#main-key`
-			},
+		const key = await getPrivateKey(user, httpMessageSignaturesImplementationLevel);
+
+		const req = await createSignedGet({
+			key,
 			url,
 			additionalHeaders: {
 				'User-Agent': config.userAgent,
@@ -90,4 +90,22 @@ function validateContentType(contentType: string | null | undefined): boolean {
 	if (parts[0] === 'application/activity+json') return true;
 	if (parts[0] !== 'application/ld+json') return false;
 	return parts.slice(1).some(part => part.trim() === 'profile="https://www.w3.org/ns/activitystreams"');
+}
+
+async function getPrivateKey(_user: ThinUser, level?: string) {
+	const user = await User.findOne({ _id: _user._id });	// TODO: cache
+	if (user == null) throw new Error(`user not found`);
+	if (isLocalUser(user) !== true) throw new Error(`user is not local`);
+
+	if (level != null && level !== '00' && user.ed25519Key) {
+		return {
+			privateKeyPem: user.ed25519Key,
+			keyId: `${config.url}/users/${user._id}#ed25519-key`,
+		}
+	} else {
+		return {
+			privateKeyPem: user.keypair,
+			keyId: `${config.url}/users/${user._id}#main-key`,
+		}
+	}
 }

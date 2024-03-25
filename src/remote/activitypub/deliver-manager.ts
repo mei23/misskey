@@ -1,9 +1,13 @@
-import { isRemoteUser, IRemoteUser, isLocalUser, ILocalUser } from '../../models/user';
+import User, { isRemoteUser, IRemoteUser, isLocalUser, ILocalUser } from '../../models/user';
 import Following from '../../models/following';
 import { deliver } from '../../queue';
 import { InboxInfo } from '../../queue/types';
 import { isBlockedHost, isClosedHost, isSelfSilencedHost } from '../../services/instance-moderation';
 import { publicToHome } from '../../queue/processors/deliver';
+import { genEd25519KeyPair } from '@misskey-dev/node-http-message-signatures';
+import { renderActivity } from './renderer';
+import renderPerson from '../../remote/activitypub/renderer/person';
+import renderUpdate from '../../remote/activitypub/renderer/update';
 
 //#region types
 interface IRecipe {
@@ -78,6 +82,8 @@ export default class DeliverManager {
 	 */
 	public async execute(lowSeverity = false) {
 		if (!isLocalUser(this.actor)) return;
+
+		prepareEd25519Key(this.actor);
 
 		const inboxes: InboxInfo[] = [];
 
@@ -167,5 +173,24 @@ export async function deliverToUser(actor: ILocalUser, activity: any, to: IRemot
 	const manager = new DeliverManager(actor, activity);
 	manager.addDirectRecipe(to);
 	await manager.execute(lowSeverity);
+}
+
+async function prepareEd25519Key(actor: ILocalUser) {
+	if (actor.ed25519Key != null) return;
+
+	const ed25519KeyPair = await genEd25519KeyPair();
+
+	await User.update({ _id: actor._id }, {
+		$set: {
+			ed25519Key: ed25519KeyPair.privateKey,
+		}
+	});
+
+	// Update.Person
+	const fresh = await User.findOne({ _id: actor._id });
+	if (fresh == null) return;
+	if (isLocalUser(fresh) !== true) return;
+	const content = renderActivity(renderUpdate(await renderPerson(fresh), fresh));
+	deliverToFollowers(fresh, content);
 }
 //#endregion
