@@ -201,8 +201,8 @@ dependencies:
     specifier: 5.2.0
     version: 5.2.0
   katex:
-    specifier: 0.16.7
-    version: 0.16.7
+    specifier: 0.16.10
+    version: 0.16.10
   koa:
     specifier: 2.14.2
     version: 2.14.2
@@ -488,8 +488,8 @@ devDependencies:
     specifier: 1.5.13
     version: 1.5.13
   '@types/katex':
-    specifier: 0.16.0
-    version: 0.16.0
+    specifier: 0.16.7
+    version: 0.16.7
   '@types/koa':
     specifier: 2.13.8
     version: 2.13.8
@@ -2401,8 +2401,8 @@ packages:
     resolution: {integrity: sha512-n7fUU6W4kSYK8VQlf/LsE9kddBHPKhODoVOjsZswmve+2qLwBy6naWxs/EiuSZN9NU0N06Ra01FR+j87C62T0A==}
     dev: true
 
-  /@types/katex@0.16.0:
-    resolution: {integrity: sha512-hz+S3nV6Mym5xPbT9fnO8dDhBFQguMYpY0Ipxv06JMi1ORgnEM4M1ymWDUhUNer3ElLmT583opRo4RzxKmh9jw==}
+  /@types/katex@0.16.7:
+    resolution: {integrity: sha512-HMwFiRujE5PjrgwHQ25+bsLJgowjGjm5Z8FVSf0N6PwgJrwxH0QxzHYDcKsTfV3wva0vzrpqMTJS2jXPr5BMEQ==}
     dev: true
 
   /@types/keygrip@1.0.2:
@@ -7315,8 +7315,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /katex@0.16.7:
-    resolution: {integrity: sha512-Xk9C6oGKRwJTfqfIbtr0Kes9OSv6IFsuhFGc7tW4urlpMJtuh+7YhzU6YEG9n8gmWKcMAFzkp7nr+r69kV0zrA==}
+  /katex@0.16.10:
+    resolution: {integrity: sha512-ZiqaC04tp2O5utMsl2TEZTXxa6WSC4yo0fv5ML++D3QZv/vx2Mct0mTlRx3O+uUkjfuAgOkzsCmq5MiUEsDDdA==}
     hasBin: true
     dependencies:
       commander: 8.3.0
