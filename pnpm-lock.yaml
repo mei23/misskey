@@ -369,8 +369,8 @@ dependencies:
     specifier: 3.1.0
     version: 3.1.0
   three:
-    specifier: 0.131.3
-    version: 0.131.3
+    specifier: 0.163.0
+    version: 0.163.0
   tinycolor2:
     specifier: 1.4.2
     version: 1.4.2
@@ -10762,8 +10762,8 @@ packages:
       any-promise: 1.3.0
     dev: false
 
-  /three@0.131.3:
-    resolution: {integrity: sha512-VkZAv8ZTJqiE/fyEmoWLxcNHImpVcjqW7RO0GzMu3tRpwO0KUvK9pjTmJzJcAbc51BOeB2G38zh80yjHTbP8gQ==}
+  /three@0.163.0:
+    resolution: {integrity: sha512-HlMgCb2TF/dTLRtknBnjUTsR8FsDqBY43itYop2+Zg822I+Kd0Ua2vs8CvfBVefXkBdNDrLMoRTGCIIpfCuDew==}
     dev: false
 
   /through2-filter@3.0.0:
