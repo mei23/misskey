@@ -80,7 +80,10 @@ export async function apGet(url: string, user?: ILocalUser) {
 
 	if (res.body.length > 65536) throw new Error('too large JSON');
 
-	return await JSON.parse(res.body);
+	return {
+		object: await JSON.parse(res.body),
+		res,
+	};
 }
 
 function validateContentType(contentType: string | null | undefined): boolean {

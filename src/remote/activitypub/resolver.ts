@@ -66,20 +66,39 @@ export default class Resolver {
 			this.user = await getInstanceActor();
 		}
 
-		const object = await apGet(value, this.user);
+		const { object, res } = await apGet(value, this.user);
 
 		if (object === null || (
 			Array.isArray(object['@context']) ?
 				!object['@context'].includes('https://www.w3.org/ns/activitystreams') :
 				object['@context'] !== 'https://www.w3.org/ns/activitystreams'
 		)) {
-			throw {
-				name: `InvalidResponse`,
-				statusCode: 482,
-				message: `Invalid @context`
-			};
+			throw new StatusError(`Invalid @context`, 482);
 		}
 
-		return object;
+		// reject no object id
+		if (object.id == null) {
+			throw new StatusError(`Object has no ID`, 482);
+		}
+
+		// final landing url === responsed object id => success
+		if (res.url === object.id) {
+			return object;
+		}
+
+		// reject final landing host !== responsed object id host
+		if (new URL(res.url).host !== new URL(object.id).host) {
+			throw new StatusError(`Object ID host doesn't match final url host`, 482);
+		}
+
+		// second attempt by first id
+		const second = await apGet(object.id, this.user);
+
+		// final landing url === responsed object id => success
+		if (second.res.url !== second.object.id) {
+			throw new StatusError(`Object ID still doesn't match final URL after second fetch attempt`, 482);
+		}
+
+		return second.object;
 	}
 }
