@@ -114,7 +114,7 @@ export default defineComponent({
 			SKIN_TONES_SAMPLE,
 			SKIN_TONES,
 			pinned: false,
-			emojilist,
+			emojilist: emojilist.filter(x => !x.v),
 			getStaticImageUrl,
 			customEmojis: {},
 			q: null,
