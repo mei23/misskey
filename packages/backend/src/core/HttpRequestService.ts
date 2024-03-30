@@ -170,6 +170,8 @@ export class HttpRequestService {
 			validators: [],
 		},
 	): Promise<Response> {
+		if (!url.match(/^https?:/)) throw new StatusError('Invalid protocol', 400, 'Invalid protocol');
+
 		const timeout = args.timeout ?? 5000;
 
 		const controller = new AbortController();
