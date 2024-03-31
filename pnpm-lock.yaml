@@ -159,8 +159,8 @@ dependencies:
     specifier: 3.0.1
     version: 3.0.1
   gulp-swc:
-    specifier: 1.3.2
-    version: 1.3.2(@swc/core@1.4.11)(gulp@4.0.2)
+    specifier: 1.4.0
+    version: 1.4.0(@swc/core@1.4.11)(gulp@4.0.2)
   gulp-terser:
     specifier: 2.1.0
     version: 2.1.0
@@ -6394,11 +6394,11 @@ packages:
       - supports-color
     dev: false
 
-  /gulp-swc@1.3.2(@swc/core@1.4.11)(gulp@4.0.2):
-    resolution: {integrity: sha512-4pthk23bhSiggxs6PWp4JFePLTA1NRNxOs3pDjWMWZNcrXvjB2W40TZWIHwNMh+EGTQ3ROrEq/tBOuPLr0kN3w==}
-    engines: {node: '>=14'}
+  /gulp-swc@1.4.0(@swc/core@1.4.11)(gulp@4.0.2):
+    resolution: {integrity: sha512-tRUyhH3ii2WoowkP8/cxURQw/xs+wlOlVQSNnY13d3uudv7ghv0Sg/mGDNKKm+LmcUgEKFfbWWarkduu3G0iAQ==}
+    engines: {node: '>=18'}
     peerDependencies:
-      '@swc/core': ^1.3.46
+      '@swc/core': ^1.4.8
       gulp: ~3.9.0 || ^4.0.0
     dependencies:
       '@swc/core': 1.4.11
