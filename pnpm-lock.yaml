@@ -387,8 +387,8 @@ dependencies:
     specifier: 5.1.6
     version: 5.1.6
   uuid:
-    specifier: 9.0.0
-    version: 9.0.0
+    specifier: 9.0.1
+    version: 9.0.1
   v-animate-css:
     specifier: 0.0.6
     version: 0.0.6
@@ -593,8 +593,8 @@ devDependencies:
     specifier: 0.2.3
     version: 0.2.3
   '@types/uuid':
-    specifier: 9.0.2
-    version: 9.0.2
+    specifier: 9.0.8
+    version: 9.0.8
   '@types/web-push':
     specifier: 3.3.2
     version: 3.3.2
@@ -2765,8 +2765,8 @@ packages:
     resolution: {integrity: sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==}
     dev: true
 
-  /@types/uuid@9.0.2:
-    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
+  /@types/uuid@9.0.8:
+    resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
     dev: true
 
   /@types/vinyl@2.0.7:
@@ -11328,11 +11328,6 @@ packages:
 
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
-    dev: false
-
-  /uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
     hasBin: true
     dev: false
 
