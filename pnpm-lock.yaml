@@ -69,8 +69,8 @@ dependencies:
     specifier: 2.4.0
     version: 2.4.0
   autosize:
-    specifier: 4.0.2
-    version: 4.0.2
+    specifier: 4.0.4
+    version: 4.0.4
   autwh:
     specifier: 0.1.0
     version: 0.1.0
@@ -3745,8 +3745,8 @@ packages:
     engines: {node: '>=8.10', npm: '>=6.4.1'}
     dev: false
 
-  /autosize@4.0.2:
-    resolution: {integrity: sha512-jnSyH2d+qdfPGpWlcuhGiHmqBJ6g3X+8T+iRwFrHPLVcdoGJE/x6Qicm6aDHfTsbgZKxyV8UU/YB2p4cjKDRRA==}
+  /autosize@4.0.4:
+    resolution: {integrity: sha512-5yxLQ22O0fCRGoxGfeLSNt3J8LB1v+umtpMnPW6XjkTWXKoN0AmXAIhelJcDtFT/Y/wYWmfE+oqU10Q0b8FhaQ==}
     dev: false
 
   /autwh@0.1.0:
