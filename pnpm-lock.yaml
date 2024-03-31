@@ -518,8 +518,8 @@ devDependencies:
     specifier: 2.0.7
     version: 2.0.7
   '@types/koa__router':
-    specifier: 8.0.11
-    version: 8.0.11
+    specifier: 12.0.4
+    version: 12.0.4
   '@types/lodash':
     specifier: 4.17.0
     version: 4.17.0
@@ -2633,8 +2633,8 @@ packages:
       '@types/koa': 2.13.8
     dev: true
 
-  /@types/koa__router@8.0.11:
-    resolution: {integrity: sha512-WXgKWpBsbS14kzmzD9LeFapOIa678h7zvUHxDwXwSx4ETKXhXLVUAToX6jZ/U7EihM7qwyD9W/BZvB0MRu7MTQ==}
+  /@types/koa__router@12.0.4:
+    resolution: {integrity: sha512-Y7YBbSmfXZpa/m5UGGzb7XadJIRBRnwNY9cdAojZGp65Cpe5MAP3mOZE7e3bImt8dfKS4UFcR16SLH8L/z7PBw==}
     dependencies:
       '@types/koa': 2.13.8
     dev: true
