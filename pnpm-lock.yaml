@@ -237,8 +237,8 @@ dependencies:
     specifier: 2.29.4
     version: 2.29.4
   mongodb:
-    specifier: 3.7.3
-    version: 3.7.3
+    specifier: 3.7.4
+    version: 3.7.4
   monk:
     specifier: 7.3.0
     version: 7.3.0
@@ -8234,8 +8234,8 @@ packages:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
 
-  /mongodb@3.7.3:
-    resolution: {integrity: sha512-Psm+g3/wHXhjBEktkxXsFMZvd3nemI0r3IPsE0bU+4//PnvNWKkzhZcEsbPcYiWqe8XqXJJEg4Tgtr7Raw67Yw==}
+  /mongodb@3.7.4:
+    resolution: {integrity: sha512-K5q8aBqEXMwWdVNh94UQTwZ6BejVbFhh1uB6c5FKtPE9eUMZPUO3sRZdgIEcHSrAWmxzpG/FeODDKL388sqRmw==}
     engines: {node: '>=4'}
     peerDependencies:
       aws4: '*'
@@ -8295,7 +8295,7 @@ packages:
     resolution: {integrity: sha512-WqyCLjz32Q3OybOT+fleYHRz5DuG5/E0XKWvrmlHt0vPzTrNZ/BRQ+f2vzWi4apethuvblGTKsOtuDciM018dQ==}
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-      mongodb: 3.7.3
+      mongodb: 3.7.4
       monk-middleware-cast-ids: 0.2.1
       monk-middleware-fields: 0.2.0
       monk-middleware-handle-callback: 0.2.2
