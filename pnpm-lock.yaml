@@ -145,7 +145,7 @@ dependencies:
     version: 4.0.2
   gulp-postcss:
     specifier: 9.0.1
-    version: 9.0.1(postcss@8.4.31)(ts-node@10.9.1)
+    version: 9.0.1(postcss@8.4.31)(ts-node@10.9.2)
   gulp-rename:
     specifier: 2.0.0
     version: 2.0.0
@@ -381,8 +381,8 @@ dependencies:
     specifier: 9.4.4
     version: 9.4.4(typescript@5.1.6)(webpack@5.88.1)
   ts-node:
-    specifier: 10.9.1
-    version: 10.9.1(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.1.6)
+    specifier: 10.9.2
+    version: 10.9.2(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.1.6)
   typescript:
     specifier: 5.1.6
     version: 5.1.6
@@ -6329,7 +6329,7 @@ packages:
       - supports-color
     dev: false
 
-  /gulp-postcss@9.0.1(postcss@8.4.31)(ts-node@10.9.1):
+  /gulp-postcss@9.0.1(postcss@8.4.31)(ts-node@10.9.2):
     resolution: {integrity: sha512-9QUHam5JyXwGUxaaMvoFQVT44tohpEFpM8xBdPfdwTYGM0AItS1iTQz0MpsF8Jroh7GF5Jt2GVPaYgvy8qD2Fw==}
     engines: {node: ^10 || ^12 || >=14}
     peerDependencies:
@@ -6338,7 +6338,7 @@ packages:
       fancy-log: 1.3.3
       plugin-error: 1.0.1
       postcss: 8.4.31
-      postcss-load-config: 3.1.4(postcss@8.4.31)(ts-node@10.9.1)
+      postcss-load-config: 3.1.4(postcss@8.4.31)(ts-node@10.9.2)
       vinyl-sourcemaps-apply: 0.2.1
     transitivePeerDependencies:
       - ts-node
@@ -9021,7 +9021,7 @@ packages:
       postcss: 8.4.31
     dev: false
 
-  /postcss-load-config@3.1.4(postcss@8.4.31)(ts-node@10.9.1):
+  /postcss-load-config@3.1.4(postcss@8.4.31)(ts-node@10.9.2):
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
     engines: {node: '>= 10'}
     peerDependencies:
@@ -9035,7 +9035,7 @@ packages:
     dependencies:
       lilconfig: 2.0.6
       postcss: 8.4.31
-      ts-node: 10.9.1(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.1.6)
+      ts-node: 10.9.2(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.1.6)
       yaml: 1.10.2
     dev: false
 
@@ -11033,8 +11033,8 @@ packages:
       webpack: 5.88.1(@swc/core@1.4.11)(webpack-cli@4.10.0)
     dev: false
 
-  /ts-node@10.9.1(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.1.6):
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+  /ts-node@10.9.2(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.1.6):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
