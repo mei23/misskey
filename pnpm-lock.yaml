@@ -378,8 +378,8 @@ dependencies:
     specifier: 0.2.1
     version: 0.2.1
   ts-loader:
-    specifier: 9.4.4
-    version: 9.4.4(typescript@5.4.3)(webpack@5.91.0)
+    specifier: 9.5.1
+    version: 9.5.1(typescript@5.4.3)(webpack@5.91.0)
   ts-node:
     specifier: 10.9.2
     version: 10.9.2(@swc/core@1.4.11)(@types/node@18.11.18)(typescript@5.4.3)
@@ -5389,14 +5389,6 @@ packages:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
     dependencies:
       once: 1.4.0
-    dev: false
-
-  /enhanced-resolve@5.13.0:
-    resolution: {integrity: sha512-eyV8f0y1+bzyfh8xAwW/WTSZpLbjhqc4ne9eGSH4Zo2ejdyiNG9pU6mf9DG8a7+Auk6MFTlNOT4Y2y/9k8GKVg==}
-    engines: {node: '>=10.13.0'}
-    dependencies:
-      graceful-fs: 4.2.11
-      tapable: 2.2.1
     dev: false
 
   /enhanced-resolve@5.16.0:
@@ -11092,17 +11084,18 @@ packages:
       punycode: 2.3.0
     dev: false
 
-  /ts-loader@9.4.4(typescript@5.4.3)(webpack@5.91.0):
-    resolution: {integrity: sha512-MLukxDHBl8OJ5Dk3y69IsKVFRA/6MwzEqBgh+OXMPB/OD01KQuWPFd1WAQP8a5PeSCAxfnkhiuWqfmFJzJQt9w==}
+  /ts-loader@9.5.1(typescript@5.4.3)(webpack@5.91.0):
+    resolution: {integrity: sha512-rNH3sK9kGZcH9dYzC7CewQm4NtxJTjSEVRJ2DyBZR7f8/wcta+iV44UPCXc5+nzDzivKtlzV6c9P4e+oFhDLYg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       typescript: '*'
       webpack: ^5.0.0
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.13.0
+      enhanced-resolve: 5.16.0
       micromatch: 4.0.5
-      semver: 7.5.0
+      semver: 7.5.4
+      source-map: 0.7.4
       typescript: 5.4.3
       webpack: 5.91.0(@swc/core@1.4.11)(webpack-cli@4.10.0)
     dev: false

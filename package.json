@@ -151,7 +151,7 @@
 		"three": "0.131.3",
 		"tinycolor2": "1.4.2",
 		"tmp": "0.2.1",
-		"ts-loader": "9.4.4",
+		"ts-loader": "9.5.1",
 		"ts-node": "10.9.2",
 		"typescript": "5.4.3",
 		"uuid": "9.0.1",
