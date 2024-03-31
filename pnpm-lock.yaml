@@ -566,8 +566,8 @@ devDependencies:
     specifier: 2.8.32
     version: 2.8.32
   '@types/rename':
-    specifier: 1.0.4
-    version: 1.0.4
+    specifier: 1.0.7
+    version: 1.0.7
   '@types/request-stats':
     specifier: 3.0.3
     version: 3.0.3
@@ -2589,8 +2589,8 @@ packages:
       '@types/node': 18.11.18
     dev: true
 
-  /@types/rename@1.0.4:
-    resolution: {integrity: sha512-eV81+6bVv2mdCBahkMefjEUwAjKDAP3AuyhqWCWRxcRaeVdUeHUBaoq2zSz+5HNHF2jzTajMcfLvJsy4K3cbwA==}
+  /@types/rename@1.0.7:
+    resolution: {integrity: sha512-E9qapfghUGfBMi3jNhsmCKPIp3f2zvNKpaX1BDGLGJNjzpgsZ/RTx7NaNksFjGoJ+r9NvWF1NSM5vVecnNjVmw==}
     dev: true
 
   /@types/request-stats@3.0.3:
