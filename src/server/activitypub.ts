@@ -481,7 +481,7 @@ router.get('/likes/:like', async ctx => {
 		return;
 	}
 
-	ctx.body = renderActivity(await renderLike(reaction, note));
+	ctx.body = renderActivity(await renderLike(reaction, note), 'Like');
 	ctx.set('Cache-Control', 'public, max-age=180');
 	setResponseType(ctx);
 });

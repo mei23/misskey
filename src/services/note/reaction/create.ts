@@ -102,7 +102,7 @@ export default async (user: IUser, note: INote, reaction?: string, dislike = fal
 
 	//#region 配信
 	if (isLocalUser(user) && !note.localOnly && !user.noFederation) {
-		const content = renderActivity(await renderLike(inserted, note), user);
+		const content = renderActivity(await renderLike(inserted, note), 'Like');
 
 		const dm = new DeliverManager(user, content)
 
