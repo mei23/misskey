@@ -372,8 +372,8 @@ dependencies:
     specifier: 0.131.3
     version: 0.131.3
   tinycolor2:
-    specifier: 1.4.2
-    version: 1.4.2
+    specifier: 1.6.0
+    version: 1.6.0
   tmp:
     specifier: 0.2.1
     version: 0.2.1
@@ -587,8 +587,8 @@ devDependencies:
     specifier: 1.9.2
     version: 1.9.2
   '@types/tinycolor2':
-    specifier: 1.4.3
-    version: 1.4.3
+    specifier: 1.4.6
+    version: 1.4.6
   '@types/tmp':
     specifier: 0.2.3
     version: 0.2.3
@@ -2789,8 +2789,8 @@ packages:
     resolution: {integrity: sha512-ATAGBHHfA1TlE2tjfidLyTcysjoT2JHHEAmWRULh73SU9UTn++j5fqHEW16X6Y/2Li87jEQXzgu4R/OOdlDqzw==}
     dev: true
 
-  /@types/tinycolor2@1.4.3:
-    resolution: {integrity: sha512-Kf1w9NE5HEgGxCRyIcRXR/ZYtDv0V8FVPtYHwLxl0O+maGX0erE77pQlD0gpP+/KByMZ87mOA79SjifhSB3PjQ==}
+  /@types/tinycolor2@1.4.6:
+    resolution: {integrity: sha512-iEN8J0BoMnsWBqjVbWH/c0G0Hh7O21lpR2/+PrvAVgWdzL7eexIFm4JN/Wn10PTcmNdtS6U67r499mlWMXOxNw==}
     dev: true
 
   /@types/tmp@0.2.3:
@@ -10997,8 +10997,8 @@ packages:
       next-tick: 1.1.0
     dev: false
 
-  /tinycolor2@1.4.2:
-    resolution: {integrity: sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==}
+  /tinycolor2@1.6.0:
+    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
     dev: false
 
   /tmp@0.2.1:
@@ -11537,7 +11537,7 @@ packages:
       clamp: 1.0.1
       lodash.throttle: 4.1.1
       material-colors: 1.2.6
-      tinycolor2: 1.4.2
+      tinycolor2: 1.6.0
     dev: false
 
   /vue-content-loading@1.6.0:
