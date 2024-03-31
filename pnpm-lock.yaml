@@ -581,8 +581,8 @@ devDependencies:
     specifier: 2.0.1
     version: 2.0.1
   '@types/speakeasy':
-    specifier: 2.0.7
-    version: 2.0.7
+    specifier: 2.0.10
+    version: 2.0.10
   '@types/suncalc':
     specifier: 1.9.0
     version: 1.9.0
@@ -2629,8 +2629,8 @@ packages:
     resolution: {integrity: sha512-xdnAw2nFqomkaL0QdtEk0t7yz26UkaVPl4v1pYJvtE1T0fmfQEH3JaxErEhGByEAl3zUZrkNBlneuJp0WJGqEA==}
     dev: true
 
-  /@types/speakeasy@2.0.7:
-    resolution: {integrity: sha512-JEcOhN2SQCoX86ZfiZEe8px84sVJtivBXMZfOVyARTYEj0hrwwbj1nF0FwEL3nJSoEV6uTbcdLllMKBgAYHWCQ==}
+  /@types/speakeasy@2.0.10:
+    resolution: {integrity: sha512-QVRlDW5r4yl7p7xkNIbAIC/JtyOcClDIIdKfuG7PWdDT1MmyhtXSANsildohy0K+Lmvf/9RUtLbNLMacvrVwxA==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
