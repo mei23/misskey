@@ -429,8 +429,8 @@ dependencies:
     specifier: 2.7.16
     version: 2.7.16
   vue2-touch-events:
-    specifier: 3.2.2
-    version: 3.2.2
+    specifier: 3.2.3
+    version: 3.2.3
   vuedraggable:
     specifier: 2.24.3
     version: 2.24.3
@@ -11903,8 +11903,8 @@ packages:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==}
     dev: false
 
-  /vue2-touch-events@3.2.2:
-    resolution: {integrity: sha512-rGV8jxgOQEJYkJCp7uOBe3hjvmG1arThrq1wGtJHwJTgi65+P2a+0l4CYcQO/U1ZFqTq2/TT2+oTE6H7Y+6Eog==}
+  /vue2-touch-events@3.2.3:
+    resolution: {integrity: sha512-WgVK0g3rgMuIh8s3WXJlR7jHEmHGpduwRvhSbCfgiN43wqBoHBJNk6oAeL+8FLz7wZVKAxl61RvJHJ4JvgFEfw==}
     dev: false
 
   /vue@2.7.16:
