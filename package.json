@@ -54,7 +54,7 @@
 		"bootstrap": "4.6.2",
 		"bootstrap-vue": "2.23.1",
 		"browser-image-resizer": "2.4.1",
-		"bull": "4.10.4",
+		"bull": "4.12.2",
 		"cacheable-lookup": "6.1.0",
 		"cafy": "15.2.1",
 		"chalk": "4.1.2",
