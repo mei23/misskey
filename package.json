@@ -203,7 +203,7 @@
 		"@types/lodash": "4.17.0",
 		"@types/mocha": "10.0.6",
 		"@types/mongodb": "3.6.20",
-		"@types/node": "18.11.18",
+		"@types/node": "18.19.28",
 		"@types/nodemailer": "6.4.14",
 		"@types/nprogress": "0.2.3",
 		"@types/oauth": "0.9.4",
