@@ -438,8 +438,8 @@ dependencies:
     specifier: 3.6.2
     version: 3.6.2(vue@2.7.16)
   vuex-persistedstate:
-    specifier: 3.2.1
-    version: 3.2.1(vue@2.7.16)(vuex@3.6.2)
+    specifier: 4.1.0
+    version: 4.1.0(vuex@3.6.2)
   web-push:
     specifier: 3.6.7
     version: 3.6.7
@@ -11918,16 +11918,14 @@ packages:
       sortablejs: 1.10.2
     dev: false
 
-  /vuex-persistedstate@3.2.1(vue@2.7.16)(vuex@3.6.2):
-    resolution: {integrity: sha512-0OnHKGsCHJcvbEraaGZvuvX4aybM2oQWYRuZmIQB7zUjVM6tP+Hg+oXLrq9r6elT4she9SGtEbGE1L2+XdFgUw==}
+  /vuex-persistedstate@4.1.0(vuex@3.6.2):
+    resolution: {integrity: sha512-3SkEj4NqwM69ikJdFVw6gObeB0NHyspRYMYkR/EbhR0hbvAKyR5gksVhtAfY1UYuWUOCCA0QNGwv9pOwdj+XUQ==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
-      vue: ^2.0.0
-      vuex: ^2.0.0 || ^3.0.0
+      vuex: ^3.0 || ^4.0.0-rc
     dependencies:
       deepmerge: 4.2.2
       shvl: 2.0.3
-      vue: 2.7.16
       vuex: 3.6.2(vue@2.7.16)
     dev: false
 

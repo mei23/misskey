@@ -171,7 +171,7 @@
 		"vue2-touch-events": "3.2.3",
 		"vuedraggable": "2.24.3",
 		"vuex": "3.6.2",
-		"vuex-persistedstate": "3.2.1",
+		"vuex-persistedstate": "4.1.0",
 		"web-push": "3.6.7",
 		"webpack": "5.91.0",
 		"webpack-cli": "4.10.0",
