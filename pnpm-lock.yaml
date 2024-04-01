@@ -375,8 +375,8 @@ dependencies:
     specifier: 1.4.2
     version: 1.4.2
   tmp:
-    specifier: 0.2.1
-    version: 0.2.1
+    specifier: 0.2.3
+    version: 0.2.3
   ts-loader:
     specifier: 9.5.1
     version: 9.5.1(typescript@5.4.3)(webpack@5.91.0)
@@ -590,8 +590,8 @@ devDependencies:
     specifier: 1.4.3
     version: 1.4.3
   '@types/tmp':
-    specifier: 0.2.3
-    version: 0.2.3
+    specifier: 0.2.6
+    version: 0.2.6
   '@types/uuid':
     specifier: 9.0.8
     version: 9.0.8
@@ -3152,8 +3152,8 @@ packages:
     resolution: {integrity: sha512-Kf1w9NE5HEgGxCRyIcRXR/ZYtDv0V8FVPtYHwLxl0O+maGX0erE77pQlD0gpP+/KByMZ87mOA79SjifhSB3PjQ==}
     dev: true
 
-  /@types/tmp@0.2.3:
-    resolution: {integrity: sha512-dDZH/tXzwjutnuk4UacGgFRwV+JSLaXL1ikvidfJprkb7L9Nx1njcRHHmi3Dsvt7pgqqTEeucQuOrWHPFgzVHA==}
+  /@types/tmp@0.2.6:
+    resolution: {integrity: sha512-chhaNf2oKHlRkDGt+tiKE2Z5aJ6qalm7Z9rlLdBwmOiAAf09YQvvoLXjWK4HWPF1xU/fqvMgfNfpVoBscA/tKA==}
     dev: true
 
   /@types/tough-cookie@4.0.2:
@@ -11223,11 +11223,9 @@ packages:
     resolution: {integrity: sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==}
     dev: false
 
-  /tmp@0.2.1:
-    resolution: {integrity: sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==}
-    engines: {node: '>=8.17.0'}
-    dependencies:
-      rimraf: 3.0.2
+  /tmp@0.2.3:
+    resolution: {integrity: sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==}
+    engines: {node: '>=14.14'}
     dev: false
 
   /to-absolute-glob@2.0.2:
