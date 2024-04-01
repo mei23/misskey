@@ -393,8 +393,8 @@ dependencies:
     specifier: 0.0.6
     version: 0.0.6
   v-debounce:
-    specifier: 0.1.2
-    version: 0.1.2
+    specifier: 0.2.0
+    version: 0.2.0
   vue:
     specifier: 2.7.16
     version: 2.7.16
@@ -11640,8 +11640,8 @@ packages:
       scrollmonitor: 1.2.11
     dev: false
 
-  /v-debounce@0.1.2:
-    resolution: {integrity: sha512-Xl+bOpDB2c7RytpER6VB4ZSOJz1HPQkH3oerFYTVtKr7TbX4VbtnuDUfNX9gtZiXbF3SECWXnXgHdpCUxzKLmA==}
+  /v-debounce@0.2.0:
+    resolution: {integrity: sha512-aRm2D8SIs6jI9iaLzxry2TYWZtpuIj7gpQD82wQJFQVrX1iQFsRXdyxONlhlfv2wXV0dEhgXCH1j6+3VEJYpmg==}
     dev: false
 
   /v8-compile-cache-lib@3.0.1:

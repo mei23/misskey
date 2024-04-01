@@ -156,7 +156,7 @@
 		"typescript": "5.4.3",
 		"uuid": "9.0.1",
 		"v-animate-css": "0.0.6",
-		"v-debounce": "0.1.2",
+		"v-debounce": "0.2.0",
 		"vue": "2.7.16",
 		"vue-color": "2.8.1",
 		"vue-content-loading": "1.6.0",
