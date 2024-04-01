@@ -165,8 +165,8 @@ dependencies:
     specifier: 2.1.0
     version: 2.1.0
   highlight.js:
-    specifier: 10.6.0
-    version: 10.6.0
+    specifier: 10.7.3
+    version: 10.7.3
   htmlescape:
     specifier: 1.1.1
     version: 1.1.1
@@ -6859,8 +6859,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  /highlight.js@10.6.0:
-    resolution: {integrity: sha512-8mlRcn5vk/r4+QcqerapwBYTe+iPL5ih6xrNylxrnBdHQiijDETfXX7VIxC3UiCRiINBJfANBAsPzAvRQj8RpQ==}
+  /highlight.js@10.7.3:
+    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: false
 
   /highlightjs@9.16.2:

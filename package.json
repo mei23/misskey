@@ -80,7 +80,7 @@
 		"gulp-stylus": "3.0.1",
 		"gulp-swc": "1.4.0",
 		"gulp-terser": "2.1.0",
-		"highlight.js": "10.6.0",
+		"highlight.js": "10.7.3",
 		"htmlescape": "1.1.1",
 		"http-proxy-agent": "5.0.0",
 		"https-proxy-agent": "5.0.1",
