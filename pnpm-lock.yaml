@@ -441,8 +441,8 @@ dependencies:
     specifier: 3.2.1
     version: 3.2.1(vue@2.7.16)(vuex@3.6.2)
   web-push:
-    specifier: 3.6.2
-    version: 3.6.2
+    specifier: 3.6.7
+    version: 3.6.7
   webpack:
     specifier: 5.91.0
     version: 5.91.0(@swc/core@1.4.11)(webpack-cli@4.10.0)
@@ -596,8 +596,8 @@ devDependencies:
     specifier: 9.0.8
     version: 9.0.8
   '@types/web-push':
-    specifier: 3.3.2
-    version: 3.3.2
+    specifier: 3.6.3
+    version: 3.6.3
   '@types/webpack':
     specifier: 5.28.5
     version: 5.28.5(@swc/core@1.4.11)(webpack-cli@4.10.0)
@@ -3171,8 +3171,8 @@ packages:
       '@types/node': 18.11.18
     dev: false
 
-  /@types/web-push@3.3.2:
-    resolution: {integrity: sha512-JxWGVL/m7mWTIg4mRYO+A6s0jPmBkr4iJr39DqJpRJAc+jrPiEe1/asmkwerzRon8ZZDxaZJpsxpv0Z18Wo9gw==}
+  /@types/web-push@3.6.3:
+    resolution: {integrity: sha512-v3oT4mMJsHeJ/rraliZ+7TbZtr5bQQuxcgD7C3/1q/zkAj29c8RE0F9lVZVu3hiQe5Z9fYcBreV7TLnfKR+4mg==}
     dependencies:
       '@types/node': 18.11.18
     dev: true
@@ -3629,6 +3629,15 @@ packages:
   /agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /agent-base@7.1.1:
+    resolution: {integrity: sha512-H0TSyFNDMomMNJQBn8wFV5YC/2eJ+VXECwOadZJT554xP6cODZHPX3H9QMQECxvrgiSOP1pHjy1sMWQVYJOUOA==}
+    engines: {node: '>= 14'}
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
     transitivePeerDependencies:
@@ -6955,11 +6964,9 @@ packages:
       resolve-alpn: 1.2.1
     dev: false
 
-  /http_ece@1.1.0:
-    resolution: {integrity: sha512-bptAfCDdPJxOs5zYSe7Y3lpr772s1G346R4Td5LgRUeCwIGpCGDUTJxRrhTNcAXbx37spge0kWEIH7QAYWNTlA==}
-    engines: {node: '>=4'}
-    dependencies:
-      urlsafe-base64: 1.0.0
+  /http_ece@1.2.0:
+    resolution: {integrity: sha512-JrF8SSLVmcvc5NducxgyOrKXe3EsyHMgBFgSaIUGmArKe+rwr0uphRkRXvwiom3I+fpIfoItveHrfudL8/rxuA==}
+    engines: {node: '>=16'}
     dev: false
 
   /https-proxy-agent@5.0.1:
@@ -6967,6 +6974,16 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
+      debug: 4.3.4(supports-color@8.1.1)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /https-proxy-agent@7.0.4:
+    resolution: {integrity: sha512-wlwpilI7YdjSkWaQ/7omYBMTliDcmCN8OLihO6I9B86g06lMyAoqgoDpV0XqoaPOKj+0DIdAvnsWfyAAhmimcg==}
+    engines: {node: '>= 14'}
+    dependencies:
+      agent-base: 7.1.1
       debug: 4.3.4(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
@@ -11605,10 +11622,6 @@ packages:
       requires-port: 1.0.0
     dev: false
 
-  /urlsafe-base64@1.0.0:
-    resolution: {integrity: sha512-RtuPeMy7c1UrHwproMZN9gN6kiZ0SvJwRaEzwZY0j9MypEkFqyBaKv176jvlPtg58Zh36bOkS0NFABXMHvvGCA==}
-    dev: false
-
   /use@3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}
     engines: {node: '>=0.10.0'}
@@ -11956,14 +11969,14 @@ packages:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
 
-  /web-push@3.6.2:
-    resolution: {integrity: sha512-mqDSr+YAiee6URZwcJ2Qx2RPD7fo9hC/Ryj4rWN1TsvSDt29AEFuZ5/h5JjH+AgG4qk47t6JkRtfh8Dx4Kok/Q==}
-    engines: {node: '>= 6'}
+  /web-push@3.6.7:
+    resolution: {integrity: sha512-OpiIUe8cuGjrj3mMBFWY+e4MMIkW3SVT+7vEIjvD9kejGUypv8GPDf84JdPWskK8zMRIJ6xYGm+Kxr8YkPyA0A==}
+    engines: {node: '>= 16'}
     hasBin: true
     dependencies:
       asn1.js: 5.4.1
-      http_ece: 1.1.0
-      https-proxy-agent: 5.0.1
+      http_ece: 1.2.0
+      https-proxy-agent: 7.0.4
       jws: 4.0.0
       minimist: 1.2.7
     transitivePeerDependencies:
