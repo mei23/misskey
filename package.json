@@ -62,7 +62,7 @@
 		"content-disposition": "0.5.4",
 		"crc-32": "1.2.2",
 		"css-loader": "6.10.0",
-		"cssnano": "5.1.15",
+		"cssnano": "6.1.2",
 		"date-fns": "2.30.0",
 		"deepcopy": "0.6.3",
 		"double-ended-queue": "2.1.0-0",
