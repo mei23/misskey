@@ -461,8 +461,8 @@ dependencies:
 
 devDependencies:
   '@redocly/openapi-core':
-    specifier: 1.0.2
-    version: 1.0.2
+    specifier: 1.10.6
+    version: 1.10.6
   '@types/bcryptjs':
     specifier: 2.4.6
     version: 2.4.6
@@ -2102,12 +2102,16 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/openapi-core@1.0.2:
-    resolution: {integrity: sha512-53dzhmG2bsi/8rcAAgBKk9ZLMR035VHgN7oSM3+BM4UAIoNBg6lMC/ChHSf9zO+GrX5qtuWVPqHhjjMti3SAlQ==}
-    engines: {node: '>=12.0.0'}
+  /@redocly/config@0.1.6:
+    resolution: {integrity: sha512-8vXiTEKAqun98i7LksmhtMUIMl34ePiPchDdsikQLwh3/Hg8J9FyEZujwm5QvYQE2evo78W6x8pcHJtzSmyZgQ==}
+    dev: true
+
+  /@redocly/openapi-core@1.10.6:
+    resolution: {integrity: sha512-qWZszssMMe/UrJ4LN4qh2mdcIx5uMHwnvtkAEdmWYWlUv+LNaBeqazjDt0UrCOX5EsrD4d+21oxQJNdbyGMVVA==}
+    engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
-      '@types/node': 14.18.36
+      '@redocly/config': 0.1.6
       colorette: 1.4.0
       js-levenshtein: 1.1.6
       js-yaml: 4.1.0
@@ -3034,10 +3038,6 @@ packages:
     resolution: {integrity: sha512-6XzvzEyJ2ozFNfPajFmqH9JOt0Hp+9TawaYpJT59iIP/zR0U37cfWCRwosyIeEBBZBi021Osq4jGAD3AOju5fg==}
     dependencies:
       '@types/node': 18.19.28
-    dev: true
-
-  /@types/node@14.18.36:
-    resolution: {integrity: sha512-FXKWbsJ6a1hIrRxv+FoukuHnGTgEzKYGi7kilfMae96AL9UNkPFNWJEEYWzdRI9ooIkbr4AKldyuSTLql06vLQ==}
     dev: true
 
   /@types/node@18.19.28:
