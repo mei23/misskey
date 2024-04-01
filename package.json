@@ -68,7 +68,7 @@
 		"double-ended-queue": "2.1.0-0",
 		"escape-regexp": "0.0.1",
 		"eventemitter3": "4.0.7",
-		"file-type": "16.5.4",
+		"file-type": "19.0.0",
 		"fluent-ffmpeg": "2.1.2",
 		"glob": "8.1.0",
 		"got": "11.8.6",
