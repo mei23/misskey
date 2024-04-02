@@ -202,7 +202,7 @@
 		"@types/koa__router": "8.0.11",
 		"@types/lodash": "4.17.0",
 		"@types/mocha": "10.0.6",
-		"@types/mongodb": "3.6.20",
+		"@types/mongodb": "4.0.7",
 		"@types/node": "18.19.28",
 		"@types/nodemailer": "6.4.14",
 		"@types/nprogress": "0.2.3",
