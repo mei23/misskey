@@ -240,8 +240,8 @@ dependencies:
     specifier: 3.7.4
     version: 3.7.4
   monk:
-    specifier: 7.3.0
-    version: 7.3.0
+    specifier: 7.3.4
+    version: 7.3.4
   ms:
     specifier: 2.1.3
     version: 2.1.3
@@ -2994,7 +2994,6 @@ packages:
     deprecated: This is a stub types definition. bson provides its own type definitions, so you do not need this installed.
     dependencies:
       bson: 1.1.6
-    dev: true
 
   /@types/cacheable-request@6.0.3:
     resolution: {integrity: sha512-IQ3EbTzGxIigb1I3qPZc1rWJnH0BmSKv5QYTalEwweFvyBDLSAe24zP0le/hyi7ecGfZVlIVAg4BZqb8WBwKqw==}
@@ -3212,7 +3211,6 @@ packages:
     dependencies:
       '@types/bson': 4.2.0
       '@types/node': 18.19.28
-    dev: true
 
   /@types/needle@3.2.0:
     resolution: {integrity: sha512-6XzvzEyJ2ozFNfPajFmqH9JOt0Hp+9TawaYpJT59iIP/zR0U37cfWCRwosyIeEBBZBi021Osq4jGAD3AOju5fg==}
@@ -8664,9 +8662,10 @@ packages:
     resolution: {integrity: sha512-jSTz73B/+pGTTvhu5Ym8xsG6+QqaWab53UXnXdNNlTijTdLvcHABCLJXudQiJxob5N1Mzr5EOSx5ziwn2sihPQ==}
     dev: false
 
-  /monk@7.3.0:
-    resolution: {integrity: sha512-WqyCLjz32Q3OybOT+fleYHRz5DuG5/E0XKWvrmlHt0vPzTrNZ/BRQ+f2vzWi4apethuvblGTKsOtuDciM018dQ==}
+  /monk@7.3.4:
+    resolution: {integrity: sha512-PkPNiElwroVyKQj01usyziOvwiKYBUVSq7YU1FB4KFr0J3v0GeXW0TebYsLR4u33WB8JGqPiAcuzDspfdujqQg==}
     dependencies:
+      '@types/mongodb': 3.6.20
       debug: 4.3.4(supports-color@8.1.1)
       mongodb: 3.7.4
       monk-middleware-cast-ids: 0.2.1
