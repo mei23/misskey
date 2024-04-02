@@ -512,8 +512,8 @@ devDependencies:
     specifier: 2.0.4
     version: 2.0.4
   '@types/koa__cors':
-    specifier: 3.3.1
-    version: 3.3.1
+    specifier: 5.0.0
+    version: 5.0.0
   '@types/koa__multer':
     specifier: 2.0.7
     version: 2.0.7
@@ -2994,8 +2994,8 @@ packages:
       '@types/koa-compose': 3.2.5
       '@types/node': 18.19.28
 
-  /@types/koa__cors@3.3.1:
-    resolution: {integrity: sha512-aFGYhTFW7651KhmZZ05VG0QZJre7QxBxDj2LF1lf6GA/wSXEfKVAJxiQQWzRV4ZoMzQIO8vJBXKsUcRuvYK9qw==}
+  /@types/koa__cors@5.0.0:
+    resolution: {integrity: sha512-LCk/n25Obq5qlernGOK/2LUwa/2YJb2lxHUkkvYFDOpLXlVI6tKcdfCHRBQnOY4LwH6el5WOLs6PD/a8Uzau6g==}
     dependencies:
       '@types/koa': 2.15.0
     dev: true
