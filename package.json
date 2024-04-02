@@ -175,7 +175,7 @@
 		"web-push": "3.6.7",
 		"webpack": "5.91.0",
 		"webpack-cli": "4.10.0",
-		"ws": "8.13.0",
+		"ws": "8.16.0",
 		"xev": "2.0.1",
 		"xmlbuilder": "15.1.1"
 	},
@@ -228,7 +228,7 @@
 		"@types/web-push": "3.6.3",
 		"@types/webpack": "5.28.5",
 		"@types/websocket": "1.0.10",
-		"@types/ws": "8.5.5",
+		"@types/ws": "8.5.10",
 		"@typescript-eslint/eslint-plugin": "5.62.0",
 		"@typescript-eslint/parser": "5.62.0",
 		"cross-env": "7.0.3",
