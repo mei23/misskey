@@ -54,8 +54,8 @@ dependencies:
     specifier: 1.4.11
     version: 1.4.11
   '@twemoji/parser':
-    specifier: 15.1.0
-    version: 15.1.0
+    specifier: 15.1.1
+    version: 15.1.1
   animejs:
     specifier: 3.2.2
     version: 3.2.2
@@ -2931,8 +2931,8 @@ packages:
     resolution: {integrity: sha512-lh9515BNsvKSNvyUqbj5yFu83iIDQ77SwVcsN/SnEGawczhsKU6qWuogewN1GweTi5Imo5ToQ9s+nNTf97IXvg==}
     dev: false
 
-  /@twemoji/parser@15.1.0:
-    resolution: {integrity: sha512-3HTiSxPvkWUJ4kZeCvwyKlIwkpTUfBOk6igpBBRQni58ceQMv5YK4smkc8vX/eqOlMMNER/9qobv+Q6Q8LVrqA==}
+  /@twemoji/parser@15.1.1:
+    resolution: {integrity: sha512-CChRzIu6ngkCJOmURBlYEdX5DZSu+bBTtqR60XjBkFrmvplKW7OQsea+i8XwF4bLVlUXBO7ZmHhRPDzfQyLwwg==}
     dev: false
 
   /@types/accepts@1.3.5:
