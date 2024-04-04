@@ -1,4 +1,5 @@
-import { isRemoteUser, IRemoteUser, isLocalUser, ILocalUser } from '../../models/user';
+import * as mongo from 'mongodb';
+import { IRemoteUser, isLocalUser, ILocalUser } from '../../models/user';
 import Following from '../../models/following';
 import { deliver } from '../../queue';
 import { InboxInfo } from '../../queue/types';
@@ -89,25 +90,65 @@ export default class DeliverManager {
 		};
 
 		if (this.recipes.some(r => isFollowers(r))) {
-			// followers deliver
-			const followers = await Following.find({
-				followeeId: this.actor._id
-			});
+			const targets = await Following.aggregate([
+				{
+					$match: {
+						$and: [
+							{ followeeId: this.actor._id },	// my follower
+							{ '_follower.host': { $ne: null } },	// remote user
+							{
+								$or: [
+									{ '_follower.sharedInbox': { $ne: null } },
+									{ '_follower.inbox': { $ne: null } },
+								]
+							}
+						]
+					}
+				},
+				{
+					$group: {
+						_id: { sharedInbox: '$_follower.sharedInbox' },
+						users: {
+							$addToSet: {
+								id: '$followerId',
+								inbox: '$_follower.inbox'
+							}
+						}
+					}
+				},
+				{
+					$project: {
+						_id: false,
+						sharedInbox: '$_id.sharedInbox',
+						users: '$users',
+					}
+				}
+			]) as {
+				sharedInbox: string | null,
+				users: {
+					id: mongo.ObjectID,
+					inbox: string | null
+				}[]
+			}[];
 
-			for (const following of followers) {
-				const follower = following._follower;
-
-				if (isRemoteUser(follower)) {
-					const inbox: InboxInfo = follower.sharedInbox ? {
+			for (const target of targets) {
+				if (target.sharedInbox) {
+					addToDeliver({
 						origin: 'sharedInbox',
-						url: follower.sharedInbox
-					} : {
-						origin: 'inbox',
-						url: follower.inbox,
-						userId: `${follower._id}`
-					};
-
-					addToDeliver(inbox);
+						url: target.sharedInbox
+					});
+					//console.log(`deliver sharedInbox to=${target.sharedInbox}`);
+				} else {
+					for (const user of target.users) {
+						if (user.inbox) {
+							addToDeliver({
+								origin: 'inbox',
+								url: user.inbox,
+								userId: `${user.id}`
+							});
+							//console.log(`deliver inbox to=${user.inbox}`);
+						}
+					}
 				}
 			}
 		}
