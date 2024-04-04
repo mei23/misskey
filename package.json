@@ -42,7 +42,7 @@
 		"@koa/router": "8.0.8",
 		"@peertube/http-signature": "1.7.0",
 		"@prezzemolo/rap": "0.1.2",
-		"@swc/core": "1.4.11",
+		"@swc/core": "1.4.12",
 		"@twemoji/parser": "15.1.1",
 		"animejs": "3.2.2",
 		"apexcharts": "3.33.2",
