@@ -11,25 +11,40 @@ export async function doPostUnsuspend(user: IUser) {
 		// 知り得る全SharedInboxにUndo Delete配信
 		const content = renderActivity(renderUndo(renderDelete(`${config.url}/users/${user._id}`, user), user));
 
-		const queue: string[] = [];
+		const results = await Following.aggregate([
+			{
+				$match: {
+					$or: [
+						{ '_follower.sharedInbox': { $ne: null } },
+						{ '_followee.sharedInbox': { $ne: null } }
+					]
+				}
+			},
+			{
+				$project: {
+					sharedInbox: {
+						$setUnion: [['$_follower.sharedInbox'], ['$_followee.sharedInbox']]
+					}
+				}
+			},
+			{
+				$unwind: '$sharedInbox'
+			},
+			{
+				$match: {
+					sharedInbox: { $ne: null }
+				}
+			},
+			{
+				$group: {
+					_id: '$sharedInbox',
+				}
+			}
+		]) as { _id: string }[];
 
-		const followings = await Following.find({
-			$or: [
-				{ '_follower.sharedInbox': { $ne: null } },
-				{ '_followee.sharedInbox': { $ne: null } },
-			]
-		}, {
-			'_follower.sharedInbox': 1,
-			'_followee.sharedInbox': 1,
-		});
-
-		const inboxes = followings.map(x => x._follower.sharedInbox || x._followee.sharedInbox);
+		const inboxes = results.map(x => x._id);
 
 		for (const inbox of inboxes) {
-			if (inbox != null && !queue.includes(inbox)) queue.push(inbox);
-		}
-
-		for (const inbox of queue) {
 			deliver(user as any, content, inbox);
 		}
 	}
