@@ -461,8 +461,8 @@ dependencies:
 
 devDependencies:
   '@redocly/openapi-core':
-    specifier: 1.10.6
-    version: 1.10.6
+    specifier: 1.11.0
+    version: 1.11.0
   '@types/bcryptjs':
     specifier: 2.4.6
     version: 2.4.6
@@ -2243,16 +2243,16 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /@redocly/config@0.1.6:
-    resolution: {integrity: sha512-8vXiTEKAqun98i7LksmhtMUIMl34ePiPchDdsikQLwh3/Hg8J9FyEZujwm5QvYQE2evo78W6x8pcHJtzSmyZgQ==}
+  /@redocly/config@0.2.0:
+    resolution: {integrity: sha512-r0TqTPVXrxdvhpbOntWnJofOx0rC7u+A+tfC0KFwMtw38QCNb3pwodVjeLa7MT5Uu+fcPxfO119yLBj0QHvBuQ==}
     dev: true
 
-  /@redocly/openapi-core@1.10.6:
-    resolution: {integrity: sha512-qWZszssMMe/UrJ4LN4qh2mdcIx5uMHwnvtkAEdmWYWlUv+LNaBeqazjDt0UrCOX5EsrD4d+21oxQJNdbyGMVVA==}
+  /@redocly/openapi-core@1.11.0:
+    resolution: {integrity: sha512-VH10SAkDu+jVW9tDFJWWYroFxHVY9N5VS4gorXw0cK8L+LydUOQ4KiZaKbTsTF2piWmZCxngZI7sNPHMiJ4Ftg==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
     dependencies:
       '@redocly/ajv': 8.11.0
-      '@redocly/config': 0.1.6
+      '@redocly/config': 0.2.0
       colorette: 1.4.0
       js-levenshtein: 1.1.6
       js-yaml: 4.1.0
