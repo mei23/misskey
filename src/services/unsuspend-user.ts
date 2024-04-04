@@ -42,9 +42,7 @@ export async function doPostUnsuspend(user: IUser) {
 			}
 		]) as { _id: string }[];
 
-		const inboxes = results.map(x => x._id);
-
-		for (const inbox of inboxes) {
+		for (const inbox of results.map(x => x._id)) {
 			deliver(user as any, content, inbox);
 		}
 	}
