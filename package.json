@@ -28,8 +28,8 @@
 		"source-map": "^0.7.4"
 	},
 	"dependencies": {
-		"@aws-sdk/client-s3": "3.540.0",
-		"@aws-sdk/lib-storage": "3.540.0",
+		"@aws-sdk/client-s3": "3.549.0",
+		"@aws-sdk/lib-storage": "3.549.0",
 		"@aws-sdk/node-http-handler": "3.374.0",
 		"@discordapp/twemoji": "15.0.3",
 		"@fortawesome/fontawesome-svg-core": "1.2.36",
