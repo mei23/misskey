@@ -225,7 +225,7 @@ export async function resolveNote(value: string | IObject, resolver?: Resolver |
 export async function extractEmojis(tags: IObject | IObject[], host_: string) {
 	const host = toUnicode(host_.toLowerCase());
 
-	const eomjiTags = toArray(tags).filter(isEmoji);
+	const eomjiTags = toArray(tags).filter(isEmoji).filter(x => x.name.match(/^[:][\w-]{1,128}[:]$/));
 
 	return await Promise.all(
 		eomjiTags.map(async tag => {

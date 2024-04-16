@@ -18,5 +18,5 @@ export function extractEmojis(nodes: MfmNode[]): string[] {
 		}
 	}
 
-	return [...emojis];
+	return [...emojis].filter(x => x.match(/^[\w-]{1,128}$/))
 }

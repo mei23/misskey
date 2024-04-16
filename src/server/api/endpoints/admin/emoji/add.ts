@@ -15,7 +15,7 @@ export const meta = {
 
 	params: {
 		name: {
-			validator: $.str.min(1)
+			validator: $.str.min(1).max(128).pipe(x => /^[\w-]+$/.test(x)),
 		},
 
 		category: {
@@ -27,7 +27,7 @@ export const meta = {
 		},
 
 		aliases: {
-			validator: $.optional.arr($.str.min(1)),
+			validator: $.optional.arr($.str.min(1).max(128).pipe(x => /^[\w-]+$/.test(x))),
 			default: [] as string[]
 		},
 

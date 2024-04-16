@@ -20,7 +20,7 @@ export const meta = {
 		},
 
 		name: {
-			validator: $.str
+			validator: $.str.min(1).max(128).pipe(x => /^[\w-]+$/.test(x)),
 		},
 
 		category: {
@@ -36,7 +36,7 @@ export const meta = {
 		},
 
 		direction: {
-			validator: $.optional.str.or(['left', 'right'])
+			validator: $.optional.arr($.str.min(1).max(128).pipe(x => /^[\w-]+$/.test(x))),
 		}
 	}
 };

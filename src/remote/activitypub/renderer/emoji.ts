@@ -5,7 +5,7 @@ export default (emoji: IEmoji) => {
 	if (emoji.uri) return emoji.uri;
 
 	return {
-		id: `${config.url}/emojis/${emoji.name}`,
+		id: `${config.url}/emojis/${encodeURIComponent(emoji.name)}`,
 		type: 'Emoji',
 		name: `:${emoji.name}:`,
 		updated: emoji.updatedAt != null ? emoji.updatedAt.toISOString() : new Date().toISOString,

@@ -81,7 +81,7 @@ export async function packCustomEmoji(str: string, ownerHost: string | null): Pr
 	// str: 'a@.' => Emoji { name: 'a', host: null }	(リアクションのホスト省略系は必ずこの形式で来る)
 	// str: '@a@b' => Emoji { username: 'a', host: 'b' }
 
-	const match = str.match(/^(\w+)(?:@([\w.-]+))?$/);
+	const match = str.match(/^([\w-]+)(?:@([\w.-]+))?$/);
 	if (!match) return null;
 
 	// クエリに使うホスト
