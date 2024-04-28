@@ -15,42 +15,30 @@ const logger = apLogger;
  * Imageを作成します。
  */
 export async function createImage(actor: IRemoteUser, value: IObject): Promise<IDriveFile | null | undefined> {
-	const { object, apId } = await getApDocument(actor, value);
+	const { document, apId } = await getApDocument(actor, value);
 
-	if (!object) return null;	// not Document
+	if (!document) return null;	// not Document
 
-	logger.info(`Creating the Image: ${object.url}`);
+	logger.info(`Creating the Image: ${document.url} apId=${apId}`);
 
 	const instance = await fetchMeta();
 	const cache = instance.cacheRemoteFiles;
 
 	let file;
 	try {
-		file = await uploadFromUrl({ url: object.url as string, user: actor, uri: object.url as string, sensitive: !!object.sensitive, isLink: !cache, apId });
+		file = await uploadFromUrl({ url: document.url as string, user: actor, uri: document.url as string, sensitive: !!document.sensitive, isLink: !cache, apId });
 	} catch (e) {
 		// 4xxの場合は添付されてなかったことにする
 		if (e instanceof StatusError && e.isPermanentError) {
-			logger.warn(`Ignored image: ${object.url} - ${e.statusCode}`);
+			logger.warn(`Ignored image: ${document.url} - ${e.statusCode}`);
 			return null;
 		}
 
 		throw e;
 	}
 
-	// URLが異なっている場合、同じ画像が以前に異なるURLで登録されていたということなので、
-	// URLを更新する
-	if (file.metadata?.isRemote && file.metadata.url !== object.url) {
-		file = await DriveFile.findOneAndUpdate({ _id: file._id }, {
-			$set: {
-				'metadata.url': object.url,
-				'metadata.uri': object.url
-			}
-		}, {
-			returnNewDocument: true
-		});
-	}
-
-	return file;
+	const fresh = await detectChangeAndUpdate(file, document);
+	return fresh;
 }
 
 /**
@@ -60,32 +48,15 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
 export async function resolveImage(actor: IRemoteUser, value: IObject): Promise<IDriveFile | null | undefined> {
-	const { object, apId } = await getApDocument(actor, value);
+	const { document, apId } = await getApDocument(actor, value);
 
-	if (!object) return null;	// not Document
+	if (!document) return null;	// not Document
 
 	if (apId) {
-		const exists = await DriveFile.findOne({ apId: value.id });
+		const exists = await DriveFile.findOne({ apId: document.id });
 
 		if (exists) {
-			const set = { } as any;
-
-			// update metadata
-			if (typeof value.sensitive === 'boolean') set.isSensitive = value.sensitive;
-			if (typeof value.name === 'string') set.name = value.name;
-
-			// detect url change
-			if (exists.metadata?.isRemote && exists.metadata?.url !== value.url) {
-				set['metadata.url'] = value.url;
-				set['metadata.uri'] = value.url;
-			}
-
-			const fresh = await DriveFile.findOneAndUpdate({ _id: exists._id }, {
-				$set: set
-			}, {
-				returnNewDocument: true
-			});
-
+			const fresh = await detectChangeAndUpdate(exists, document);
 			return fresh;
 		}
 	}
@@ -95,49 +66,71 @@ export async function resolveImage(actor: IRemoteUser, value: IObject): Promise<
 }
 
 export async function updateImage(actor: IRemoteUser, value: IObject): Promise<string> {
-	const { object, apId } = await getApDocument(actor, value);
+	const { document, apId } = await getApDocument(actor, value);
 
-	if (!object) return `skip !object`;
-	if (!apId) return `skip !apId`;
+	if (!document) return `skip: invalid Document`;
+	if (!apId) return `skip: invalid apId=${apId}`;
 
 	const exists = await DriveFile.findOne({ apId });
-	if (!exists) return `skip !exists`;
+	if (!exists) return `skip: not existant apId=${apId}`;
 
 	// check owner
-	if (!oidEquals(exists.metadata?.userId, actor._id)) return `skip !owner`;
+	if (!oidEquals(exists.metadata?.userId, actor._id)) return `skip: invalid owner`;
 
-	const set = { } as any;
+	await detectChangeAndUpdate(exists, document);
 
-	if (typeof object.sensitive === 'boolean') set.isSensitive = object.sensitive;
-	if (typeof object.name === 'string') set.name = object.name;
-
-	if (exists.metadata?.isRemote && exists.metadata?.url !== object.url) {
-		set['metadata.url'] = object.url;
-		set['metadata.uri'] = object.url;
-	}
-
-	await DriveFile.findOneAndUpdate({ _id: exists._id }, {
-		$set: set
-	});
-
-	return `ok`;
+	return `ok: updated apId=${apId}`;
 }
 
-async function getApDocument(actor: IRemoteUser, value: IObject): Promise<{ object?: IApDocument, apId?: string }> {
-	// 投稿者が凍結か削除されていたらスキップ
+/**
+ * Detect DriveFile changes and update
+ * @param exists Current DB entity
+ * @param document Incomming AP Document
+ * @returns Fresh DriveFile
+ */
+async function detectChangeAndUpdate(exists: IDriveFile, document: IApDocument) {
+	const set = { } as any;
+
+	// detect general metadata changes
+	if (typeof document.sensitive === 'boolean') set.isSensitive = document.sensitive;
+	if (typeof document.name === 'string') set.name = document.name;
+
+	// detect src url change
+	if (exists.metadata?.isRemote && exists.metadata?.url !== document.url) {
+		set['metadata.url'] = document.url;
+		set['metadata.uri'] = document.url;
+	}
+
+	// TODO: no peform no needd
+
+	const fresh = await DriveFile.findOneAndUpdate({ _id: exists._id }, {
+		$set: set
+	}, {
+		returnNewDocument: true
+	});
+
+	if (!fresh) throw 'unex 23414r2t';
+	return fresh;
+}
+
+/**
+ * Get validated Document and apId (if available)
+ */
+async function getApDocument(actor: IRemoteUser, value: IObject): Promise<{ document?: IApDocument, apId?: string }> {
+	// check actor available
 	if (actor.isSuspended || actor.isDeleted) return { };
 
-	const object = await new Resolver().resolve(value);
+	const document = await new Resolver().resolve(value);
 
 	// check valid Document
-	if (!isDocument(object)) return { };
-	if (typeof object.url !== 'string') return { };
+	if (!isDocument(document)) return { };
+	if (typeof document.url !== 'string') return { };
 
-	// check valid id
+	// provide apId if valid
 	let apId: string | undefined = undefined;
 	try {
-		if (typeof object.id === 'string' && toApHost(object.id) === toApHost(actor.uri)) apId = object.id;
+		if (typeof document.id === 'string' && toApHost(document.id) === toApHost(actor.uri)) apId = document.id;
 	} catch { }
 
-	return { object, apId };
+	return { document, apId };
 }
