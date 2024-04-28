@@ -1,10 +1,11 @@
 import { IRemoteUser } from '../../../../models/user';
-import { IUpdate, isActor, getApType, isPost } from '../../type';
+import { IUpdate, isActor, getApType, isPost, isDocument } from '../../type';
 import { apLogger } from '../../logger';
 import { updateQuestion } from '../../models/question';
 import Resolver from '../../resolver';
 import { updatePerson } from '../../models/person';
 import updateNote from './note';
+import { updateImage } from '../../models/image';
 
 /**
  * Updateアクティビティを捌きます
@@ -31,6 +32,8 @@ export default async (actor: IRemoteUser, activity: IUpdate): Promise<string> =>
 		return `ok: Question updated`;
 	} else if (isPost(object)) {
 		return await updateNote(actor, object);
+	} else if (isDocument(object)) {
+		return await updateImage(actor, object);
 	} else {
 		return `skip: Unknown type: ${getApType(object)}`;
 	}

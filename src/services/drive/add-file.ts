@@ -388,6 +388,7 @@ type AddFileArgs = {
 	uri?: string | null;
 	/** CommMark file as sensitiveent */
 	sensitive?: boolean;
+	apId?: string | null;
 }
 
 /**
@@ -405,6 +406,7 @@ export async function addFile({
 	url = null,
 	uri = null,
 	sensitive = false,
+	apId = null,
 }: AddFileArgs): Promise<IDriveFile> {
 	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
@@ -512,7 +514,8 @@ export async function addFile({
 		properties: properties,
 		withoutChunks: isLink,
 		isRemote: isLink,
-		isSensitive: (isLocalUser(user) && user.settings?.alwaysMarkNsfw) || sensitive
+		isSensitive: (isLocalUser(user) && user.settings?.alwaysMarkNsfw) || sensitive,
+		apId,
 	} as IMetadata;
 
 	if (url !== null) {

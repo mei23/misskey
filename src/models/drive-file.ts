@@ -14,6 +14,7 @@ DriveFile.createIndex('metadata.uri');
 DriveFile.createIndex('metadata.userId');
 DriveFile.createIndex('metadata.folderId');
 DriveFile.createIndex('metadata._user.host');
+DriveFile.createIndex('metadata.apId', { sparse: true, unique: true });
 export default DriveFile;
 
 export const DriveFileChunk = db.get('driveFiles.chunks');
@@ -47,6 +48,9 @@ export type IMetadata = {
 	_user: any;
 	folderId: mongo.ObjectID;
 	comment: string;
+
+	/** ActivityPub object ID */
+	apId?: string;
 
 	/**
 	 * リモートインスタンスから取得した場合の元URL
