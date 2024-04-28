@@ -16,7 +16,7 @@ type Args = {
 	sensitive?: boolean;
 	force?: boolean;
 	isLink?: boolean;
-	apId?: string | null;
+	apId?: string;
 }
 
 export async function uploadFromUrl({
@@ -27,7 +27,7 @@ export async function uploadFromUrl({
 	sensitive = false,
 	force = false,
 	isLink = false,
-	apId = null,
+	apId,
 }: Args): Promise<IDriveFile> {
 	// Create temp file
 	const [path, cleanup] = await createTemp();

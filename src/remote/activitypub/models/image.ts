@@ -4,9 +4,10 @@ import DriveFile, { IDriveFile } from '../../../models/drive-file';
 import Resolver from '../resolver';
 import fetchMeta from '../../../misc/fetch-meta';
 import { apLogger } from '../logger';
-import { IApDocument, IObject, getApId, isDocument } from '../type';
+import { IApDocument, IObject, isDocument } from '../type';
 import { StatusError } from '../../../misc/fetch';
 import { oidEquals } from '../../../prelude/oid';
+import { toApHost } from '../../../misc/convert-host';
 
 const logger = apLogger;
 
@@ -14,50 +15,39 @@ const logger = apLogger;
  * Imageを作成します。
  */
 export async function createImage(actor: IRemoteUser, value: IObject): Promise<IDriveFile | null | undefined> {
-	// 投稿者が凍結か削除されていたらスキップ
-	if (actor.isSuspended || actor.isDeleted) {
-		return null;
-	}
+	const { object, apId } = await getApDocument(actor, value);
 
-	const image = await new Resolver().resolve(value);
+	if (!object) return null;	// not Document
 
-	if (!isDocument(image)) return null;
-
-	if (typeof image.url !== 'string') {
-		return null;
-	}
-
-	logger.info(`Creating the Image: ${image.url}`);
+	logger.info(`Creating the Image: ${object.url}`);
 
 	const instance = await fetchMeta();
 	const cache = instance.cacheRemoteFiles;
 
 	let file;
 	try {
-		file = await uploadFromUrl({ url: image.url, user: actor, uri: image.url, sensitive: !!image.sensitive, isLink: !cache, apId: image.id });
+		file = await uploadFromUrl({ url: object.url as string, user: actor, uri: object.url as string, sensitive: !!object.sensitive, isLink: !cache, apId });
 	} catch (e) {
 		// 4xxの場合は添付されてなかったことにする
 		if (e instanceof StatusError && e.isPermanentError) {
-			logger.warn(`Ignored image: ${image.url} - ${e.statusCode}`);
+			logger.warn(`Ignored image: ${object.url} - ${e.statusCode}`);
 			return null;
 		}
 
 		throw e;
 	}
 
-	if (file.metadata?.isRemote) {
-		// URLが異なっている場合、同じ画像が以前に異なるURLで登録されていたということなので、
-		// URLを更新する
-		if (file.metadata.url !== image.url) {
-			file = await DriveFile.findOneAndUpdate({ _id: file._id }, {
-				$set: {
-					'metadata.url': image.url,
-					'metadata.uri': image.url
-				}
-			}, {
-				returnNewDocument: true
-			});
-		}
+	// URLが異なっている場合、同じ画像が以前に異なるURLで登録されていたということなので、
+	// URLを更新する
+	if (file.metadata?.isRemote && file.metadata.url !== object.url) {
+		file = await DriveFile.findOneAndUpdate({ _id: file._id }, {
+			$set: {
+				'metadata.url': object.url,
+				'metadata.uri': object.url
+			}
+		}, {
+			returnNewDocument: true
+		});
 	}
 
 	return file;
@@ -70,10 +60,12 @@ export async function createImage(actor: IRemoteUser, value: IObject): Promise<I
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
 export async function resolveImage(actor: IRemoteUser, value: IObject): Promise<IDriveFile | null | undefined> {
-	const apId = getApId(value);
-	
+	const { object, apId } = await getApDocument(actor, value);
+
+	if (!object) return null;	// not Document
+
 	if (apId) {
-		const exists = await DriveFile.findOne({ apId });
+		const exists = await DriveFile.findOne({ apId: value.id });
 
 		if (exists) {
 			const set = { } as any;
@@ -102,8 +94,10 @@ export async function resolveImage(actor: IRemoteUser, value: IObject): Promise<
 	return await createImage(actor, value);
 }
 
-export async function updateImage(actor: IRemoteUser, value: IApDocument) {
-	const apId = getApId(value);
+export async function updateImage(actor: IRemoteUser, value: IObject): Promise<string> {
+	const { object, apId } = await getApDocument(actor, value);
+
+	if (!object) return `skip !object`;
 	if (!apId) return `skip !apId`;
 
 	const exists = await DriveFile.findOne({ apId });
@@ -114,12 +108,12 @@ export async function updateImage(actor: IRemoteUser, value: IApDocument) {
 
 	const set = { } as any;
 
-	if (typeof value.sensitive === 'boolean') set.isSensitive = value.sensitive;
-	if (typeof value.name === 'string') set.name = value.name;
+	if (typeof object.sensitive === 'boolean') set.isSensitive = object.sensitive;
+	if (typeof object.name === 'string') set.name = object.name;
 
-	if (exists.metadata?.isRemote && exists.metadata?.url !== value.url) {
-		set['metadata.url'] = value.url;
-		set['metadata.uri'] = value.url;
+	if (exists.metadata?.isRemote && exists.metadata?.url !== object.url) {
+		set['metadata.url'] = object.url;
+		set['metadata.uri'] = object.url;
 	}
 
 	await DriveFile.findOneAndUpdate({ _id: exists._id }, {
@@ -127,4 +121,23 @@ export async function updateImage(actor: IRemoteUser, value: IApDocument) {
 	});
 
 	return `ok`;
+}
+
+async function getApDocument(actor: IRemoteUser, value: IObject): Promise<{ object?: IApDocument, apId?: string }> {
+	// 投稿者が凍結か削除されていたらスキップ
+	if (actor.isSuspended || actor.isDeleted) return { };
+
+	const object = await new Resolver().resolve(value);
+
+	// check valid Document
+	if (!isDocument(object)) return { };
+	if (typeof object.url !== 'string') return { };
+
+	// check valid id
+	let apId: string | undefined = undefined;
+	try {
+		if (typeof object.id === 'string' && toApHost(object.id) === toApHost(actor.uri)) apId = object.id;
+	} catch { }
+
+	return { object, apId };
 }
