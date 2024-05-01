@@ -14,7 +14,7 @@ import { FetchInstanceMetadataService } from '@/core/FetchInstanceMetadataServic
 import InstanceChart from '@/core/chart/charts/instance.js';
 import ApRequestChart from '@/core/chart/charts/ap-request.js';
 import FederationChart from '@/core/chart/charts/federation.js';
-import { getApId } from '@/core/activitypub/type.js';
+import { getApId, IActivity } from '@/core/activitypub/type.js';
 import type { MiRemoteUser } from '@/models/User.js';
 import type { MiUserPublickey } from '@/models/UserPublickey.js';
 import { ApDbResolverService } from '@/core/activitypub/ApDbResolverService.js';
@@ -52,7 +52,7 @@ export class InboxProcessorService {
 	@bindThis
 	public async process(job: Bull.Job<InboxJobData>): Promise<string> {
 		const signature = job.data.signature;	// HTTP-signature
-		const activity = job.data.activity;
+		let activity = job.data.activity;
 
 		//#region Log
 		const info = Object.assign({}, activity);
@@ -138,6 +138,19 @@ export class InboxProcessorService {
 				if (!verified) {
 					throw new Bull.UnrecoverableError('skip: LD-Signatureの検証に失敗しました');
 				}
+
+				// アクティビティをcompact
+				const backupedSignature = activity.signature;
+				delete activity.signature;
+				try {
+					activity = await ldSignature.compact(activity) as IActivity;
+				} catch (e) {
+					throw new Bull.UnrecoverableError(`skip: failed to compact activity: ${e}`);
+				}
+
+				// TODO: 元のアクティビティと非互換な形にcompactされる場合は転送をスキップする
+				// https://github.com/mastodon/mastodon/blob/664b0ca/app/services/activitypub/process_collection_service.rb#L24-L29
+				activity.signature = backupedSignature;
 
 				// もう一度actorチェック
 				if (authUser.user.uri !== activity.actor) {

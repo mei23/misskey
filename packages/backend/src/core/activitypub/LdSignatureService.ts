@@ -7,7 +7,7 @@ import * as crypto from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { HttpRequestService } from '@/core/HttpRequestService.js';
 import { bindThis } from '@/decorators.js';
-import { CONTEXTS } from './misc/contexts.js';
+import { CONTEXTS, FIXED_CONTEXTS } from './misc/contexts.js';
 import { validateContentTypeSetAsJsonLD } from './misc/validator.js';
 import type { JsonLdDocument } from 'jsonld';
 import type { JsonLd, RemoteDocument } from 'jsonld/jsonld-spec.js';
@@ -94,6 +94,13 @@ class LdSignature {
 		// XXX: Importing jsonld dynamically since Jest frequently fails to import it statically
 		// https://github.com/misskey-dev/misskey/pull/9894#discussion_r1103753595
 		return (await import('jsonld')).default.normalize(data, {
+			documentLoader: customLoader,
+		});
+	}
+
+	public async compact(data: any, context: any = FIXED_CONTEXTS): Promise<JsonLdDocument> {
+		const customLoader = this.getLoader();
+		return (await import('jsonld')).default.compact(data, context, {
 			documentLoader: customLoader,
 		});
 	}
