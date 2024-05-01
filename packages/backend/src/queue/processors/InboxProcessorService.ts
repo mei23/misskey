@@ -140,17 +140,12 @@ export class InboxProcessorService {
 				}
 
 				// アクティビティをcompact
-				const backupedSignature = activity.signature;
 				delete activity.signature;
 				try {
 					activity = await ldSignature.compact(activity) as IActivity;
 				} catch (e) {
 					throw new Bull.UnrecoverableError(`skip: failed to compact activity: ${e}`);
 				}
-
-				// TODO: 元のアクティビティと非互換な形にcompactされる場合は転送をスキップする
-				// https://github.com/mastodon/mastodon/blob/664b0ca/app/services/activitypub/process_collection_service.rb#L24-L29
-				activity.signature = backupedSignature;
 
 				// もう一度actorチェック
 				if (authUser.user.uri !== activity.actor) {
