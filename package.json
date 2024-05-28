@@ -122,7 +122,7 @@
 		"progress-bar-webpack-plugin": "2.1.0",
 		"promise-limit": "2.7.0",
 		"promise-sequential": "1.1.1",
-		"pug": "3.0.2",
+		"pug": "3.0.3",
 		"punycode": "2.3.1",
 		"qrcode": "1.5.1",
 		"reconnecting-websocket": "4.4.0",
