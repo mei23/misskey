@@ -141,6 +141,11 @@ type IUserBase = {
 	 */
 	isExplorable?: boolean;
 
+	/**
+	 * リアクションを無効にするか
+	 */
+	disableReaction?: boolean;
+
 	searchableBy?: 'public' | 'none' | null;
 
 	/**
@@ -547,6 +552,7 @@ export async function pack(
 			isExplorable: !!db.isExplorable,
 			searchableBy: db.searchableBy || 'public',
 			hideFollows: db.hideFollows || '',
+			disableReaction: !!db.disableReaction,
 
 			wallpaperId: toOidStringOrNull(db.wallpaperId),
 			wallpaperUrl: sanitizeUrl(db.wallpaperUrl) || null,
