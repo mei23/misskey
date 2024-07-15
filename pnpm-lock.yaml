@@ -204,8 +204,8 @@ dependencies:
     specifier: 0.16.10
     version: 0.16.10
   koa:
-    specifier: 2.15.2
-    version: 2.15.2
+    specifier: 2.15.3
+    version: 2.15.3
   koa-bodyparser:
     specifier: 4.4.1
     version: 4.4.1
@@ -7951,8 +7951,8 @@ packages:
       q: 1.4.1
     dev: false
 
-  /koa@2.15.2:
-    resolution: {integrity: sha512-MXTeZH3M6AJ8ukW2QZ8wqO3Dcdfh2WRRmjCBkEP+NhKNCiqlO5RDqHmSnsyNrbRJrdjyvIGSJho4vQiWgQJSVA==}
+  /koa@2.15.3:
+    resolution: {integrity: sha512-j/8tY9j5t+GVMLeioLaxweJiKUayFhlGqNTzf2ZGwL0ZCQijd2RLHK0SLW5Tsko8YyyqCZC2cojIb0/s62qTAg==}
     engines: {node: ^4.8.4 || ^6.10.1 || ^7.10.1 || >= 8.1.4}
     dependencies:
       accepts: 1.3.8
