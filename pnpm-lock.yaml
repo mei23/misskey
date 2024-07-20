@@ -112,7 +112,7 @@ importers:
         version: 1.2.2
       css-loader:
         specifier: 6.11.0
-        version: 6.11.0(webpack@5.93.0)
+        version: 6.11.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       cssnano:
         specifier: 6.1.2
         version: 6.1.2(postcss@8.4.39)
@@ -148,7 +148,7 @@ importers:
         version: 4.0.2
       gulp-postcss:
         specifier: 9.0.1
-        version: 9.0.1(postcss@8.4.39)(ts-node@10.9.2)
+        version: 9.0.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3))
       gulp-rename:
         specifier: 2.0.0
         version: 2.0.0
@@ -199,10 +199,10 @@ importers:
         version: 2.2.3
       json5-loader:
         specifier: 4.0.1
-        version: 4.0.1(webpack@5.93.0)
+        version: 4.0.1(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       jsonld:
         specifier: 8.3.2
-        version: 8.3.2
+        version: 8.3.2(web-streams-polyfill@3.3.3)
       katex:
         specifier: 0.16.10
         version: 0.16.10
@@ -277,7 +277,7 @@ importers:
         version: 8.4.39
       postcss-loader:
         specifier: 8.1.1
-        version: 8.1.1(postcss@8.4.39)(typescript@5.5.3)(webpack@5.93.0)
+        version: 8.1.1(postcss@8.4.39)(typescript@5.5.3)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       private-ip:
         specifier: 2.3.4
         version: 2.3.4
@@ -286,7 +286,7 @@ importers:
         version: 7.2.3
       progress-bar-webpack-plugin:
         specifier: 2.1.0
-        version: 2.1.0(webpack@5.93.0)
+        version: 2.1.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       promise-limit:
         specifier: 2.7.0
         version: 2.7.0
@@ -349,7 +349,7 @@ importers:
         version: 0.63.0
       stylus-loader:
         specifier: 7.1.3
-        version: 7.1.3(stylus@0.63.0)(webpack@5.93.0)
+        version: 7.1.3(stylus@0.63.0)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       summaly:
         specifier: mei23/summaly#3.13.0
         version: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c
@@ -364,7 +364,7 @@ importers:
         version: 0.0.1
       terser-webpack-plugin:
         specifier: 4.2.3
-        version: 4.2.3(webpack@5.93.0)
+        version: 4.2.3(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       textarea-caret:
         specifier: 3.1.0
         version: 3.1.0
@@ -379,7 +379,7 @@ importers:
         version: 0.2.3
       ts-loader:
         specifier: 9.5.1
-        version: 9.5.1(typescript@5.5.3)(webpack@5.93.0)
+        version: 9.5.1(typescript@5.5.3)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3)
@@ -412,7 +412,7 @@ importers:
         version: 1.3.35(vue@2.7.16)
       vue-loader:
         specifier: 15.11.1
-        version: 15.11.1(css-loader@6.11.0)(lodash@4.17.21)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.93.0)
+        version: 15.11.1(css-loader@6.11.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)))(lodash@4.17.21)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       vue-router:
         specifier: 3.6.5
         version: 3.6.5(vue@2.7.16)
@@ -439,7 +439,7 @@ importers:
         version: 3.6.2(vue@2.7.16)
       vuex-persistedstate:
         specifier: 3.2.1
-        version: 3.2.1(vue@2.7.16)(vuex@3.6.2)
+        version: 3.2.1(vue@2.7.16)(vuex@3.6.2(vue@2.7.16))
       web-push:
         specifier: 3.6.7
         version: 3.6.7
@@ -535,8 +535,8 @@ importers:
         specifier: 0.2.3
         version: 0.2.3
       '@types/oauth':
-        specifier: 0.9.4
-        version: 0.9.4
+        specifier: 0.9.5
+        version: 0.9.5
       '@types/parse5':
         specifier: 6.0.3
         version: 6.0.3
@@ -593,7 +593,7 @@ importers:
         version: 3.6.3
       '@types/webpack':
         specifier: 5.28.5
-        version: 5.28.5(@swc/core@1.6.13)(webpack-cli@4.10.0)
+        version: 5.28.5(@swc/core@1.6.13)(webpack-cli@4.10.0(webpack@5.93.0))
       '@types/websocket':
         specifier: 1.0.10
         version: 1.0.10
@@ -602,7 +602,7 @@ importers:
         version: 8.5.10
       '@typescript-eslint/eslint-plugin':
         specifier: 7.5.0
-        version: 7.5.0(@typescript-eslint/parser@7.5.0)(eslint@8.57.0)(typescript@5.5.3)
+        version: 7.5.0(@typescript-eslint/parser@7.5.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
       '@typescript-eslint/parser':
         specifier: 7.5.0
         version: 7.5.0(eslint@8.57.0)(typescript@5.5.3)
@@ -1011,6 +1011,7 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -1018,6 +1019,7 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.2':
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
+    deprecated: Use @eslint/object-schema instead
 
   '@img/sharp-darwin-arm64@0.33.3':
     resolution: {integrity: sha512-FaNiGX1MrOuJ3hxuNzWgsT/mg5OHG/Izh59WW2mk1UwYHUwtfbhk5QNKYZgxf0pLOhx9ctGiGa2OykD71vOnSw==}
@@ -1175,6 +1177,7 @@ packages:
   '@koa/router@8.0.8':
     resolution: {integrity: sha512-FnT93N4NUehnXr+juupDmG2yfi0JnWdCmNEuIXpCG4TtG+9xvtrLambBH3RclycopVUOEYAim2lydiNBI7IRVg==}
     engines: {node: '>= 8.0.0'}
+    deprecated: '**IMPORTANT 10x+ PERFORMANCE UPGRADE**: Please upgrade to v12.0.1+ as we have fixed an issue with debuglog causing 10x slower router benchmark performance, see https://github.com/koajs/router/pull/173'
 
   '@ladjs/consolidate@1.0.2':
     resolution: {integrity: sha512-5yU0kkosdybqO8p5ZD+QxRosX5/up3YvvIGZRJCJrvq0Fcda/fVZNnPy74hHcI6Tu4Bw4vbXPdy1nma1qQX7FA==}
@@ -1867,8 +1870,8 @@ packages:
   '@types/nprogress@0.2.3':
     resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
 
-  '@types/oauth@0.9.4':
-    resolution: {integrity: sha512-qk9orhti499fq5XxKCCEbd0OzdPZuancneyse3KtR+vgMiHRbh+mn8M4G6t64ob/Fg+GZGpa565MF/2dKWY32A==}
+  '@types/oauth@0.9.5':
+    resolution: {integrity: sha512-+oQ3C2Zx6ambINOcdIARF5Z3Tu3x//HipE889/fqo3sgpQZbe9c6ExdQFtN6qlhpR7p83lTZfPJt0tCAW29dog==}
 
   '@types/parse5@6.0.3':
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
@@ -2098,6 +2101,7 @@ packages:
 
   abab@2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
+    deprecated: Use your platform's native atob() and btoa() methods instead
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -3268,6 +3272,7 @@ packages:
   domexception@4.0.0:
     resolution: {integrity: sha512-A2is4PLG+eeSfoTMA95/s4pvAoSo2mKtiM5jlHkAVewmiO8ISFTFKZjH7UAM1Atli/OT/7JHOrJRJiMKUZKYBw==}
     engines: {node: '>=12'}
+    deprecated: Use your platform's native DOMException instead
 
   domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
@@ -3747,10 +3752,12 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-modules@1.0.0:
     resolution: {integrity: sha512-sKzpEkf11GpOFuw0Zzjzmt4B4UZwjOcG757PPvrfhxcLFbq0wpsgpOqxpxtxFiCG4DtG93M6XRVbF2oGdev7bg==}
@@ -4033,6 +4040,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
@@ -4092,10 +4100,12 @@ packages:
   is-accessor-descriptor@0.1.6:
     resolution: {integrity: sha512-e1BM1qnDbMRG3ll2U9dSK0UMHuWOs3pY3AtcFsmvwPtKL3MML/Q86i+GilLfvqEs4GW+ExB91tQ3Ig9noDIZ+A==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v0.1.7
 
   is-accessor-descriptor@1.0.0:
     resolution: {integrity: sha512-m5hnHTkcVsPfqx3AKlyttIPb7J+XykHvJP2B9bZDjlhLIoEq4XoK64Vg7boZlVWYK6LUY94dYPEE7Lh0ZkZKcQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v1.0.1
 
   is-array-buffer@3.0.1:
     resolution: {integrity: sha512-ASfLknmY8Xa2XtB4wmbz13Wu202baeA18cJBCeCy0wXUHZF0IPyVEXqKEcd+t2fNSLLL1vC6k7lxZEojNbISXQ==}
@@ -4138,10 +4148,12 @@ packages:
   is-data-descriptor@0.1.4:
     resolution: {integrity: sha512-+w9D5ulSoBNlmw9OHn3U2v51SyoCd0he+bB3xMl62oijhrspxowjU+AIcDY0N3iEJbUEkB15IlMASQsxYigvXg==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v0.1.5
 
   is-data-descriptor@1.0.0:
     resolution: {integrity: sha512-jbRXy1FmtAoCjQkVmIVYwuuqDFUbaOeDjmed1tOGPrsMhtJA4rD9tkgA0F1qJ3gRFRXcHYVkdeaP50Q5rE/jLQ==}
     engines: {node: '>=0.10.0'}
+    deprecated: Please upgrade to v1.0.1
 
   is-date-object@1.0.5:
     resolution: {integrity: sha512-9YQaSxsAiSwcvS33MBk3wTCVnWK+HhF8VZR2jRxehM16QcVOdHqPn4VPHmRK4lSr38n9JriurInLcP90xsYNfQ==}
@@ -5610,10 +5622,18 @@ packages:
   q@1.4.1:
     resolution: {integrity: sha512-/CdEdaw49VZVmyIDGUQKDDT53c7qBkO6g5CefWz91Ae+l4+cRtcDYwMTXh6me4O8TMldeGHG3N2Bl84V78Ywbg==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   q@1.5.1:
     resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
     engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   qrcode@1.5.1:
     resolution: {integrity: sha512-nS8NJ1Z3md8uTjKtP+SGGhfqmTCs5flU/xR623oI0JX+Wepz9R8UrRVCTBTJm3qGw3rH6jJ6MUHjkDx15cxSSg==}
@@ -5828,6 +5848,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rndstr@1.0.0:
@@ -6176,7 +6197,6 @@ packages:
 
   summaly@https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c:
     resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/db9600aa73d8747c0fd83f7e3da298273ec1fd3c}
-    name: summaly
     version: 3.13.0
 
   suncalc@1.9.0:
@@ -7001,7 +7021,7 @@ snapshots:
       '@aws-sdk/client-sso-oidc': 3.614.0(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/client-sts': 3.614.0
       '@aws-sdk/core': 3.614.0
-      '@aws-sdk/credential-provider-node': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)(@aws-sdk/client-sts@3.614.0)
+      '@aws-sdk/credential-provider-node': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/middleware-bucket-endpoint': 3.614.0
       '@aws-sdk/middleware-expect-continue': 3.609.0
       '@aws-sdk/middleware-flexible-checksums': 3.614.0
@@ -7062,7 +7082,7 @@ snapshots:
       '@aws-crypto/sha256-js': 5.2.0
       '@aws-sdk/client-sts': 3.614.0
       '@aws-sdk/core': 3.614.0
-      '@aws-sdk/credential-provider-node': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)(@aws-sdk/client-sts@3.614.0)
+      '@aws-sdk/credential-provider-node': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/middleware-host-header': 3.609.0
       '@aws-sdk/middleware-logger': 3.609.0
       '@aws-sdk/middleware-recursion-detection': 3.609.0
@@ -7150,7 +7170,7 @@ snapshots:
       '@aws-crypto/sha256-js': 5.2.0
       '@aws-sdk/client-sso-oidc': 3.614.0(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/core': 3.614.0
-      '@aws-sdk/credential-provider-node': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)(@aws-sdk/client-sts@3.614.0)
+      '@aws-sdk/credential-provider-node': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/middleware-host-header': 3.609.0
       '@aws-sdk/middleware-logger': 3.609.0
       '@aws-sdk/middleware-recursion-detection': 3.609.0
@@ -7218,13 +7238,13 @@ snapshots:
       '@smithy/util-stream': 3.0.6
       tslib: 2.6.2
 
-  '@aws-sdk/credential-provider-ini@3.614.0(@aws-sdk/client-sso-oidc@3.614.0)(@aws-sdk/client-sts@3.614.0)':
+  '@aws-sdk/credential-provider-ini@3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))(@aws-sdk/client-sts@3.614.0)':
     dependencies:
       '@aws-sdk/client-sts': 3.614.0
       '@aws-sdk/credential-provider-env': 3.609.0
       '@aws-sdk/credential-provider-http': 3.614.0
       '@aws-sdk/credential-provider-process': 3.614.0
-      '@aws-sdk/credential-provider-sso': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)
+      '@aws-sdk/credential-provider-sso': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))
       '@aws-sdk/credential-provider-web-identity': 3.609.0(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/types': 3.609.0
       '@smithy/credential-provider-imds': 3.1.4
@@ -7236,13 +7256,13 @@ snapshots:
       - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
-  '@aws-sdk/credential-provider-node@3.614.0(@aws-sdk/client-sso-oidc@3.614.0)(@aws-sdk/client-sts@3.614.0)':
+  '@aws-sdk/credential-provider-node@3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))(@aws-sdk/client-sts@3.614.0)':
     dependencies:
       '@aws-sdk/credential-provider-env': 3.609.0
       '@aws-sdk/credential-provider-http': 3.614.0
-      '@aws-sdk/credential-provider-ini': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)(@aws-sdk/client-sts@3.614.0)
+      '@aws-sdk/credential-provider-ini': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/credential-provider-process': 3.614.0
-      '@aws-sdk/credential-provider-sso': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)
+      '@aws-sdk/credential-provider-sso': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))
       '@aws-sdk/credential-provider-web-identity': 3.609.0(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/types': 3.609.0
       '@smithy/credential-provider-imds': 3.1.4
@@ -7263,10 +7283,10 @@ snapshots:
       '@smithy/types': 3.3.0
       tslib: 2.6.2
 
-  '@aws-sdk/credential-provider-sso@3.614.0(@aws-sdk/client-sso-oidc@3.614.0)':
+  '@aws-sdk/credential-provider-sso@3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))':
     dependencies:
       '@aws-sdk/client-sso': 3.614.0
-      '@aws-sdk/token-providers': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0)
+      '@aws-sdk/token-providers': 3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))
       '@aws-sdk/types': 3.609.0
       '@smithy/property-provider': 3.1.3
       '@smithy/shared-ini-file-loader': 3.1.4
@@ -7403,7 +7423,7 @@ snapshots:
       '@smithy/types': 3.3.0
       tslib: 2.6.2
 
-  '@aws-sdk/token-providers@3.614.0(@aws-sdk/client-sso-oidc@3.614.0)':
+  '@aws-sdk/token-providers@3.614.0(@aws-sdk/client-sso-oidc@3.614.0(@aws-sdk/client-sts@3.614.0))':
     dependencies:
       '@aws-sdk/client-sso-oidc': 3.614.0(@aws-sdk/client-sts@3.614.0)
       '@aws-sdk/types': 3.609.0
@@ -7611,10 +7631,10 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@digitalbazaar/http-client@3.4.1':
+  '@digitalbazaar/http-client@3.4.1(web-streams-polyfill@3.3.3)':
     dependencies:
       ky: 0.33.3
-      ky-universal: 0.11.0(ky@0.33.3)
+      ky-universal: 0.11.0(ky@0.33.3)(web-streams-polyfill@3.3.3)
       undici: 5.28.4
     transitivePeerDependencies:
       - web-streams-polyfill
@@ -7838,7 +7858,7 @@ snapshots:
       - supports-color
 
   '@ladjs/consolidate@1.0.2(@babel/core@7.24.3)(lodash@4.17.21)(pug@3.0.3)':
-    dependencies:
+    optionalDependencies:
       '@babel/core': 7.24.3
       lodash: 4.17.21
       pug: 3.0.3
@@ -7846,13 +7866,14 @@ snapshots:
   '@ladjs/koa-views@9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.17.21)(pug@3.0.3)':
     dependencies:
       '@ladjs/consolidate': 1.0.2(@babel/core@7.24.3)(lodash@4.17.21)(pug@3.0.3)
-      '@types/koa': 2.15.0
       debug: 4.3.4(supports-color@8.1.1)
       get-paths: 0.0.7
       koa-send: 5.0.1
       mz: 2.7.0
       pretty: 2.0.0
       resolve-path: 1.4.0
+    optionalDependencies:
+      '@types/koa': 2.15.0
     transitivePeerDependencies:
       - '@babel/core'
       - arc-templates
@@ -8568,7 +8589,7 @@ snapshots:
 
   '@types/nprogress@0.2.3': {}
 
-  '@types/oauth@0.9.4':
+  '@types/oauth@0.9.5':
     dependencies:
       '@types/node': 20.14.10
 
@@ -8645,7 +8666,7 @@ snapshots:
     dependencies:
       '@types/node': 20.14.10
 
-  '@types/webpack@5.28.5(@swc/core@1.6.13)(webpack-cli@4.10.0)':
+  '@types/webpack@5.28.5(@swc/core@1.6.13)(webpack-cli@4.10.0(webpack@5.93.0))':
     dependencies:
       '@types/node': 20.14.10
       tapable: 2.2.1
@@ -8664,7 +8685,7 @@ snapshots:
     dependencies:
       '@types/node': 20.14.10
 
-  '@typescript-eslint/eslint-plugin@7.5.0(@typescript-eslint/parser@7.5.0)(eslint@8.57.0)(typescript@5.5.3)':
+  '@typescript-eslint/eslint-plugin@7.5.0(@typescript-eslint/parser@7.5.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)':
     dependencies:
       '@eslint-community/regexpp': 4.10.0
       '@typescript-eslint/parser': 7.5.0(eslint@8.57.0)(typescript@5.5.3)
@@ -8679,6 +8700,7 @@ snapshots:
       natural-compare: 1.4.0
       semver: 7.6.0
       ts-api-utils: 1.3.0(typescript@5.5.3)
+    optionalDependencies:
       typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
@@ -8691,6 +8713,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 7.5.0
       debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.57.0
+    optionalDependencies:
       typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
@@ -8707,6 +8730,7 @@ snapshots:
       debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.57.0
       ts-api-utils: 1.3.0(typescript@5.5.3)
+    optionalDependencies:
       typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
@@ -8723,6 +8747,7 @@ snapshots:
       minimatch: 9.0.3
       semver: 7.6.0
       ts-api-utils: 1.3.0(typescript@5.5.3)
+    optionalDependencies:
       typescript: 5.5.3
     transitivePeerDependencies:
       - supports-color
@@ -8899,17 +8924,17 @@ snapshots:
       '@webassemblyjs/ast': 1.12.1
       '@xtuc/long': 4.2.2
 
-  '@webpack-cli/configtest@1.2.0(webpack-cli@4.10.0)(webpack@5.93.0)':
+  '@webpack-cli/configtest@1.2.0(webpack-cli@4.10.0(webpack@5.93.0))(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))':
     dependencies:
       webpack: 5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)
       webpack-cli: 4.10.0(webpack@5.93.0)
 
-  '@webpack-cli/info@1.5.0(webpack-cli@4.10.0)':
+  '@webpack-cli/info@1.5.0(webpack-cli@4.10.0(webpack@5.93.0))':
     dependencies:
       envinfo: 7.8.1
       webpack-cli: 4.10.0(webpack@5.93.0)
 
-  '@webpack-cli/serve@1.7.0(webpack-cli@4.10.0)':
+  '@webpack-cli/serve@1.7.0(webpack-cli@4.10.0(webpack@5.93.0))':
     dependencies:
       webpack-cli: 4.10.0(webpack@5.93.0)
 
@@ -8987,7 +9012,7 @@ snapshots:
       indent-string: 4.0.0
 
   ajv-formats@2.1.1(ajv@8.12.0):
-    dependencies:
+    optionalDependencies:
       ajv: 8.12.0
 
   ajv-keywords@3.5.2(ajv@6.12.6):
@@ -9634,6 +9659,7 @@ snapshots:
   consolidate@0.15.1(lodash@4.17.21)(pug@3.0.3):
     dependencies:
       bluebird: 3.7.2
+    optionalDependencies:
       lodash: 4.17.21
       pug: 3.0.3
 
@@ -9678,6 +9704,7 @@ snapshots:
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
+    optionalDependencies:
       typescript: 5.5.3
 
   crc-32@1.2.2: {}
@@ -9704,7 +9731,7 @@ snapshots:
     dependencies:
       postcss: 8.4.39
 
-  css-loader@6.11.0(webpack@5.93.0):
+  css-loader@6.11.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.39)
       postcss: 8.4.39
@@ -9714,6 +9741,7 @@ snapshots:
       postcss-modules-values: 4.0.0(postcss@8.4.39)
       postcss-value-parser: 4.2.0
       semver: 7.6.0
+    optionalDependencies:
       webpack: 5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)
 
   css-select-base-adapter@0.1.1: {}
@@ -9869,6 +9897,7 @@ snapshots:
   debug@4.3.4(supports-color@8.1.1):
     dependencies:
       ms: 2.1.2
+    optionalDependencies:
       supports-color: 8.1.1
 
   decamelize@1.2.0: {}
@@ -10702,12 +10731,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  gulp-postcss@9.0.1(postcss@8.4.39)(ts-node@10.9.2):
+  gulp-postcss@9.0.1(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3)):
     dependencies:
       fancy-log: 1.3.3
       plugin-error: 1.0.1
       postcss: 8.4.39
-      postcss-load-config: 3.1.4(postcss@8.4.39)(ts-node@10.9.2)
+      postcss-load-config: 3.1.4(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3))
       vinyl-sourcemaps-apply: 0.2.1
     transitivePeerDependencies:
       - ts-node
@@ -11329,7 +11358,7 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  json5-loader@4.0.1(webpack@5.93.0):
+  json5-loader@4.0.1(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       json5: 2.2.3
       loader-utils: 2.0.4
@@ -11342,9 +11371,9 @@ snapshots:
 
   json5@2.2.3: {}
 
-  jsonld@8.3.2:
+  jsonld@8.3.2(web-streams-polyfill@3.3.3):
     dependencies:
-      '@digitalbazaar/http-client': 3.4.1
+      '@digitalbazaar/http-client': 3.4.1(web-streams-polyfill@3.3.3)
       canonicalize: 1.0.8
       lru-cache: 6.0.0
       rdf-canonize: 3.4.0
@@ -11474,11 +11503,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ky-universal@0.11.0(ky@0.33.3):
+  ky-universal@0.11.0(ky@0.33.3)(web-streams-polyfill@3.3.3):
     dependencies:
       abort-controller: 3.0.0
       ky: 0.33.3
       node-fetch: 3.3.2
+    optionalDependencies:
+      web-streams-polyfill: 3.3.3
 
   ky@0.33.3: {}
 
@@ -12277,19 +12308,21 @@ snapshots:
     dependencies:
       postcss: 8.4.39
 
-  postcss-load-config@3.1.4(postcss@8.4.39)(ts-node@10.9.2):
+  postcss-load-config@3.1.4(postcss@8.4.39)(ts-node@10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3)):
     dependencies:
       lilconfig: 2.0.6
+      yaml: 1.10.2
+    optionalDependencies:
       postcss: 8.4.39
       ts-node: 10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3)
-      yaml: 1.10.2
 
-  postcss-loader@8.1.1(postcss@8.4.39)(typescript@5.5.3)(webpack@5.93.0):
+  postcss-loader@8.1.1(postcss@8.4.39)(typescript@5.5.3)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       cosmiconfig: 9.0.0(typescript@5.5.3)
       jiti: 1.21.0
       postcss: 8.4.39
       semver: 7.6.0
+    optionalDependencies:
       webpack: 5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)
     transitivePeerDependencies:
       - typescript
@@ -12476,7 +12509,7 @@ snapshots:
 
   process-nextick-args@2.0.1: {}
 
-  progress-bar-webpack-plugin@2.1.0(webpack@5.93.0):
+  progress-bar-webpack-plugin@2.1.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       chalk: 3.0.0
       progress: 2.0.3
@@ -13173,7 +13206,7 @@ snapshots:
       postcss: 8.4.39
       postcss-selector-parser: 6.0.16
 
-  stylus-loader@7.1.3(stylus@0.63.0)(webpack@5.93.0):
+  stylus-loader@7.1.3(stylus@0.63.0)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       fast-glob: 3.2.12
       normalize-path: 3.0.0
@@ -13313,7 +13346,7 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
-  terser-webpack-plugin@4.2.3(webpack@5.93.0):
+  terser-webpack-plugin@4.2.3(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       cacache: 15.3.0
       find-cache-dir: 3.3.2
@@ -13328,15 +13361,16 @@ snapshots:
     transitivePeerDependencies:
       - bluebird
 
-  terser-webpack-plugin@5.3.10(@swc/core@1.6.13)(webpack@5.93.0):
+  terser-webpack-plugin@5.3.10(@swc/core@1.6.13)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
-      '@swc/core': 1.6.13
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.1
       terser: 5.30.0
       webpack: 5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)
+    optionalDependencies:
+      '@swc/core': 1.6.13
 
   terser@5.16.1:
     dependencies:
@@ -13455,7 +13489,7 @@ snapshots:
     dependencies:
       typescript: 5.5.3
 
-  ts-loader@9.5.1(typescript@5.5.3)(webpack@5.93.0):
+  ts-loader@9.5.1(typescript@5.5.3)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.16.0
@@ -13468,7 +13502,6 @@ snapshots:
   ts-node@10.9.2(@swc/core@1.6.13)(@types/node@20.14.10)(typescript@5.5.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
-      '@swc/core': 1.6.13
       '@tsconfig/node10': 1.0.9
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
@@ -13483,6 +13516,8 @@ snapshots:
       typescript: 5.5.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    optionalDependencies:
+      '@swc/core': 1.6.13
 
   tslib@2.6.2: {}
 
@@ -13725,16 +13760,17 @@ snapshots:
     dependencies:
       vue: 2.7.16
 
-  vue-loader@15.11.1(css-loader@6.11.0)(lodash@4.17.21)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.93.0):
+  vue-loader@15.11.1(css-loader@6.11.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)))(lodash@4.17.21)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)):
     dependencies:
       '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(pug@3.0.3)
-      css-loader: 6.11.0(webpack@5.93.0)
+      css-loader: 6.11.0(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       hash-sum: 1.0.2
       loader-utils: 1.4.2
       vue-hot-reload-api: 2.3.4
       vue-style-loader: 4.1.3
-      vue-template-compiler: 2.7.16
       webpack: 5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0)
+    optionalDependencies:
+      vue-template-compiler: 2.7.16
     transitivePeerDependencies:
       - arc-templates
       - atpl
@@ -13825,7 +13861,7 @@ snapshots:
     dependencies:
       sortablejs: 1.10.2
 
-  vuex-persistedstate@3.2.1(vue@2.7.16)(vuex@3.6.2):
+  vuex-persistedstate@3.2.1(vue@2.7.16)(vuex@3.6.2(vue@2.7.16)):
     dependencies:
       deepmerge: 4.2.2
       shvl: 2.0.3
@@ -13864,9 +13900,9 @@ snapshots:
   webpack-cli@4.10.0(webpack@5.93.0):
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
-      '@webpack-cli/configtest': 1.2.0(webpack-cli@4.10.0)(webpack@5.93.0)
-      '@webpack-cli/info': 1.5.0(webpack-cli@4.10.0)
-      '@webpack-cli/serve': 1.7.0(webpack-cli@4.10.0)
+      '@webpack-cli/configtest': 1.2.0(webpack-cli@4.10.0(webpack@5.93.0))(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
+      '@webpack-cli/info': 1.5.0(webpack-cli@4.10.0(webpack@5.93.0))
+      '@webpack-cli/serve': 1.7.0(webpack-cli@4.10.0(webpack@5.93.0))
       colorette: 2.0.19
       commander: 7.2.0
       cross-spawn: 7.0.3
@@ -13912,10 +13948,11 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13)(webpack@5.93.0)
+      terser-webpack-plugin: 5.3.10(@swc/core@1.6.13)(webpack@5.93.0(@swc/core@1.6.13)(webpack-cli@4.10.0))
       watchpack: 2.4.1
-      webpack-cli: 4.10.0(webpack@5.93.0)
       webpack-sources: 3.2.3
+    optionalDependencies:
+      webpack-cli: 4.10.0(webpack@5.93.0)
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
