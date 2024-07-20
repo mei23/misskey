@@ -72,8 +72,8 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
       autosize:
-        specifier: 4.0.2
-        version: 4.0.2
+        specifier: 6.0.1
+        version: 6.0.1
       autwh:
         specifier: 0.1.0
         version: 0.1.0
@@ -2354,8 +2354,8 @@ packages:
     resolution: {integrity: sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==}
     engines: {node: '>=8.10', npm: '>=6.4.1'}
 
-  autosize@4.0.2:
-    resolution: {integrity: sha512-jnSyH2d+qdfPGpWlcuhGiHmqBJ6g3X+8T+iRwFrHPLVcdoGJE/x6Qicm6aDHfTsbgZKxyV8UU/YB2p4cjKDRRA==}
+  autosize@6.0.1:
+    resolution: {integrity: sha512-f86EjiUKE6Xvczc4ioP1JBlWG7FKrE13qe/DxBCpe8GCipCq2nFw73aO8QEBKHfSbYGDN5eB9jXWKen7tspDqQ==}
 
   autwh@0.1.0:
     resolution: {integrity: sha512-IkGZ4kjVlZMkEmDiVtZpGG3lDGHPqsMBIh4IpQKN7idYOJ5EGedqKPO+ychNqh8zrJEEqYsN0NcBkcmoE2uFAw==}
@@ -9185,7 +9185,7 @@ snapshots:
 
   autobind-decorator@2.4.0: {}
 
-  autosize@4.0.2: {}
+  autosize@6.0.1: {}
 
   autwh@0.1.0:
     dependencies:
