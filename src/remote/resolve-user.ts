@@ -39,7 +39,7 @@ export default async (username: string, _host: string | null, option?: any, resy
 		}, option) as IRemoteUser;
 	}
 
-	const acct = `${username}@${hostAscii}`;
+	const acct = new Acct(username, hostAscii);
 
 	if (user == null) {
 		const self = await resolveSelf(acct);
@@ -97,28 +97,18 @@ export default async (username: string, _host: string | null, option?: any, resy
 	return user;
 };
 
-async function resolveSelf(acct: string) {
+async function resolveSelf(acct: Acct) {
 	const f1 = await resolveWebFinger(acct);
 	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
 
-	if (f1.subject.toLowerCase() === `acct:${acct}`.toLowerCase()) {
+	if (f1.acct.isEqual(acct)) {
 		return f1.self;
 	}
 
-	// retry with given subject
-	const m = f1.subject.match(/^acct:([^@]+)@(.*)$/);
-	if (!m) {
-		logger.error(`Failed to WebFinger for ${acct}: invalid subject ${f1.subject}`);
-		throw new Error(`Failed to WebFinger for ${acct}: invalid subject ${f1.subject}`);
-	}
-	const username2 = m[1];
-	const host2 = m[2].toLowerCase();
-	const acct2 = `${username2}@${host2}`;
-
-	const f2 = await resolveWebFinger(acct2);
+	const f2 = await resolveWebFinger(f1.acct);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	if (f2.subject.toLowerCase() === `acct:${acct2}`.toLowerCase() && f1.self.href === f2.self.href) {
+	if (f2.acct.isEqual(f1.acct) && f1.self.href === f2.self.href) {
 		return f2.self;
 	}
 
@@ -126,12 +116,13 @@ async function resolveSelf(acct: string) {
 	throw new Error(`Failed to WebFinger for ${acct}: subject missmatch`);
 }
 
-export async function resolveWebFinger(query: string) {
+export async function resolveWebFinger(query: string | Acct) {
 	logger.info(`WebFinger for ${query}`);
 	const finger = await webFinger(query).catch(e => {
 		logger.error(`Failed to WebFinger for ${query}: ${ e.statusCode || e.message }`);
 		throw new Error(`Failed to WebFinger for ${query}: ${ e.statusCode || e.message }`);
 	});
+
 	const self = finger.links.find(link => link.rel && link.rel.toLowerCase() === 'self');
 	if (!self) {
 		logger.error(`Failed to WebFinger for ${query}: self link not found`);
@@ -144,7 +135,7 @@ export async function resolveWebFinger(query: string) {
 		throw new Error('subject not found');
 	}
 
-	return { subject, self };
+	return { subject, self, acct: Acct.fromString(subject) };
 }
 
 export async function checkCanonical(uri: string) {
@@ -156,39 +147,21 @@ export async function checkCanonical(uri: string) {
 	const queryHost = new URL(uri).host;
 
 	// WebFinger応答のsubjectにあるacctの…
-	const finger1Acct = f1.subject;
-	const m = finger1Acct.match(/^acct:([^@]+)@(.*)$/);
-	if (!m) {
-		const msg = `Failed to WebFinger1 for ${uri}: invalid subject ${f1.subject}`;
-		logger.error(msg);
-		throw new Error(msg);
-	}
 	// ホストは…
-	const finger1host = m[2].toLowerCase();
-
 	// 一致してる？
-	if (queryHost === finger1host) {
+	if (queryHost === f1.acct.host) {
 		return;
 	}
 
 	// してなければ、応答で指定されていたホストに再度WebFinger
-	const f2 = await resolveWebFinger(finger1Acct);
+	const f2 = await resolveWebFinger(f1.acct);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	const finger2Acct = f2.subject;
-	const m2 = finger2Acct.match(/^acct:([^@]+)@(.*)$/);
-	if (!m2) {
-		const msg = `Failed to WebFinger2 for ${finger1Acct}: invalid subject ${f2.subject}`;
-		logger.error(msg);
-		throw new Error(msg);
-	}
-	const finger2host = m2[2].toLowerCase();
-
-	if (finger1host === finger2host) {
+	if (f1.acct.host === f2.acct.host) {
 		// canonicalHostを保存しておく
 		await User.update({ uri }, {
 			$set: {
-				canonicalHost: toDbHost(finger2host)
+				canonicalHost: toDbHost(f2.acct.host)
 			}
 		});
 
@@ -196,4 +169,36 @@ export async function checkCanonical(uri: string) {
 	}
 
 	throw new Error('checkCanonical failed');
+}
+
+export class Acct {
+	public username: string;
+	public host: string;
+
+	constructor(username: string, host: string) {
+		this.username = username;
+		this.host = host.toLowerCase();
+	}
+
+	static fromStrings(username: string, host: string): Acct {
+		return new Acct(username, host);
+	}
+
+	static fromString(acctString: string): Acct {
+		const regex = /^(?:acct:)?@?([^@]+)@([^@]+)$/;
+		const match = acctString.match(regex);
+		if (!match) {
+			throw new Error('Invalid acct string format');
+		}
+		return new Acct(match[1], match[2]);
+	}
+
+	toString(): string {
+		return `acct:${this.username}@${this.host}`;
+	}
+
+	isEqual(other: Acct): boolean {
+		return this.username.toLowerCase() === other.username.toLowerCase() &&
+					 this.host.toLowerCase() === other.host.toLowerCase();
+	}
 }
