@@ -170,8 +170,6 @@ export async function checkCanonical(uri: string) {
 
 	// 一致してる？
 	if (queryHost === finger1host) {
-		// してればOK
-		console.log('OK');
 		return;
 	}
 
@@ -189,9 +187,7 @@ export async function checkCanonical(uri: string) {
 	const finger2host = m2[2].toLowerCase();
 
 	if (finger1host === finger2host) {
-		// してればOK
-		console.log('OK');
-
+		// canonicalHostを保存しておく
 		await User.update({ uri }, {
 			$set: {
 				canonicalHost: toDbHost(finger2host)

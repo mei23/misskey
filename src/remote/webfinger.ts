@@ -17,8 +17,6 @@ type IWebFinger = {
 export default async function(query: string, queryHostname?: string): Promise<IWebFinger> {
 	const url = genUrl(query, queryHostname);
 
-	console.log(`FFFFFFFFFF ${url}`);
-
 	return await getJson(url, 'application/jrd+json, application/json');
 }
 
