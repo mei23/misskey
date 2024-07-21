@@ -9,7 +9,7 @@ import { toDbHost } from '../misc/convert-host';
 
 const logger = remoteLogger.createSubLogger('resolve-user');
 
-export default async (username: string, _host: string | null, option?: any, resync = true): Promise<IUser | undefined | null> => {
+export default async (username: string, _host: string | null, option?: any, resync = false): Promise<IUser | undefined | null> => {
 	const usernameLower = username.toLowerCase();
 
 	if (_host == null) {
