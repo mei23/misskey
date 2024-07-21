@@ -97,7 +97,7 @@ export default async (username: string, _host: string | null, option?: any, resy
 	return user;
 };
 
-async function resolveSelf(acctLower: string) {	// acctLower or uri
+async function resolveSelf(acctLower: string) {
 	const f1 = await resolveWebFinger(acctLower);
 	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
 
@@ -126,7 +126,7 @@ async function resolveSelf(acctLower: string) {	// acctLower or uri
 	throw new Error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
 }
 
-export async function resolveWebFinger(query: string, queryHost?: string) {	// acctLower or uri
+export async function resolveWebFinger(query: string, queryHost?: string) {
 	logger.info(`WebFinger for ${query}`);
 	const finger = await webFinger(query, queryHost).catch(e => {
 		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
