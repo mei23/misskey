@@ -39,12 +39,12 @@ export default async (username: string, _host: string | null, option?: any, resy
 		}, option) as IRemoteUser;
 	}
 
-	const acctLower = `${usernameLower}@${hostAscii}`;
+	const acct = `${username}@${hostAscii}`;
 
 	if (user == null) {
-		const self = await resolveSelf(acctLower);
+		const self = await resolveSelf(acct);
 
-		logger.succ(`return new remote user: ${acctLower}`);
+		logger.succ(`return new remote user: ${acct}`);
 		return await createPerson(self.href);
 	}
 
@@ -58,12 +58,12 @@ export default async (username: string, _host: string | null, option?: any, resy
 		});
 
 		try {
-			logger.info(`try resync: ${acctLower}`);
-			const self = await resolveSelf(acctLower);
+			logger.info(`try resync: ${acct}`);
+			const self = await resolveSelf(acct);
 
 			if (user.uri !== self.href) {
 				// if uri mismatch, Fix (user@host <=> AP's Person id(IRemoteUser.uri)) mapping.
-				logger.info(`uri missmatch: ${acctLower}`);
+				logger.info(`uri missmatch: ${acct}`);
 				logger.info(`recovery missmatch uri for (username=${username}, host=${host}) from ${user.uri} to ${self.href}`);
 
 				// validate uri
@@ -81,49 +81,49 @@ export default async (username: string, _host: string | null, option?: any, resy
 					}
 				});
 			} else {
-				logger.info(`uri is fine: ${acctLower}`);
+				logger.info(`uri is fine: ${acct}`);
 			}
 
 			await updatePerson(self.href);
 
-			logger.info(`return resynced remote user: ${acctLower}`);
+			logger.info(`return resynced remote user: ${acct}`);
 			return await User.findOne({ uri: self.href });
 		} catch (e: any) {
 			logger.warn(`resync failed: ${e.message || e}`);
 		}
 	}
 
-	logger.info(`return existing remote user: ${acctLower}`);
+	logger.info(`return existing remote user: ${acct}`);
 	return user;
 };
 
-async function resolveSelf(acctLower: string) {
-	const f1 = await resolveWebFinger(acctLower);
+async function resolveSelf(acct: string) {
+	const f1 = await resolveWebFinger(acct);
 	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
 
-	if (f1.subject.toLowerCase() === `acct:${acctLower}`) {
+	if (f1.subject === `acct:${acct}`) {
 		return f1.self;
 	}
 
 	// retry with given subject
-	const m = f1.subject.toLowerCase().match(/^acct:([^@]+)@(.*)$/);
+	const m = f1.subject.match(/^acct:([^@]+)@(.*)$/);
 	if (!m) {
-		logger.error(`Failed to WebFinger for ${acctLower}: invalid subject ${f1.subject}`);
-		throw new Error(`Failed to WebFinger for ${acctLower}: invalid subject ${f1.subject}`);
+		logger.error(`Failed to WebFinger for ${acct}: invalid subject ${f1.subject}`);
+		throw new Error(`Failed to WebFinger for ${acct}: invalid subject ${f1.subject}`);
 	}
-	const username2 = m[1].toLowerCase();
+	const username2 = m[1];
 	const host2 = m[2].toLowerCase();
-	const acctLower2 = `${username2}@${host2}`;
+	const acct2 = `${username2}@${host2}`;
 
-	const f2 = await resolveWebFinger(acctLower2);
+	const f2 = await resolveWebFinger(acct2);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	if (f2.subject.toLowerCase() === `acct:${acctLower2}` && f1.self.href === f2.self.href) {
+	if (f2.subject === `acct:${acct2}` && f1.self.href === f2.self.href) {
 		return f2.self;
 	}
 
-	logger.error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
-	throw new Error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
+	logger.error(`Failed to WebFinger for ${acct}: subject missmatch`);
+	throw new Error(`Failed to WebFinger for ${acct}: subject missmatch`);
 }
 
 export async function resolveWebFinger(query: string) {
@@ -156,7 +156,7 @@ export async function checkCanonical(uri: string) {
 	const queryHost = new URL(uri).host;
 
 	// WebFinger応答のsubjectにあるacctの…
-	const finger1Acct = f1.subject.toLowerCase();
+	const finger1Acct = f1.subject;
 	const m = finger1Acct.match(/^acct:([^@]+)@(.*)$/);
 	if (!m) {
 		const msg = `Failed to WebFinger1 for ${uri}: invalid subject ${f1.subject}`;
@@ -175,7 +175,7 @@ export async function checkCanonical(uri: string) {
 	const f2 = await resolveWebFinger(finger1Acct);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	const finger2Acct = f2.subject.toLowerCase();
+	const finger2Acct = f2.subject;
 	const m2 = finger2Acct.match(/^acct:([^@]+)@(.*)$/);
 	if (!m2) {
 		const msg = `Failed to WebFinger2 for ${finger1Acct}: invalid subject ${f2.subject}`;
