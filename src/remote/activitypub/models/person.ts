@@ -213,7 +213,7 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 		}
 	}
 
-	await checkCanonical(uri).catch(() => null),
+	checkCanonical(uri);
 
 	// Register host
 	registerOrFetchInstanceDoc(host).then(i => {
@@ -426,7 +426,7 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 
 	await updateFeatured(exist._id, resolver).catch(err => logger.error(err));
 
-	await checkCanonical(uri).catch(() => null);
+	checkCanonical(uri);
 
 	registerOrFetchInstanceDoc(extractDbHost(uri)).then(i => {
 		UpdateInstanceinfo(i);
