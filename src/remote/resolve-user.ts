@@ -101,7 +101,7 @@ async function resolveSelf(acct: string) {
 	const f1 = await resolveWebFinger(acct);
 	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
 
-	if (f1.subject === `acct:${acct}`) {
+	if (f1.subject.toLowerCase() === `acct:${acct}`.toLowerCase()) {
 		return f1.self;
 	}
 
@@ -118,7 +118,7 @@ async function resolveSelf(acct: string) {
 	const f2 = await resolveWebFinger(acct2);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	if (f2.subject === `acct:${acct2}` && f1.self.href === f2.self.href) {
+	if (f2.subject.toLowerCase() === `acct:${acct2}`.toLowerCase() && f1.self.href === f2.self.href) {
 		return f2.self;
 	}
 
