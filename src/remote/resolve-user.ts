@@ -31,7 +31,13 @@ export default async (username: string, _host: string | null, option?: any, resy
 		return await User.findOne({ usernameLower, host: null });
 	}
 
-	const user = await User.findOne({ usernameLower, host }, option) as IRemoteUser;
+	let user = await User.findOne({ usernameLower, host }, option) as IRemoteUser;
+	if (user == null) {
+		user = await User.findOne({ 
+			usernameLower,
+			canonicalHost: host, 
+		}, option) as IRemoteUser;
+	}
 
 	const acctLower = `${usernameLower}@${hostAscii}`;
 
