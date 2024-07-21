@@ -126,21 +126,21 @@ async function resolveSelf(acctLower: string) {
 	throw new Error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
 }
 
-export async function resolveWebFinger(query: string, queryHost?: string) {
+export async function resolveWebFinger(query: string) {
 	logger.info(`WebFinger for ${query}`);
-	const finger = await webFinger(query, queryHost).catch(e => {
-		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
-		throw new Error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
+	const finger = await webFinger(query).catch(e => {
+		logger.error(`Failed to WebFinger for ${query}: ${ e.statusCode || e.message }`);
+		throw new Error(`Failed to WebFinger for ${query}: ${ e.statusCode || e.message }`);
 	});
 	const self = finger.links.find(link => link.rel && link.rel.toLowerCase() === 'self');
 	if (!self) {
-		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: self link not found`);
+		logger.error(`Failed to WebFinger for ${query}: self link not found`);
 		throw new Error('self link not found');
 	}
 
 	const subject = finger.subject;
 	if (!subject) {
-		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: subject not found`);
+		logger.error(`Failed to WebFinger for ${query}: subject not found`);
 		throw new Error('subject not found');
 	}
 
@@ -166,21 +166,19 @@ export async function checkCanonical(uri: string) {
 	// ホストは…
 	const finger1host = m[2].toLowerCase();
 
-	logger.info(`${uri}: ${queryHost} ${finger1host}`);
-
 	// 一致してる？
 	if (queryHost === finger1host) {
 		return;
 	}
 
 	// してなければ、応答で指定されていたホストに再度WebFinger
-	const f2 = await resolveWebFinger(finger1Acct, finger1host);
+	const f2 = await resolveWebFinger(finger1Acct);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
 	const finger2Acct = f2.subject.toLowerCase();
 	const m2 = finger2Acct.match(/^acct:([^@]+)@(.*)$/);
 	if (!m2) {
-		const msg = `Failed to WebFinger2 for ${finger1Acct} to ${finger1host}: invalid subject ${f2.subject}`;
+		const msg = `Failed to WebFinger2 for ${finger1Acct}: invalid subject ${f2.subject}`;
 		logger.error(msg);
 		throw new Error(msg);
 	}
