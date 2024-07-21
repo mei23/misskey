@@ -14,22 +14,25 @@ type IWebFinger = {
 	subject: string;
 };
 
-export default async function(query: string): Promise<IWebFinger> {
-	const url = genUrl(query);
+export default async function(query: string, queryHostname?: string): Promise<IWebFinger> {
+	const url = genUrl(query, queryHostname);
+
+	console.log(`FFFFFFFFFF ${url}`);
 
 	return await getJson(url, 'application/jrd+json, application/json');
 }
 
-function genUrl(query: string) {
+function genUrl(query: string, queryHostname?: string) {
 	if (query.match(/^https?:\/\//)) {
 		const u = new URL(query);
-		return `${u.protocol}//${u.hostname}/.well-known/webfinger?` + urlQuery({ resource: query });
+		return `${u.protocol}//${queryHostname || u.hostname}/.well-known/webfinger?` + urlQuery({ resource: query });
 	}
 
+	query = query.replace(/^acct:/, '');
 	const m = query.match(/^([^@]+)@(.*)/);
 	if (m) {
 		const hostname = m[2];
-		return `https://${hostname}/.well-known/webfinger?` + urlQuery({ resource: `acct:${query}` });
+		return `https://${queryHostname || hostname}/.well-known/webfinger?` + urlQuery({ resource: `acct:${query}` });
 	}
 
 	throw new Error(`Invalid query (${query})`);

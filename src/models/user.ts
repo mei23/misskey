@@ -161,6 +161,7 @@ type IUserBase = {
 
 export interface ILocalUser extends IUserBase {
 	host: null;
+	canonicalHost?: string | null;
 	/** privateKeyPem */
 	keypair: string;
 	email: string;

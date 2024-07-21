@@ -5,10 +5,11 @@ import config from '../config';
 import { createPerson, updatePerson } from './activitypub/models/person';
 import { URL } from 'url';
 import { remoteLogger } from './logger';
+import { toDbHost } from '../misc/convert-host';
 
 const logger = remoteLogger.createSubLogger('resolve-user');
 
-export default async (username: string, _host: string | null, option?: any, resync = false): Promise<IUser | undefined | null> => {
+export default async (username: string, _host: string | null, option?: any, resync = true): Promise<IUser | undefined | null> => {
 	const usernameLower = username.toLowerCase();
 
 	if (_host == null) {
@@ -34,7 +35,7 @@ export default async (username: string, _host: string | null, option?: any, resy
 
 	const acctLower = `${usernameLower}@${hostAscii}`;
 
-	if (user === null) {
+	if (user == null) {
 		const self = await resolveSelf(acctLower);
 
 		logger.succ(`return new remote user: ${acctLower}`);
@@ -81,7 +82,7 @@ export default async (username: string, _host: string | null, option?: any, resy
 
 			logger.info(`return resynced remote user: ${acctLower}`);
 			return await User.findOne({ uri: self.href });
-		} catch (e) {
+		} catch (e: any) {
 			logger.warn(`resync failed: ${e.message || e}`);
 		}
 	}
@@ -90,16 +91,109 @@ export default async (username: string, _host: string | null, option?: any, resy
 	return user;
 };
 
-async function resolveSelf(acctLower: string) {
-	logger.info(`WebFinger for ${acctLower}`);
-	const finger = await webFinger(acctLower).catch(e => {
-		logger.error(`Failed to WebFinger for ${acctLower}: ${ e.statusCode || e.message }`);
-		throw new Error(`Failed to WebFinger for ${acctLower}: ${ e.statusCode || e.message }`);
+async function resolveSelf(acctLower: string) {	// acctLower or uri
+	const f1 = await resolveWebFinger(acctLower);
+	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
+
+	if (f1.subject.toLowerCase() === `acct:${acctLower}`) {
+		return f1.self;
+	}
+
+	// retry with given subject
+	const m = f1.subject.toLowerCase().match(/^acct:([^@]+)@(.*)$/);
+	if (!m) {
+		logger.error(`Failed to WebFinger for ${acctLower}: invalid subject ${f1.subject}`);
+		throw new Error(`Failed to WebFinger for ${acctLower}: invalid subject ${f1.subject}`);
+	}
+	const username2 = m[1].toLowerCase();
+	const host2 = m[2].toLowerCase();
+	const acctLower2 = `${username2}@${host2}`;
+
+	const f2 = await resolveWebFinger(acctLower2);
+	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
+
+	if (f2.subject.toLowerCase() === `acct:${acctLower2}` && f1.self.href === f2.self.href) {
+		return f2.self;
+	}
+
+	logger.error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
+	throw new Error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
+}
+
+export async function resolveWebFinger(query: string, queryHost?: string) {	// acctLower or uri
+	logger.info(`WebFinger for ${query}`);
+	const finger = await webFinger(query, queryHost).catch(e => {
+		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
+		throw new Error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
 	});
 	const self = finger.links.find(link => link.rel && link.rel.toLowerCase() === 'self');
 	if (!self) {
-		logger.error(`Failed to WebFinger for ${acctLower}: self link not found`);
+		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: self link not found`);
 		throw new Error('self link not found');
 	}
-	return self;
+
+	const subject = finger.subject;
+	if (!subject) {
+		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: subject not found`);
+		throw new Error('subject not found');
+	}
+
+	return { subject, self };
+}
+
+export async function checkCanonical(uri: string) {
+	// 普通にURIでWebFinger
+	const f1 = await resolveWebFinger(uri);
+	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
+
+	// URIのホストと…
+	const queryHost = new URL(uri).host;
+
+	// WebFinger応答のsubjectにあるacctの…
+	const finger1Acct = f1.subject.toLowerCase();
+	const m = finger1Acct.match(/^acct:([^@]+)@(.*)$/);
+	if (!m) {
+		const msg = `Failed to WebFinger1 for ${uri}: invalid subject ${f1.subject}`;
+		logger.error(msg);
+		throw new Error(msg);
+	}
+	// ホストは…
+	const finger1host = m[2].toLowerCase();
+
+	logger.info(`${uri}: ${queryHost} ${finger1host}`);
+
+	// 一致してる？
+	if (queryHost === finger1host) {
+		// してればOK
+		console.log('OK');
+		return;
+	}
+
+	// してなければ、応答で指定されていたホストに再度WebFinger
+	const f2 = await resolveWebFinger(finger1Acct, finger1host);
+	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
+
+	const finger2Acct = f2.subject.toLowerCase();
+	const m2 = finger2Acct.match(/^acct:([^@]+)@(.*)$/);
+	if (!m2) {
+		const msg = `Failed to WebFinger2 for ${finger1Acct} to ${finger1host}: invalid subject ${f2.subject}`;
+		logger.error(msg);
+		throw new Error(msg);
+	}
+	const finger2host = m2[2].toLowerCase();
+
+	if (finger1host === finger2host) {
+		// してればOK
+		console.log('OK');
+
+		await User.update({ uri }, {
+			$set: {
+				canonicalHost: toDbHost(finger2host)
+			}
+		});
+
+		return;
+	}
+
+	throw new Error('checkCanonical failed');
 }

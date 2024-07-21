@@ -27,7 +27,7 @@ import { toArray, toSingle } from '../../../prelude/array';
 import { UpdateInstanceinfo } from '../../../services/update-instanceinfo';
 import { extractDbHost, isSelfOrigin } from '../../../misc/convert-host';
 import DbResolver from '../db-resolver';
-import resolveUser from '../../resolve-user';
+import resolveUser, { checkCanonical } from '../../resolve-user';
 import { normalizeTag } from '../../../misc/normalize-tag';
 import { substr } from 'stringz';
 import { resolveAnotherUser } from '../resolve-another-user';
@@ -212,6 +212,8 @@ export async function createPerson(uri: string, resolver?: Resolver): Promise<IR
 			throw e;
 		}
 	}
+
+	await checkCanonical(uri);
 
 	// Register host
 	registerOrFetchInstanceDoc(host).then(i => {
@@ -423,6 +425,8 @@ export async function updatePerson(uri: string, resolver?: Resolver, hint?: IAct
 	});
 
 	await updateFeatured(exist._id, resolver).catch(err => logger.error(err));
+
+	await checkCanonical(uri);
 
 	registerOrFetchInstanceDoc(extractDbHost(uri)).then(i => {
 		UpdateInstanceinfo(i);
