@@ -30,8 +30,8 @@ importers:
         specifier: 5.15.4
         version: 5.15.4
       '@fortawesome/vue-fontawesome':
-        specifier: 2.0.10
-        version: 2.0.10(@fortawesome/fontawesome-svg-core@1.2.36)(vue@2.7.16)
+        specifier: 3.0.8
+        version: 3.0.8(@fortawesome/fontawesome-svg-core@1.2.36)(vue@2.7.16)
       '@koa/cors':
         specifier: 5.0.0
         version: 5.0.0
@@ -991,11 +991,11 @@ packages:
     resolution: {integrity: sha512-JLmQfz6tdtwxoihXLg6lT78BorrFyCf59SAwBM6qV/0zXyVeDygJVb3fk+j5Qat+Yvcxp1buLTY5iDh1ZSAQ8w==}
     engines: {node: '>=6'}
 
-  '@fortawesome/vue-fontawesome@2.0.10':
-    resolution: {integrity: sha512-OTETSXz+3ygD2OK2/vy82cmUBpuJqeOAg4gfnnv+f2Rir1tDIhQg026Q3NQxznq83ZLz8iNqGG9XJm26inpDeg==}
+  '@fortawesome/vue-fontawesome@3.0.8':
+    resolution: {integrity: sha512-yyHHAj4G8pQIDfaIsMvQpwKMboIZtcHTUvPqXjOHyldh1O1vZfH4W03VDPv5RvI9P6DLTzJQlmVgj9wCf7c2Fw==}
     peerDependencies:
       '@fortawesome/fontawesome-svg-core': ~1 || ~6
-      vue: ~2
+      vue: '>= 3.0.0 < 4'
 
   '@gar/promisify@1.1.3':
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
@@ -7707,7 +7707,7 @@ snapshots:
     dependencies:
       '@fortawesome/fontawesome-common-types': 0.2.36
 
-  '@fortawesome/vue-fontawesome@2.0.10(@fortawesome/fontawesome-svg-core@1.2.36)(vue@2.7.16)':
+  '@fortawesome/vue-fontawesome@3.0.8(@fortawesome/fontawesome-svg-core@1.2.36)(vue@2.7.16)':
     dependencies:
       '@fortawesome/fontawesome-svg-core': 1.2.36
       vue: 2.7.16
