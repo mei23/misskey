@@ -12,5 +12,7 @@ export default async function renderFollowUser(id: mongo.ObjectID): Promise<any>
 		_id: id
 	});
 
+	if (user == null) return null;	// TODO
+
 	return isLocalUser(user) ? `${config.url}/users/${user._id}` : user.uri;
 }

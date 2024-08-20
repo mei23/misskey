@@ -1,9 +1,8 @@
-import { ObjectID } from 'mongodb';
 import * as Router from '@koa/router';
 import config from '../../config';
 import $ from 'cafy';
 import ID, { transform } from '../../misc/cafy-id';
-import User from '../../models/user';
+import { ILocalUser } from '../../models/user';
 import Following from '../../models/following';
 import * as url from '../../prelude/url';
 import { renderActivity } from '../../remote/activitypub/renderer';
@@ -12,16 +11,7 @@ import renderOrderedCollectionPage from '../../remote/activitypub/renderer/order
 import renderFollowUser from '../../remote/activitypub/renderer/follow-user';
 import { setResponseType } from '../activitypub';
 
-export default async (ctx: Router.RouterContext) => {
-	if (config.disableFederation) ctx.throw(404);
-
-	if (!ObjectID.isValid(ctx.params.user)) {
-		ctx.status = 404;
-		return;
-	}
-
-	const userId = new ObjectID(ctx.params.user);
-
+export default async (ctx: Router.RouterContext, user: ILocalUser) => {
 	// Get 'cursor' parameter
 	const [cursor, cursorErr] = $.optional.type(ID).get(ctx.request.query.cursor);
 
@@ -36,21 +26,6 @@ export default async (ctx: Router.RouterContext) => {
 		return;
 	}
 
-	// Verify user
-	const user = await User.findOne({
-		_id: userId,
-		isDeleted: { $ne: true },
-		isSuspended: { $ne: true },
-		noFederation: { $ne: true },
-		host: null
-	});
-
-	if (user == null) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
-
 	if (user.hideFollows === 'always' || user.hideFollows === 'follower') {
 		ctx.status = 403;
 		ctx.set('Cache-Control', 'public, max-age=180');
@@ -58,7 +33,7 @@ export default async (ctx: Router.RouterContext) => {
 	}
 
 	const limit = 10;
-	const partOf = `${config.url}/users/${userId}/followers`;
+	const partOf = `${config.url}/users/${user._id}/followers`;
 
 	if (page) {
 		const query = {

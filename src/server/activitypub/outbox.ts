@@ -1,9 +1,8 @@
-import { ObjectID } from 'mongodb';
 import * as Router from '@koa/router';
 import config from '../../config';
 import $ from 'cafy';
 import ID, { transform } from '../../misc/cafy-id';
-import User from '../../models/user';
+import { ILocalUser } from '../../models/user';
 import { renderActivity } from '../../remote/activitypub/renderer';
 import renderOrderedCollection from '../../remote/activitypub/renderer/ordered-collection';
 import renderOrderedCollectionPage from '../../remote/activitypub/renderer/ordered-collection-page';
@@ -16,17 +15,7 @@ import renderAnnounce from '../../remote/activitypub/renderer/announce';
 import { countIf } from '../../prelude/array';
 import * as url from '../../prelude/url';
 
-export default async (ctx: Router.RouterContext) => {
-	if (config.disableFederation) ctx.throw(404);
-
-	if (!ObjectID.isValid(ctx.params.user)) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
-
-	const userId = new ObjectID(ctx.params.user);
-
+export default async (ctx: Router.RouterContext, user: ILocalUser) => {
 	// Get 'sinceId' parameter
 	const [sinceId, sinceIdErr] = $.optional.type(ID).get(ctx.request.query.since_id);
 
@@ -44,23 +33,8 @@ export default async (ctx: Router.RouterContext) => {
 		return;
 	}
 
-	// Verify user
-	const user = await User.findOne({
-		_id: userId,
-		isDeleted: { $ne: true },
-		isSuspended: { $ne: true },
-		noFederation: { $ne: true },
-		host: null
-	});
-
-	if (user == null) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
-
 	const limit = 20;
-	const partOf = `${config.url}/users/${userId}/outbox`;
+	const partOf = `${config.url}/users/${user._id}/outbox`;
 
 	if (page) {
 		//#region Construct query
@@ -131,7 +105,7 @@ export default async (ctx: Router.RouterContext) => {
  * Pack Create<Note> or Announce Activity
  * @param note Note
  */
-export async function packActivity(note: INote): Promise<object> {
+export async function packActivity(note: INote): Promise<object | null> {
 	if (note.renoteId && note.text == null && note.poll == null && (note.fileIds == null || note.fileIds.length == 0)) {
 		const renote = await Note.findOne(note.renoteId);
 		if (!renote) throw new Error(`Note(${note._id}) の 対象Renote(${note.renoteId})が存在しない。DB壊れている？`);

@@ -6,10 +6,9 @@ import * as httpSignature from '@peertube/http-signature';
 
 import { renderActivity } from '../remote/activitypub/renderer';
 import Note, { INote } from '../models/note';
-import User, { isLocalUser, ILocalUser, IUser, isRemoteUser } from '../models/user';
+import User, { ILocalUser, IRemoteUser, isLocalUser, isRemoteUser } from '../models/user';
 import Emoji from '../models/emoji';
 import renderNote from '../remote/activitypub/renderer/note';
-import renderKey from '../remote/activitypub/renderer/key';
 import renderPerson from '../remote/activitypub/renderer/person';
 import renderEmoji from '../remote/activitypub/renderer/emoji';
 import Likes from './activitypub/likes';
@@ -17,6 +16,7 @@ import Outbox, { packActivity } from './activitypub/outbox';
 import Followers from './activitypub/followers';
 import Following from './activitypub/following';
 import Featured from './activitypub/featured';
+import Publickey from './activitypub/publickey';
 import { inbox as processInbox, inboxLazy as processInboxLazy } from '../queue';
 import { isSelfHost } from '../misc/convert-host';
 import NoteReaction from '../models/note-reaction';
@@ -339,94 +339,41 @@ router.get('/notes/:note/activity', async ctx => {
 // likes
 router.get('/notes/:note/likes', Likes);
 
-// outbox
-router.get('/users/:user/outbox', Outbox);
+//#region user utils
+type UserDivision = 'local' | 'both';
 
-// followers
-router.get('/users/:user/followers', Followers);
-
-// following
-router.get('/users/:user/following', Following);
-
-// featured
-router.get('/users/:user/collections/featured', Featured);
-
-// publickey
-router.get('/users/:user/publickey', async ctx => {
-	if (config.disableFederation) ctx.throw(404);
-
-	if (!ObjectID.isValid(ctx.params.user)) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
-
-	const userId = new ObjectID(ctx.params.user);
+/**
+ * Get valid user by userId
+ * @param userId userId
+ * @param userDivision UserDivision to get
+ * @returns user object or null
+ */
+async function getValidUser(userId: string, userDivision: 'local'): Promise<ILocalUser | null>;
+async function getValidUser(userId: string, userDivision: 'both'): Promise<ILocalUser | IRemoteUser | null>;
+async function getValidUser(userId: string, userDivision: UserDivision): Promise<ILocalUser | IRemoteUser | null> {
+	if (ObjectID.isValid(userId) === false) return null;
 
 	const user = await User.findOne({
-		_id: userId,
+		_id: new ObjectID(userId),
 		isDeleted: { $ne: true },
 		isSuspended: { $ne: true },
 		noFederation: { $ne: true },
-		host: null
+		...(userDivision === 'local' ? { host: null } : {}),
 	});
 
-	if (user === null) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
+	if (user == null) return null;
+	if (userDivision === 'local' && isLocalUser(user) === false) return null;
 
-	if (isLocalUser(user)) {
-		ctx.body = renderActivity(renderKey(user));
-		ctx.set('Cache-Control', 'public, max-age=180');
-		setResponseType(ctx);
-	} else {
-		ctx.status = 400;
-		ctx.set('Cache-Control', 'public, max-age=180');
-	}
-});
+	return user;
+};
+//#endregion
 
-router.get('/users/:user/:obj', async (ctx, next) => {
-	if (!isActivityPubReq(ctx)) return await next();
-	ctx.status = 404;
-	ctx.set('Cache-Control', 'public, max-age=31');
-	return;
-});
-
-// user
-async function userInfo(ctx: Router.RouterContext, user?: IUser | null) {
-	if (user == null) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
-
-	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
-	ctx.set('Cache-Control', 'public, max-age=180');
-	setResponseType(ctx);
-}
-
-router.get('/users/:user', async (ctx, next) => {
+//#region user by userId
+router.get('/users/:userId', async (ctx, next) => {
 	if (!isActivityPubReq(ctx, true)) return await next();
-
 	if (config.disableFederation) ctx.throw(404);
 
-	if (!ObjectID.isValid(ctx.params.user)) {
-		ctx.status = 404;
-		ctx.set('Cache-Control', 'public, max-age=180');
-		return;
-	}
-
-	const userId = new ObjectID(ctx.params.user);
-
-	const user = await User.findOne({
-		_id: userId,
-		isDeleted: { $ne: true },
-		isSuspended: { $ne: true },
-		noFederation: { $ne: true },
-	});
-
+	const user = await getValidUser(ctx.params.userId, 'both');
 	if (user == null) {
 		ctx.status = 404;
 		ctx.set('Cache-Control', 'public, max-age=180');
@@ -438,24 +385,65 @@ router.get('/users/:user', async (ctx, next) => {
 		return;
 	}
 
-	await userInfo(ctx, user);
+	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
+	ctx.set('Cache-Control', 'public, max-age=180');
+	setResponseType(ctx);
 });
+//#endregion
 
-router.get('/@:user', async (ctx, next) => {
+//#region user by username
+router.get('/@:username', async (ctx, next) => {
 	if (!isActivityPubReq(ctx)) return await next();
-
 	if (config.disableFederation) ctx.throw(404);
 
 	const user = await User.findOne({
-		usernameLower: ctx.params.user.toLowerCase(),
+		usernameLower: ctx.params.username.toLowerCase(),
 		isDeleted: { $ne: true },
 		isSuspended: { $ne: true },
 		noFederation: { $ne: true },
 		host: null
-	});
+	}) as ILocalUser;
 
-	await userInfo(ctx, user);
+	if (user == null) {
+		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
+		return;
+	}
+
+	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
+	ctx.set('Cache-Control', 'public, max-age=180');
+	setResponseType(ctx);
 });
+//#endregion
+
+//#region user objects
+router.get(['/users/:userId/:obj', '/users/:userId/:obj/:obj2'], async (ctx, next) => {
+	if (isActivityPubReq(ctx) === false) return await next();
+	if (config.disableFederation) ctx.throw(404);
+
+	const user = await getValidUser(ctx.params.userId, 'local');
+	if (user == null) {
+		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=12');
+		return;
+	}
+
+	const subPath = ctx.params.obj + (ctx.params.obj2 ? `/${ctx.params.obj2}` : '');
+
+	switch (subPath) {
+		case 'followers': await Followers(ctx, user); return;
+		case 'following': await Following(ctx, user); return;
+		case 'outbox': await Outbox(ctx, user); return;
+		case 'publickey': await Publickey(ctx, user); return;
+		case 'collections/featured': await Featured(ctx, user); return;
+		default:
+			ctx.status = 404;
+			ctx.set('Cache-Control', 'public, max-age=13');
+			return;
+	}
+});
+//#endregion
+
 //#endregion
 
 // emoji
