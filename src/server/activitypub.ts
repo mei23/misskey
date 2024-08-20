@@ -6,17 +6,16 @@ import * as httpSignature from '@peertube/http-signature';
 
 import { renderActivity } from '../remote/activitypub/renderer';
 import Note, { INote } from '../models/note';
-import User, { isLocalUser, ILocalUser, IUser, isRemoteUser } from '../models/user';
+import User, { ILocalUser, IRemoteUser, isLocalUser, isRemoteUser } from '../models/user';
 import Emoji from '../models/emoji';
 import renderNote from '../remote/activitypub/renderer/note';
-import renderKey from '../remote/activitypub/renderer/key';
 import renderPerson from '../remote/activitypub/renderer/person';
 import renderEmoji from '../remote/activitypub/renderer/emoji';
-import Likes from './activitypub/likes';
 import Outbox, { packActivity } from './activitypub/outbox';
 import Followers from './activitypub/followers';
 import Following from './activitypub/following';
 import Featured from './activitypub/featured';
+import Publickey from './activitypub/publickey';
 import { inbox as processInbox, inboxLazy as processInboxLazy } from '../queue';
 import { isSelfHost } from '../misc/convert-host';
 import NoteReaction from '../models/note-reaction';
@@ -37,9 +36,8 @@ const logger = new Logger('activitypub');
 // Init router
 const router = new Router();
 
-//#region Routing
-
-async function inbox(ctx: Router.RouterContext) {
+//#region inbox
+router.post(['/inbox', '/users/:user/inbox'], async (ctx: Router.RouterContext) => {
 	if (config.disableFederation) ctx.throw(404);
 
 	if (ctx.req.headers.host !== config.host) {
@@ -201,8 +199,10 @@ async function inbox(ctx: Router.RouterContext) {
 	ctx.body = {
 		queueId: queue.id,
 	};
-}
+});
+//#endregion
 
+//#region Util accept handling
 const ACTIVITY_JSON = 'application/activity+json; charset=utf-8';
 const LD_JSON = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"; charset=utf-8';
 
@@ -214,19 +214,9 @@ function isActivityPubReq(ctx: Router.RouterContext, preferAp = false) {
 	return typeof accepted === 'string' && !accepted.match(/html/);
 }
 
-function setCacheHeader(ctx: Router.RouterContext, note: INote) {
-	if (note.expiresAt) {
-		const s = (note.expiresAt.getTime() - new Date().getTime()) / 1000;
-		if (s < 180) {
-			ctx.set('Expires', note.expiresAt.toUTCString());
-			return;
-		}
-	}
-
-	ctx.set('Cache-Control', 'public, max-age=180');
-	return;
-}
-
+/**
+ * Set respose content-type by requested one
+ */
 export function setResponseType(ctx: Router.RouterContext) {
 	const accept = ctx.accepts(ACTIVITY_JSON, LD_JSON);
 	if (accept === LD_JSON) {
@@ -235,11 +225,9 @@ export function setResponseType(ctx: Router.RouterContext) {
 		ctx.response.type = ACTIVITY_JSON;
 	}
 }
+//#endregion
 
-// inbox
-router.post('/inbox', inbox);
-router.post('/users/:user/inbox', inbox);
-
+//#region notes
 export const isNoteUserAvailable = async (note: INote) => {
 	const user = await User.findOne({
 		_id: note.userId,
@@ -250,14 +238,13 @@ export const isNoteUserAvailable = async (note: INote) => {
 	return user != null;
 };
 
-// note
-router.get('/notes/:note', async (ctx, next) => {
-	if (!isActivityPubReq(ctx)) return await next();
-
+router.get(['/notes/:note', '/notes/:note/:activity'], async (ctx, next) => {
+	if (isActivityPubReq(ctx) === false) return await next();
 	if (config.disableFederation) ctx.throw(404);
 
 	if (!ObjectID.isValid(ctx.params.note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -269,15 +256,17 @@ router.get('/notes/:note', async (ctx, next) => {
 		copyOnce: { $ne: true }
 	});
 
-	if (note == null || !await isNoteUserAvailable(note)) {
+	if (note == null || await isNoteUserAvailable(note) === false) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
 	// リモートだったらリダイレクト
-	if (note._user.host != null) {
+	if (!ctx.params.activity && note._user.host != null) {
 		if (note.uri == null || isSelfHost(note._user.host)) {
 			ctx.status = 500;
+			ctx.set('Cache-Control', 'public, max-age=30');
 			return;
 		}
 		ctx.redirect(note.uri);
@@ -291,127 +280,62 @@ router.get('/notes/:note', async (ctx, next) => {
 		});
 	}
 
-	ctx.body = renderActivity(await renderNote(note, false));
-	setCacheHeader(ctx, note);
-	setResponseType(ctx);
-});
-
-// note activity
-router.get('/notes/:note/activity', async ctx => {
-	if (config.disableFederation) ctx.throw(404);
-
-	if (!ObjectID.isValid(ctx.params.note)) {
-		ctx.status = 404;
-		return;
+	ctx.body = renderActivity(await (ctx.params.activity ? packActivity(note) : renderNote(note, false)));
+	
+	// set cache header by note expires
+	if (note.expiresAt) {
+		const s = (note.expiresAt.getTime() - new Date().getTime()) / 1000;
+		if (s < 180) {
+			ctx.set('Expires', note.expiresAt.toUTCString());
+			return;
+		}
 	}
 
-	let note = await Note.findOne({
-		_id: new ObjectID(ctx.params.note),
-		deletedAt: { $exists: false },
-		'_user.host': null,
-		visibility: { $in: ['public', 'home'] },
-		localOnly: { $ne: true },
-		copyOnce: { $ne: true }
-	});
-
-	if (note == null || !await isNoteUserAvailable(note)) {
-		ctx.status = 404;
-		return;
-	}
-
-	const meta = await fetchMeta();
-	if (meta.exposeHome) {
-		note = Object.assign(note, {
-			visibility: 'home'
-		});
-	}
-
-	ctx.body = renderActivity(await packActivity(note));
-	setCacheHeader(ctx, note);
-	setResponseType(ctx);
-});
-
-// likes
-router.get('/notes/:note/likes', Likes);
-
-// outbox
-router.get('/users/:user/outbox', Outbox);
-
-// followers
-router.get('/users/:user/followers', Followers);
-
-// following
-router.get('/users/:user/following', Following);
-
-// featured
-router.get('/users/:user/collections/featured', Featured);
-
-// publickey
-router.get('/users/:user/publickey', async ctx => {
-	if (config.disableFederation) ctx.throw(404);
-
-	if (!ObjectID.isValid(ctx.params.user)) {
-		ctx.status = 404;
-		return;
-	}
-
-	const userId = new ObjectID(ctx.params.user);
-
-	const user = await User.findOne({
-		_id: userId,
-		isDeleted: { $ne: true },
-		isSuspended: { $ne: true },
-		noFederation: { $ne: true },
-		host: null
-	});
-
-	if (user === null) {
-		ctx.status = 404;
-		return;
-	}
-
-	if (isLocalUser(user)) {
-		ctx.body = renderActivity(renderKey(user));
-		ctx.set('Cache-Control', 'public, max-age=180');
-		setResponseType(ctx);
-	} else {
-		ctx.status = 400;
-	}
-});
-
-// user
-async function userInfo(ctx: Router.RouterContext, user?: IUser | null) {
-	if (user == null) {
-		ctx.status = 404;
-		return;
-	}
-
-	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
 	ctx.set('Cache-Control', 'public, max-age=180');
+
 	setResponseType(ctx);
-}
+});
+//#endregion
 
-router.get('/users/:user', async (ctx, next) => {
-	if (!isActivityPubReq(ctx, true)) return await next();
+//#region users
+//#region users utils
+type UserDivision = 'local' | 'both';
 
-	if (config.disableFederation) ctx.throw(404);
-
-	if (!ObjectID.isValid(ctx.params.user)) {
-		ctx.status = 404;
-		return;
-	}
-
-	const userId = new ObjectID(ctx.params.user);
+/**
+ * Get valid user by userId
+ * @param userId userId
+ * @param userDivision UserDivision to get
+ * @returns user object or null
+ */
+async function getValidUser(userId: string, userDivision: 'local'): Promise<ILocalUser | null>;
+async function getValidUser(userId: string, userDivision: 'both'): Promise<ILocalUser | IRemoteUser | null>;
+async function getValidUser(userId: string, userDivision: UserDivision): Promise<ILocalUser | IRemoteUser | null> {
+	if (ObjectID.isValid(userId) === false) return null;
 
 	const user = await User.findOne({
-		_id: userId,
+		_id: new ObjectID(userId),
 		isDeleted: { $ne: true },
 		isSuspended: { $ne: true },
 		noFederation: { $ne: true },
+		...(userDivision === 'local' ? { host: null } : {}),
 	});
 
+	if (user == null) return null;
+	if (userDivision === 'local' && isLocalUser(user) === false) return null;
+
+	return user;
+};
+//#endregion
+
+//#region user by userId
+router.get('/users/:userId', async (ctx, next) => {
+	if (!isActivityPubReq(ctx, true)) return await next();
+	if (config.disableFederation) ctx.throw(404);
+
+	const user = await getValidUser(ctx.params.userId, 'both');
 	if (user == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -420,25 +344,66 @@ router.get('/users/:user', async (ctx, next) => {
 		return;
 	}
 
-	await userInfo(ctx, user);
+	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
+	ctx.set('Cache-Control', 'public, max-age=180');
+	setResponseType(ctx);
 });
+//#endregion
 
-router.get('/@:user', async (ctx, next) => {
-	if (!isActivityPubReq(ctx)) return await next();
-
+//#region user by username
+router.get('/@:username', async (ctx, next) => {
+	if (isActivityPubReq(ctx) === false) return await next();
 	if (config.disableFederation) ctx.throw(404);
 
 	const user = await User.findOne({
-		usernameLower: ctx.params.user.toLowerCase(),
+		usernameLower: ctx.params.username.toLowerCase(),
 		isDeleted: { $ne: true },
 		isSuspended: { $ne: true },
 		noFederation: { $ne: true },
 		host: null
-	});
+	}) as ILocalUser;
 
-	await userInfo(ctx, user);
+	if (user == null) {
+		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
+		return;
+	}
+
+	ctx.body = renderActivity(await renderPerson(user as ILocalUser));
+	ctx.set('Cache-Control', 'public, max-age=180');
+	setResponseType(ctx);
 });
 //#endregion
+
+//#region user objects
+router.get(['/users/:userId/:obj', '/users/:userId/:obj/:obj2'], async (ctx, next) => {
+	if (isActivityPubReq(ctx) === false) return await next();
+	if (config.disableFederation) ctx.throw(404);
+
+	const user = await getValidUser(ctx.params.userId, 'local');
+	if (user == null) {
+		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=12');
+		return;
+	}
+
+	const subPath = ctx.params.obj + (ctx.params.obj2 ? `/${ctx.params.obj2}` : '');
+
+	switch (subPath) {
+		case 'followers': await Followers(ctx, user); return;
+		case 'following': await Following(ctx, user); return;
+		case 'outbox': await Outbox(ctx, user); return;
+		case 'publickey': await Publickey(ctx, user); return;
+		case 'collections/featured': await Featured(ctx, user); return;
+		default:
+			ctx.status = 404;
+			ctx.set('Cache-Control', 'public, max-age=13');
+			return;
+	}
+});
+//#endregion
+
+//#endregion users
 
 // emoji
 router.get('/emojis/:emoji', async ctx => {
@@ -451,6 +416,7 @@ router.get('/emojis/:emoji', async ctx => {
 
 	if (emoji == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -465,6 +431,7 @@ router.get('/likes/:like', async ctx => {
 
 	if (!ObjectID.isValid(ctx.params.like)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -474,6 +441,7 @@ router.get('/likes/:like', async ctx => {
 
 	if (reaction == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -483,6 +451,7 @@ router.get('/likes/:like', async ctx => {
 
 	if (note == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 

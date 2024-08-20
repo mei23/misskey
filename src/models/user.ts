@@ -236,7 +236,7 @@ export interface IRemoteUser extends IUserBase {
 export type IUser = ILocalUser | IRemoteUser;
 
 export const isLocalUser = (user: any): user is ILocalUser =>
-	user.host === null;
+	user.host == null;
 
 export const isRemoteUser = (user: any): user is IRemoteUser =>
 	!isLocalUser(user);
