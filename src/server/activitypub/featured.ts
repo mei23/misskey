@@ -13,6 +13,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	if (!ObjectID.isValid(ctx.params.user)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -29,6 +30,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	if (user == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 

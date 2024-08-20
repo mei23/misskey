@@ -19,6 +19,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	if (!ObjectID.isValid(ctx.params.note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -33,6 +34,7 @@ export default async (ctx: Router.RouterContext) => {
 
 	if (note == null || !await isNoteUserAvailable(note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -46,6 +48,7 @@ export default async (ctx: Router.RouterContext) => {
 	// Validate parameters
 	if (cursorErr || pageErr) {
 		ctx.status = 400;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 

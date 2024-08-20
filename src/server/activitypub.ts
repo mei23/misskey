@@ -258,6 +258,7 @@ router.get('/notes/:note', async (ctx, next) => {
 
 	if (!ObjectID.isValid(ctx.params.note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -271,6 +272,7 @@ router.get('/notes/:note', async (ctx, next) => {
 
 	if (note == null || !await isNoteUserAvailable(note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -278,6 +280,7 @@ router.get('/notes/:note', async (ctx, next) => {
 	if (note._user.host != null) {
 		if (note.uri == null || isSelfHost(note._user.host)) {
 			ctx.status = 500;
+			ctx.set('Cache-Control', 'public, max-age=30');
 			return;
 		}
 		ctx.redirect(note.uri);
@@ -302,6 +305,7 @@ router.get('/notes/:note/activity', async ctx => {
 
 	if (!ObjectID.isValid(ctx.params.note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -316,6 +320,7 @@ router.get('/notes/:note/activity', async ctx => {
 
 	if (note == null || !await isNoteUserAvailable(note)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -352,6 +357,7 @@ router.get('/users/:user/publickey', async ctx => {
 
 	if (!ObjectID.isValid(ctx.params.user)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -367,6 +373,7 @@ router.get('/users/:user/publickey', async ctx => {
 
 	if (user === null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -376,13 +383,22 @@ router.get('/users/:user/publickey', async ctx => {
 		setResponseType(ctx);
 	} else {
 		ctx.status = 400;
+		ctx.set('Cache-Control', 'public, max-age=180');
 	}
+});
+
+router.get('/users/:user/:obj', async (ctx, next) => {
+	if (!isActivityPubReq(ctx)) return await next();
+	ctx.status = 404;
+	ctx.set('Cache-Control', 'public, max-age=31');
+	return;
 });
 
 // user
 async function userInfo(ctx: Router.RouterContext, user?: IUser | null) {
 	if (user == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -398,6 +414,7 @@ router.get('/users/:user', async (ctx, next) => {
 
 	if (!ObjectID.isValid(ctx.params.user)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -412,6 +429,7 @@ router.get('/users/:user', async (ctx, next) => {
 
 	if (user == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -451,6 +469,7 @@ router.get('/emojis/:emoji', async ctx => {
 
 	if (emoji == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -465,6 +484,7 @@ router.get('/likes/:like', async ctx => {
 
 	if (!ObjectID.isValid(ctx.params.like)) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -474,6 +494,7 @@ router.get('/likes/:like', async ctx => {
 
 	if (reaction == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
@@ -483,6 +504,7 @@ router.get('/likes/:like', async ctx => {
 
 	if (note == null) {
 		ctx.status = 404;
+		ctx.set('Cache-Control', 'public, max-age=180');
 		return;
 	}
 
