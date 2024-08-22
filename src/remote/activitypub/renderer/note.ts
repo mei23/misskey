@@ -107,10 +107,19 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 	const emojis = await getEmojis(note.emojis);
 	const apemojis = emojis.map(emoji => renderEmoji(emoji));
 
+	const fepE232Quote = {
+		type: 'Link',
+		mediaType: 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
+		rel: 'https://misskey-hub.net/ns#_misskey_quote',
+		href: quote,
+		name: `RE: ${quote}`,
+	};
+
 	const tag = [
 		...hashtagTags,
 		...mentionTags,
 		...apemojis,
+		fepE232Quote,
 	];
 
 	const {

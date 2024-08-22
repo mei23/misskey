@@ -141,7 +141,6 @@ export interface IPost extends IObject {
 		mediaType?: string;
 	};
 	_misskey_quote?: string;
-	quoteUrl?: string;
 	quoteUri?: string;
 	references: string | ICollection;
 }
@@ -168,7 +167,6 @@ export interface IQuestion extends IObject {
 		mediaType?: string;
 	};
 	_misskey_quote?: string;
-	quoteUrl?: string;
 	quoteUri?: string;
 	oneOf?: IQuestionChoice[];
 	anyOf?: IQuestionChoice[];
@@ -229,6 +227,16 @@ export interface IApHashtag extends IObject {
 export const isHashtag = (object: IObject): object is IApHashtag =>
 	getApType(object) === 'Hashtag' &&
 	typeof object.name === 'string';
+
+export interface IApLink extends IObject {
+	type: 'Link';
+	href?: string;
+	rel?: string;
+	mediaType?: string;
+	name?: string;
+};
+
+export const isLink = (object: IObject): object is IApLink => getApType(object) === 'Link';
 
 export interface IActor extends IObject {
 	type: 'Person' | 'Service' | 'Organization' | 'Group' | 'Application';
