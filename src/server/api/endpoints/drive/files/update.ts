@@ -6,6 +6,10 @@ import { publishDriveStream } from '../../../../../services/stream';
 import define from '../../../define';
 import Note from '../../../../../models/note';
 import { ApiError } from '../../../error';
+import { renderActivity } from '../../../../../remote/activitypub/renderer';
+import renderUpdate from '../../../../../remote/activitypub/renderer/update';
+import renderDocument from '../../../../../remote/activitypub/renderer/document';
+import { deliverToFollowers } from '../../../../../remote/activitypub/deliver-manager';
 
 export const meta = {
 	desc: {
@@ -84,7 +88,7 @@ export default define(meta, async (ps, user) => {
 			_id: ps.fileId
 		});
 
-	if (file === null) {
+	if (file == null) {
 		throw new ApiError(meta.errors.noSuchFile);
 	}
 
@@ -141,6 +145,23 @@ export default define(meta, async (ps, user) => {
 
 	// Publish fileUpdated event
 	publishDriveStream(user._id, 'fileUpdated', fileObj);
+
+	if (!user.noFederation && file.metadata?.attachedNoteIds) {
+		const n = await Note.findOne({
+			_id: { $in: file.metadata?.attachedNoteIds },	//
+			deletedAt: { $exists: false },
+			userId: user._id,
+			visibility: { $in: ['public', 'home'] },
+			localOnly: { $ne: true },
+			copyOnce: { $ne: true }
+		});
+
+		if (n) {
+			const content = renderActivity(renderUpdate(await renderDocument(file), user));
+			deliverToFollowers(user, content);
+		}
+	}
+
 
 	return fileObj;
 });
