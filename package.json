@@ -199,7 +199,7 @@
 		"@types/koa__multer": "2.0.7",
 		"@types/koa__router": "8.0.11",
 		"@types/lodash": "4.17.7",
-		"@types/mocha": "10.0.7",
+		"@types/mocha": "10.0.9",
 		"@types/mongodb": "3.6.20",
 		"@types/node": "20.14.11",
 		"@types/nodemailer": "6.4.15",
@@ -231,7 +231,7 @@
 		"cross-env": "7.0.3",
 		"eslint": "8.57.0",
 		"eslint-plugin-n": "16.6.2",
-		"mocha": "10.6.1"
+		"mocha": "10.7.3"
 	},
 	"packageManager": "pnpm@9.5.0"
 }
