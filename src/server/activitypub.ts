@@ -192,7 +192,15 @@ async function inbox(ctx: Router.RouterContext) {
 		}
 	}
 
-	
+	try {
+		if (JSON.stringify(activity).match(/唐澤貴洋/)) {
+			console.log(`match inbox word`);
+			ctx.status = 202;
+			return;
+		}
+	} catch {
+	}
+
 	const queue = await (lazy ? processInboxLazy : processInbox)(activity, signature, {
 		ip: ctx.request.ip
 	});
