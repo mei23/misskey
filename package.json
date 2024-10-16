@@ -233,5 +233,5 @@
 		"eslint-plugin-n": "16.6.2",
 		"mocha": "10.6.1"
 	},
-	"packageManager": "pnpm@9.5.0"
+	"packageManager": "pnpm@9.12.2"
 }
