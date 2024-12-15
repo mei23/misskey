@@ -589,8 +589,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8
       '@types/web-push':
-        specifier: 3.6.3
-        version: 3.6.3
+        specifier: 3.6.4
+        version: 3.6.4
       '@types/webpack':
         specifier: 5.28.5
         version: 5.28.5(@swc/core@1.6.13)(webpack-cli@4.10.0(webpack@5.94.0))
@@ -1950,8 +1950,8 @@ packages:
   '@types/vinyl@2.0.7':
     resolution: {integrity: sha512-4UqPv+2567NhMQuMLdKAyK4yzrfCqwaTt6bLhHEs8PFcxbHILsrxaY63n4wgE/BRLDWDQeI+WcTmkXKExh9hQg==}
 
-  '@types/web-push@3.6.3':
-    resolution: {integrity: sha512-v3oT4mMJsHeJ/rraliZ+7TbZtr5bQQuxcgD7C3/1q/zkAj29c8RE0F9lVZVu3hiQe5Z9fYcBreV7TLnfKR+4mg==}
+  '@types/web-push@3.6.4':
+    resolution: {integrity: sha512-GnJmSr40H3RAnj0s34FNTcJi1hmWFV5KXugE0mYWnYhgTAHLJ/dJKAwDmvPJYMke0RplY2XE9LnM4hqSqKIjhQ==}
 
   '@types/webpack@5.28.5':
     resolution: {integrity: sha512-wR87cgvxj3p6D0Crt1r5avwqffqPXUkNlnQ1mjU93G7gCuFjufZR4I6j8cz5g1F1tTYpfOOFvly+cmIQwL9wvw==}
@@ -8672,7 +8672,7 @@ snapshots:
       '@types/expect': 1.20.4
       '@types/node': 22.10.2
 
-  '@types/web-push@3.6.3':
+  '@types/web-push@3.6.4':
     dependencies:
       '@types/node': 22.10.2
 
