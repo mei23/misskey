@@ -81,8 +81,8 @@ importers:
         specifier: 2.4.3
         version: 2.4.3
       bootstrap:
-        specifier: 4.6.2
-        version: 4.6.2(jquery@3.7.1)(popper.js@1.16.1)
+        specifier: 5.0.0
+        version: 5.0.0(@popperjs/core@2.11.8)
       bootstrap-vue:
         specifier: 2.23.1
         version: 2.23.1(jquery@3.7.1)(vue@2.7.16)
@@ -1397,6 +1397,9 @@ packages:
     resolution: {integrity: sha512-aGQIwo6/sWtyyqhVK4e1MtxYz4N1X8CNt6SOtCc+Wnczs5S5ONaLHDDR8LYaGn0MgOwvGgXyuZ5sJIfd7iyoUw==}
     engines: {node: '>=0.10'}
 
+  '@popperjs/core@2.11.8':
+    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+
   '@prezzemolo/rap@0.1.2':
     resolution: {integrity: sha512-gWdrNBQEzCPj7998SvQY3CitBYb1Tfm9zc1af7IRuF0TFJ6qqYsmULoL8qcidAxRPIciEvzFnCR2tO8YEznyHQ==}
 
@@ -2433,6 +2436,11 @@ packages:
     peerDependencies:
       jquery: 1.9.1 - 3
       popper.js: ^1.16.1
+
+  bootstrap@5.0.0:
+    resolution: {integrity: sha512-tmhPET9B9qCl8dCofvHeiIhi49iBt0EehmIsziZib65k1erBW1rHhj2s/2JsuQh5Pq+xz2E9bEbzp9B7xHG+VA==}
+    peerDependencies:
+      '@popperjs/core': ^2.9.2
 
   bowser@2.11.0:
     resolution: {integrity: sha512-AlcaJBi/pqqJBIQ8U9Mcpc9i8Aqxn88Skv5d+xBX006BY5u8N3mGLHa5Lgppa7L/HfwgwLgZ6NYs+Ag6uUmJRA==}
@@ -7993,6 +8001,8 @@ snapshots:
       jsprim: 1.4.2
       sshpk: 1.18.0
 
+  '@popperjs/core@2.11.8': {}
+
   '@prezzemolo/rap@0.1.2': {}
 
   '@redocly/ajv@8.11.0':
@@ -9290,6 +9300,10 @@ snapshots:
     dependencies:
       jquery: 3.7.1
       popper.js: 1.16.1
+
+  bootstrap@5.0.0(@popperjs/core@2.11.8):
+    dependencies:
+      '@popperjs/core': 2.11.8
 
   bowser@2.11.0: {}
 
