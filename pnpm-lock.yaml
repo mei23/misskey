@@ -460,8 +460,8 @@ importers:
         version: 15.1.1
     devDependencies:
       '@redocly/openapi-core':
-        specifier: 1.11.0
-        version: 1.11.0
+        specifier: 1.27.0
+        version: 1.27.0
       '@types/bcryptjs':
         specifier: 2.4.6
         version: 2.4.6
@@ -1389,14 +1389,14 @@ packages:
   '@prezzemolo/rap@0.1.2':
     resolution: {integrity: sha512-gWdrNBQEzCPj7998SvQY3CitBYb1Tfm9zc1af7IRuF0TFJ6qqYsmULoL8qcidAxRPIciEvzFnCR2tO8YEznyHQ==}
 
-  '@redocly/ajv@8.11.0':
-    resolution: {integrity: sha512-9GWx27t7xWhDIR02PA18nzBdLcKQRgc46xNQvjFkrYk4UOmvKhJ/dawwiX0cCOeetN5LcaaiqQbVOWYK62SGHw==}
+  '@redocly/ajv@8.11.2':
+    resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
 
-  '@redocly/config@0.2.0':
-    resolution: {integrity: sha512-r0TqTPVXrxdvhpbOntWnJofOx0rC7u+A+tfC0KFwMtw38QCNb3pwodVjeLa7MT5Uu+fcPxfO119yLBj0QHvBuQ==}
+  '@redocly/config@0.17.1':
+    resolution: {integrity: sha512-CEmvaJuG7pm2ylQg53emPmtgm4nW2nxBgwXzbVEHpGas/lGnMyN8Zlkgiz6rPw0unASg6VW3wlz27SOL5XFHYQ==}
 
-  '@redocly/openapi-core@1.11.0':
-    resolution: {integrity: sha512-VH10SAkDu+jVW9tDFJWWYroFxHVY9N5VS4gorXw0cK8L+LydUOQ4KiZaKbTsTF2piWmZCxngZI7sNPHMiJ4Ftg==}
+  '@redocly/openapi-core@1.27.0':
+    resolution: {integrity: sha512-C3EU9NYbo7bCc9SduHrk6/liUuuBqVfJHOhfbscNCR1443Rdpz3s+bB2Xhso9mdQJT0JjklRn2WTANjavl2Zng==}
     engines: {node: '>=14.19.0', npm: '>=7.0.0'}
 
   '@sinclair/typebox@0.25.23':
@@ -4606,9 +4606,6 @@ packages:
   lodash.isarguments@3.1.0:
     resolution: {integrity: sha512-chi4NHZlZqZD18a0imDHnZPrDeBbTtVN7GXMwuGdRH9qotxAjYs3aVLKc7zNOG9eddR5Ksd8rvFEBc9SsggPpg==}
 
-  lodash.isequal@4.5.0:
-    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
-
   lodash.isregexp@3.0.5:
     resolution: {integrity: sha512-VlV0abdYZs5asSYW1JW5W1f6gxf2SGQt90rzQp7UNTQ8KwcB3CprZe5crN1LIlCA/fB5R9xecrZijGSELJL8Yg==}
 
@@ -6572,6 +6569,9 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
+  uri-js-replace@1.0.1:
+    resolution: {integrity: sha512-W+C9NWNLFOoBI2QWDp4UT9pv65r2w5Cx+3sTYFvtMdDBxkKt1syCqsUdSFAChbEe1uK5TfS04wt/nGwmaeIQ0g==}
+
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
@@ -8003,29 +8003,30 @@ snapshots:
 
   '@prezzemolo/rap@0.1.2': {}
 
-  '@redocly/ajv@8.11.0':
+  '@redocly/ajv@8.11.2':
     dependencies:
       fast-deep-equal: 3.1.3
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
-      uri-js: 4.4.1
+      uri-js-replace: 1.0.1
 
-  '@redocly/config@0.2.0': {}
+  '@redocly/config@0.17.1': {}
 
-  '@redocly/openapi-core@1.11.0':
+  '@redocly/openapi-core@1.27.0':
     dependencies:
-      '@redocly/ajv': 8.11.0
-      '@redocly/config': 0.2.0
+      '@redocly/ajv': 8.11.2
+      '@redocly/config': 0.17.1
       colorette: 1.4.0
+      https-proxy-agent: 7.0.4
       js-levenshtein: 1.1.6
       js-yaml: 4.1.0
-      lodash.isequal: 4.5.0
-      minimatch: 5.1.2
+      minimatch: 5.1.6
       node-fetch: 2.6.7
       pluralize: 8.0.0
       yaml-ast-parser: 0.0.43
     transitivePeerDependencies:
       - encoding
+      - supports-color
 
   '@sinclair/typebox@0.25.23': {}
 
@@ -11639,8 +11640,6 @@ snapshots:
 
   lodash.isarguments@3.1.0: {}
 
-  lodash.isequal@4.5.0: {}
-
   lodash.isregexp@3.0.5: {}
 
   lodash.memoize@4.1.2: {}
@@ -13678,6 +13677,8 @@ snapshots:
       browserslist: 4.23.0
       escalade: 3.1.1
       picocolors: 1.0.1
+
+  uri-js-replace@1.0.1: {}
 
   uri-js@4.4.1:
     dependencies:
