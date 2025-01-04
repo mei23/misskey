@@ -255,8 +255,8 @@ importers:
         specifier: 4.0.0
         version: 4.0.0
       nodemailer:
-        specifier: 6.9.14
-        version: 6.9.14
+        specifier: 6.9.16
+        version: 6.9.16
       nprogress:
         specifier: 0.2.0
         version: 0.2.0
@@ -529,8 +529,8 @@ importers:
         specifier: 22.10.5
         version: 22.10.5
       '@types/nodemailer':
-        specifier: 6.4.15
-        version: 6.4.15
+        specifier: 6.4.17
+        version: 6.4.17
       '@types/nprogress':
         specifier: 0.2.3
         version: 0.2.3
@@ -1851,8 +1851,8 @@ packages:
   '@types/node@22.10.5':
     resolution: {integrity: sha512-F8Q+SeGimwOo86fiovQh8qiXfFEh2/ocYv7tU5pJ3EXMSSxk1Joj5wefpFK2fHTf/N6HKGSxIDBT9f3gCxXPkQ==}
 
-  '@types/nodemailer@6.4.15':
-    resolution: {integrity: sha512-0EBJxawVNjPkng1zm2vopRctuWVCxk34JcIlRuXSf54habUWdz1FB7wHDqOqvDa8Mtpt0Q3LTXQkAs2LNyK5jQ==}
+  '@types/nodemailer@6.4.17':
+    resolution: {integrity: sha512-I9CCaIp6DTldEg7vyUTZi8+9Vo0hi1/T8gv3C89yk1rSAAzoKQ8H8ki/jBYJSFoH/BisgLP8tkZMlQ91CIquww==}
 
   '@types/nprogress@0.2.3':
     resolution: {integrity: sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==}
@@ -4963,8 +4963,8 @@ packages:
   node-releases@2.0.14:
     resolution: {integrity: sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==}
 
-  nodemailer@6.9.14:
-    resolution: {integrity: sha512-Dobp/ebDKBvz91sbtRKhcznLThrKxKt97GI2FAlAyy+fk19j73Uz3sBXolVtmcXjaorivqsbbbjDY+Jkt4/bQA==}
+  nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
     engines: {node: '>=6.0.0'}
 
   nopt@6.0.0:
@@ -8600,7 +8600,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/nodemailer@6.4.15':
+  '@types/nodemailer@6.4.17':
     dependencies:
       '@types/node': 22.10.5
 
@@ -12010,7 +12010,7 @@ snapshots:
 
   node-releases@2.0.14: {}
 
-  nodemailer@6.9.14: {}
+  nodemailer@6.9.16: {}
 
   nopt@6.0.0:
     dependencies:
