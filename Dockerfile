@@ -8,7 +8,7 @@ RUN apt-get update \
 
 COPY package.json pnpm-lock.yaml ./
 
-RUN corepack enable pnpm
+RUN npm i -g pnpm
 
 RUN pnpm i --frozen-lockfile
 
@@ -24,7 +24,7 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends ffmpeg mecab mecab-ipadic-utf8 tini \
  && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/* \
- && corepack enable pnpm
+ && npm i -g pnpm
 
 COPY --from=builder /misskey/node_modules ./node_modules
 COPY --from=builder /misskey/built ./built
