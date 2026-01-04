@@ -4,6 +4,8 @@ import * as moment from 'moment';
 // https://svs.gsfc.nasa.gov/Gallery/moonphase.html
 // 2022 https://svs.gsfc.nasa.gov/4955 https://svs.gsfc.nasa.gov/vis/a000000/a004900/a004955/mooninfo_2022.json
 // 2023 https://svs.gsfc.nasa.gov/5048 https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005048/mooninfo_2023.json
+// 2025 https://svs.gsfc.nasa.gov/5415 https://svs.gsfc.nasa.gov/vis/a000000/a005400/a005415/mooninfo_2025.json
+// 2026 https://svs.gsfc.nasa.gov/5587 https://svs.gsfc.nasa.gov/vis/a000000/a005500/a005587/mooninfo_2026.json
 
 // Usage: fetch json and run
 // npx ts-node src/tools/dev/nasa-moon.ts
@@ -49,7 +51,7 @@ function parse() {
 	// src
 	let nasa: NasaMoon[] = [];
 
-	for (const file of [`${__dirname}/mooninfo_2022.json`, `${__dirname}/mooninfo_2023.json`]) {
+	for (const file of [`${__dirname}/mooninfo_2022.json`, `${__dirname}/mooninfo_2025.json`, `${__dirname}/mooninfo_2026.json`]) {
 		const x = JSON.parse(readFileSync(file, 'utf-8')) as NasaMoon[];
 		nasa = nasa.concat(x);
 	}
