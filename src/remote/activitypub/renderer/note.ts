@@ -157,6 +157,11 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 		likes: `${config.url}/notes/${note._id}/likes`,
 		tag,
 		...asPoll,
+		interactionPolicy: {
+			canQuote: {
+				automaticApproval: ['https://www.w3.org/ns/activitystreams#Public']
+			},
+		},
 	};
 }
 

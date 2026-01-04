@@ -126,6 +126,8 @@ export type INote = {
 	// 参照IDs
 	referenceIds?: mongo.ObjectID[];
 
+	canQuote?: 'public' | 'followers' | 'none' | null;
+
 	// 非正規化
 	_reply?: {
 		userId: mongo.ObjectID;
@@ -421,6 +423,13 @@ export const pack = async (
 		visibleUserIds: db.visibleUserIds?.length > 0 ? db.visibleUserIds.map(toOidString) : [],
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],
 		hasRemoteMentions: db.mentionedRemoteUsers?.length > 0,
+		canQuote:
+			db.canQuote === 'public' ? true :
+			db.canQuote === 'none' ? false :
+			db.canQuote == null ? true :
+			meId == null ? false :
+			false // TODO: followers
+			,
 		...(opts.detail ? {
 			reply: (opts.detail && db.replyId) ? pack(db.replyId, meId, {
 				detail: false

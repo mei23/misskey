@@ -36,6 +36,8 @@ export type ThinPackedNote = {
 	mentions: string[];
 	hasRemoteMentions: boolean;
 
+	canQuote?: boolean;
+
 	notHaveDecorationMfm?: boolean;
 
 	isHidden?: boolean;
