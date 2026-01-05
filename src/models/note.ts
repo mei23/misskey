@@ -424,11 +424,13 @@ export const pack = async (
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],
 		hasRemoteMentions: db.mentionedRemoteUsers?.length > 0,
 		canQuote:
-			db.canQuote === 'public' ? true :
-			db.canQuote === 'none' ? false :
-			db.canQuote == null ? true :
+			!(db.visibility === 'public' || db.visibility === 'home') ? false :	// Noteが公開でない
+			db.canQuote === 'public' ? true :	// ポリシーが許可
+			db.canQuote === 'none' ? false :	// ポリシーが不許可
+			db.canQuote == null ? true :	// ポリシーが未定義
+			// TODO: followers
 			meId == null ? false :
-			false // TODO: followers
+			false
 			,
 		...(opts.detail ? {
 			reply: (opts.detail && db.replyId) ? pack(db.replyId, meId, {
