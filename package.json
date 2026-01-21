@@ -233,5 +233,19 @@
 		"eslint-plugin-n": "16.6.2",
 		"mocha": "10.8.2"
 	},
-	"packageManager": "pnpm@10.7.1"
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@fortawesome/fontawesome-common-types",
+			"@fortawesome/fontawesome-svg-core",
+			"@fortawesome/free-brands-svg-icons",
+			"@fortawesome/free-regular-svg-icons",
+			"@fortawesome/free-solid-svg-icons",
+			"@swc/core",
+			"bootstrap-vue",
+			"es5-ext",
+			"msgpackr-extract",
+			"sharp"
+		]
+	},
+	"packageManager": "pnpm@10.28.1"
 }
