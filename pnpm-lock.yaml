@@ -384,8 +384,8 @@ importers:
         specifier: 5.5.3
         version: 5.5.3
       uuid:
-        specifier: 9.0.1
-        version: 9.0.1
+        specifier: 13.0.0
+        version: 13.0.0
       v-animate-css:
         specifier: 0.0.6
         version: 0.0.6
@@ -6607,6 +6607,10 @@ packages:
 
   util.promisify@1.0.1:
     resolution: {integrity: sha512-g9JpC/3He3bm38zsLupWryXHoEcS22YHthuPQSJdMy6KNrzIRzWqcsHzD/WUnqe45whVou4VIsPew37DoXWNrA==}
+
+  uuid@13.0.0:
+    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
+    hasBin: true
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
@@ -13730,6 +13734,8 @@ snapshots:
       es-abstract: 1.21.1
       has-symbols: 1.0.3
       object.getownpropertydescriptors: 2.1.5
+
+  uuid@13.0.0: {}
 
   uuid@8.3.2: {}
 
