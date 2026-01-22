@@ -64,7 +64,6 @@
 		"css-loader": "6.11.0",
 		"cssnano": "6.1.2",
 		"date-fns": "2.30.0",
-		"deepcopy": "0.6.3",
 		"double-ended-queue": "2.1.0-0",
 		"escape-regexp": "0.0.1",
 		"eventemitter3": "4.0.7",

@@ -3,7 +3,7 @@ import ID, { transform } from '../../../../misc/cafy-id';
 import define from '../../define';
 import NoteReaction from '../../../../models/note-reaction';
 import * as mongo from 'mongodb';
-import * as deepcopy from 'deepcopy';
+import { cloneDeep as deepcopy } from 'lodash';
 import isObjectId from '../../../../misc/is-objectid';
 import { pack as packNote } from '../../../../models/note';
 import { dbLogger } from '../../../../db/logger';

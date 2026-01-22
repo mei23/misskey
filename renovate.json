@@ -13,10 +13,6 @@
 			"allowedVersions": "< 5"
 		},
 		{
-			"matchPackageNames": ["deepcopy"],
-			"allowedVersions": "< 2"
-		},
-		{
 			"matchPackageNames": ["file-type"],
 			"allowedVersions": "< 17"
 		},
