@@ -1,5 +1,5 @@
 import * as mongo from 'mongodb';
-const deepcopy = require('deepcopy');
+import { cloneDeep as deepcopy } from 'lodash';
 import db from '../db/mongodb';
 import isObjectId from '../misc/is-objectid';
 import { dbLogger } from '../db/logger';

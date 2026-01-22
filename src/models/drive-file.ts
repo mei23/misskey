@@ -1,5 +1,5 @@
 import * as mongo from 'mongodb';
-import * as deepcopy from 'deepcopy';
+import { cloneDeep as deepcopy } from 'lodash';
 import { pack as packFolder } from './drive-folder';
 import { pack as packUser } from './user';
 import db, { nativeDbConn } from '../db/mongodb';

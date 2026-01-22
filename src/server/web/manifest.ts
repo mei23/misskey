@@ -1,6 +1,6 @@
 import * as Router from '@koa/router';
 import * as manifest from '../../client/assets/manifest.json';
-import * as deepcopy from 'deepcopy';
+import { cloneDeep as deepcopy } from 'lodash';
 import fetchMeta from '../../misc/fetch-meta';
 import config from '../../config';
 

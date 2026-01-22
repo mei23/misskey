@@ -1,6 +1,6 @@
 import * as mongo from 'mongodb';
 import db from '../db/mongodb';
-import * as deepcopy from 'deepcopy';
+import { cloneDeep as deepcopy } from 'lodash';
 import isObjectid from '../misc/is-objectid';
 import { toApHost } from '../misc/convert-host';
 import { getEmojiUrl } from '../misc/pack-emojis';
