@@ -43,7 +43,7 @@ importers:
         version: 8.0.8
       '@ladjs/koa-views':
         specifier: 9.0.0
-        version: 9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.17.21)(pug@3.0.3)
+        version: 9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.17.23)(pug@3.0.3)
       '@peertube/http-signature':
         specifier: 1.7.0
         version: 1.7.0
@@ -229,7 +229,7 @@ importers:
         version: 2.1.0
       lodash:
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       memory-streams:
         specifier: 0.1.3
         version: 0.1.3
@@ -352,7 +352,7 @@ importers:
         version: 7.1.3(stylus@0.63.0)(webpack@5.94.0)
       summaly:
         specifier: mei23/summaly#3.15.0
-        version: https://codeload.github.com/mei23/summaly/tar.gz/48521f0ae173350a9f3da0da2bbfbe961ba002cb
+        version: https://codeload.github.com/mei23/summaly/tar.gz/68c10a57a485dc0505dec52a03d2f8a1b3b3815f
       suncalc:
         specifier: 1.9.0
         version: 1.9.0
@@ -412,7 +412,7 @@ importers:
         version: 1.3.35(vue@2.7.16)
       vue-loader:
         specifier: 15.11.1
-        version: 15.11.1(css-loader@6.11.0(webpack@5.94.0))(lodash@4.17.21)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.94.0)
+        version: 15.11.1(css-loader@6.11.0(webpack@5.94.0))(lodash@4.17.23)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.94.0)
       vue-router:
         specifier: 3.6.5
         version: 3.6.5(vue@2.7.16)
@@ -4641,8 +4641,8 @@ packages:
   lodash.uniq@4.5.0:
     resolution: {integrity: sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -6224,8 +6224,8 @@ packages:
     resolution: {integrity: sha512-OMlgrTCPzE/ibtRMoeLVhOY0RcNuNWh0rhAVqeKnk/QwcuUKQbnqhZ1kg2vzD8VU/6h3FoPTq4RJPHgLBvX6Bw==}
     hasBin: true
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/48521f0ae173350a9f3da0da2bbfbe961ba002cb:
-    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/48521f0ae173350a9f3da0da2bbfbe961ba002cb}
+  summaly@https://codeload.github.com/mei23/summaly/tar.gz/68c10a57a485dc0505dec52a03d2f8a1b3b3815f:
+    resolution: {tarball: https://codeload.github.com/mei23/summaly/tar.gz/68c10a57a485dc0505dec52a03d2f8a1b3b3815f}
     version: 3.15.0
 
   suncalc@1.9.0:
@@ -7900,15 +7900,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ladjs/consolidate@1.0.2(@babel/core@7.24.3)(lodash@4.17.21)(pug@3.0.3)':
+  '@ladjs/consolidate@1.0.2(@babel/core@7.24.3)(lodash@4.17.23)(pug@3.0.3)':
     optionalDependencies:
       '@babel/core': 7.24.3
-      lodash: 4.17.21
+      lodash: 4.17.23
       pug: 3.0.3
 
-  '@ladjs/koa-views@9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.17.21)(pug@3.0.3)':
+  '@ladjs/koa-views@9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.17.23)(pug@3.0.3)':
     dependencies:
-      '@ladjs/consolidate': 1.0.2(@babel/core@7.24.3)(lodash@4.17.21)(pug@3.0.3)
+      '@ladjs/consolidate': 1.0.2(@babel/core@7.24.3)(lodash@4.17.23)(pug@3.0.3)
       debug: 4.3.4
       get-paths: 0.0.7
       koa-send: 5.0.1
@@ -8822,9 +8822,9 @@ snapshots:
     optionalDependencies:
       prettier: 2.8.8
 
-  '@vue/component-compiler-utils@3.3.0(lodash@4.17.21)(pug@3.0.3)':
+  '@vue/component-compiler-utils@3.3.0(lodash@4.17.23)(pug@3.0.3)':
     dependencies:
-      consolidate: 0.15.1(lodash@4.17.21)(pug@3.0.3)
+      consolidate: 0.15.1(lodash@4.17.23)(pug@3.0.3)
       hash-sum: 1.0.2
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
@@ -9385,7 +9385,7 @@ snapshots:
       cron-parser: 4.7.1
       get-port: 5.1.1
       ioredis: 5.3.2
-      lodash: 4.17.21
+      lodash: 4.17.23
       msgpackr: 1.10.1
       semver: 7.5.4
       uuid: 8.3.2
@@ -9715,11 +9715,11 @@ snapshots:
 
   consola@3.2.3: {}
 
-  consolidate@0.15.1(lodash@4.17.21)(pug@3.0.3):
+  consolidate@0.15.1(lodash@4.17.23)(pug@3.0.3):
     dependencies:
       bluebird: 3.7.2
     optionalDependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       pug: 3.0.3
 
   constantinople@4.0.1:
@@ -11689,7 +11689,7 @@ snapshots:
 
   lodash.uniq@4.5.0: {}
 
-  lodash@4.17.21: {}
+  lodash@4.17.23: {}
 
   log-symbols@4.1.0:
     dependencies:
@@ -13308,7 +13308,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  summaly@https://codeload.github.com/mei23/summaly/tar.gz/48521f0ae173350a9f3da0da2bbfbe961ba002cb:
+  summaly@https://codeload.github.com/mei23/summaly/tar.gz/68c10a57a485dc0505dec52a03d2f8a1b3b3815f:
     dependencies:
       cheerio: 1.0.0
       escape-regexp: 0.0.1
@@ -13839,9 +13839,9 @@ snapshots:
     dependencies:
       vue: 2.7.16
 
-  vue-loader@15.11.1(css-loader@6.11.0(webpack@5.94.0))(lodash@4.17.21)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.94.0):
+  vue-loader@15.11.1(css-loader@6.11.0(webpack@5.94.0))(lodash@4.17.23)(pug@3.0.3)(vue-template-compiler@2.7.16)(webpack@5.94.0):
     dependencies:
-      '@vue/component-compiler-utils': 3.3.0(lodash@4.17.21)(pug@3.0.3)
+      '@vue/component-compiler-utils': 3.3.0(lodash@4.17.23)(pug@3.0.3)
       css-loader: 6.11.0(webpack@5.94.0)
       hash-sum: 1.0.2
       loader-utils: 1.4.2
