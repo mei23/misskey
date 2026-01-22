@@ -447,8 +447,8 @@ importers:
         specifier: 4.10.0
         version: 4.10.0(webpack@5.94.0)
       ws:
-        specifier: 8.17.1
-        version: 8.17.1
+        specifier: 8.19.0
+        version: 8.19.0
       xev:
         specifier: 2.0.1
         version: 2.0.1
@@ -595,8 +595,8 @@ importers:
         specifier: 1.0.10
         version: 1.0.10
       '@types/ws':
-        specifier: 8.5.10
-        version: 8.5.10
+        specifier: 8.18.1
+        version: 8.18.1
       '@typescript-eslint/eslint-plugin':
         specifier: 7.5.0
         version: 7.5.0(@typescript-eslint/parser@7.5.0(eslint@8.57.1)(typescript@5.5.3))(eslint@8.57.1)(typescript@5.5.3)
@@ -1942,8 +1942,8 @@ packages:
   '@types/websocket@1.0.10':
     resolution: {integrity: sha512-svjGZvPB7EzuYS94cI7a+qhwgGU1y89wUgjT6E2wVUfmAGIvRfT7obBvRtnhXCSsoMdlG4gBFGE7MfkIXZLoww==}
 
-  '@types/ws@8.5.10':
-    resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
   '@typescript-eslint/eslint-plugin@7.5.0':
     resolution: {integrity: sha512-HpqNTH8Du34nLxbKgVMGljZMG0rJd2O9ecvr2QLYp+7512ty1j42KnsFwspPXg1Vh8an9YImf6CokUBltisZFQ==}
@@ -6891,8 +6891,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.17.1:
-    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
+  ws@8.19.0:
+    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -8715,7 +8715,7 @@ snapshots:
     dependencies:
       '@types/node': 22.19.6
 
-  '@types/ws@8.5.10':
+  '@types/ws@8.18.1':
     dependencies:
       '@types/node': 22.19.6
 
@@ -11402,7 +11402,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-      ws: 8.17.1
+      ws: 8.19.0
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -14112,7 +14112,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.17.1: {}
+  ws@8.19.0: {}
 
   xev@2.0.1: {}
 
