@@ -13,6 +13,7 @@ import { EventEmitter } from 'events';
 import { ApiError } from '../error';
 import { getHideUserIdsById } from '../common/get-hide-users';
 import { PubSubMessage, NoteStreamBody } from '../../../services/stream';
+import { pack } from '../../../models/note';
 
 /**
  * Main stream connection
@@ -106,8 +107,11 @@ export default class Connection {
 	 * 投稿購読要求時
 	 */
 	@autobind
-	private onSubscribeNote(payload: any) {
+	private async onSubscribeNote(payload: any) {
 		if (!payload.id) return;
+
+		const packed = await pack(payload.id, this.user);
+		if (packed?.isHidden) return;
 
 		if (this.subscribingNotes[payload.id] == null) {
 			this.subscribingNotes[payload.id] = 0;
