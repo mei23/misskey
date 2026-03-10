@@ -2,10 +2,7 @@ import $ from 'cafy';
 import ID, { transform } from '../../../../../misc/cafy-id';
 import Vote from '../../../../../models/poll-vote';
 import Note from '../../../../../models/note';
-import Watching from '../../../../../models/note-watching';
-import watch from '../../../../../services/note/watch';
 import { publishNoteStream } from '../../../../../services/stream';
-import { createNotification } from '../../../../../services/create-notification';
 import define from '../../../define';
 import User, { IRemoteUser } from '../../../../../models/user';
 import { ApiError } from '../../../error';
@@ -132,38 +129,6 @@ export default define(meta, async (ps, user) => {
 		choice: ps.choice,
 		userId: user._id.toHexString()
 	});
-
-	// Notify
-	createNotification(note.userId, user._id, 'poll_vote', {
-		noteId: note._id,
-		choice: ps.choice
-	});
-
-	// Fetch watchers
-	Watching
-		.find({
-			noteId: note._id,
-			userId: { $ne: user._id },
-			// 削除されたドキュメントは除く
-			deletedAt: { $exists: false }
-		}, {
-			fields: {
-				userId: true
-			}
-		})
-		.then(watchers => {
-			for (const watcher of watchers) {
-				createNotification(watcher.userId, user._id, 'poll_vote', {
-					noteId: note._id,
-					choice: ps.choice
-				});
-			}
-		});
-
-	// この投稿をWatchする
-	if (user.settings.autoWatch !== false) {
-		watch(user._id, note);
-	}
 
 	// 投票完了通知
 	if (note.poll.expiresAt && !oidEquals(note.userId, user._id) && exist.length === 0) {

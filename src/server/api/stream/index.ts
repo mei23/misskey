@@ -14,6 +14,7 @@ import { ApiError } from '../error';
 import { getHideUserIdsById } from '../common/get-hide-users';
 import { PubSubMessage, NoteStreamBody } from '../../../services/stream';
 import { pack } from '../../../models/note';
+import { oidEquals } from '../../../prelude/oid';
 
 /**
  * Main stream connection
@@ -144,10 +145,17 @@ export default class Connection {
 
 	@autobind
 	private async onNoteStreamMessage(data: PubSubMessage<NoteStreamBody>) {
+		const payload = structuredClone(data.body?.body);	// JSON経てるから安全にクローンできる
+
+		// 購読者以外の投票者IDは隠す
+		if (data.type === 'pollVoted') {
+			if (!oidEquals(payload?.userId, this.user?._id)) payload.userId = 'hidden';
+		}
+
 		this.sendMessageToWs('noteUpdated', {
 			id: data.body!.id,
 			type: data.type,
-			body: data.body!.body,
+			body: payload,
 		});
 	}
 
