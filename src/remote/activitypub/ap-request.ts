@@ -58,8 +58,8 @@ export function createSignedGet(args: { key: PrivateKey, url: string, additional
 		}, args.additionalHeaders),
 	};
 
-	const result = signToRequest(request, args.key, ['(request-target)', 'date', 'host', 'accept']);
-
+	const result = signToRequest(request, args.key, ['(request-target)', 'date', 'host']);
+ 
 	return {
 		request,
 		signingString: result.signingString,
