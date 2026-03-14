@@ -1,10 +1,7 @@
 import Vote from '../../../models/poll-vote';
 import Note, { INote } from '../../../models/note';
-import Watching from '../../../models/note-watching';
-import watch from '../../../services/note/watch';
 import { publishNoteStream } from '../../stream';
-import { createNotification } from '../../../services/create-notification';
-import { isLocalUser, IUser } from '../../../models/user';
+import { IUser } from '../../../models/user';
 
 export default (user: IUser, note: INote, choice: number) => new Promise(async (res, rej) => {
 	if (!note.poll.choices.some(x => x.id == choice)) return rej('invalid choice param');
@@ -44,36 +41,4 @@ export default (user: IUser, note: INote, choice: number) => new Promise(async (
 		choice: choice,
 		userId: user._id.toHexString()
 	});
-
-	// Notify
-	createNotification(note.userId, user._id, 'poll_vote', {
-		noteId: note._id,
-		choice: choice
-	});
-
-	// Fetch watchers
-	Watching
-		.find({
-			noteId: note._id,
-			userId: { $ne: user._id },
-			// 削除されたドキュメントは除く
-			deletedAt: { $exists: false }
-		}, {
-			fields: {
-				userId: true
-			}
-		})
-		.then(watchers => {
-			for (const watcher of watchers) {
-				createNotification(watcher.userId, user._id, 'poll_vote', {
-					noteId: note._id,
-					choice: choice
-				});
-			}
-		});
-
-	// ローカルユーザーが投票した場合この投稿をWatchする
-	if (isLocalUser(user) && user.settings.autoWatch !== false) {
-		watch(user._id, note);
-	}
 });

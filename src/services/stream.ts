@@ -13,7 +13,7 @@ export type PubSubMessage<T> = {
 export type NoteStreamBody = {
 	/** Note id */
 	id: string;
-	body: unknown;
+	body: any;
 };
 
 function publish(channel: string, type: string | null, value?: unknown): void {
