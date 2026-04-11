@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as crypto from 'crypto';
 import * as stream from 'stream';
 import * as util from 'util';
-import * as FileType from 'file-type';
 import * as probeImageSize from 'probe-image-size';
 import * as FFmpeg from 'fluent-ffmpeg';
 
@@ -44,8 +43,6 @@ const FILE_TYPE_DETECTS = [
 	'audio/aac',
 	'audio/x-flac',
 	'audio/vnd.wave',
-
-	'image/heif', 'image/heif-sequence', 'image/heic', 'image/heic-sequence',
 ];
 
 export const FILE_TYPE_BROWSERSAFE = [
@@ -110,26 +107,6 @@ const TYPE_OCTET_STREAM = {
 	ext: null
 };
 
-const TYPE_MP4 = {
-	mime: 'video/mp4',
-	ext: 'mp4'
-};
-
-const TYPE_MP4_AS_AUDIO = {
-	mime: 'audio/mp4',
-	ext: 'mp4'
-};
-
-const TYPE_WEBM = {
-	mime: 'video/webm',
-	ext: 'webm'
-};
-
-const TYPE_WEBM_AS_AUDIO  = {
-	mime: 'audio/webm',
-	ext: 'webm'
-};
-
 /**
  * Get file information
  */
@@ -177,51 +154,9 @@ export async function detectTypeWithCheck(path: string): Promise<Type> {
 		};
 	}
 
-	// file-typeで認識
-	const ft = await FileType.fromFile(path)
-
-	// 認識できなければoctet-stream
-	if (!ft) {
-		return TYPE_OCTET_STREAM;
-	}
-
-	// 検出対象でなければoctet-stream
-	if (!FILE_TYPE_DETECTS.includes(ft.mime)) {
-		return TYPE_OCTET_STREAM;
-	}
-
-	let type = {
-		mime: ft.mime as string,
-		ext: ft.ext as string,
-	};
-
-	// mp4系の例外処理
-	// 実際にストリームを含んでるかによってvideo/audioを分ける
-	// ブラウザで再生できるかもしれないので全部mp4扱いにしてしまう
-	if (['video/quicktime', 'video/mp4', 'audio/mp4', 'video/x-m4v', 'audio/x-m4a', 'video/3gpp', 'video/3gpp2'].includes(type.mime)) {
-		const hasVideo = await getVideoProps(path)
-			.then(props => props.streams.filter(s => s.codec_type === 'video').length > 0)
-			.catch(() => true);
-
-		if (hasVideo) {
-			type = TYPE_MP4;
-		} else {
-			type = TYPE_MP4_AS_AUDIO;
-		}
-	}
-
-	// audio/webmを認識出来るように
-	if (['video/webm'].includes(type.mime)) {
-		const hasVideo = await getVideoProps(path)
-			.then(props => props.streams.filter(s => s.codec_type === 'video').length > 0)
-			.catch(() => true);
-
-		if (hasVideo) {
-			type = TYPE_WEBM;
-		} else {
-			type = TYPE_WEBM_AS_AUDIO;
-		}
-	}
+	const ffprobeData = await getVideoProps(path).catch(() =>  null);
+	if (ffprobeData == null) return TYPE_OCTET_STREAM;
+	const type = await getMediaType(ffprobeData);
 
 	return type;
 }
@@ -275,4 +210,41 @@ export async function getVideoProps(path: string): Promise<FFmpeg.FfprobeData> {
 			res(data);
 		});
 	});
+}
+
+function getMediaType(ffprobeData: FFmpeg.FfprobeData): Type {
+	const formatName = ffprobeData.format.format_name;
+	const hasVideo = ffprobeData.streams.some(s => s.codec_type === 'video');
+
+	// 1. ISO/IEC base media file format (MP4, QuickTime etc.)
+	if (formatName?.includes('mp4') || formatName?.includes('mov') || formatName?.includes('3gp')) {
+		return hasVideo ? { mime: 'video/mp4', ext: 'mp4' } : { mime: 'audio/mp4', ext: 'm4a' };
+	}
+
+	// 2. WebM / Matroska
+	if (formatName?.includes('webm') || formatName?.includes('matroska')) {
+		return hasVideo ? { mime: 'video/webm', ext: 'webm' } : { mime: 'audio/webm', ext: 'webm' };
+	}
+
+	// 3. MPEG (TS/PS/MP3)
+	if (formatName?.includes('mpeg')) {
+		return { mime: 'video/mpeg', ext: 'mpg' };
+	}
+	if (formatName === 'mp3') {
+		return { mime: 'audio/mpeg', ext: 'mp3' };
+	}
+
+	// 4. Raw Audio Formats
+	if (formatName === 'aac' || formatName === 'adts') {
+		return { mime: 'audio/aac', ext: 'aac' };
+	}
+	if (formatName === 'flac') {
+		return { mime: 'audio/x-flac', ext: 'flac' };
+	}
+	if (formatName === 'wav') {
+		return { mime: 'audio/vnd.wave', ext: 'wav' };
+	}
+
+	// デフォルト
+	return TYPE_OCTET_STREAM;
 }
