@@ -13,10 +13,6 @@
 			"allowedVersions": "< 5"
 		},
 		{
-			"matchPackageNames": ["file-type"],
-			"allowedVersions": "< 17"
-		},
-		{
 			"matchPackageNames": ["got"],
 			"allowedVersions": "< 12"
 		},
