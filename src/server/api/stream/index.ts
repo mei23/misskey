@@ -15,6 +15,7 @@ import { getHideUserIdsById } from '../common/get-hide-users';
 import { PubSubMessage, NoteStreamBody } from '../../../services/stream';
 import { pack } from '../../../models/note';
 import { oidEquals } from '../../../prelude/oid';
+import { PackedNote } from '../../../models/packed-schemas';
 
 /**
  * Main stream connection
@@ -111,7 +112,13 @@ export default class Connection {
 	private async onSubscribeNote(payload: any) {
 		if (!payload.id) return;
 
-		const packed = await pack(payload.id, this.user);
+		let packed: PackedNote|null;
+		try {
+			packed = await pack(payload.id, this.user);
+		} catch {
+			return;
+		}
+
 		if (packed?.isHidden) return;
 
 		if (this.subscribingNotes[payload.id] == null) {
