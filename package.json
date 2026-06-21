@@ -107,7 +107,7 @@
 		"multer": "2.1.1",
 		"neologd-normalizer": "0.0.3",
 		"nested-property": "4.0.0",
-		"nodemailer": "8.0.5",
+		"nodemailer": "9.0.1",
 		"nprogress": "0.2.0",
 		"oauth": "0.10.0",
 		"os-utils": "0.0.14",
