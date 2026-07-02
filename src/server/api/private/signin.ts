@@ -58,7 +58,7 @@ export default async (ctx: Router.RouterContext) => {
 				data: false,
 				profile: false
 			}
-	}) as ILocalUser;
+		}) as ILocalUser;
 
 	if (user == null || user.isDeleted || user.isSuspended) {
 		ctx.throw(404, {
