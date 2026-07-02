@@ -54,10 +54,10 @@ export default async (ctx: Router.RouterContext) => {
 		usernameLower: username.toLowerCase(),
 		host: null
 	}, {
-		fields: {
-			data: false,
-			profile: false
-		}
+			fields: {
+				data: false,
+				profile: false
+			}
 	}) as ILocalUser;
 
 	if (user == null || user.isDeleted || user.isSuspended) {
