@@ -39,12 +39,12 @@ export default async (username: string, _host: string | null, option?: any, resy
 		}, option) as IRemoteUser;
 	}
 
-	const acctLower = `${usernameLower}@${hostAscii}`;
+	const acct = new Acct(username, hostAscii);
 
 	if (user == null) {
-		const self = await resolveSelf(acctLower);
+		const self = await resolveSelf(acct);
 
-		logger.succ(`return new remote user: ${acctLower}`);
+		logger.succ(`return new remote user: ${acct}`);
 		return await createPerson(self.href);
 	}
 
@@ -58,12 +58,12 @@ export default async (username: string, _host: string | null, option?: any, resy
 		});
 
 		try {
-			logger.info(`try resync: ${acctLower}`);
-			const self = await resolveSelf(acctLower);
+			logger.info(`try resync: ${acct}`);
+			const self = await resolveSelf(acct);
 
 			if (user.uri !== self.href) {
 				// if uri mismatch, Fix (user@host <=> AP's Person id(IRemoteUser.uri)) mapping.
-				logger.info(`uri missmatch: ${acctLower}`);
+				logger.info(`uri missmatch: ${acct}`);
 				logger.info(`recovery missmatch uri for (username=${username}, host=${host}) from ${user.uri} to ${self.href}`);
 
 				// validate uri
@@ -81,70 +81,61 @@ export default async (username: string, _host: string | null, option?: any, resy
 					}
 				});
 			} else {
-				logger.info(`uri is fine: ${acctLower}`);
+				logger.info(`uri is fine: ${acct}`);
 			}
 
 			await updatePerson(self.href);
 
-			logger.info(`return resynced remote user: ${acctLower}`);
+			logger.info(`return resynced remote user: ${acct}`);
 			return await User.findOne({ uri: self.href });
 		} catch (e: any) {
 			logger.warn(`resync failed: ${e.message || e}`);
 		}
 	}
 
-	logger.info(`return existing remote user: ${acctLower}`);
+	logger.info(`return existing remote user: ${acct}`);
 	return user;
 };
 
-async function resolveSelf(acctLower: string) {
-	const f1 = await resolveWebFinger(acctLower);
+async function resolveSelf(acct: Acct) {
+	const f1 = await resolveWebFinger(acct);
 	logger.debug(`WebFinger1: ${JSON.stringify(f1)}`);
 
-	if (f1.subject.toLowerCase() === `acct:${acctLower}`) {
+	if (f1.acct.isEqual(acct)) {
 		return f1.self;
 	}
 
-	// retry with given subject
-	const m = f1.subject.toLowerCase().match(/^acct:([^@]+)@(.*)$/);
-	if (!m) {
-		logger.error(`Failed to WebFinger for ${acctLower}: invalid subject ${f1.subject}`);
-		throw new Error(`Failed to WebFinger for ${acctLower}: invalid subject ${f1.subject}`);
-	}
-	const username2 = m[1].toLowerCase();
-	const host2 = m[2].toLowerCase();
-	const acctLower2 = `${username2}@${host2}`;
-
-	const f2 = await resolveWebFinger(acctLower2);
+	const f2 = await resolveWebFinger(f1.acct);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	if (f2.subject.toLowerCase() === `acct:${acctLower2}` && f1.self.href === f2.self.href) {
+	if (f2.acct.isEqual(f1.acct) && f1.self.href === f2.self.href) {
 		return f2.self;
 	}
 
-	logger.error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
-	throw new Error(`Failed to WebFinger for ${acctLower}: subject missmatch`);
+	logger.error(`Failed to WebFinger for ${acct}: subject missmatch`);
+	throw new Error(`Failed to WebFinger for ${acct}: subject missmatch`);
 }
 
-export async function resolveWebFinger(query: string, queryHost?: string) {
+export async function resolveWebFinger(query: string | Acct) {
 	logger.info(`WebFinger for ${query}`);
-	const finger = await webFinger(query, queryHost).catch(e => {
-		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
-		throw new Error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: ${ e.statusCode || e.message }`);
+	const finger = await webFinger(query).catch(e => {
+		logger.error(`Failed to WebFinger for ${query}: ${ e.statusCode || e.message }`);
+		throw new Error(`Failed to WebFinger for ${query}: ${ e.statusCode || e.message }`);
 	});
+
 	const self = finger.links.find(link => link.rel && link.rel.toLowerCase() === 'self');
 	if (!self) {
-		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: self link not found`);
+		logger.error(`Failed to WebFinger for ${query}: self link not found`);
 		throw new Error('self link not found');
 	}
 
 	const subject = finger.subject;
 	if (!subject) {
-		logger.error(`Failed to WebFinger for ${query} to ${queryHost || 'default'}: subject not found`);
+		logger.error(`Failed to WebFinger for ${query}: subject not found`);
 		throw new Error('subject not found');
 	}
 
-	return { subject, self };
+	return { subject, self, acct: Acct.fromString(subject) };
 }
 
 export async function checkCanonical(uri: string) {
@@ -156,41 +147,21 @@ export async function checkCanonical(uri: string) {
 	const queryHost = new URL(uri).host;
 
 	// WebFinger応答のsubjectにあるacctの…
-	const finger1Acct = f1.subject.toLowerCase();
-	const m = finger1Acct.match(/^acct:([^@]+)@(.*)$/);
-	if (!m) {
-		const msg = `Failed to WebFinger1 for ${uri}: invalid subject ${f1.subject}`;
-		logger.error(msg);
-		throw new Error(msg);
-	}
 	// ホストは…
-	const finger1host = m[2].toLowerCase();
-
-	logger.info(`${uri}: ${queryHost} ${finger1host}`);
-
 	// 一致してる？
-	if (queryHost === finger1host) {
+	if (queryHost === f1.acct.host) {
 		return;
 	}
 
 	// してなければ、応答で指定されていたホストに再度WebFinger
-	const f2 = await resolveWebFinger(finger1Acct, finger1host);
+	const f2 = await resolveWebFinger(f1.acct);
 	logger.debug(`WebFinger2: ${JSON.stringify(f2)}`);
 
-	const finger2Acct = f2.subject.toLowerCase();
-	const m2 = finger2Acct.match(/^acct:([^@]+)@(.*)$/);
-	if (!m2) {
-		const msg = `Failed to WebFinger2 for ${finger1Acct} to ${finger1host}: invalid subject ${f2.subject}`;
-		logger.error(msg);
-		throw new Error(msg);
-	}
-	const finger2host = m2[2].toLowerCase();
-
-	if (finger1host === finger2host) {
+	if (f1.acct.host === f2.acct.host) {
 		// canonicalHostを保存しておく
 		await User.update({ uri }, {
 			$set: {
-				canonicalHost: toDbHost(finger2host)
+				canonicalHost: toDbHost(f2.acct.host)
 			}
 		});
 
@@ -198,4 +169,36 @@ export async function checkCanonical(uri: string) {
 	}
 
 	throw new Error('checkCanonical failed');
+}
+
+export class Acct {
+	public username: string;
+	public host: string;
+
+	constructor(username: string, host: string) {
+		this.username = username;
+		this.host = host.toLowerCase();
+	}
+
+	static fromStrings(username: string, host: string): Acct {
+		return new Acct(username, host);
+	}
+
+	static fromString(acctString: string): Acct {
+		const regex = /^(?:acct:)?@?([^@]+)@([^@]+)$/;
+		const match = acctString.match(regex);
+		if (!match) {
+			throw new Error('Invalid acct string format');
+		}
+		return new Acct(match[1], match[2]);
+	}
+
+	toString(): string {
+		return `acct:${this.username}@${this.host}`;
+	}
+
+	isEqual(other: Acct): boolean {
+		return this.username.toLowerCase() === other.username.toLowerCase() &&
+					 this.host.toLowerCase() === other.host.toLowerCase();
+	}
 }
