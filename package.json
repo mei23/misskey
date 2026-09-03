@@ -89,7 +89,7 @@
 		"jsdom": "20.0.3",
 		"json5": "2.2.3",
 		"json5-loader": "4.0.1",
-		"jsonld": "8.3.2",
+		"jsonld": "8.3.3",
 		"katex": "0.16.21",
 		"koa": "2.16.4",
 		"koa-bodyparser": "4.4.1",
