@@ -79,6 +79,7 @@
 				<ui-switch v-model="isCat" @change="save(false)">{{ $t('is-cat') }}</ui-switch>
 				<ui-switch v-model="isBot" @change="save(false)">{{ $t('is-bot') }}</ui-switch>
 				<ui-switch v-model="alwaysMarkNsfw">{{ $t('@._settings.always-mark-nsfw') }}</ui-switch>
+				<ui-switch v-model="disableReaction" @change="save(false)">{{ $t('disableReaction') }}</ui-switch>
 			</div>
 		</section>
 
@@ -184,6 +185,7 @@ export default Vue.extend({
 			autoAcceptFollowed: false,
 			avoidSearchIndex: false,
 			isExplorable: false,
+			disableReaction: false,
 			searchableBy: true,
 			hideFollows: '',
 			noFederation: false,
@@ -239,6 +241,7 @@ export default Vue.extend({
 		this.autoAcceptFollowed = this.$store.state.i.autoAcceptFollowed;
 		this.avoidSearchIndex = this.$store.state.i.avoidSearchIndex;
 		this.isExplorable = this.$store.state.i.isExplorable;
+		this.disableReaction = this.$store.state.i.disableReaction;
 		this.searchableBy = this.$store.state.i.searchableBy === 'public';
 		this.hideFollows = this.$store.state.i.hideFollows;
 		this.noFederation = this.$store.state.i.noFederation;
@@ -341,6 +344,7 @@ export default Vue.extend({
 				autoAcceptFollowed: !!this.autoAcceptFollowed,
 				avoidSearchIndex: !!this.avoidSearchIndex,
 				isExplorable: !!this.isExplorable,
+				disableReaction: !!this.disableReaction,
 				hideFollows: this.hideFollows || '',
 				searchableBy: this.searchableBy ? 'public' : 'none',
 				fields,
