@@ -193,7 +193,7 @@
 		"@types/koa-logger": "3.1.5",
 		"@types/koa-mount": "4.0.5",
 		"@types/koa-send": "4.1.6",
-		"@types/koa__cors": "5.0.0",
+		"@types/koa__cors": "5.0.1",
 		"@types/koa__multer": "2.0.7",
 		"@types/koa__router": "8.0.11",
 		"@types/lodash": "4.17.14",
