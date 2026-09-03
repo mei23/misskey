@@ -148,6 +148,7 @@ type Option = {
 	app?: IApp;
 	preview?: boolean;
 	references?: INote[];
+	canQuote?: 'public' | 'followers' | 'none' | null;
 };
 
 export default async (user: IUser, data: Option, silent = false) => {
@@ -546,6 +547,7 @@ async function insertNote(user: IUser, data: Option, tags: string[], emojis: str
 				: []
 			: [],
 		referenceIds: data.references?.map(x => x._id) || [],
+		canQuote: data.canQuote,
 
 		// 以下非正規化データ
 		_reply: data.reply ? {

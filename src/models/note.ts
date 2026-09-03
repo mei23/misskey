@@ -126,6 +126,8 @@ export type INote = {
 	// 参照IDs
 	referenceIds?: mongo.ObjectID[];
 
+	canQuote?: 'public' | 'followers' | 'none' | null;
+
 	// 非正規化
 	_reply?: {
 		userId: mongo.ObjectID;
@@ -421,6 +423,15 @@ export const pack = async (
 		visibleUserIds: db.visibleUserIds?.length > 0 ? db.visibleUserIds.map(toOidString) : [],
 		mentions: db.mentions?.length > 0 ? db.mentions.map(toOidString) : [],
 		hasRemoteMentions: db.mentionedRemoteUsers?.length > 0,
+		canQuote:
+			!(db.visibility === 'public' || db.visibility === 'home') ? false :	// Noteが公開でない
+			db.canQuote === 'public' ? true :	// ポリシーが許可
+			db.canQuote === 'none' ? false :	// ポリシーが不許可
+			db.canQuote == null ? true :	// ポリシーが未定義
+			// TODO: followers
+			meId == null ? false :
+			false
+			,
 		...(opts.detail ? {
 			reply: (opts.detail && db.replyId) ? pack(db.replyId, meId, {
 				detail: false
