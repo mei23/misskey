@@ -466,8 +466,8 @@ importers:
         specifier: 2.1.7
         version: 2.1.7
       '@types/fluent-ffmpeg':
-        specifier: 2.1.27
-        version: 2.1.27
+        specifier: 2.1.28
+        version: 2.1.28
       '@types/glob':
         specifier: 8.1.0
         version: 8.1.0
@@ -1799,8 +1799,8 @@ packages:
   '@types/express@4.17.15':
     resolution: {integrity: sha512-Yv0k4bXGOH+8a+7bELd2PqHQsuiANB+A8a4gnQrkRWzrkKlb6KHaVvyXhqs04sVW/OWlbPyYxRgYlIXLfrufMQ==}
 
-  '@types/fluent-ffmpeg@2.1.27':
-    resolution: {integrity: sha512-QiDWjihpUhriISNoBi2hJBRUUmoj/BMTYcfz+F+ZM9hHWBYABFAE6hjP/TbCZC0GWwlpa3FzvHH9RzFeRusZ7A==}
+  '@types/fluent-ffmpeg@2.1.28':
+    resolution: {integrity: sha512-5ovxsDwBcPfJ+eYs1I/ZpcYCnkce7pvH9AHSvrZllAp1ZPpTRDZAFjF3TRFbukxSgIYTTNYePbS0rKUmaxVbXw==}
 
   '@types/glob@8.1.0':
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
@@ -8604,7 +8604,7 @@ snapshots:
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.0
 
-  '@types/fluent-ffmpeg@2.1.27':
+  '@types/fluent-ffmpeg@2.1.28':
     dependencies:
       '@types/node': 22.19.6
 
