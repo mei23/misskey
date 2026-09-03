@@ -388,6 +388,7 @@ type AddFileArgs = {
 	uri?: string | null;
 	/** CommMark file as sensitiveent */
 	sensitive?: boolean;
+	apId?: string;
 }
 
 /**
@@ -405,6 +406,7 @@ export async function addFile({
 	url = null,
 	uri = null,
 	sensitive = false,
+	apId = undefined,
 }: AddFileArgs): Promise<IDriveFile> {
 	const info = await getFileInfo(path);
 	logger.info(`${JSON.stringify(info)}`);
@@ -512,8 +514,10 @@ export async function addFile({
 		properties: properties,
 		withoutChunks: isLink,
 		isRemote: isLink,
-		isSensitive: (isLocalUser(user) && user.settings?.alwaysMarkNsfw) || sensitive
+		isSensitive: (isLocalUser(user) && user.settings?.alwaysMarkNsfw) || sensitive,
 	} as IMetadata;
+
+	if (apId != null) metadata.apId = apId;
 
 	if (url !== null) {
 		metadata.src = url;
@@ -558,7 +562,7 @@ export async function addFile({
 		driveFile = await (save(path, detectedName, info, metadata, drive));
 	}
 
-	if (!driveFile) throw 'Failed to create drivefile ${e}';
+	if (!driveFile) throw `Failed to create drivefile`;
 
 	logger.succ(`drive file has been created ${driveFile._id}`);
 
