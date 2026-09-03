@@ -505,8 +505,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
       '@types/koa__multer':
-        specifier: 2.0.7
-        version: 2.0.7
+        specifier: 2.0.8
+        version: 2.0.8
       '@types/koa__router':
         specifier: 8.0.11
         version: 8.0.11
@@ -1859,8 +1859,8 @@ packages:
   '@types/koa__cors@5.0.0':
     resolution: {integrity: sha512-LCk/n25Obq5qlernGOK/2LUwa/2YJb2lxHUkkvYFDOpLXlVI6tKcdfCHRBQnOY4LwH6el5WOLs6PD/a8Uzau6g==}
 
-  '@types/koa__multer@2.0.7':
-    resolution: {integrity: sha512-O7hiAEpdgW1nly93jQ8TVL2nPC7Bg1HHRf1/LGNQb7ygGBjNgZWpliCm7tswNW3MjcgYbTtz0+Sca5wHne+RyA==}
+  '@types/koa__multer@2.0.8':
+    resolution: {integrity: sha512-XkD9YzmGKzKfOkxwHepueQkP61okAeu6ibAieL4NSqwM1lyGOkgbT2XmP+xROd2agQVsewPqsFOsfgVmlEqJmg==}
 
   '@types/koa__router@8.0.11':
     resolution: {integrity: sha512-WXgKWpBsbS14kzmzD9LeFapOIa678h7zvUHxDwXwSx4ETKXhXLVUAToX6jZ/U7EihM7qwyD9W/BZvB0MRu7MTQ==}
@@ -8678,7 +8678,7 @@ snapshots:
     dependencies:
       '@types/koa': 2.15.0
 
-  '@types/koa__multer@2.0.7':
+  '@types/koa__multer@2.0.8':
     dependencies:
       '@types/koa': 2.15.0
 
