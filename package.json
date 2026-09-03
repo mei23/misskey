@@ -196,7 +196,7 @@
 		"@types/koa__cors": "5.0.0",
 		"@types/koa__multer": "2.0.7",
 		"@types/koa__router": "8.0.11",
-		"@types/lodash": "4.17.14",
+		"@types/lodash": "4.17.25",
 		"@types/mocha": "10.0.10",
 		"@types/mongodb": "3.6.20",
 		"@types/node": "22.19.6",
