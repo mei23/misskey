@@ -1,6 +1,6 @@
 {
   "extension": ["ts", "js", "cjs", "mjs"],
-  "import": "tsx/suppress-warnings",
+  "import": "tsx/cjs",
   "timeout": 35000,
   "exit": true
 }
