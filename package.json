@@ -21,7 +21,7 @@
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
 		"lint": "eslint src/**/*.ts",
-		"test": "cross-env TSX_TSCONFIG_PATH=./test/tsconfig.json mocha",
+		"test": "cross-env mocha --import \"tsx/suppress-warnings?tsconfig=./test/tsconfig.json\"",
 		"format": "gulp format"
 	},
 	"resolutions": {

@@ -1,6 +1,6 @@
 {
-  "extension": ["ts", "js", "cjs", "mjs"],
-  "import": "tsx/suppress-warnings",
-  "timeout": 35000,
-  "exit": true
+	"extension": ["ts","js","cjs","mjs"],
+	"require": "ts-node/register",
+	"timeout": 35000,
+	"exit": true
 }
