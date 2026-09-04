@@ -21,7 +21,7 @@
 		"clean": "gulp clean",
 		"cleanall": "gulp cleanall",
 		"lint": "eslint src/**/*.ts",
-		"test": "cross-env TS_NODE_FILES=true TS_NODE_TRANSPILE_ONLY=true TS_NODE_PROJECT=\"./test/tsconfig.json\" mocha",
+		"test": "cross-env mocha --import \"tsx/suppress-warnings?tsconfig=./test/tsconfig.json\"",
 		"format": "gulp format"
 	},
 	"resolutions": {
@@ -229,7 +229,8 @@
 		"cross-env": "7.0.3",
 		"eslint": "8.57.1",
 		"eslint-plugin-n": "16.6.2",
-		"mocha": "12.0.0"
+		"mocha": "12.0.0",
+		"tsx": "4.23.13"
 	},
 	"packageManager": "pnpm@10.28.1",
 	"pnpm": {
