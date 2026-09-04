@@ -1,10 +1,7 @@
 // test/fix-buffer.js
-const bufferModule = require('node:buffer');
+const { Buffer } = require('node:buffer');
 
-// Node.js 24+ で SlowBuffer が削除/undefined になったことへの対処
-if (!bufferModule.SlowBuffer) {
-  bufferModule.SlowBuffer = class SlowBuffer {};
-}
-if (!bufferModule.SlowBuffer.prototype) {
-  bufferModule.SlowBuffer.prototype = {};
+// require('buffer').Buffer が undefined の場合に備えて明示的にセット
+if (!global.Buffer) {
+  global.Buffer = Buffer;
 }
