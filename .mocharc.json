@@ -1,6 +1,9 @@
 {
 	"extension": ["ts","js","cjs","mjs"],
-	"require": "ts-node/register",
+	"require": [
+		"./test/fix-buffer.js",
+		"ts-node/register"
+	],
 	"timeout": 35000,
 	"exit": true
 }
