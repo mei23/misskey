@@ -244,6 +244,9 @@
 			"es5-ext",
 			"msgpackr-extract",
 			"sharp"
-		]
+		],
+		"overrides": {
+			"jws": "^4.0.1"
+		}
 	}
 }
