@@ -491,8 +491,8 @@ importers:
         specifier: 4.3.12
         version: 4.3.12
       '@types/koa-favicon':
-        specifier: 2.1.3
-        version: 2.1.3
+        specifier: 2.1.5
+        version: 2.1.5
       '@types/koa-logger':
         specifier: 3.1.5
         version: 3.1.5
@@ -1842,8 +1842,8 @@ packages:
   '@types/koa-compose@3.2.5':
     resolution: {integrity: sha512-B8nG/OoE1ORZqCkBVsup/AKcvjdgoHnfi4pZMn5UwAPCbhk/96xyv284eBYW8JlQbQ7zDmnpFr68I/40mFoIBQ==}
 
-  '@types/koa-favicon@2.1.3':
-    resolution: {integrity: sha512-L1XAF8k1iOuh3hA/ZjEqWURm9/62a8A1x7BZR9ZCMw8nbnUBt6oZksz2rfKRCEwESqI2e6WVGlF03fs9DbQQXQ==}
+  '@types/koa-favicon@2.1.5':
+    resolution: {integrity: sha512-QwFqbZb2emdzrdvwADtoXqvHb9YOfgpgntMcwGDgNUN6ERAhghkUrYEmlyOffrcD4lj/97yVgdJb1S+PjsS8PQ==}
 
   '@types/koa-logger@3.1.5':
     resolution: {integrity: sha512-N4f9GRdokJ/gLiCSvd3GGar/D74HJWzuvSJiruayCsz2e7gGkG6DQaque+kM3xo6LjyCRVUUt9HHJCSMjsXrIA==}
@@ -8629,7 +8629,7 @@ snapshots:
     dependencies:
       '@types/koa': 2.15.0
 
-  '@types/koa-favicon@2.1.3':
+  '@types/koa-favicon@2.1.5':
     dependencies:
       '@types/koa': 2.15.0
 
