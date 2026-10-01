@@ -394,8 +394,8 @@ importers:
         specifier: 2.7.16
         version: 2.7.16
       vue-color:
-        specifier: 2.8.1
-        version: 2.8.1
+        specifier: 2.8.2
+        version: 2.8.2
       vue-content-loading:
         specifier: 1.6.0
         version: 1.6.0
@@ -6725,8 +6725,8 @@ packages:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
     engines: {node: '>=0.10.0'}
 
-  vue-color@2.8.1:
-    resolution: {integrity: sha512-BoLCEHisXi2QgwlhZBg9UepvzZZmi4176vbr+31Shen5WWZwSLVgdScEPcB+yrAtuHAz42309C0A4+WiL9lNBw==}
+  vue-color@2.8.2:
+    resolution: {integrity: sha512-1qmsxl5GiIjx/jApBbTGr2r4bN/7WRKUTl3tc53vkXb9Ua0rZmiqsdq6VdG1e7dVNTLJahdsRGWcjeU2+98+NA==}
 
   vue-content-loading@1.6.0:
     resolution: {integrity: sha512-D8vVW8eUhDE1VsX/gMRKjgNEVlPG4E4jKCuQjiv75VwnznFRjCGpoU2LABrSzmf6V/hb8ow8rHrFPuz3jVNsqA==}
@@ -13871,7 +13871,7 @@ snapshots:
 
   void-elements@3.1.0: {}
 
-  vue-color@2.8.1:
+  vue-color@2.8.2:
     dependencies:
       clamp: 1.0.1
       lodash.throttle: 4.1.1
