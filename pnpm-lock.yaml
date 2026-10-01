@@ -44,7 +44,7 @@ importers:
         version: 8.0.8
       '@ladjs/koa-views':
         specifier: 9.0.0
-        version: 9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.18.1)(pug@3.0.3)
+        version: 9.0.0(@babel/core@7.24.3)(@types/koa@2.15.2)(lodash@4.18.1)(pug@3.0.3)
       '@peertube/http-signature':
         specifier: 1.7.0
         version: 1.7.0
@@ -485,8 +485,8 @@ importers:
         specifier: 0.16.7
         version: 0.16.7
       '@types/koa':
-        specifier: 2.15.0
-        version: 2.15.0
+        specifier: 2.15.2
+        version: 2.15.2
       '@types/koa-bodyparser':
         specifier: 4.3.12
         version: 4.3.12
@@ -1854,8 +1854,8 @@ packages:
   '@types/koa-send@4.1.6':
     resolution: {integrity: sha512-vgnNGoOJkx7FrF0Jl6rbK1f8bBecqAchKpXtKuXzqIEdXTDO6dsSTjr+eZ5m7ltSjH4K/E7auNJEQCAd0McUPA==}
 
-  '@types/koa@2.15.0':
-    resolution: {integrity: sha512-7QFsywoE5URbuVnG3loe03QXuGajrnotr3gQkXcEBShORai23MePfFYdhz90FEtBBpkyIYQbVD+evKtloCgX3g==}
+  '@types/koa@2.15.2':
+    resolution: {integrity: sha512-CB+iyjjh1uS5N6/CKwXvw0qA7USMS2WVc4Tjf660yCjhdvqzNr8gdFcIawB41zGGptOQ+d1fnpaQWIIUXYxR3w==}
 
   '@types/koa__cors@5.0.0':
     resolution: {integrity: sha512-LCk/n25Obq5qlernGOK/2LUwa/2YJb2lxHUkkvYFDOpLXlVI6tKcdfCHRBQnOY4LwH6el5WOLs6PD/a8Uzau6g==}
@@ -7967,7 +7967,7 @@ snapshots:
       lodash: 4.18.1
       pug: 3.0.3
 
-  '@ladjs/koa-views@9.0.0(@babel/core@7.24.3)(@types/koa@2.15.0)(lodash@4.18.1)(pug@3.0.3)':
+  '@ladjs/koa-views@9.0.0(@babel/core@7.24.3)(@types/koa@2.15.2)(lodash@4.18.1)(pug@3.0.3)':
     dependencies:
       '@ladjs/consolidate': 1.0.2(@babel/core@7.24.3)(lodash@4.18.1)(pug@3.0.3)
       debug: 4.3.4
@@ -7977,7 +7977,7 @@ snapshots:
       pretty: 2.0.0
       resolve-path: 1.4.0
     optionalDependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
     transitivePeerDependencies:
       - '@babel/core'
       - arc-templates
@@ -8623,29 +8623,29 @@ snapshots:
 
   '@types/koa-bodyparser@4.3.12':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa-compose@3.2.5':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa-favicon@2.1.5':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa-logger@3.1.5':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa-mount@4.0.5':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa-send@4.1.6':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
-  '@types/koa@2.15.0':
+  '@types/koa@2.15.2':
     dependencies:
       '@types/accepts': 1.3.5
       '@types/content-disposition': 0.5.5
@@ -8658,15 +8658,15 @@ snapshots:
 
   '@types/koa__cors@5.0.0':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa__multer@2.0.7':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/koa__router@8.0.11':
     dependencies:
-      '@types/koa': 2.15.0
+      '@types/koa': 2.15.2
 
   '@types/lodash@4.17.25': {}
 
