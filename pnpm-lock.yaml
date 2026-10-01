@@ -256,8 +256,8 @@ importers:
         specifier: 0.2.0
         version: 0.2.0
       oauth:
-        specifier: 0.10.0
-        version: 0.10.0
+        specifier: 0.10.2
+        version: 0.10.2
       os-utils:
         specifier: 0.0.14
         version: 0.0.14
@@ -5069,8 +5069,8 @@ packages:
   nwsapi@2.2.2:
     resolution: {integrity: sha512-90yv+6538zuvUMnN+zCr8LuV6bPFdq50304114vJYJ8RDyK8D5O9Phpbd6SZWgI7PwzmmfN1upeOJlvybDSgCw==}
 
-  oauth@0.10.0:
-    resolution: {integrity: sha512-1orQ9MT1vHFGQxhuy7E/0gECD3fd2fCC+PIX+/jgmU/gI3EpRocXtmtvxCO5x3WZ443FLTLFWNDjl5MPJf9u+Q==}
+  oauth@0.10.2:
+    resolution: {integrity: sha512-JtFnB+8nxDEXgNyniwz573xxbKSOu3R8D40xQKqcjwJ2CDkYqUDI53o6IuzDJBx60Z8VKCm271+t8iFjakrl8Q==}
 
   oauth@0.9.15:
     resolution: {integrity: sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==}
@@ -12142,7 +12142,7 @@ snapshots:
 
   nwsapi@2.2.2: {}
 
-  oauth@0.10.0: {}
+  oauth@0.10.2: {}
 
   oauth@0.9.15: {}
 

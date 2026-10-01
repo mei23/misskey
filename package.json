@@ -109,7 +109,7 @@
 		"nested-property": "4.0.0",
 		"nodemailer": "10.0.13",
 		"nprogress": "0.2.0",
-		"oauth": "0.10.0",
+		"oauth": "0.10.2",
 		"os-utils": "0.0.14",
 		"parse5": "6.0.1",
 		"parsimmon": "1.18.1",
