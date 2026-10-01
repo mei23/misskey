@@ -503,8 +503,8 @@ importers:
         specifier: 4.1.6
         version: 4.1.6
       '@types/koa__cors':
-        specifier: 5.0.0
-        version: 5.0.0
+        specifier: 5.0.1
+        version: 5.0.1
       '@types/koa__multer':
         specifier: 2.0.8
         version: 2.0.8
@@ -1857,8 +1857,8 @@ packages:
   '@types/koa@2.15.2':
     resolution: {integrity: sha512-CB+iyjjh1uS5N6/CKwXvw0qA7USMS2WVc4Tjf660yCjhdvqzNr8gdFcIawB41zGGptOQ+d1fnpaQWIIUXYxR3w==}
 
-  '@types/koa__cors@5.0.0':
-    resolution: {integrity: sha512-LCk/n25Obq5qlernGOK/2LUwa/2YJb2lxHUkkvYFDOpLXlVI6tKcdfCHRBQnOY4LwH6el5WOLs6PD/a8Uzau6g==}
+  '@types/koa__cors@5.0.1':
+    resolution: {integrity: sha512-xZckuh3B6ycSBAIYnBImG1VDHyBNZsltGAuGb4THuZllccdLgD5DUs4RA7TAUjB58THg00SSZ1e//duQef7WRw==}
 
   '@types/koa__multer@2.0.8':
     resolution: {integrity: sha512-XkD9YzmGKzKfOkxwHepueQkP61okAeu6ibAieL4NSqwM1lyGOkgbT2XmP+xROd2agQVsewPqsFOsfgVmlEqJmg==}
@@ -8656,7 +8656,7 @@ snapshots:
       '@types/koa-compose': 3.2.5
       '@types/node': 22.19.6
 
-  '@types/koa__cors@5.0.0':
+  '@types/koa__cors@5.0.1':
     dependencies:
       '@types/koa': 2.15.2
 
