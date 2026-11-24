@@ -1,6 +1,8 @@
 import Emoji from '../models/emoji';
 import { emojiRegex, vendorEmojiRegex } from './emoji-regex';
 import { toApHost, toDbHost } from './convert-host';
+import { IUser } from '../models/user';
+import * as mongo from 'mongodb';
 
 const basic10: Record<string, string> = {
 	'👍': 'like',
@@ -31,8 +33,16 @@ const normalizeMap: Record<string, string> = {
 
 const REACTION_STAR = '⭐';
 
-export async function toDbReaction(reaction: string | undefined | null, enableEmoji = true, reacterHost?: string | null): Promise<string> {
+export async function toDbReaction(reaction: string | undefined | null, enableEmoji = true, reacter?: IUser, reactee?: IUser): Promise<string> {
+	let reacterHost = reacter?.host;
+
 	if (reaction == null) return REACTION_STAR;
+
+	// disable reaction from
+	if (reacter?.disableReaction) return REACTION_STAR;
+
+	// disable reaction to
+	if (reactee?.disableReaction) return REACTION_STAR;
 
 	// 既存の文字列リアクションはそのまま
 	if (Object.values(basic10).includes(reaction)) return reaction;
