@@ -77,7 +77,7 @@ function groupingAudience(ids: string[], actor: IRemoteUser) {
 	return groups;
 }
 
-function isPublic(id: string) {
+export function isPublic(id: string) {
 	return [
 		'https://www.w3.org/ns/activitystreams#Public',
 		'as:Public',
@@ -85,7 +85,7 @@ function isPublic(id: string) {
 	].includes(id);
 }
 
-function isFollowers(id: string, actor: IRemoteUser) {
+export function isFollowers(id: string, actor: IRemoteUser) {
 	return [
 		`${actor.uri}/followers`,
 		// actor.followerUri,	// TODO

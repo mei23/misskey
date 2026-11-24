@@ -132,6 +132,12 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 		}))
 	} : {};
 
+	const interactionPolicy = (note.visibility === 'public' || note.visibility === 'home') ? {
+		canQuote: {
+			automaticApproval: ['https://www.w3.org/ns/activitystreams#Public']
+		},
+	} : {};
+
 	return {
 		id: `${config.url}/notes/${note._id}`,
 		url: `${config.url}/notes/${note._id}`,
@@ -157,6 +163,7 @@ export default async function renderNote(note: INote, dive = true): Promise<any>
 		likes: `${config.url}/notes/${note._id}/likes`,
 		tag,
 		...asPoll,
+		...interactionPolicy,
 	};
 }
 

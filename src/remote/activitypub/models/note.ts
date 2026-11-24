@@ -1,7 +1,7 @@
 import Resolver from '../resolver';
 import { INote } from '../../../models/note';
 import post from '../../../services/note/create';
-import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage, getApType, isCollection, isCollectionPage, ICollectionPage } from '../type';
+import { IPost, IObject, getOneApId, getApId, getOneApHrefNullable, isPost, isEmoji, IApImage, getApType, isCollection, isCollectionPage, ICollectionPage, getApIds } from '../type';
 import { resolvePerson, updatePerson } from './person';
 import { resolveImage } from './image';
 import { IRemoteUser } from '../../../models/user';
@@ -19,7 +19,7 @@ import { deliverQuestionUpdate } from '../../../services/note/polls/update';
 import { extractApHost, isSelfOrigin } from '../../../misc/convert-host';
 import { getApLock } from '../../../misc/app-lock';
 import { isBlockedHost } from '../../../services/instance-moderation';
-import { parseAudience } from '../audience';
+import { isFollowers, isPublic, parseAudience } from '../audience';
 import DbResolver from '../db-resolver';
 import { parseDate, parseDateWithLimit } from '../misc/date';
 import { StatusError } from '../../../misc/fetch';
@@ -119,6 +119,8 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 	// 参照
 	const references = await fetchReferences(note, resolver).catch(() => []);
 
+	const canQuote = parseCanQuote(note, actor);
+
 	const cw = note.summary === '' ? null : note.summary;
 
 	// テキストのパース
@@ -183,6 +185,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver | 
 		uri: note.id,
 		url: getOneApHrefNullable(note.url),
 		references,
+		canQuote,
 	}, silent);
 }
 
@@ -337,4 +340,12 @@ async function fetchAttachments(note: IPost, actor: IRemoteUser) {
 	}
 
 	return files;
+}
+
+function parseCanQuote(note: IPost, actor: IRemoteUser): 'public' | 'followers' | 'none' | null {
+	if (note.interactionPolicy?.canQuote == null) return 'public';
+	const automaticApprovals = getApIds(Array.isArray(note.interactionPolicy?.canQuote?.automaticApproval) ? note.interactionPolicy.canQuote.automaticApproval : []);
+	if (automaticApprovals.some(x => isPublic(x))) return 'public';
+	if (automaticApprovals.some(x => isFollowers(x, actor))) return 'followers';
+	return 'none';
 }

@@ -144,6 +144,12 @@ export interface IPost extends IObject {
 	quoteUrl?: string;
 	quoteUri?: string;
 	references: string | ICollection;
+	interactionPolicy?: {
+		canQuote?: {
+			automaticApproval?: ApObject;
+			// manualApproval
+		};
+	};
 }
 
 export const validPost = ['Note', 'Question', 'Article', 'Audio', 'Document', 'Image', 'Page', 'Video', 'Event'];
