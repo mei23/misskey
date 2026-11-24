@@ -10,6 +10,44 @@ const ev = new Xev();
 
 const interval = 3000;
 
+class JobQueue<T> {
+	private queue: Bull.Queue;
+	private limit: number;
+
+	private beActive = 0;
+	private delay: number | null = null;
+
+	constructor(queue: Bull.Queue, limit: number) {
+		this.queue = queue;
+		this.limit = limit;
+
+		this.queue.on('global:active', async (jobId) => {
+			this.beActive++;
+			if (this.beActive === 1) {	// 各tickの最初でサンプリング
+				const delay = await getDelay(deliverQueue, jobId);
+				if (delay != null) this.delay = delay;
+			}
+		});
+	}
+
+	public async tick() {
+		const counts = await this.queue.getJobCounts();
+
+		const stat = {
+			limit: this.limit,
+			activeSincePrevTick: this.beActive,
+			active: counts.active,
+			waiting: counts.waiting,
+			delayed: counts.delayed,
+			delay: this.delay,
+		};
+
+		this.beActive = 0;
+
+		return stat;
+	}
+}
+
 /**
  * Report queue stats regularly
  */
@@ -23,78 +61,21 @@ export default function() {
 		ev.emit(`queueStatsLog:${x.id}`, log.toArray().slice(0, x.length || 50));
 	});
 
-	let activeDeliverJobs = 0;
-	let activeInboxJobs = 0;
-	let activeInboxLazyJobs = 0;
-
-	let deliverDelay: number | null = null;
-	let inboxDelay: number | null = null;
-	let inboxLazyDelay: number | null = null;
-
-	deliverQueue.on('global:active', async (jobId) => {
-		activeDeliverJobs++;
-		if (activeDeliverJobs === 1) {	// 各tickの最初でサンプリング
-			const delay = await getDelay(deliverQueue, jobId);
-			if (delay != null) deliverDelay = delay;
-		}
-	});
-
-	inboxQueue.on('global:active', async (jobId) => {
-		activeInboxJobs++;
-		if (activeInboxJobs === 1) {
-			const delay = await getDelay(inboxQueue, jobId);
-			if (delay != null) inboxDelay = delay;
-		}
-	});
-
-	inboxLazyQueue.on('global:active', async (jobId) => {
-		activeInboxLazyJobs++;
-		if (activeInboxLazyJobs === 1) {
-			const delay = await getDelay(inboxLazyQueue, jobId);
-			if (delay != null) inboxLazyDelay = delay;
-		}
-	});
+	const deliver = new JobQueue(deliverQueue, workers * deliverJobConcurrency);
+	const inbox = new JobQueue(inboxQueue, workers * inboxJobConcurrency);
+	const inboxLazy = new JobQueue(inboxLazyQueue, workers * inboxLazyJobConcurrency);
 
 	async function tick() {
-		const deliverJobCounts = await deliverQueue.getJobCounts();
-		const inboxJobCounts = await inboxQueue.getJobCounts();
-		const inboxLazyJobCounts = await inboxLazyQueue.getJobCounts();
-
 		const stats = {
-			deliver: {
-				limit: deliverJobConcurrency * workers,
-				activeSincePrevTick: activeDeliverJobs,
-				active: deliverJobCounts.active,
-				waiting: deliverJobCounts.waiting,
-				delayed: deliverJobCounts.delayed,
-				delay: deliverDelay,
-			},
-			inbox: {
-				limit: inboxJobConcurrency * workers,
-				activeSincePrevTick: activeInboxJobs,
-				active: inboxJobCounts.active,
-				waiting: inboxJobCounts.waiting,
-				delayed: inboxJobCounts.delayed,
-				delay: inboxDelay,
-			},
-			inboxLazy: {
-				limit: inboxLazyJobConcurrency * workers,
-				activeSincePrevTick: activeInboxLazyJobs,
-				active: inboxLazyJobCounts.active,
-				waiting: inboxLazyJobCounts.waiting,
-				delayed: inboxLazyJobCounts.delayed,
-				delay: inboxLazyDelay,
-			},
+			deliver: await deliver.tick(),
+			inbox: await inbox.tick(),
+			inboxLazy: await inboxLazy.tick(),
 		};
 
 		ev.emit('queueStats', stats);
 
 		log.unshift(stats);
 		if (log.length > 200) log.pop();
-
-		activeDeliverJobs = 0;
-		activeInboxJobs = 0;
-		activeInboxLazyJobs = 0;
 	}
 
 	tick();
