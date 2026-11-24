@@ -1,5 +1,5 @@
 import config from '../../../config';
-import { v4 as uuid } from 'uuid';
+import { uuid7 as uuid } from '../../../misc/id/uuid7';
 import { IActivity } from '../type';
 import { LdSignature } from '../misc/ld-signature';
 import { ILocalUser } from '../../../models/user';
