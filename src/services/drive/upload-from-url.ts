@@ -16,6 +16,7 @@ type Args = {
 	sensitive?: boolean;
 	force?: boolean;
 	isLink?: boolean;
+	apId?: string;
 }
 
 export async function uploadFromUrl({
@@ -25,7 +26,8 @@ export async function uploadFromUrl({
 	uri = null,
 	sensitive = false,
 	force = false,
-	isLink = false
+	isLink = false,
+	apId,
 }: Args): Promise<IDriveFile> {
 	// Create temp file
 	const [path, cleanup] = await createTemp();
@@ -41,11 +43,11 @@ export async function uploadFromUrl({
 		name = null;
 	}
 
-	let driveFile: IDriveFile;
+	let driveFile: IDriveFile | null = null;
 	let error;
 
 	try {
-		driveFile = await addFile({ user, path, name, folderId, force, isLink, url, uri, sensitive });
+		driveFile = await addFile({ user, path, name, folderId, force, isLink, url, uri, sensitive, apId });
 		logger.succ(`Got: ${driveFile._id}`);
 	} catch (e) {
 		error = e;
@@ -58,7 +60,7 @@ export async function uploadFromUrl({
 	// clean-up
 	cleanup();
 
-	if (error) {
+	if (error || !driveFile) {
 		throw error;
 	} else {
 		return driveFile;
